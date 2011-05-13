@@ -13,7 +13,7 @@
 	$smarty = new Smarty();
 	
 	//Define our basepath
-	$path = "/vmc";
+	$path = "/vimeoc";
 	
 	//Take the initial PATH.
 	$url = $_SERVER['REQUEST_URI'];
