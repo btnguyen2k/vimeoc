@@ -8,28 +8,40 @@
 						var x = document.getElementById("password").value;
 						var y = document.getElementById("rpassword").value;
 						var z = document.getElementById("fullname").value;
-						if(x=="")
+						//var a = document.getElementById("agree").value;
+						if(z=="")
+						{
+							alert("Full name not null");
+							return false;
+						}
+						
+						else if(x=="")
 						{
 							alert("Password not null");
 							return false;
 						}
 						else if(y=="")
 						{
-								alert("Retype Password not null");
-								return false;
+							alert("Retype Password not null");
+							return false;
 						}
-						else if(z=="")
+						else if(x!=y)
 						{
-								alert("Full name not null");
-								return false;
+							alert("Password and retype the password must be the same !");
+							return false;
+						}	
+						else if(document.getElementById("agree").checked=false)
+						{
+							alert("You must tick the checkbox to agree with website’s Terms of service.");
+							return false;
 						}
 						else
 						{
 						    var pattern=/^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.([a-zA-Z])+([a-zA-Z])+/;
 						    if(pattern.test(document.signupform.email.value))
 							{         
-								alert("true");
-								return true;  
+								alert("Wellcome !");
+								return true; 
 						    }
 						    else
 							{   
@@ -39,6 +51,8 @@
 						}
 
 					}
+
+			
 		</script>
 	</head>
 	<body>
