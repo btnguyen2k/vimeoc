@@ -24,7 +24,7 @@
 			//$data['articles'] = $articles;
 			$this->tmpl->assign("success", "Your account has been created successfully. Thank you for signing up.");
 			$this->tmpl->assign("login", "Login");
-			$this->loadView('view_thankyou',$data);
+			$this->loadTemplate('view_thankyou',$data);
 		}
 	}
 ?>

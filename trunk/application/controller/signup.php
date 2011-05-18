@@ -27,7 +27,7 @@
 			$this->tmpl->assign("password","Password");
 			$this->tmpl->assign("fullname","Full Name");
 			$this->tmpl->assign("rpassword","Retype Password");
-			$this->loadView('view_signup',$data);
+			$this->loadTemplate('view_signup',$data);
 		}
 	}
 ?>
