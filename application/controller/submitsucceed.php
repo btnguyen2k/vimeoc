@@ -23,7 +23,7 @@
 			$articles = $this->model_submitsucceed->select();
 			//$data['articles'] = $articles;
 			$this->tmpl->assign("sent", "We sent you a link. Check your email, even your spam folder");
-			$this->loadView('view_submitsucceed',$data);
+			$this->loadTemplate('view_submitsucceed',$data);
 		}
 	}
 ?>

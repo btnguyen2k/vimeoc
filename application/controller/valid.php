@@ -24,7 +24,7 @@
 			//$data['articles'] = $articles;
 			$this->tmpl->assign("reset", "Password has been reset!");
 			$this->tmpl->assign("login", "[Login]");
-			$this->loadView('view_valid',$data);
+			$this->loadTemplate('view_valid',$data);
 		}
 	}
 ?>

@@ -24,7 +24,7 @@
 			//$data['articles'] = $articles;
 			$this->tmpl->assign("reset", "Invalid password reset link!");
 			$this->tmpl->assign("try", "[Try again]");
-			$this->loadView('view_invalid',$data);
+			$this->loadTemplate('view_invalid',$data);
 		}
 	}
 ?>

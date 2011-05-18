@@ -79,7 +79,7 @@
 				</input>
 			</div>
 			<div>	
-				<input id="agree" type="checkbox"/> understand and agree with <a href="#">Terms of Service</a>
+				<input id="agree" type="checkbox"/> {$understand}<a href="#">{$term}</a>
 			</div>
 
 			<div>

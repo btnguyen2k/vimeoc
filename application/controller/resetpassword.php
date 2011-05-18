@@ -24,7 +24,7 @@
 			//$data['articles'] = $articles;
 			$this->tmpl->assign("title", "Choose a new password");
 			$this->tmpl->assign("password", "Password:");
-			$this->loadView('view_resetpassword',$data);
+			$this->loadTemplate('view_resetpassword',$data);
 		}
 	}
 ?>
