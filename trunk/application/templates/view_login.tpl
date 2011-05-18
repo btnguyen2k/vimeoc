@@ -24,7 +24,7 @@ function checkEmail()
 }
 </script>
 <h1 align="center">{$loginForm}</h1>
-<form onSubmit="return checkEmail()" action="" name="signupform">
+<form onSubmit="return checkEmail()" action="/vimeoc/auth/login" name="signupform">
 	<div>
 		{$email} <input name="email" type="text" class="inputs" id="email_address" size="35" maxlength="255">
 	</div> 

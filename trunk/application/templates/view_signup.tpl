@@ -1,6 +1,4 @@
-<html>
-	<head>
-		<title>Ongsoft</title>
+        <title>Ongsoft</title>
 		<script  type="text/javascript">
 			
 					function checkEmail()
@@ -51,11 +49,7 @@
 						}
 
 					}
-
-			
 		</script>
-	</head>
-	<body>
 		<h1 align="center">{$title}</h1>
 		
 			<div>
@@ -86,5 +80,3 @@
 				<input type="submit" value="SIgn Up" />
 			</div>	
 		</form>	
-	</body>
-</html>
