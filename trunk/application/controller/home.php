@@ -23,10 +23,7 @@
 		 */
 		function index()
 		{
-			$articles = $this->model_home->select();
-			//$data['articles'] = $articles;
-			$this->tmpl->assign("title", "Hello world!");
-			$this->loadView('view_home',$data);
+			$this->loadTemplate('view_home');
 		}
 	}
 ?>

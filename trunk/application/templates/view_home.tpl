@@ -1,10 +1,1 @@
-<html>
-	<head>
-		<title>Ongsoft</title>
-	</head>
-	<body>
-		<h1>{$title}</h1>
-		
-		
-	</body>
-</html>
+<h1>OMG</h1>
