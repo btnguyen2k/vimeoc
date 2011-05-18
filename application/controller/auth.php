@@ -23,6 +23,7 @@
 			$this->redirect("/vimeoc/home");
 		}
 		
+		
 		function login()
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
@@ -35,10 +36,10 @@
 			} 
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
-				// check username & password
-				if(true)
+				$flag=false;
+				if($flag)
 				{
-					$this->redirect('/vimeoc/user');
+					$this->redirect(BASE_PATH.'/vimeoc/auth/login');
 				}
 				else 
 				{
@@ -128,21 +129,22 @@
 			{
 				$this->tmpl->assign("sent",$this->loadMessages('auth.submitsucceed.sent'));
 				$this->loadTemplate('view_submitsucceed');
+				$this->redirect('/vimeoc/auth/login');
 			}
 			elseif ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
-			if(true)
+				if(true)
 				{
-					$this->redirect('/vimeoc/user');
+					$this->redirect('/vimeoc/auth/login');
 				}
 				else 
 				{
 					$this->tmpl->assign("sent",$this->loadMessages('auth.submitsucceed.sent'));
 					$this->loadTemplate('view_submitsucceed');
 				}
-
 			}
 		}
+		
 		
 		
 		

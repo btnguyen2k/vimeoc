@@ -1,6 +1,3 @@
-
-<html>
-	<head>
 		<title>Forgot Password</title>
 		<script  type="text/javascript">
 			
@@ -19,10 +16,6 @@
 					    }
 					}
 		</script>
-	</head>
-<body>
-	
-	
 <h1 align="center">{$title}</h1>
 <form onSubmit="return checkEmail()" name="signupform">{$email} <input name="email" type="text" class="inputs" id="email_address" "
 	size="35" maxlength="255"> 
@@ -30,5 +23,4 @@
 	<input type="submit" value="Help Me" />
 	</div>
 </form>
-</body>
-</html>
+
