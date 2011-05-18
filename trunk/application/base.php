@@ -5,6 +5,7 @@
 		var $uri;
 		var $model;
 		var $tmpl;
+		var $messages;
 		
 		function __construct($uri)
 		{
@@ -15,7 +16,7 @@
 	      	$this->tmpl->config_dir = __DIR__ . '/configs/';
 	      	$this->tmpl->cache_dir = __DIR__ . '/cache/';
 	     
-	      	$this->tmpl->caching = true; 
+	      	$this->tmpl->caching = false; 
 		}
 		
 		function loadController($class)
@@ -40,14 +41,34 @@
 		{
 			if(is_array($vars) && count($vars) > 0)
 				extract($vars, EXTR_PREFIX_SAME, "wddx");
-			//require_once('view/'.$view.'.php');
-			$this->tmpl->display($view.'.tpl');
+			require_once('view/'.$view.'.php');
+		}
+		
+		function loadTemplate($view)
+		{			
+			$this->tmpl->assign("base_dir_decorator", __DIR__ . '/templates/decorator/');
+			$this->tmpl->assign('body_code', $view.'.tpl');
+			$this->tmpl->display('decorator/default.tpl');
 		}
 		
 		function loadModel($model)
 		{
 			require_once('model/'.$model.'.php');
 			$this->$model = new $model;
+		}
+		
+		function redirect($url)
+		{
+			header("Location: " . $url);	
+		}
+		
+		function loadMessages($code)
+		{
+			if($this->messages === null){
+				$this->messages = parse_ini_file(__DIR__.'/configs/messages.ini');
+			}
+			
+			return $this->messages[$code];
 		}
 	}
 	

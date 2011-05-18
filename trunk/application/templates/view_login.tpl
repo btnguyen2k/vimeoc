@@ -12,7 +12,6 @@ function checkEmail()
 	    var pattern=/^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.([a-zA-Z])+([a-zA-Z])+/;
 	    if(pattern.test(document.signupform.email.value))
 		{     
-
 			return true;  
 	    }
 	    else
