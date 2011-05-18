@@ -24,12 +24,12 @@ function checkEmail()
 }
 </script>
 <h1 align="center">{$loginForm}</h1>
-<form onSubmit="return checkEmail()" action="/vimeoc/auth/login" name="signupform">
+<form onSubmit="return checkEmail()" action="/vimeoc/auth/login/" name="signupform">
 	<div>
 		{$email} <input name="email" type="text" class="inputs" id="email_address" size="35" maxlength="255">
 	</div> 
 	<div>
-		{$password} <input id="password" type="password" />
+		{$password} <input id="password" name="password" type="password" />
 	</div>
 	<div>
 		<input type="submit" value="{$submit}"/><a href="forgotpassword" >[Forgot your password ?]</a>

@@ -28,7 +28,7 @@
 			require_once($file);
 
 			$controller = new $class($this->tmpl);
-
+			
 			if(method_exists($controller, $this->uri['method']))
 			{			 	
 			 	$controller->{$this->uri['method']}($this->uri['var']);
