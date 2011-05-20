@@ -22,8 +22,13 @@
 		{
 			$this->redirect("/vimeoc/home");
 		}
+
 		
 		
+
+		
+		
+		// function check password and email validate. Then submit it.
 		function login()
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
@@ -36,27 +41,45 @@
 			} 
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
-				$flag=false;
-				if($flag)
+				$flag = true;
+				
+				$email = $_REQUEST["email"];
+				$regex = '/([a-z0-9_.-]+)'.'@'.'([a-z0-9.-]+){2,255}'.'.'.'([a-z]+){2,10}/i';
+				if($email == '') 
 				{
-					$this->redirect(BASE_PATH.'/vimeoc/auth/login');
+					$flag = false;
 				}
 				else 
 				{
+					$eregi = preg_replace($regex, '', $email);
+				}
+				$flag = empty($eregi) ? true : false;
+						
+				
+				if($flag)
+				{
+					$this->redirect('/vimeoc/auth/home');
+				}
+				else 
+				{	
 					$this->tmpl->assign("title", $this->loadMessages('auth.login.title'));
 					$this->tmpl->assign("email",$this->loadMessages('auth.login.username'));
 					$this->tmpl->assign("password", $this->loadMessages('auth.login.password'));
-					$this->tmpl->assign("submit", $this->loadMessages('auth.login.submit'));
-					$this->tmpl->assign("error", $this->loadMessages('auth.login.error'));
+					$this->tmpl->assign("error", 'Email is not valid');
 					$this->loadTemplate('view_login');
 				}
 			}
 		}
 		
 		
+
 		
 		
 		
+		
+
+		
+		//Function sign up account and add to database.
 		function signup()
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
@@ -72,12 +95,23 @@
 			}
 			elseif ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
-			if(true)
+				$con = mysql_connect("localhost","root","");
+				if($con)
 				{
-					$this->redirect('/vimeoc/user');
+					die('Could not connect: ' . mysql_error());
 				}
-				else 
-				{
+				mysql_select_db("vimeoc", $con);
+				$sql="INSERT INTO user (full_name,username, password)
+				VALUES
+				('$_POST[fullname]','$_POST[email]','$_POST[password]')";
+				if (!mysql_query($sql,$con))
+	  			{
+					die('Error: ' . mysql_error());
+	  			}
+				mysql_close($con);
+			}	
+			else
+			{
 					$this->tmpl->assign("fullname",$this->loadMessages('auth.signup.fullname'));
 					$this->tmpl->assign("title", $this->loadMessages('auth.signup.title'));
 					$this->tmpl->assign("password", $this->loadMessages('auth.signup.password'));
@@ -86,15 +120,14 @@
 					$this->tmpl->assign("understand", $this->loadMessages('auth.signup.understand'));
 					$this->tmpl->assign("term", $this->loadMessages('auth.signup.term'));
 					$this->loadTemplate('view_signup');
-				}
-
 			}
+
 		}
+
 		
+
 		
-		
-		
-		
+		//Function check and reset password.
 		function resetpassword()
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
@@ -122,6 +155,8 @@
 		
 		
 		
+
+		
 		
 		function submitsucceed()
 		{
@@ -129,7 +164,6 @@
 			{
 				$this->tmpl->assign("sent",$this->loadMessages('auth.submitsucceed.sent'));
 				$this->loadTemplate('view_submitsucceed');
-				$this->redirect('/vimeoc/auth/login');
 			}
 			elseif ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
@@ -149,6 +183,8 @@
 		
 		
 		
+		
+		
 		function thankyou()
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
@@ -159,7 +195,7 @@
 			}
 			elseif ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
-			if(true)
+				if(true)
 				{
 					$this->redirect('/vimeoc/user');
 				}
@@ -172,6 +208,8 @@
 
 			}
 		}
+		
+		
 		
 		
 		
@@ -203,6 +241,9 @@
 		
 		
 		
+
+		
+		
 		
 		function invalid()
 		{
@@ -224,10 +265,7 @@
 					$this->tmpl->assign("try",$this->loadMessages('auth.invalid.try'));
 					$this->loadTemplate('view_invalid');
 				}
-
 			}
-		}		
-		
-		
-	}
+		}			
+	}	
 ?>
