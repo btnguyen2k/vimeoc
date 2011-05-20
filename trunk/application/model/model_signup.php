@@ -20,9 +20,12 @@
 		 * 
 		 * Select data
 		 */
-		function select()
+		function addNewUser()
 		{
-			return array("title 1","title 2","title 3");
+			$sql = "INSERT INTO user (full_name,username, password)
+				VALUES (?, ?, ?)";
+			$params = array("'".$_POST[fullname]."'","'".$_POST[email]."'","'".$_POST[password]."'");
+			$result = $this->execute_query($sql, $params);
 		}
 	}
 

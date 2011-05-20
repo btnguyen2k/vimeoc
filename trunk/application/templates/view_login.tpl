@@ -1,26 +1,26 @@
 <script  type="text/javascript">		
-//function checkEmail()
-//{	
-//	var x = document.getElementById("password").value;
-//	if(x=="")
-//	{
-//		alert("Password not null");
-//		return false;
-//	}
-//	else
-//	{
-//	    var pattern=/^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.([a-zA-Z])+([a-zA-Z])+/;
-//	    if(pattern.test(document.signupform.email.value))
-//		{     
-//			return true;  
-//	    }
-//	    else
-//		{   
-//		alert("Email invailid"); 
-//			return false;
-//		}
-//	}
-//}
+function checkEmail()
+{	
+	var x = document.getElementById("password").value;
+	if(x=="")
+	{
+		alert("Password not null");
+		return false;
+	}
+	else
+	{
+	    var pattern=/^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.([a-zA-Z])+([a-zA-Z])+/;
+	    if(pattern.test(document.signupform.email.value))
+		{     
+			return true;  
+	    }
+	    else
+		{   
+		alert("Email invailid"); 
+			return false;
+		}
+	}
+}
 </script>
 <h1 align="center">{$loginForm}</h1>
 {if $error eq ""}
@@ -36,6 +36,6 @@
 		{$password} <input id="password" name="password" type="password" />
 	</div>
 	<div>
-		<input type="submit" value="{$submit}"/><a href="forgotpassword" >[Forgot your password ?]</a>
+		<input type="submit" value="{$submit}"/><a href="forgotpassword" action="vimeoc/auth/forgotpassword">[Forgot your password ?]</a>
 	</div>
 </form>
