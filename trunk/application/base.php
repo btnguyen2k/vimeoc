@@ -1,4 +1,6 @@
 <?php if (!defined('BASE_PATH')) exit('Not allowed.');
+	define("ROLE_ADMIN", "ROLE_ADMIN");
+	define("ROLE_USER", "ROLE_USER");
 	
 	class Application
 	{
@@ -70,6 +72,72 @@
 			
 			return $this->messages[$code];
 		}
+		
+		function getLoggedUser()
+		{
+			session_start();
+			
+			if (!isset($_SESSION['USER_SESSION'])){
+				return null;
+			}
+			
+			return $_SESSION['USER_SESSION'];
+		}
+		
+		function setSessionValue($name, $value){
+			session_start();
+			
+			$_SESSION[$name] = $value;
+		}
+		
+		function isAdminLogged()
+		{
+			$loggedUser = $this->getLoggedUser();
+			if($loggedUser == null)
+			{
+				return false;
+			}
+			else
+			{
+				$params = array();
+				$params[0] = $loggedUser['id'];
+				$params[1] = ROLE_ADMIN;
+				$sql = "Select count(1) From user_role ur, role r where ur.role_id = r.id and ur.user_id = ? and r.name = ?";
+				$result = $this->model->execute_query($sql, $params);
+				
+				return sizeof($resuls) > 0;
+			}
+		}
+		
+		function encodePassword($password)
+		{
+			return $this->createHash($password, '1dsat4', 'sha1');
+		}
+		
+		private function createHash($inText, $saltHash=NULL, $mode='sha1')
+		{
+	        // hash the text //
+	        $textHash = hash($mode, $inText);
+	        // set where salt will appear in hash //
+	        $saltStart = strlen($inText);
+	        // if no salt given create random one //
+	        if($saltHash == NULL) {
+	            $saltHash = hash($mode, uniqid(rand(), true));
+	        }
+	        // add salt into text hash at pass length position and hash it //
+	        if($saltStart > 0 && $saltStart < strlen($saltHash)) {
+	            $textHashStart = substr($textHash,0,$saltStart);
+	            $textHashEnd = substr($textHash,$saltStart,strlen($saltHash));
+	            $outHash = hash($mode, $textHashEnd.$saltHash.$textHashStart);
+	        } elseif($saltStart > (strlen($saltHash)-1)) {
+	            $outHash = hash($mode, $textHash.$saltHash);
+	        } else {
+	            $outHash = hash($mode, $saltHash.$textHash);
+	        }
+	        // put salt at front of hash //
+	        $output = $saltHash.$outHash;
+	        return $output;
+	    }
 	}
 	
 	class Model
