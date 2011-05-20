@@ -54,7 +54,7 @@
 		
 			<div>
 				{$fullname}
-				<input id="fullname">
+				<input id="fullname" name="fullname">
 				
 				</input>
 			</div>
@@ -63,12 +63,12 @@
 			size="35" maxlength="255"> 
 			<div>
 				{$password}
-				<input id="password" type="password">
+				<input id="password" type="password" name="password">
 				</input>
 			</div>
 			<div>
 				{$rpassword}
-				<input id="rpassword" type="password">
+				<input id="rpassword" type="password" name="rpassword">
 				
 				</input>
 			</div>
@@ -77,6 +77,6 @@
 			</div>
 
 			<div>
-				<input type="submit" value="SIgn Up" />
+				<input type="submit" value="Sign Up" action="vimeoc/auth/thankyou/" />
 			</div>	
 		</form>	
