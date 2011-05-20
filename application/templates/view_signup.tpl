@@ -28,9 +28,9 @@
 							alert("Password and retype the password must be the same !");
 							return false;
 						}	
-						else if(document.getElementById("agree").checked=false)
+						else if(!document.signupform.agree.checked)
 						{
-							alert("You must tick the checkbox to agree with website’s Terms of service.");
+							alert("You must checked the term of service");
 							return false;
 						}
 						else
@@ -47,7 +47,7 @@
 								return false;
 							}
 						}
-
+				
 					}
 		</script>
 		<h1 align="center">{$title}</h1>
@@ -73,7 +73,7 @@
 				</input>
 			</div>
 			<div>	
-				<input id="agree" type="checkbox"/> {$understand}<a href="#">{$term}</a>
+				<input id="agree" type="checkbox" name="agree"/> {$understand}<a href="#">{$term}</a>
 			</div>
 
 			<div>

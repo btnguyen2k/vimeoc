@@ -1,5 +1,5 @@
 <?php
-	/* The Authentication controller
+	/** The Authentication controller
 	 * @author Tri
 	 *
 	 */
@@ -22,13 +22,10 @@
 		{
 			$this->redirect("/vimeoc/home");
 		}
-
-		
-		
-
-		
-		
-		// function check password and email validate. Then submit it.
+		/** 
+		 * 
+		 * function check password and email validate. Then submit it.
+		 */
 		function login()
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
@@ -41,6 +38,7 @@
 			} 
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
+				
 				$flag = true;
 				
 				$email = $_REQUEST["email"];
@@ -54,9 +52,8 @@
 					$eregi = preg_replace($regex, '', $email);
 				}
 				$flag = empty($eregi) ? true : false;
-						
 				
-				if($flag)
+				if($flag = false)
 				{
 					$this->redirect('/vimeoc/auth/home');
 				}
@@ -70,16 +67,9 @@
 				}
 			}
 		}
-		
-		
-
-		
-		
-		
-		
-
-		
-		//Function sign up account and add to database.
+		/**
+		 * Connect to database , sign up account and add to database.
+		 */
 		function signup()
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
@@ -93,41 +83,28 @@
 				$this->tmpl->assign("term", $this->loadMessages('auth.signup.term'));
 				$this->loadTemplate('view_signup');
 			}
-			elseif ($_SERVER['REQUEST_METHOD'] == 'POST')
+			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
-				$con = mysql_connect("localhost","root","");
-				if($con)
+				if(true)
 				{
-					die('Could not connect: ' . mysql_error());
+					$this->redirect('/vimeoc/user');
+				}	
+				else
+				{
+						$this->tmpl->assign("fullname",$this->loadMessages('auth.signup.fullname'));
+						$this->tmpl->assign("title", $this->loadMessages('auth.signup.title'));
+						$this->tmpl->assign("password", $this->loadMessages('auth.signup.password'));
+						$this->tmpl->assign("email", $this->loadMessages('auth.signup.email'));		
+						$this->tmpl->assign("rpassword", $this->loadMessages('auth.signup.rpassword'));
+						$this->tmpl->assign("understand", $this->loadMessages('auth.signup.understand'));
+						$this->tmpl->assign("term", $this->loadMessages('auth.signup.term'));
+						$this->loadTemplate('view_signup');
 				}
-				mysql_select_db("vimeoc", $con);
-				$sql="INSERT INTO user (full_name,username, password)
-				VALUES
-				('$_POST[fullname]','$_POST[email]','$_POST[password]')";
-				if (!mysql_query($sql,$con))
-	  			{
-					die('Error: ' . mysql_error());
-	  			}
-				mysql_close($con);
-			}	
-			else
-			{
-					$this->tmpl->assign("fullname",$this->loadMessages('auth.signup.fullname'));
-					$this->tmpl->assign("title", $this->loadMessages('auth.signup.title'));
-					$this->tmpl->assign("password", $this->loadMessages('auth.signup.password'));
-					$this->tmpl->assign("email", $this->loadMessages('auth.signup.email'));		
-					$this->tmpl->assign("rpassword", $this->loadMessages('auth.signup.rpassword'));
-					$this->tmpl->assign("understand", $this->loadMessages('auth.signup.understand'));
-					$this->tmpl->assign("term", $this->loadMessages('auth.signup.term'));
-					$this->loadTemplate('view_signup');
 			}
-
 		}
-
-		
-
-		
-		//Function check and reset password.
+		/**
+		 * This page lets the user choose another password
+		 */
 		function resetpassword()
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
@@ -149,15 +126,12 @@
 						$this->loadTemplate('view_resetpassword');
 					}
 			}
-		}
-
-		
-		
-		
-		
-
-		
-		
+		}	
+		/**
+		 * 
+		 * Load a Submitsucceed page to notice "Submit successfully"
+		 * 
+		 */
 		function submitsucceed()
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
@@ -178,13 +152,10 @@
 				}
 			}
 		}
-		
-		
-		
-		
-		
-		
-		
+		/**
+		 * Load thankyou page to notice that your account is created successfully."
+		 * 
+		 */
 		function thankyou()
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
@@ -208,13 +179,10 @@
 
 			}
 		}
-		
-		
-		
-		
-		
-		
-		
+		/**
+		 * Load a valid page if a valid password reset link is clicked
+		 * 
+		 */
 		function valid()
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
@@ -235,16 +203,12 @@
 					$this->tmpl->assign("login",$this->loadMessages('auth.valid.login'));
 					$this->loadTemplate('view_valid');
 				}
-
 			}
 		}
-		
-		
-		
-
-		
-		
-		
+		/**
+		 * Load an invalid page if an invalid password reset link is clicked.
+		 * 
+		 */
 		function invalid()
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
