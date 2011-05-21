@@ -50,14 +50,16 @@
 	}
 </script>
 <h1 align="center">{$title}</h1>
-<div>
-	{$fullname}
-	<input id="fullname" name="fullname" />
-</div>
 <form onSubmit="return checkEmail()" name="signupform" action="/vimeoc/auth/signup/" method="post">
+	<div>
+		{$fullname}
+		<input id="fullname" name="fullname" />
+	</div>
+	<div>
 		{$email} 
 	<input name="email" type="text" class="inputs" id="email_address""
-	size="35" maxlength="255"> 
+	size="35" maxlength="255">
+	</div> 
 	<div>
 		{$password}
 		<input id="password" type="password" name="password" />
