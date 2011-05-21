@@ -28,7 +28,7 @@ function checkEmail()
 {else}
    <span>{$error}</span>
 {/if}
-<form onSubmit="return checkEmail()" action="/vimeoc/auth/submitsucceed/" name="signupform">
+<form onSubmit="return checkEmail()" action="/vimeoc/auth/login/" name="signupform" method="post">
 	<div>
 		{$email} <input name="email" type="text" class="inputs" id="email_address" size="35" maxlength="255">
 	</div> 
@@ -36,6 +36,6 @@ function checkEmail()
 		{$password} <input id="password" name="password" type="password" />
 	</div>
 	<div>
-		<input type="submit" value="{$submit}"/><a href="forgotpassword" action="vimeoc/auth/forgotpassword">[Forgot your password ?]</a>
+		<input type="submit" value="{$submit}"/><a href="forgotpassword" action="vimeoc/auth/forgotpassword/">[Forgot your password ?]</a>
 	</div>
 </form>

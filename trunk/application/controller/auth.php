@@ -40,30 +40,41 @@
 			{
 				
 				$flag = true;
-				
-				$email = $_REQUEST["email"];
-				$regex = '/([a-z0-9_.-]+)'.'@'.'([a-z0-9.-]+){2,255}'.'.'.'([a-z]+){2,10}/i';
-				if($email == '') 
+				$username = $_POST['email'];
+				$password = $_POST['password'];
+				$params = array($username, $this->encodePassword($password));
+				if($flag)
 				{
-					$flag = false;
-				}
-				else 
-				{
-					$eregi = preg_replace($regex, '', $email);
-				}
-				$flag = empty($eregi) ? true : false;
-				
-				if($flag = false)
-				{
-					$this->redirect('/vimeoc/auth/home');
-				}
-				else 
-				{	
-					$this->tmpl->assign("title", $this->loadMessages('auth.login.title'));
-					$this->tmpl->assign("email",$this->loadMessages('auth.login.username'));
-					$this->tmpl->assign("password", $this->loadMessages('auth.login.password'));
-					$this->tmpl->assign("error", 'Email is not valid');
-					$this->loadTemplate('view_login');
+					$this->loadModel('model_user');
+					if($this->model_user->checkUserName($params)==false)
+					{
+						echo "Login fail";
+					}
+					
+	//				$email = $_REQUEST["email"];
+	//				$regex = '/([a-z0-9_.-]+)'.'@'.'([a-z0-9.-]+){2,255}'.'.'.'([a-z]+){2,10}/i';
+	//				if($email == '') 
+	//				{
+	//					$flag = false;
+	//				}
+	//				else 
+	//				{
+	//					$eregi = preg_replace($regex, '', $email);
+	//				}
+	//				$flag = empty($eregi) ? true : false;
+	//				
+	//				if($flag = false)
+	//				{
+	//					$this->redirect('/vimeoc/auth/home');
+	//				}
+					else 
+					{	
+						$this->tmpl->assign("title", $this->loadMessages('auth.login.title'));
+						$this->tmpl->assign("email",$this->loadMessages('auth.login.username'));
+						$this->tmpl->assign("password", $this->loadMessages('auth.login.password'));
+						$this->tmpl->assign("error", $this->loadMessages('Email is not valid'));
+						$this->loadTemplate('view_login');
+					}
 				}
 			}
 		}
@@ -90,31 +101,35 @@
 				$fullName = $_POST['fullname'];
 				$username = $_POST['email'];
 				$password = $_POST['password'];
-					
-				// validate data here
 				
-				if($flag)
+		// validate data here
+				if (isExists==true)
 				{
 					$this->loadModel('model_user');
-					$params = array($fullName, $username, $this->encodePassword($password), $username);
-					$result = $this->model_user->addNewUser($params);
-					
-					//check results
-					
-					echo $result;
-
-					//$this->redirect('/vimeoc/user');
-				}	
-				else
+					echo "Email is existed";
+				}
+				else 
 				{
-					$this->tmpl->assign("fullname",$this->loadMessages('auth.signup.fullname'));
-					$this->tmpl->assign("title", $this->loadMessages('auth.signup.title'));
-					$this->tmpl->assign("password", $this->loadMessages('auth.signup.password'));
-					$this->tmpl->assign("email", $this->loadMessages('auth.signup.email'));		
-					$this->tmpl->assign("rpassword", $this->loadMessages('auth.signup.rpassword'));
-					$this->tmpl->assign("understand", $this->loadMessages('auth.signup.understand'));
-					$this->tmpl->assign("term", $this->loadMessages('auth.signup.term'));
-					$this->loadTemplate('view_signup');
+					if($flag)
+					{
+						$this->loadModel('model_user');
+						$params = array($fullName, $username, $this->encodePassword($password), $username);
+						$result = $this->model_user->addNewUser($params);					
+						//check results					
+						echo $result;
+						
+					}	
+					else
+					{
+						$this->tmpl->assign("fullname",$this->loadMessages('auth.signup.fullname'));
+						$this->tmpl->assign("title", $this->loadMessages('auth.signup.title'));
+						$this->tmpl->assign("password", $this->loadMessages('auth.signup.password'));
+						$this->tmpl->assign("email", $this->loadMessages('auth.signup.email'));		
+						$this->tmpl->assign("rpassword", $this->loadMessages('auth.signup.rpassword'));
+						$this->tmpl->assign("understand", $this->loadMessages('auth.signup.understand'));
+						$this->tmpl->assign("term", $this->loadMessages('auth.signup.term'));
+						$this->loadTemplate('view_signup');
+					}
 				}
 			}
 		}
