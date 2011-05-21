@@ -27,35 +27,46 @@
 			$this->execute_command($sql, $params, $types);
 		}
 		
+		/**
+		 * 
+		 * Check whether username exists or not
+		 * @param $params
+		 */
 		function isExists($params)
 		{
-			$sql = 'select * from user where username=?';
-			$types =  array('text');
-			$ret = $this->execute_query($sql,$params,$types);
-			if($ret!=null)
-			{
-				return false;
-			}
-			else 
-			{
-				return true;
-			}
-		}
-		function checkUserName($params)
-		{
-			$sql = 'select username, password from user where username=? and password=?';
-			$types=array('text','text');
-			$res=$this->execute_query($sql,$params,$types);
-			echo $res;
-			if($res!=null)
-			{
-				return false;
-			}
-			else 
-			{
-				return true;
-			}
+			$sql = 'select username from user where username=?';
+			$types =  array('text', 'text');
+			$res = $this->execute_query($sql,$params,$types);
 			
+			return sizeof($res) > 0;
+		}
+		
+		/**
+		 * 
+		 * Validate username and password
+		 * @param $params
+		 */
+		function checkUsernameAndPassword($params)
+		{
+			$sql = 'select username from user where username=? and password=?';
+			$types = array('text', 'text', 'text');
+			$res = $this->execute_query($sql,$params,$types);
+			
+			return sizeof($res) > 0;
+		}
+		
+		/**
+		 * 
+		 * Get user by username
+		 * @param $params username value
+		 */
+		function getUserByUsername($params)
+		{
+			$sql = 'select username from user where username=?';
+			$types = array('text');
+			$res = $this->execute_query($sql,$params,$types);
+			
+			return $res;
 		}
 	}
 ?>

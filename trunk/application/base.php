@@ -169,12 +169,12 @@
 		    return $conn;
 		}
 		
-		function execute_query($sql, $values=array()) 
+		function execute_query($sql, $values=array(), $types) 
 		{
 		    $con = $this->connect();
 		    $results = array();
 		    if(sizeof($values) > 0) {
-		        $statement = $con->prepare($sql, TRUE, MDB2_PREPARE_RESULT);
+		        $statement = $con->prepare($sql, $types, MDB2_PREPARE_RESULT);
 		        $resultset = $statement->execute($values);
 		        $statement->free();
 		    }
@@ -182,12 +182,15 @@
 		        $resultset = $con->query($sql);
 		    }
 		    if(PEAR::isError($resultset)) {
-		        die('DB Error... ' . $resultset->getDebugInfo(). '<BR/>' . $resultset->getMessage());
+		         die('DB Error... ' . $resultset->getDebugInfo(). 
+		        	'<BR/>' . $resultset->getMessage(). 
+		        	'<BR/>' . $resultset->getUserInfo());
 		    }
 		
 		    while($row = $resultset->fetchRow(MDB2_FETCHMODE_ASSOC)) {
 		        $results[] = $row;
 		    }
+		    
 		    return $results;
 		}
 		

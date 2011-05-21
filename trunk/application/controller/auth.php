@@ -22,6 +22,16 @@
 		{
 			$this->redirect("/vimeoc/home");
 		}
+		
+		/**
+		 * 
+		 * Logout
+		 */
+		function logout()
+		{
+			unset($_SESSION['USER_SESSION']); 			
+		}
+		
 		/** 
 		 * 
 		 * function check password and email validate. Then submit it.
@@ -38,44 +48,30 @@
 			} 
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
+				$this->loadModel('model_user');
 				
-				$flag = true;
 				$username = $_POST['email'];
 				$password = $_POST['password'];
 				$params = array($username, $this->encodePassword($password));
-				if($flag)
+								
+				$valid = $this->model_user->checkUsernameAndPassword($params);
+								
+				if($valid)
 				{
-					$this->loadModel('model_user');
-					if($this->model_user->checkUserName($params)==false)
-					{
-						echo "Login fail";
-					}
+					$this->setSessionValue("USER_SESSION", $username);
+					$this->redirect($this->ctx().'/user');
+				}				
+				else 
+				{	
+					$this->tmpl->assign("loginForm", $this->loadMessages('auth.login.title'));
+					$this->tmpl->assign("email",$this->loadMessages('auth.login.username'));
+					$this->tmpl->assign("password", $this->loadMessages('auth.login.password'));
+					$this->tmpl->assign("submit", $this->loadMessages('auth.login.submit'));
 					
-	//				$email = $_REQUEST["email"];
-	//				$regex = '/([a-z0-9_.-]+)'.'@'.'([a-z0-9.-]+){2,255}'.'.'.'([a-z]+){2,10}/i';
-	//				if($email == '') 
-	//				{
-	//					$flag = false;
-	//				}
-	//				else 
-	//				{
-	//					$eregi = preg_replace($regex, '', $email);
-	//				}
-	//				$flag = empty($eregi) ? true : false;
-	//				
-	//				if($flag = false)
-	//				{
-	//					$this->redirect('/vimeoc/auth/home');
-	//				}
-					else 
-					{	
-						$this->tmpl->assign("title", $this->loadMessages('auth.login.title'));
-						$this->tmpl->assign("email",$this->loadMessages('auth.login.username'));
-						$this->tmpl->assign("password", $this->loadMessages('auth.login.password'));
-						$this->tmpl->assign("error", $this->loadMessages('Email is not valid'));
-						$this->loadTemplate('view_login');
-					}
-				}
+					$this->tmpl->assign("errorMessage", $this->loadMessages('auth.login.error'));
+					$this->tmpl->assign("username", $username);
+					$this->loadTemplate('view_login');
+				}				
 			}
 		}
 		/**
@@ -96,40 +92,30 @@
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
-				$flag = true;
+				$this->loadModel('model_user');
 				
 				$fullName = $_POST['fullname'];
 				$username = $_POST['email'];
 				$password = $_POST['password'];
 				
-		// validate data here
-				if (isExists==true)
+				if ($this->model_user->isExists(array($username)) == true)
 				{
-					$this->loadModel('model_user');
-					echo "Email is existed";
+					$this->tmpl->assign("fullname",$this->loadMessages('auth.signup.fullname'));
+					$this->tmpl->assign("title", $this->loadMessages('auth.signup.title'));
+					$this->tmpl->assign("password", $this->loadMessages('auth.signup.password'));
+					$this->tmpl->assign("email", $this->loadMessages('auth.signup.email'));
+					$this->tmpl->assign("rpassword", $this->loadMessages('auth.signup.rpassword'));
+					$this->tmpl->assign("understand", $this->loadMessages('auth.signup.understand'));
+					$this->tmpl->assign("term", $this->loadMessages('auth.signup.term'));
+					
+					$this->tmpl->assign("errorMessage", $this->loadMessages('auth.signup.errors'));
+					$this->loadTemplate('view_signup');
 				}
 				else 
 				{
-					if($flag)
-					{
-						$this->loadModel('model_user');
-						$params = array($fullName, $username, $this->encodePassword($password), $username);
-						$result = $this->model_user->addNewUser($params);					
-						//check results					
-						echo $result;
-						
-					}	
-					else
-					{
-						$this->tmpl->assign("fullname",$this->loadMessages('auth.signup.fullname'));
-						$this->tmpl->assign("title", $this->loadMessages('auth.signup.title'));
-						$this->tmpl->assign("password", $this->loadMessages('auth.signup.password'));
-						$this->tmpl->assign("email", $this->loadMessages('auth.signup.email'));		
-						$this->tmpl->assign("rpassword", $this->loadMessages('auth.signup.rpassword'));
-						$this->tmpl->assign("understand", $this->loadMessages('auth.signup.understand'));
-						$this->tmpl->assign("term", $this->loadMessages('auth.signup.term'));
-						$this->loadTemplate('view_signup');
-					}
+					$params = array($fullName, $username, $this->encodePassword($password), $username);
+					$result = $this->model_user->addNewUser($params);					
+					$this->redirect($this->ctx().'/auth/login');
 				}
 			}
 		}

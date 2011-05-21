@@ -23,19 +23,19 @@ function checkEmail()
 }
 </script>
 <h1 align="center">{$loginForm}</h1>
-{if $error eq ""}
+{if $errorMessage eq ""}
    &nbsp;
 {else}
-   <span>{$error}</span>
+   <span class="red">{$errorMessage}</span>
 {/if}
-<form onSubmit="return checkEmail()" action="/vimeoc/auth/login/" name="signupform" method="post">
+<form onSubmit="return checkEmail()" action="{$ctx}/auth/login/" name="signupform" method="post">
 	<div>
-		{$email} <input name="email" type="text" class="inputs" id="email_address" size="35" maxlength="255">
+		{$email} <input name="email" type="text" value="{$username}" class="inputs" id="email_address" size="35" maxlength="255">
 	</div> 
 	<div>
 		{$password} <input id="password" name="password" type="password" />
 	</div>
 	<div>
-		<input type="submit" value="{$submit}"/><a href="forgotpassword" action="vimeoc/auth/forgotpassword/">[Forgot your password ?]</a>
+		<input type="submit" value="{$submit}"/><a href="forgotpassword">[Forgot your password ?]</a>
 	</div>
 </form>
