@@ -20,11 +20,9 @@
 		 * 
 		 * Select data
 		 */
-		function addNewUser()
+		function addNewUser($params)
 		{
-			$sql = "INSERT INTO user (full_name,username, password)
-				VALUES (?, ?, ?)";
-			$params = array("'".$_POST[fullname]."'","'".$_POST[email]."'","'".$_POST[password]."'");
+			$sql = "INSERT INTO user (full_name, username, password) VALUES (?, ?, ?)";
 			$result = $this->execute_query($sql, $params);
 		}
 	}

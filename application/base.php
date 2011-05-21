@@ -159,7 +159,7 @@
 		}
 		
 		function execute_query($sql, $values=array()) {
-		    $con = connect();
+		    $con = $this->connect();
 		    $results = array();
 		    if(sizeof($values) > 0) {
 		        $statement = $con->prepare($sql, TRUE, MDB2_PREPARE_RESULT);
