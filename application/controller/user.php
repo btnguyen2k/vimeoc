@@ -25,7 +25,7 @@
 		{
 			$loggedUser = $this->getLoggedUser();
 			if($loggedUser == null){
-				$this->redirect('/vimeoc/auth/login/');
+				$this->redirect($this->ctx().'/auth/login/');
 			}
 			
 			$this->loadTemplate('view_user_home');

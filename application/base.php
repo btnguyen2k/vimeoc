@@ -21,6 +21,15 @@
 	      	$this->tmpl->caching = false; 
 		}
 		
+		/**
+		 * 
+		 * Get current context path
+		 */
+		function ctx()
+		{
+			return CONTEXT;
+		}
+		
 		function loadController($class)
 		{
 			$file = "application/controller/".$this->uri['controller'].".php";
@@ -50,6 +59,7 @@
 		{			
 			$this->tmpl->assign("base_dir_decorator", __DIR__ . '/templates/decorator/');
 			$this->tmpl->assign('body_code', $view.'.tpl');
+			$this->tmpl->assign('ctx', $this->ctx());
 			$this->tmpl->display('decorator/default.tpl');
 		}
 		
