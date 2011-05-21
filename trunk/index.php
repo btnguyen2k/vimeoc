@@ -4,6 +4,9 @@
 	//Define our site URL
 	define("BASE_PATH", "http://localhost");
 	
+	//Define our basepath
+	define("CONTEXT", "/vimeoc");
+	
 	//Define Smarty lib path
 	define("SMARTY_DIR", __DIR__ . "/libs/smarty/");
 	
@@ -12,12 +15,9 @@
 	
 	$smarty = new Smarty();
 	
-	//Define our basepath
-	$path = "/vimeoc";
-	
 	//Take the initial PATH.
 	$url = $_SERVER['REQUEST_URI'];
-	$url = str_replace($path,"",$url);
+	$url = str_replace(CONTEXT,"",$url);
 	
 	//creates an array from the rest of the URL
 	$array_tmp_uri = preg_split('[\\/]', $url, -1, PREG_SPLIT_NO_EMPTY);
