@@ -85,20 +85,38 @@
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
-				if(true)
+				$flag = true;
+				
+				$fullName = $_POST['fullname'];
+				$username = $_POST['username'];
+				$password = $_POST['password'];
+					
+				// validate data here
+				
+				if($flag)
 				{
+					$this->loadModel('model_signup');
+					$params = array();
+					$params[0] = $fullName;
+					$params[1] = $username;
+					$params[2] = $this->encodePassword($password);
+						
+					$result = $this->model_signup->addNewUser($params);
+					
+					//check results
+					
 					$this->redirect('/vimeoc/user');
 				}	
 				else
 				{
-						$this->tmpl->assign("fullname",$this->loadMessages('auth.signup.fullname'));
-						$this->tmpl->assign("title", $this->loadMessages('auth.signup.title'));
-						$this->tmpl->assign("password", $this->loadMessages('auth.signup.password'));
-						$this->tmpl->assign("email", $this->loadMessages('auth.signup.email'));		
-						$this->tmpl->assign("rpassword", $this->loadMessages('auth.signup.rpassword'));
-						$this->tmpl->assign("understand", $this->loadMessages('auth.signup.understand'));
-						$this->tmpl->assign("term", $this->loadMessages('auth.signup.term'));
-						$this->loadTemplate('view_signup');
+					$this->tmpl->assign("fullname",$this->loadMessages('auth.signup.fullname'));
+					$this->tmpl->assign("title", $this->loadMessages('auth.signup.title'));
+					$this->tmpl->assign("password", $this->loadMessages('auth.signup.password'));
+					$this->tmpl->assign("email", $this->loadMessages('auth.signup.email'));		
+					$this->tmpl->assign("rpassword", $this->loadMessages('auth.signup.rpassword'));
+					$this->tmpl->assign("understand", $this->loadMessages('auth.signup.understand'));
+					$this->tmpl->assign("term", $this->loadMessages('auth.signup.term'));
+					$this->loadTemplate('view_signup');
 				}
 			}
 		}
