@@ -150,7 +150,8 @@
 			$this->url = $ini_array['driver']."://".$ini_array['username'].":".$ini_array['password']."@".$ini_array['host']."/".$ini_array['database'];
 		}
 		
-		function connect() {
+		function connect() 
+		{
 		    $conn = MDB2::factory($this->url);
 		    if(PEAR::isError($conn)) {
 		        die("Error while connecting : " . $con->getMessage());
@@ -158,7 +159,8 @@
 		    return $conn;
 		}
 		
-		function execute_query($sql, $values=array()) {
+		function execute_query($sql, $values=array()) 
+		{
 		    $con = $this->connect();
 		    $results = array();
 		    if(sizeof($values) > 0) {
@@ -170,13 +172,30 @@
 		        $resultset = $con->query($sql);
 		    }
 		    if(PEAR::isError($resultset)) {
-		        die('DB Error... ' . $resultset->getMessage());
+		        die('DB Error... ' . $resultset->getDebugInfo(). '<BR/>' . $resultset->getMessage());
 		    }
 		
 		    while($row = $resultset->fetchRow(MDB2_FETCHMODE_ASSOC)) {
 		        $results[] = $row;
 		    }
 		    return $results;
+		}
+		
+		function execute_command($sql, $values, $types)
+		{
+			$con = $this->connect();
+			
+		    $statement = $con->prepare($sql, $types, MDB2_PREPARE_MANIP);
+	        $affectRows = $statement->execute($values);
+	        //$statement->free();	   
+	        
+		    if(PEAR::isError($affectRows)) {
+		        die('DB Error... ' . $affectRows->getDebugInfo(). 
+		        	'<BR/>' . $affectRows->getMessage(). 
+		        	'<BR/>' . $affectRows->getUserInfo());
+		    }		
+
+		    return $affectRows;
 		}
 	}
 

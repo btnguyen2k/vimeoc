@@ -5,7 +5,7 @@
 	 * Login model
 	 *
 	 */
-	class model_signup extends Model
+	class model_user extends Model
 	{
 		/**
 		 * 
@@ -25,6 +25,11 @@
 			$sql = 'INSERT INTO user(full_name, username, password, email) VALUES (?, ?, ?, ?)';
 			$types = array('text', 'text', 'text', 'text');
 			$this->execute_command($sql, $params, $types);
+		}
+		
+		function isExists($params)
+		{
+			
 		}
 	}
 ?>

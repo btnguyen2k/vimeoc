@@ -88,24 +88,22 @@
 				$flag = true;
 				
 				$fullName = $_POST['fullname'];
-				$username = $_POST['username'];
+				$username = $_POST['email'];
 				$password = $_POST['password'];
 					
 				// validate data here
 				
 				if($flag)
 				{
-					$this->loadModel('model_signup');
-					$params = array();
-					$params[0] = $fullName;
-					$params[1] = $username;
-					$params[2] = $this->encodePassword($password);
-						
-					$result = $this->model_signup->addNewUser($params);
+					$this->loadModel('model_user');
+					$params = array($fullName, $username, $this->encodePassword($password), $username);
+					$result = $this->model_user->addNewUser($params);
 					
 					//check results
 					
-					$this->redirect('/vimeoc/user');
+					echo $result;
+
+					//$this->redirect('/vimeoc/user');
 				}	
 				else
 				{
