@@ -29,7 +29,22 @@
 		 */
 		function logout()
 		{
-			unset($_SESSION['USER_SESSION']); 			
+			session_start(); 			
+			unset($_SESSION['USER_SESSION']);
+	
+			$this->redirect($this->ctx().'/home');	
+		}
+		
+		/**
+		 * 
+		 * Load login form default messages
+		 */
+		function loadLoginFormMessages()
+		{
+			$this->tmpl->assign("loginForm", $this->loadMessages('auth.login.title'));
+			$this->tmpl->assign("email",$this->loadMessages('auth.login.username'));
+			$this->tmpl->assign("password", $this->loadMessages('auth.login.password'));
+			$this->tmpl->assign("submit", $this->loadMessages('auth.login.submit'));
 		}
 		
 		/** 
@@ -40,10 +55,8 @@
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
-				$this->tmpl->assign("loginForm", $this->loadMessages('auth.login.title'));
-				$this->tmpl->assign("email",$this->loadMessages('auth.login.username'));
-				$this->tmpl->assign("password", $this->loadMessages('auth.login.password'));
-				$this->tmpl->assign("submit", $this->loadMessages('auth.login.submit'));
+				$this->loadLoginFormMessages();
+				
 				$this->loadTemplate('view_login');
 			} 
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -58,15 +71,20 @@
 								
 				if($valid)
 				{
-					$this->setSessionValue("USER_SESSION", $username);
-					$this->redirect($this->ctx().'/user');
+					$user = $this->model_user->getUserByUsername(array($username));
+					if($user != null)
+					{
+						$this->setSessionValue("USER_SESSION", $user);
+						$this->redirect($this->ctx().'/user');
+					}
+					else 
+					{
+						die ('Fail to login');
+					}
 				}				
 				else 
 				{	
-					$this->tmpl->assign("loginForm", $this->loadMessages('auth.login.title'));
-					$this->tmpl->assign("email",$this->loadMessages('auth.login.username'));
-					$this->tmpl->assign("password", $this->loadMessages('auth.login.password'));
-					$this->tmpl->assign("submit", $this->loadMessages('auth.login.submit'));
+					$this->loadLoginFormMessages();
 					
 					$this->tmpl->assign("errorMessage", $this->loadMessages('auth.login.error'));
 					$this->tmpl->assign("username", $username);
@@ -74,6 +92,21 @@
 				}				
 			}
 		}
+		
+		/**
+		 * Load default message of Signup form
+		 */
+		function loadSignupFormMessages()
+		{
+			$this->tmpl->assign("fullname",$this->loadMessages('auth.signup.fullname'));
+			$this->tmpl->assign("title", $this->loadMessages('auth.signup.title'));
+			$this->tmpl->assign("password", $this->loadMessages('auth.signup.password'));
+			$this->tmpl->assign("email", $this->loadMessages('auth.signup.email'));
+			$this->tmpl->assign("rpassword", $this->loadMessages('auth.signup.rpassword'));
+			$this->tmpl->assign("understand", $this->loadMessages('auth.signup.understand'));
+			$this->tmpl->assign("term", $this->loadMessages('auth.signup.term'));
+		}
+		
 		/**
 		 * Connect to database , sign up account and add to database.
 		 */
@@ -81,13 +114,8 @@
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
 			{
-				$this->tmpl->assign("fullname",$this->loadMessages('auth.signup.fullname'));
-				$this->tmpl->assign("title", $this->loadMessages('auth.signup.title'));
-				$this->tmpl->assign("password", $this->loadMessages('auth.signup.password'));
-				$this->tmpl->assign("email", $this->loadMessages('auth.signup.email'));
-				$this->tmpl->assign("rpassword", $this->loadMessages('auth.signup.rpassword'));
-				$this->tmpl->assign("understand", $this->loadMessages('auth.signup.understand'));
-				$this->tmpl->assign("term", $this->loadMessages('auth.signup.term'));
+				$this->loadSignupFormMessages();
+				
 				$this->loadTemplate('view_signup');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -100,13 +128,7 @@
 				
 				if ($this->model_user->isExists(array($username)) == true)
 				{
-					$this->tmpl->assign("fullname",$this->loadMessages('auth.signup.fullname'));
-					$this->tmpl->assign("title", $this->loadMessages('auth.signup.title'));
-					$this->tmpl->assign("password", $this->loadMessages('auth.signup.password'));
-					$this->tmpl->assign("email", $this->loadMessages('auth.signup.email'));
-					$this->tmpl->assign("rpassword", $this->loadMessages('auth.signup.rpassword'));
-					$this->tmpl->assign("understand", $this->loadMessages('auth.signup.understand'));
-					$this->tmpl->assign("term", $this->loadMessages('auth.signup.term'));
+					$this->loadSignupFormMessages();
 					
 					$this->tmpl->assign("errorMessage", $this->loadMessages('auth.signup.errors'));
 					$this->loadTemplate('view_signup');
@@ -115,6 +137,9 @@
 				{
 					$params = array($fullName, $username, $this->encodePassword($password), $username);
 					$result = $this->model_user->addNewUser($params);					
+					
+					// sending mail with activation link here
+					
 					$this->redirect($this->ctx().'/auth/login');
 				}
 			}
