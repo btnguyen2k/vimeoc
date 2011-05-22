@@ -22,9 +22,39 @@
 		 */
 		function addNewUser($params)
 		{					
+			// insert new user
 			$sql = 'INSERT INTO user(full_name, username, password, email) VALUES (?, ?, ?, ?)';
 			$types = array('text', 'text', 'text', 'text');
 			$this->execute_command($sql, $params, $types);
+			
+			// insert user role
+			$userId = $this->getLatestInsertId('user');
+			$role = $this->getRoleByName(ROLE_USER);			
+			if($role != null)
+			{
+				$sql = 'INSERT INTO user_role(user_id, role_id) VALUES(?, ?)';
+				$types = array('integer', 'integer');
+				$values = array($userId, $role['id']);
+				$this->execute_command($sql, $values, $types);
+			}
+		}
+		
+		/**
+		 * Get role by name
+		 * @param $name
+		 */
+		function getRoleByName($name)
+		{
+			$sql = 'SELECT * FROM role WHERE name=?';
+			$types = array('text');
+			$values = array($name);
+			$roles = $this->execute_query($sql, $values, $types);
+			if(sizeof($roles) > 0)
+			{
+				return $roles[0];
+			}
+			
+			return null;
 		}
 		
 		/**
@@ -66,7 +96,12 @@
 			$types = array('text');
 			$res = $this->execute_query($sql,$params,$types);
 			
-			return $res;
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			
+			return null;
 		}
 	}
 ?>

@@ -169,7 +169,25 @@
 		    return $conn;
 		}
 		
-		function execute_query($sql, $values=array(), $types) 
+		/**
+		 * Help to get the latest generated ID 
+		 * 
+		 */
+		function getLatestInsertId($tableName)
+		{
+			$conn = $this->connect();
+			$conn->loadModule('Extended');
+			return $conn->extended->getAfterID($id, $tableName);
+		}
+		
+		/**
+		 * 
+		 * Execute query
+		 * @param $sql
+		 * @param $values
+		 * @param $types
+		 */
+		function execute_query($sql, $values=array(), $types=array()) 
 		{
 		    $con = $this->connect();
 		    $results = array();
@@ -194,6 +212,13 @@
 		    return $results;
 		}
 		
+		/**
+		 * Execute the update, delete and insert command
+		 * 
+		 * @param $sql
+		 * @param $values
+		 * @param $types
+		 */
 		function execute_command($sql, $values, $types)
 		{
 			$con = $this->connect();
