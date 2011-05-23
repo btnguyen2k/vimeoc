@@ -10,13 +10,13 @@ function checkEmail()
 	else
 	{
 	    var pattern=/^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.([a-zA-Z])+([a-zA-Z])+/;
-	    if(pattern.test(document.signupform.email.value))
+	    if(pattern.test(document.loginform.email.value))
 		{     
 			return true;  
 	    }
 	    else
 		{   
-		alert("Email invailid"); 
+			alert("Email invailid"); 
 			return false;
 		}
 	}
@@ -28,7 +28,7 @@ function checkEmail()
 {else}
    <span class="red">{$errorMessage}</span>
 {/if}
-<form onSubmit="return checkEmail()" action="{$ctx}/auth/login/" name="signupform" method="post">
+<form onSubmit="return checkEmail()" action="{$ctx}/auth/login/" name="loginform" method="post">
 	<div>
 		{$email} <input name="email" type="text" value="{$username}" class="inputs" id="email_address" size="35" maxlength="255">
 	</div> 
