@@ -59,6 +59,10 @@
 			
 			if(method_exists($controller, $this->uri['method']))
 			{			 	
+				if(method_exists($controller, $this->uri['method'].'MessagesSource'))
+				{
+					$controller->{$this->uri['method'].'MessagesSource'}();
+				}
 			 	$controller->{$this->uri['method']}($this->uri['var']);
 			} else {
 				$controller->index();	
@@ -175,11 +179,6 @@
 		  	{
 		   		echo("<p>Message successfully sent!</p>");
 		  	}			
-		}
-		
-		private function loadEmailConfigure($code)
-		{
-			
 		}
 		
 		/**

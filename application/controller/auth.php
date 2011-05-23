@@ -39,7 +39,7 @@
 		 * 
 		 * Load login form default messages
 		 */
-		function loadLoginFormMessages()
+		function loginMessagesSource()
 		{
 			$this->tmpl->assign("loginForm", $this->loadMessages('auth.login.title'));
 			$this->tmpl->assign("email",$this->loadMessages('auth.login.username'));
@@ -55,8 +55,6 @@
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
-				$this->loadLoginFormMessages();
-				
 				$this->loadTemplate('view_login');
 			} 
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -84,8 +82,6 @@
 				}				
 				else 
 				{	
-					$this->loadLoginFormMessages();
-					
 					$this->tmpl->assign("errorMessage", $this->loadMessages('auth.login.error'));
 					$this->tmpl->assign("username", $username);
 					$this->loadTemplate('view_login');
@@ -96,7 +92,7 @@
 		/**
 		 * Load default message of Signup form
 		 */
-		function loadSignupFormMessages()
+		function signupMessagesSource()
 		{
 			$this->tmpl->assign("fullname",$this->loadMessages('auth.signup.fullname'));
 			$this->tmpl->assign("title", $this->loadMessages('auth.signup.title'));
@@ -114,8 +110,6 @@
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
 			{
-				$this->loadSignupFormMessages();
-				
 				$this->loadTemplate('view_signup');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -128,8 +122,6 @@
 				
 				if ($this->model_user->isExists(array($username)) == true)
 				{
-					$this->loadSignupFormMessages();
-					
 					$this->tmpl->assign("errorMessage", $this->loadMessages('auth.signup.errors'));
 					$this->loadTemplate('view_signup');
 				}
