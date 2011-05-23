@@ -279,12 +279,25 @@
 		
 		/**
 		 * 
+		 * Encoding username with salt
+		 * @param $username,$salt
+		 */
+		function encodeUsername($username,$salt)
+		{
+			return $this->createHash($username,$salt,'sha1');
+			
+		}
+
+
+		
+		/**
+		 * 
 		 * Hashcode the string
 		 * @param unknown_type $inText
 		 * @param unknown_type $saltHash
 		 * @param unknown_type $mode
 		 */
-		private function createHash($inText, $saltHash=NULL, $mode='sha1')
+		function createHash($inText, $saltHash=NULL, $mode='sha1')
 		{
 	        // hash the text //
 	        $textHash = hash($mode, $inText);
@@ -309,6 +322,7 @@
 	        return $output;
 	    }
 	}
+	
 	
 	/**
 	 * 

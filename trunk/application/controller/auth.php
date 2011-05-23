@@ -141,6 +141,69 @@
 				}
 			}
 		}
+		
+		/**
+		 * Load default messages of ForgotPassword Form
+		 */
+		
+		function forgotpasswordMessagesSource() 
+		{
+			$this->tmpl->assign("title",$this->loadMessages('auth.forgotpassword.title'));
+			$this->tmpl->assign("email",$this->loadMessages('auth.forgotpassword.email'));
+		}
+		
+		/**
+		 * This page lets the user find lost password
+		 * 
+		 */
+		function forgotpassword()
+		{
+			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
+			{
+				
+				$this->loadTemplate('view_forgotpassword');
+				
+			}
+			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$this->loadModel('model_user');	
+				$username= $_POST['xemail'];
+			
+				if ($this->model_user->isExists(array($username)) == false)
+				{
+					$this->tmpl->assign("error", $this->loadMessages('auth.forgotpassword.error'));
+					$this->loadTemplate('view_forgotpassword');
+				}
+				else 
+				{	
+					$email=$_POST['xemail'];
+					$salt='1de34';
+					$code = $this->encodeUsername($email,$salt);
+		
+					
+					$params = array($username);
+					// sending forgotpassword mail
+					$user = $this->model_user->getUsersByUsername($params);
+					$user['code']=$code;
+					$user['email']=$email;
+					$this->sendingEmailWithSmarty('mail_forgotpassword', 'user', $user, null, $user['email']);
+					$this->redirect($this->ctx().'/user');
+					
+				
+				}
+			
+			}
+		}
+		/**
+		 * Load default messages of ResetPassword form
+		 */
+		
+		function resetpasswordMessagesSource()
+		{
+			$this->tmpl->assign("title",$this->loadMessages('auth.resetpassword.title'));
+			$this->tmpl->assign("password",$this->loadMessages('auth.resetpassword.password'));
+		}
+	
 		/**
 		 * This page lets the user choose another password
 		 */
@@ -148,23 +211,22 @@
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
-				$this->tmpl->assign("password",$this->loadMessages('auth.resetpassword.password'));
-				$this->tmpl->assign("title", $this->loadMessages('auth.resetpassword.title'));
+				$email=$_GET['email'];
+				$this->tmpl->assign("email",$email);
+				$code=$_GET['code'];
 				$this->loadTemplate('view_resetpassword');
+				
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
-					if(true)
-					{
-						$this->redirect('/vimeoc/user');
-					}
-					else 
-					{
-						$this->tmpl->assign("password",$this->loadMessages('auth.resetpassword.password'));
-						$this->tmpl->assign("title", $this->loadMessages('auth.resetpassword.title'));
-						$this->loadTemplate('view_resetpassword');
-					}
+					$this->loadModel('model_user');
+					$password=$_POST['password'];
+					$emails=$_POST['email'];
+					$params=array($this->encodePassword($password),$emails);
+					$this->model_user->updatepassword($params);
+					
 			}
+			
 		}	
 		/**
 		 * 

@@ -88,6 +88,20 @@
 		}
 		
 		/**
+		 * validate username
+		 * @param $params
+		 */
+		function checkUsername($params)
+		{
+			$sql = 'select username from user where username=?';
+			$types= array('text','text','text');
+			$res=$this->execute_query($sql,$params,$types);
+			
+			return sizeof($res) > 0;
+		}
+		
+		
+		/**
 		 * 
 		 * Get user by username
 		 * @param $params username value
@@ -95,6 +109,24 @@
 		function getUserByUsername($params)
 		{
 			$sql = 'select username from user where username=?';
+			$types = array('text');
+			$res = $this->execute_query($sql,$params,$types);
+			
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			
+			return null;
+		}
+		/**
+		 * 
+		 * Get user by username
+		 * 
+		 */
+		function getUsersByUsername($params)
+		{
+			$sql = 'select * from user where username=?';
 			$types = array('text');
 			$res = $this->execute_query($sql,$params,$types);
 			
@@ -121,8 +153,23 @@
 			{
 				return $res[0] ;
 			}
-			
 			return null;
+		}
+		/**
+		 * getpasswordByusername($params)
+		 * 
+		 */
+
+		
+		/**
+		 * update password 
+		 * @param $params
+		 */
+		function updatepassword($params)
+		{
+			$sql = "Update user Set password=? where username=? ";
+			$types= array('text','text');
+			$res = $this->execute_command($sql,$params,$types);
 		}
 	}
 ?>
