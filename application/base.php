@@ -90,6 +90,7 @@
 		function loadTemplate($template)
 		{			
 			$this->tmpl->assign("base_dir_decorator", __DIR__ . '/templates/decorator/');
+			$this->tmpl->assign("base_dir_templates", __DIR__ . '/templates/');
 			$this->tmpl->assign('body_code', $template.'.tpl');
 			$this->tmpl->assign('ctx', $this->ctx());
 			$this->tmpl->display('decorator/default.tpl');

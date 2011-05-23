@@ -1,3 +1,13 @@
 * {margin: 0; padding: 0}
 
+ul {list-style: none;}
+
+div#main {width: 1024px; text-align: left;}
+
+div.user_page {}
+
+div.user_page div#user_menu {float: left; width: 200px;}
+div.user_page div.user_page_body {float: left; width: 500px;}
+div.user_page div.user_page_help {float: right;}
+
 .red {color: red}
