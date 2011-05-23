@@ -94,9 +94,9 @@
 		/**
 		 * 
 		 * Send email with smarty template 
-		 * @param $templateName email template name
+		 * @param $templateName email template name. EX: mail_registerConfirm
 		 * @param $modelName model name
-		 * @param $model template model
+		 * @param $model template model in array type
 		 * @param $from from email address
 		 * @param $to to email address
 		 * @param $subject email subject
@@ -130,6 +130,11 @@
 			if($this->emailConfiguration == null)
 			{
 				$this->emailConfiguration = parse_ini_file(__DIR__.'/configs/mail.ini');
+			}
+			
+			if($from == null)
+			{
+				$from = $this->emailConfiguration['mail.default.from'];
 			}
 			
 			$host = $this->emailConfiguration['mail.smtp.host'];

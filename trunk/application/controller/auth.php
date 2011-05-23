@@ -136,11 +136,16 @@
 				else 
 				{
 					$params = array($fullName, $username, $this->encodePassword($password), $username);
-					$result = $this->model_user->addNewUser($params);					
+					$userId = $this->model_user->addNewUser($params);					
 					
-					// sending mail with activation link here
+					// sending welcome mail
+					$params = array($userId);
+					$user = $this->model_user->getUserByUserId($params);
+					$this->sendingEmailWithSmarty('mail_welcome', 'user', $user, null, $user['email']);
 					
-					$this->redirect($this->ctx().'/auth/login');
+					$this->setSessionValue("USER_SESSION", $user);
+					
+					$this->redirect($this->ctx().'/user');
 				}
 			}
 		}
