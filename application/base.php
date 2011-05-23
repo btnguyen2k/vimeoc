@@ -2,13 +2,25 @@
 	define("ROLE_ADMIN", "ROLE_ADMIN");
 	define("ROLE_USER", "ROLE_USER");
 	
+	/**
+	 * 
+	 * Core controller
+	 * @author Tri
+	 *
+	 */
 	class Application
 	{
 		var $uri;
 		var $model;
 		var $tmpl;
 		var $messages;
+		var $emailConfiguration;
 		
+		/**
+		 * 
+		 * Default constructor
+		 * @param $uri
+		 */
 		function __construct($uri)
 		{
 			$this->uri = $uri;
@@ -30,6 +42,11 @@
 			return CONTEXT;
 		}
 		
+		/**
+		 * 
+		 * Load a controller
+		 * @param $class
+		 */
 		function loadController($class)
 		{
 			$file = "application/controller/".$this->uri['controller'].".php";
@@ -48,6 +65,12 @@
 			}
 		}
 		
+		/**
+		 * 
+		 * Load a view
+		 * @param $view
+		 * @param $vars
+		 */
 		function loadView($view,$vars="")
 		{
 			if(is_array($vars) && count($vars) > 0)
@@ -55,25 +78,131 @@
 			require_once('view/'.$view.'.php');
 		}
 		
-		function loadTemplate($view)
+		/**
+		 * 
+		 * Load a template
+		 * @param $view
+		 */
+		function loadTemplate($template)
 		{			
 			$this->tmpl->assign("base_dir_decorator", __DIR__ . '/templates/decorator/');
-			$this->tmpl->assign('body_code', $view.'.tpl');
+			$this->tmpl->assign('body_code', $template.'.tpl');
 			$this->tmpl->assign('ctx', $this->ctx());
 			$this->tmpl->display('decorator/default.tpl');
 		}
 		
+		/**
+		 * 
+		 * Send email with smarty template 
+		 * @param $templateName email template name
+		 * @param $modelName model name
+		 * @param $model template model
+		 * @param $from from email address
+		 * @param $to to email address
+		 * @param $subject email subject
+		 */
+		function sendingEmailWithSmarty($templateName, $modelName, $model, $from, $to)
+		{
+			$this->tmpl->assign($modelName, $model);
+			
+			$body = $this->tmpl->fetch('mail/'.$templateName.'.tpl');
+			
+			// the subject is on the first line, so parse that out
+	        $lines = explode("\n", $body);
+	        $subject = trim(array_shift($lines));
+	        $body = join("\n", $lines);
+			
+	        $this->sendingEmail($from, $to, $subject, $body);
+		}
+		
+		/**
+		 * 
+		 * Send email
+		 * @param $from
+		 * @param $to
+		 * @param $subject
+		 * @param $body
+		 */
+		function sendingEmail($from, $to, $subject, $body)
+		{
+			require_once "Mail.php";
+			
+			if($this->emailConfiguration == null)
+			{
+				$this->emailConfiguration = parse_ini_file(__DIR__.'/configs/mail.ini');
+			}
+			
+			$host = $this->emailConfiguration['mail.smtp.host'];
+		 	$port = $this->emailConfiguration['mail.ssl.port'];
+		 	$ssl = $this->emailConfiguration['mail.ssl.use'];
+			$username = $this->emailConfiguration['mail.username'];
+		 	$password = $this->emailConfiguration['mail.password'];
+		 
+		 	$headers = array ('From' => $from,
+							  'To' => $to,
+		   					  'Subject' => $subject);
+		 	
+		 	if($ssl == 'true')
+		 	{
+		 		$smtp = Mail::factory('smtp',
+			   						  array ('host' => $host,
+			     							 'port' => $port,
+			     							 'auth' => true,
+			     							 'username' => $username,
+			     							 'password' => $password));
+		 	}
+		 	else
+		 	{
+		 		$smtp = Mail::factory('smtp',
+   									  array ('host' => $host,
+     								 		 'auth' => true,	
+     										 'username' => $username,
+     										 'password' => $password));
+		 	}
+		 
+		 	$mail = $smtp->send($to, $headers, $body);
+		 
+		 	if (PEAR::isError($mail)) 
+		 	{
+		   		echo("<p>" . $mail->getMessage() . "</p>");
+		  	} 
+		  	else 
+		  	{
+		   		echo("<p>Message successfully sent!</p>");
+		  	}			
+		}
+		
+		private function loadEmailConfigure($code)
+		{
+			
+		}
+		
+		/**
+		 * 
+		 * Load a model
+		 * @param $model
+		 */
 		function loadModel($model)
 		{
 			require_once('model/'.$model.'.php');
 			$this->$model = new $model;
 		}
 		
+		/**
+		 * 
+		 * Redirect to $url
+		 * @param $url
+		 */
 		function redirect($url)
 		{
 			header("Location: " . $url);	
 		}
 		
+		/**
+		 * 
+		 * Load message source
+		 * @param $code
+		 */
 		function loadMessages($code)
 		{
 			if($this->messages === null){
@@ -83,6 +212,10 @@
 			return $this->messages[$code];
 		}
 		
+		/**
+		 * 
+		 * Get the logged in user
+		 */
 		function getLoggedUser()
 		{
 			session_start();
@@ -94,12 +227,22 @@
 			return $_SESSION['USER_SESSION'];
 		}
 		
+		/**
+		 * 
+		 * Set session value
+		 * @param $name
+		 * @param $value
+		 */
 		function setSessionValue($name, $value){
 			session_start();
 			
 			$_SESSION[$name] = $value;
 		}
 		
+		/**
+		 * 
+		 * Is logged in user an administrator?
+		 */
 		function isAdminLogged()
 		{
 			$loggedUser = $this->getLoggedUser();
@@ -119,11 +262,23 @@
 			}
 		}
 		
+		/**
+		 * 
+		 * Encoding password
+		 * @param $password
+		 */
 		function encodePassword($password)
 		{
 			return $this->createHash($password, '1dsat4', 'sha1');
 		}
 		
+		/**
+		 * 
+		 * Hashcode the string
+		 * @param unknown_type $inText
+		 * @param unknown_type $saltHash
+		 * @param unknown_type $mode
+		 */
 		private function createHash($inText, $saltHash=NULL, $mode='sha1')
 		{
 	        // hash the text //
@@ -150,16 +305,30 @@
 	    }
 	}
 	
+	/**
+	 * 
+	 * Core model
+	 * @author Tri
+	 *
+	 */
 	class Model
 	{
 		var $url;
 		
+		/**
+		 * 
+		 * Default constuctor
+		 */
 		function __construct()
 		{
 			$ini_array = parse_ini_file(__DIR__."/configs/db.ini");
 			$this->url = $ini_array['driver']."://".$ini_array['username'].":".$ini_array['password']."@".$ini_array['host']."/".$ini_array['database'];
 		}
 		
+		/**
+		 * 
+		 * Get MDB2 instance
+		 */
 		function connect() 
 		{
 		    $conn = MDB2::factory($this->url);
