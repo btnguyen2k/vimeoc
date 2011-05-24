@@ -25,7 +25,6 @@
 		}else{
 			$("#error_valid_url").hide();
 		}
-
 		return true;
 	}
 </script>
