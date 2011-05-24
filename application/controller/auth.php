@@ -29,8 +29,7 @@
 		 */
 		function logout()
 		{
-			session_start(); 			
-			unset($_SESSION['USER_SESSION']);
+			$this->sessionDefaults(); 			
 	
 			$this->redirect($this->ctx().'/home');	
 		}
@@ -41,18 +40,32 @@
 		 */
 		function loginMessagesSource()
 		{
+			$this->tmpl->assign("title", $this->loadMessages('auth.login.title'));
 			$this->tmpl->assign("loginForm", $this->loadMessages('auth.login.title'));
 			$this->tmpl->assign("email",$this->loadMessages('auth.login.username'));
 			$this->tmpl->assign("password", $this->loadMessages('auth.login.password'));
 			$this->tmpl->assign("submit", $this->loadMessages('auth.login.submit'));
 		}
-		
+
 		/** 
 		 * 
 		 * function check password and email validate. Then submit it.
 		 */
 		function login()
 		{
+			if (!isset($_SESSION['uid']) ) 
+			{
+				$this->sessionDefaults();
+			} 
+			else 
+			{
+				if($_SESSION['uid'] > 0)
+				{
+					$this->redirect($this->ctx().'/user');
+					return;
+				}
+			}
+			
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$this->loadTemplate('view_login');
@@ -72,7 +85,12 @@
 					$user = $this->model_user->getUserByUsername(array($username));
 					if($user != null)
 					{
-						$this->setSessionValue("USER_SESSION", $user);
+						$this->setSessionValue("uid", $user['id']);
+						$this->setSessionValue("username", $user['username']);
+						$this->setSessionValue("logged", true);
+						$this->setSessionValue("cookie", 0);
+						$this->setSessionValue("remember", false);
+						
 						$this->redirect($this->ctx().'/user');
 					}
 					else 
@@ -108,6 +126,19 @@
 		 */
 		function signup()
 		{
+			if (!isset($_SESSION['uid']) ) 
+			{
+				$this->sessionDefaults();
+			} 
+			else 
+			{
+				if($_SESSION['uid'] > 0)
+				{
+					$this->redirect($this->ctx().'/user');
+					return;
+				}
+			}
+			
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
 			{
 				$this->loadTemplate('view_signup');
@@ -135,75 +166,16 @@
 					$user = $this->model_user->getUserByUserId($params);
 					$this->sendingEmailWithSmarty('mail_welcome', 'user', $user, null, $user['email']);
 					
-					$this->setSessionValue("USER_SESSION", $user);
+					$this->setSessionValue("uid", $user['id']);
+					$this->setSessionValue("username", $user['username']);
+					$this->setSessionValue("logged", true);
+					$this->setSessionValue("cookie", 0);
+					$this->setSessionValue("remember", false);
 					
 					$this->redirect($this->ctx().'/user');
 				}
 			}
 		}
-		
-		/**
-		 * Load default messages of ForgotPassword Form
-		 */
-		
-		function forgotpasswordMessagesSource() 
-		{
-			$this->tmpl->assign("title",$this->loadMessages('auth.forgotpassword.title'));
-			$this->tmpl->assign("email",$this->loadMessages('auth.forgotpassword.email'));
-		}
-		
-		/**
-		 * This page lets the user find lost password
-		 * 
-		 */
-		function forgotpassword()
-		{
-			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
-			{
-				
-				$this->loadTemplate('view_forgotpassword');
-				
-			}
-			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
-			{
-				$this->loadModel('model_user');	
-				$username= $_POST['xemail'];
-			
-				if ($this->model_user->isExists(array($username)) == false)
-				{
-					$this->tmpl->assign("error", $this->loadMessages('auth.forgotpassword.error'));
-					$this->loadTemplate('view_forgotpassword');
-				}
-				else 
-				{	
-					$email=$_POST['xemail'];
-					$salt='1de34';
-					$code = $this->encodeUsername($email,$salt);
-		
-					
-					$params = array($username);
-					// sending forgotpassword mail
-					$user = $this->model_user->getUsersByUsername($params);
-					$user['code']=$code;
-					$user['email']=$email;
-					$this->sendingEmailWithSmarty('mail_forgotpassword', 'user', $user, null, $user['email']);
-					$this->redirect($this->ctx().'/user');
-					
-				
-				}
-			
-			}
-		}
-		/**
-		 * Load default messages of ResetPassword form
-		 */
-		
-		function resetpasswordMessagesSource()
-		{
-			$this->tmpl->assign("title",$this->loadMessages('auth.resetpassword.title'));
-			$this->tmpl->assign("password",$this->loadMessages('auth.resetpassword.password'));
-		}
-	
 		/**
 		 * This page lets the user choose another password
 		 */

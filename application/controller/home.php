@@ -23,6 +23,7 @@
 		 */
 		function index()
 		{
+			$this->tmpl->assign('title', $this->loadMessages('home.title'));
 			$this->loadTemplate('view_home');
 		}
 	}

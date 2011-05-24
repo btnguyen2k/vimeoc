@@ -1,23 +1,61 @@
+<script type="text/javascript">
+	function checkUserInfoForm(form){
+		var $form = $(form);
+		var fullName = $form.find("input[name=fullName]").val();
+		var email = $form.find("input[name=email]").val();
+		var website = $form.find("input[name=website]").val();
+
+		if($.trim(fullName) == '' || $.trim(email) == ''){
+			$("#error_required_fields").show();
+			return false;
+		}else{
+			$("#error_required_fields").hide();
+		}
+
+		if(!checkEmail(email)){
+			$("#error_valid_email").show();
+			return false;
+		}else{
+			$("#error_valid_email").hide();
+		}
+
+		if(!checkUrl(website)){
+			$("#error_valid_url").show();
+			return false;
+		}else{
+			$("#error_valid_url").hide();
+		}
+
+		return true;
+	}
+</script>
 <center><h1>{$title}</h1></center>
 
 <div id="user_info" class="user_page">
 	{include file="{$base_dir_templates}/blocks/user_left_menu.tpl"}
 	
 	<div id="user_info_body" class="user_page_body">
-		<form>
+		<span class="red">{$errorMessage}</span>
+		<span class="green">{$successMessage}</span>
+		<form action="{$ctx}/user/personalInfo/" method="post" onsubmit="return checkUserInfoForm(this);">
 			<fieldset>
 				<ul>
 					<li>
-						<span>Full name:</span><br/>
-						<input type="text" name="fullName"/>
+						<span>Full name *</span><br/>						
+						<input type="text" name="fullName" value="{$fullName}"/>
 					</li>					
 					<li>
-						<span>Email:</span><br/>
-						<input type="text" name="email"/>
+						<span>Email *</span><br/>
+						<input type="text" name="email" value="{$email}"/>
+						<span class="red" id="error_valid_email" style="display: none;">Email is not valid</span>
 					</li>
 					<li>
 						<span>Your website</span><br/>
-						<input type="text" name="alias"/>
+						<input type="text" name="website" value="{$website}"/>
+						<span class="red" id="error_valid_url" style="display: none;">Url is not valid</span>
+					</li>
+					<li>
+						<span class="red" id="error_required_fields" style="display: none;">Note: Fields marked with (*) are mandatory.</span>
 					</li>
 					<li>
 						<input type="submit" value="Save" />

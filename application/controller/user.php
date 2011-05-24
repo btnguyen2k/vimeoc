@@ -24,10 +24,9 @@
 		function index()
 		{
 			$loggedUser = $this->getLoggedUser();
-			if($loggedUser == null){
+			if($loggedUser == 0){
 				$this->redirect($this->ctx().'/auth/login/');
 			}
-			
 			$this->loadTemplate('view_user_home');
 		}
 		
@@ -51,7 +50,7 @@
 		 * 
 		 * Default messages source for personalInfo page
 		 */
-		function personalInfoMessagesSource()
+		function personalInfoMessagesSource()		
 		{
 			$this->defaultUserMessagesSource();
 			
@@ -64,10 +63,48 @@
 		 */
 		function personalInfo()
 		{
+			$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			
+			$this->loadModel('model_user');
+			
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
+				$user = $this->model_user->getUserByUserId(array($userId));
+				$this->tmpl->assign('fullName', $user['full_name']);
+				$this->tmpl->assign('email', $user['email']);
+				$this->tmpl->assign('website', $user['website']);
+				
 				$this->loadTemplate('view_user_info');
 			} 
+			else if($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$fullName = $_POST['fullName'];
+				$email = $_POST['email'];
+				$website = $_POST['website'];
+				
+				$params = array($fullName, $email, $website, $userId);
+				$ret = $this->model_user->updateUserInformation($params);
+
+				if($ret == 0)
+				{
+					$this->tmpl->assign('errorMessage', 'Error');
+				}
+				else 
+				{
+					$this->tmpl->assign('successMessage', 'Success');
+				}
+				
+				$user = $this->model_user->getUserByUserId(array($userId));
+				$this->tmpl->assign('fullName', $user['full_name']);
+				$this->tmpl->assign('email', $user['email']);
+				$this->tmpl->assign('website', $user['website']);
+				$this->loadTemplate('view_user_info');
+			}
 		}
 	}
 ?>

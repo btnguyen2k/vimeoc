@@ -1,4 +1,6 @@
 <?php
+	session_start();
+	
 	//Load constants variables
 	require_once("application/constants.php");
 	

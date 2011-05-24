@@ -42,6 +42,11 @@
 			return CONTEXT;
 		}
 		
+		function index()
+		{
+			return 'home';
+		}
+		
 		/**
 		 * 
 		 * Load a controller
@@ -49,7 +54,14 @@
 		 */
 		function loadController($class)
 		{
-			$file = "application/controller/".$this->uri['controller'].".php";
+			$controllerName = $this->uri['controller'];
+			if($controllerName == null || $controllerName == '')
+			{
+				$controllerName = $this->index();
+				$class = $this->index();
+			}
+			
+			$file = "application/controller/".$controllerName.".php";
 				
 			if(!file_exists($file)) die();
 				
@@ -223,13 +235,20 @@
 		 */
 		function getLoggedUser()
 		{
-			session_start();
-			
-			if (!isset($_SESSION['USER_SESSION'])){
-				return null;
+			if (!isset($_SESSION['uid']) ) 
+			{
+				$this->sessionDefaults();
 			}
 			
-			return $_SESSION['USER_SESSION'];
+			return $_SESSION['uid'];
+		}
+		
+		function sessionDefaults() {
+			$_SESSION['logged'] = false;
+			$_SESSION['uid'] = 0;
+			$_SESSION['username'] = '';
+			$_SESSION['cookie'] = 0;
+			$_SESSION['remember'] = false;
 		}
 		
 		/**
@@ -239,8 +258,6 @@
 		 * @param $value
 		 */
 		function setSessionValue($name, $value){
-			session_start();
-			
 			$_SESSION[$name] = $value;
 		}
 		
@@ -251,14 +268,14 @@
 		function isAdminLogged()
 		{
 			$loggedUser = $this->getLoggedUser();
-			if($loggedUser == null)
+			if($loggedUser == 0)
 			{
 				return false;
 			}
 			else
 			{
 				$params = array();
-				$params[0] = $loggedUser['id'];
+				$params[0] = $loggedUser;
 				$params[1] = ROLE_ADMIN;
 				$sql = "Select count(1) From user_role ur, role r where ur.role_id = r.id and ur.user_id = ? and r.name = ?";
 				$result = $this->model->execute_query($sql, $params);
@@ -394,7 +411,7 @@
 		    }
 		
 		    while($row = $resultset->fetchRow(MDB2_FETCHMODE_ASSOC)) {
-		        $results[] = $row;
+		    	$results[] = $row;
 		    }
 		    
 		    return $results;
