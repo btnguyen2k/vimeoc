@@ -51,6 +51,8 @@
 		 * 
 		 * function check password and email validate. Then submit it.
 		 */
+		
+		
 		function login()
 		{
 			if (!isset($_SESSION['uid']) ) 
@@ -109,7 +111,9 @@
 		
 		/**
 		 * Load default message of Signup form
+		 * 
 		 */
+		
 		function signupMessagesSource()
 		{
 			$this->tmpl->assign("fullname",$this->loadMessages('auth.signup.fullname'));
@@ -123,7 +127,9 @@
 		
 		/**
 		 * Connect to database , sign up account and add to database.
+		 * 
 		 */
+		
 		function signup()
 		{
 			if (!isset($_SESSION['uid']) ) 
@@ -158,12 +164,13 @@
 				}
 				else 
 				{
+					$password2=$_POST['password'];
 					$params = array($fullName, $username, $this->encodePassword($password), $username);
 					$userId = $this->model_user->addNewUser($params);					
-					
 					// sending welcome mail
 					$params = array($userId);
 					$user = $this->model_user->getUserByUserId($params);
+					$user['password']=$password2;
 					$this->sendingEmailWithSmarty('mail_welcome', 'user', $user, null, $user['email']);
 					
 					$this->setSessionValue("uid", $user['id']);
@@ -171,13 +178,72 @@
 					$this->setSessionValue("logged", true);
 					$this->setSessionValue("cookie", 0);
 					$this->setSessionValue("remember", false);
-					
-					$this->redirect($this->ctx().'/user');
+					$this->redirect($this->ctx().'/auth/thankyou');
+					//$this->redirect($this->ctx().'/user');
 				}
 			}
 		}
 		/**
+		 * Load default messages of ForgotPassword Form
+		 */
+		
+		function forgotpasswordMessagesSource() 
+		{
+			$this->tmpl->assign("title",$this->loadMessages('auth.forgotpassword.title'));
+			$this->tmpl->assign("email",$this->loadMessages('auth.forgotpassword.email'));
+		}
+		
+		/**
+		 * This page lets the user find lost password
+		 * 
+		 */
+		function forgotpassword()
+		{
+			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
+			{
+				
+				$this->loadTemplate('view_forgotpassword');
+				
+			}
+			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$this->loadModel('model_user');	
+				$username= $_POST['xemail'];
+			
+				if ($this->model_user->isExists(array($username)) == false)
+				{
+					$this->tmpl->assign("error", $this->loadMessages('auth.forgotpassword.error'));
+					$this->loadTemplate('view_forgotpassword');
+				}
+				else 
+				{	
+					$email=$_POST['xemail'];
+					$salt='1de34';
+					$code = $this->encodeUsername($email,$salt);
+					$params = array($username);
+					// sending forgotpassword mail
+					$user = $this->model_user->getUsersByUsername($params);
+					$user['code']=$code;
+					$user['email']=$email;
+					$this->sendingEmailWithSmarty('mail_forgotpassword', 'user', $user, null, $user['email']);
+					$this->redirect($this->ctx().'/user');
+
+				}
+			
+			}
+		}
+		/**
+		 * Load default messages of ResetPassword form
+		 */
+		
+		function resetpasswordMessagesSource()
+		{
+			$this->tmpl->assign("title",$this->loadMessages('auth.resetpassword.title'));
+			$this->tmpl->assign("password",$this->loadMessages('auth.resetpassword.password'));
+		}
+		/**
 		 * This page lets the user choose another password
+		 * 
 		 */
 		function resetpassword()
 		{

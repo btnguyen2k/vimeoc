@@ -137,6 +137,24 @@
 			}
 			return null;
 		}
+	/**
+		 * 
+		 * Get user by username
+		 * 
+		 */
+		function getUsersByUsername($params)
+		{
+			$sql = 'select * from user where username=?';
+			$types = array('text');
+			$res = $this->execute_query($sql,$params,$types);
+			
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			
+			return null;
+		}
 		
 		/**
 		 * update password 
