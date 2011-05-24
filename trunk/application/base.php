@@ -14,6 +14,7 @@
 		var $model;
 		var $tmpl;
 		var $messages;
+		var $errorMessages;
 		var $emailConfiguration;
 		
 		/**
@@ -223,6 +224,20 @@
 			}
 			
 			return $this->messages[$code];
+		}
+		
+		/**
+		 * 
+		 * Load error message source
+		 * @param $code
+		 */
+		function loadErrorMessage($code)
+		{
+			if($this->errorMessages === null){
+				$this->errorMessages = parse_ini_file(__DIR__.'/configs/errors.ini');
+			}
+			
+			return $this->errorMessages[$code];
 		}
 		
 		/**

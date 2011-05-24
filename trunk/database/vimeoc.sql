@@ -177,9 +177,10 @@ CREATE TABLE IF NOT EXISTS `user` (
   `website` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   `profile_alias` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `avatar` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`,`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 

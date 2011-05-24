@@ -19,10 +19,10 @@
 	</ul>
 	<ul>
 		<li>
-			<a href="{$ctx}/auth/personalInfo">{$menuPersonalInfo}</a>
+			<a href="{$ctx}/user/personalInfo">{$menuPersonalInfo}</a>
 		</li>
 		<li>
-			<a href="#">{$menuPortrait}</a>
+			<a href="{$ctx}/user/portrait">{$menuPortrait}</a>
 		</li>
 		<li>
 			<a href="#">{$menuPassword}</a>

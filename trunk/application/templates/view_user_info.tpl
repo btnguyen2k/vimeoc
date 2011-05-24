@@ -40,21 +40,21 @@
 			<fieldset>
 				<ul>
 					<li>
-						<span>Full name *</span><br/>						
+						<span>{$fullName} *</span><br/>						
 						<input type="text" name="fullName" value="{$fullName}"/>
 					</li>					
 					<li>
-						<span>Email *</span><br/>
+						<span>{$email} *</span><br/>
 						<input type="text" name="email" value="{$email}"/>
-						<span class="red" id="error_valid_email" style="display: none;">Email is not valid</span>
+						<span class="red" id="error_valid_email" style="display: none;">{$emailInvalid}</span>
 					</li>
 					<li>
-						<span>Your website</span><br/>
+						<span>{$yourEmail}</span><br/>
 						<input type="text" name="website" value="{$website}"/>
-						<span class="red" id="error_valid_url" style="display: none;">Url is not valid</span>
+						<span class="red" id="error_valid_url" style="display: none;">{$urlInvalid}</span>
 					</li>
 					<li>
-						<span class="red" id="error_required_fields" style="display: none;">Note: Fields marked with (*) are mandatory.</span>
+						<span class="red" id="error_required_fields" style="display: none;">{$requiredField}</span>
 					</li>
 					<li>
 						<input type="submit" value="Save" />
