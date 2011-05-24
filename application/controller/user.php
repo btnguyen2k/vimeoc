@@ -48,6 +48,46 @@
 		
 		/**
 		 * 
+		 * Load messages source for portrait page
+		 */
+		function portraitMessagesSource()
+		{
+			$this->defaultUserMessagesSource();
+			
+			$this->tmpl->assign('title', $this->loadMessages('user.portrait.title'));
+			$this->tmpl->assign('currentPortrait', $this->loadMessages('user.portrait.current'));
+			$this->tmpl->assign('uploadNew', $this->loadMessages('user.portrait.upload'));					
+		}
+		
+		/**
+		 * 
+		 * user portrait action
+		 */
+		function portrait()
+		{
+			$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			
+			$this->loadModel('model_user');
+			
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
+			{
+				$user = $this->model_user->getUserByUserId(array($userId));
+				$this->tmpl->assign('fileName', $user['avatar']);
+				$this->loadTemplate('view_user_portrait');
+			}
+			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				
+			}
+		}
+		
+		/**
+		 * 
 		 * Default messages source for personalInfo page
 		 */
 		function personalInfoMessagesSource()		
@@ -55,6 +95,13 @@
 			$this->defaultUserMessagesSource();
 			
 			$this->tmpl->assign("title", $this->loadMessages('user.personalInfo.title'));
+			$this->tmpl->assign("fullName", $this->loadMessages('user.personalInfo.fullName'));
+			$this->tmpl->assign("email", $this->loadMessages('user.personalInfo.email'));
+			$this->tmpl->assign("yourWebsite", $this->loadMessages('user.personalInfo.website'));
+			
+			$this->tmpl->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
+			$this->tmpl->assign('urlInvalid', $this->loadErrorMessage('error.url.invalid'));
+			$this->tmpl->assign('requiredField', $this->loadErrorMessage('error.field.required'));
 		}
 		
 		/**
