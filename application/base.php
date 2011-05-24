@@ -186,12 +186,8 @@
 		 
 		 	if (PEAR::isError($mail)) 
 		 	{
-		   		echo("<p>" . $mail->getMessage() . "</p>");
-		  	} 
-		  	else 
-		  	{
-		   		echo("<p>Message successfully sent!</p>");
-		  	}			
+		   		error_log($mail->getMessage(), 0);
+		  	} 		  			
 		}
 		
 		/**

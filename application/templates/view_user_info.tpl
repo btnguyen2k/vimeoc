@@ -29,12 +29,12 @@
 		return true;
 	}
 </script>
-<center><h1>{$title}</h1></center>
 
 <div id="user_info" class="user_page">
 	{include file="{$base_dir_templates}/blocks/user_left_menu.tpl"}
 	
 	<div id="user_info_body" class="user_page_body">
+		<center><h1>{$title}</h1></center><br/>
 		<span class="red">{$errorMessage}</span>
 		<span class="green">{$successMessage}</span>
 		<form action="{$ctx}/user/personalInfo/" method="post" onsubmit="return checkUserInfoForm(this);">

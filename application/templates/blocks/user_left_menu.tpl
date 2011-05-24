@@ -1,4 +1,11 @@
 <div id="user_menu">
+	<ul class="portrait">
+		<li>
+			<a href="#">
+				<img src="" width="50" height="50"/>
+			</a>
+		</li>
+	</ul>
 	<ul>
 		<li>
 			<a href="#">{$menuUploadVideo}</a>
