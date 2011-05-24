@@ -8,6 +8,12 @@
 <script src="{$ctx}/script/facebox/facebox.js" type="text/javascript"></script>
 <link href="{$ctx}/script/facebox/facebox.css" rel="stylesheet" type="text/css">
 
+<!-- Global -->
+<script type="text/javascript" src="{$ctx}/script/global.js"></script>
+<script type="text/javascript">
+	var ctx = '{$ctx}';
+</script>
+
 <meta http-equiv="content-language" content="en" />
 <!-- HTTP 1.1 -->
 <meta http-equiv="Cache-Control" content="no-store"/>
