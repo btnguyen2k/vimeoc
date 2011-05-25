@@ -261,5 +261,35 @@
 				}
 			}
 		}
+		/**
+		 * Default messages source for user profile
+		 * 
+		 */
+		function userprofileMessagesSource()
+		{
+			$this->tmpl->assign("title", $this->loadMessages('user.profile.title'));
+		}
+		
+		/**
+		 * Display userprofile pages
+		 * 
+		 */
+		function userprofile()
+		{
+			$this->loadModel('model_user');
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
+			{
+				$id=$_GET['userId'];
+				$params=array($id);
+				$fullname=$this->model_user->getFullNamebyUserId($params);
+				$this->tmpl->assign("fullname",$fullname['full_name']);
+				$this->loadTemplate('view_user_profile');
+				
+			} 
+			else if ($_SERVER['REQUEST_METHOD'] == 'POST') 
+			{
+				$this->loadTemplate('view_user_profile');
+			}
+		}
 	}
 ?>

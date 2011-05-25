@@ -106,7 +106,7 @@
 		function checkUsername($params)
 		{
 			$sql = 'select username from user where username=?';
-			$types= array('text','text','text');
+			$types= array('text','text');
 			$res=$this->execute_query($sql,$params,$types);
 			
 			return sizeof($res) > 0;
@@ -149,7 +149,7 @@
 			}
 			return null;
 		}
-	/**
+		/**
 		 * 
 		 * Get user by username
 		 * 
@@ -214,5 +214,23 @@
 			$type = array('text', 'text');
 			return $this->execute_command($sql, $params, $types);
 		}
+		
+		/**
+		 * Select fullname
+		 * @param $params
+		 */
+		function getFullNamebyUserId($params)
+		{
+			$sql= 'select full_name from user where id=?';
+			$types =  array('text','integer');
+			$res = $this->execute_query($sql,$params,$types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
+
+		}
+
 	}
 ?>
