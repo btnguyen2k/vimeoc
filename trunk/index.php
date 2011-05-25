@@ -4,6 +4,8 @@
 	//Load constants variables
 	require_once("application/constants.php");
 	
+	define("BASE_DIR", __DIR__);
+	
 	//Define Smarty lib path
 	define("SMARTY_DIR", __DIR__ . "/libs/smarty/");
 		

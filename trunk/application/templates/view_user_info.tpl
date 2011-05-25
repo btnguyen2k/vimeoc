@@ -49,7 +49,7 @@
 						<span class="red" id="error_valid_email" style="display: none;">{$emailInvalid}</span>
 					</li>
 					<li>
-						<span>{$yourEmail}</span><br/>
+						<span>{$yourWebsite}</span><br/>
 						<input type="text" name="website" value="{$website}"/>
 						<span class="red" id="error_valid_url" style="display: none;">{$urlInvalid}</span>
 					</li>

@@ -2,6 +2,8 @@
 	define("ROLE_ADMIN", "ROLE_ADMIN");
 	define("ROLE_USER", "ROLE_USER");
 	
+	require_once 'utils.php';
+	
 	/**
 	 * 
 	 * Core controller
@@ -15,6 +17,7 @@
 		var $tmpl;
 		var $messages;
 		var $errorMessages;
+		var $resources;
 		var $emailConfiguration;
 		
 		/**
@@ -238,6 +241,21 @@
 			}
 			
 			return $this->errorMessages[$code];
+		}
+		
+		/**
+		 * 
+		 * Load resources configuration
+		 * @param $code
+		 */
+		function loadResources($code)
+		{
+			if($this->resources === null)
+			{
+				$this->resources = parse_ini_file(__DIR__.'/configs/resources.ini');
+			}
+			
+			return $this->resources[$code];
 		}
 		
 		/**
