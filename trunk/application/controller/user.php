@@ -71,9 +71,7 @@
 				$this->redirect($this->ctx().'/auth/login/');
 				return;
 			}
-			
 			$this->loadModel('model_user');
-			
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$user = $this->model_user->getUserByUserId(array($userId));
@@ -185,7 +183,7 @@
 				
 				$params = array($fullName, $email, $website, $userId);
 				$ret = $this->model_user->updateUserInformation($params);
-
+				
 				if($ret == 0)
 				{
 					$this->tmpl->assign('errorMessage', 'Error');
@@ -200,6 +198,67 @@
 				$this->tmpl->assign('email', $user['email']);
 				$this->tmpl->assign('website', $user['website']);
 				$this->loadTemplate('view_user_info');
+			}
+		}
+		
+		/**
+		 * Default messages source for password page
+		 * 
+		 */
+		function passwordpagesMessagesSource()
+		{
+			$this->defaultUserMessagesSource();
+			
+			$this->tmpl->assign("title", $this->loadMessages('user.password.title'));
+			$this->tmpl->assign("currentpassword", $this->loadMessages('user.password.currentpassword'));
+			$this->tmpl->assign("newpassword", $this->loadMessages('user.password.newpassword'));
+			$this->tmpl->assign("repassword", $this->loadMessages('user.password.retypepassword'));
+			
+		}
+		
+		/**
+		 * Display password pages
+		 * 
+		 */
+		
+		function passwordpages()
+		{
+			$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}	
+			$this->loadModel('model_user');
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
+			{
+				$this->loadTemplate('view_user_password');
+			} 
+			else if ($_SERVER['REQUEST_METHOD'] == 'POST') 
+			{
+				$currentpassword = $_POST['currentpassword'];
+				$newpassword = $_POST['newpassword'];
+				$params = array($this->encodePassword($newpassword),$userId);
+				$valid = $this->model_user->checkPassword(array($this->encodePassword($currentpassword),$userId));
+				if($valid)
+				{
+					
+					$res=$this->model_user->updateUserPassword($params);
+					echo "The password has been update";
+					if($res == 0)
+					{
+						$this->tmpl->assign('errorMessage', 'Error');
+					}
+					else 
+					{
+						$this->tmpl->assign('successMessage', 'Success');
+					}
+				}
+				else 
+				{
+					die('fail');
+					$this->loadTemplate('view_user_password');
+				}
 			}
 		}
 	}

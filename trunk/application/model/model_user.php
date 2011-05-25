@@ -86,6 +86,18 @@
 			
 			return sizeof($res) > 0;
 		}
+		/**
+		 * Validate password
+		 * @param $params
+		 */
+		function checkPassword($params)
+		{
+			$sql = 'select password from user where password=? and id=?';
+			$type =  array('text','text','text');
+			$res = $this->execute_query($sql,$params,$type);
+			
+			return sizeof($res) >0;
+		}
 		
 		/**
 		 * validate username
@@ -137,8 +149,7 @@
 			}
 			return null;
 		}
-		
-		/**
+	/**
 		 * 
 		 * Get user by username
 		 * 
@@ -180,6 +191,18 @@
 			return $this->execute_command($sql, $params, $types);
 		}
 		
+		/**
+		 * Update user password
+		 * @param $password
+		 */
+		function updateUserPassword($params)
+		{
+			$sql = 'Update user set password=? where id=?';
+			$type =  array('text','integer');
+			return $this->execute_command($sql, $params, $type);
+			
+		}
+
 		/**
 		 * 
 		 * Update user avatar
