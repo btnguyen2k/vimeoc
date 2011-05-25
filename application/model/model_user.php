@@ -137,7 +137,8 @@
 			}
 			return null;
 		}
-	/**
+		
+		/**
 		 * 
 		 * Get user by username
 		 * 
@@ -176,6 +177,18 @@
 		{
 			$sql = 'UPDATE user SET full_name=?, email=?, website=? where id=?';
 			$type = array('text', 'text', 'text', 'integer');
+			return $this->execute_command($sql, $params, $types);
+		}
+		
+		/**
+		 * 
+		 * Update user avatar
+		 * @param $params
+		 */
+		function updateUserAvatar($params)
+		{
+			$sql = 'UPDATE user SET avatar=? WHERE id=?';
+			$type = array('text', 'text');
 			return $this->execute_command($sql, $params, $types);
 		}
 	}

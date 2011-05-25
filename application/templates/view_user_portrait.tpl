@@ -3,15 +3,19 @@
 	
 	<div id="user_portrait_body" class="user_page_body">
 		<center><h1>{$title}</h1></center><br/>		
-		<form action="{$ctx}/user/portrait/" method="post">
+		<span class="red">{$errorMessage}</span>
+		<span class="green">{$successMessage}</span>
+		<form action="{$ctx}/user/portrait/" method="post" enctype="multipart/form-data">
 			<fieldset>
 				<ul>
-					{if $fileName != ''}
 					<li>
 						<span>{$currentPortrait}</span><br/>
-						<img src="images/upload/{$fileName}" width="50" height="50"/>
+						{if $avatar != ''}
+						<img src="{$ctx}/images/upload/{$avatar}" width="50" height="50"/>
+						{else}
+						<img src="{$ctx}/images/avatar.png" width="50" height="50"/>
+						{/if}
 					</li>
-					{/if}
 					<li>
 						<span>{$uploadNew}</span><br/>
 						<input type="file" name="portrait" />

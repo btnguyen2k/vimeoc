@@ -77,12 +77,61 @@
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$user = $this->model_user->getUserByUserId(array($userId));
-				$this->tmpl->assign('fileName', $user['avatar']);
+				$this->tmpl->assign('avatar', $user['avatar']);
 				$this->loadTemplate('view_user_portrait');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
-				
+				if($_FILES['portrait']['error'] > 0)
+				{
+					echo $_FILES['portrait']['error'];
+				}
+				else 
+				{
+					$type = $_FILES['portrait']['type'];
+					$size = $_FILES['portrait']['size'] / (1024*1024);
+					$tmpName = $_FILES['portrait']['tmp_name'];
+					$fileName = $_FILES['portrait']['name'];
+					
+					if($type != 'image/jpeg' && $type != 'image/png' && $type != 'image/gif')
+					{
+						$this->tmpl->assign('errorMessage', 'We only support GIF, PNG and JPEG image.');
+						$user = $this->model_user->getUserByUserId(array($userId));
+						$this->tmpl->assign('avatar', $user['avatar']);	
+						$this->loadTemplate('view_user_portrait');
+						return;
+					}
+					
+					if($size > 5)
+					{
+						$this->tmpl->assign('errorMessage', 'Maximum file size is 5MB.');
+						$user = $this->model_user->getUserByUserId(array($userId));
+						$this->tmpl->assign('avatar', $user['avatar']);	
+						$this->loadTemplate('view_user_portrait');
+						return;
+					}
+					
+					$fileInfo = utils::getFileType($fileName);
+					$name = utils::genRandomString(32) . '.' . $fileInfo[1];
+					$target = BASE_DIR . $this->loadResources('image.upload.path') . $name;
+					
+					$rimg = new RESIZEIMAGE($tmpName);
+				    $rimg->resize_limitwh(300, 300, $target);				    
+				    $rimg->close(); 
+				    
+				    $ret = $this->model_user->updateUserAvatar(array($name, $userId));
+				    
+					if($ret == 0)
+					{
+						$this->tmpl->assign('errorMessage', 'Error');
+					}
+					else 
+					{
+						$this->tmpl->assign('successMessage', 'Success');
+						$this->tmpl->assign('avatar', $name);
+						$this->loadTemplate('view_user_portrait');
+					}
+				}
 			}
 		}
 		
