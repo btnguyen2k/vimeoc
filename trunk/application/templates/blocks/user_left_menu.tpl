@@ -11,7 +11,7 @@
 			<a href="#">{$menuUploadVideo}</a>
 		</li>
 		<li>
-			<a href="#">{$menuVideos}</a>
+			<a href="{$ctx}/user/video">{$menuVideos}</a>
 		</li>
 		<li>
 			<a href="#">{$menuAlbums}</a>
