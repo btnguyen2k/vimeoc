@@ -2,7 +2,11 @@
 	<ul class="portrait">
 		<li>
 			<a href="#">
-				<img src="" width="50" height="50"/>
+				{if $userAvatar != null}
+				<img src="{$ctx}/images/upload/{$userAvatar}" width="50" height="50"/>
+				{else}
+				<img src="{$ctx}/images/avatar.png" width="50" height="50"/>
+				{/if}
 			</a>
 		</li>
 	</ul>
@@ -28,7 +32,7 @@
 			<a href="#">{$menuPassword}</a>
 		</li>
 		<li>
-			<a href="#">{$menuShortcutURL}</a>
+			<a href="{$ctx}/user/profileShortcut">{$menuShortcutURL}</a>
 		</li>
 		<li>
 			<a href="{$ctx}/auth/logout">{$menuLogout}</a>

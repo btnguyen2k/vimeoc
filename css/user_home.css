@@ -1,8 +1,3 @@
-#user_menu{
-	width: 200px;
-	float: left;
-}
-#user_home_body{
-	width: 500px;
-	float: left;
-}
+#video_album_count{padding: 10px;}
+
+#video_list{padding: 10px;}
