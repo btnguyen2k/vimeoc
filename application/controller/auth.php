@@ -81,7 +81,7 @@
 				$params = array($username, $this->encodePassword($password));
 								
 				$valid = $this->model_user->checkUsernameAndPassword($params);
-								
+				
 				if($valid)
 				{
 					$user = $this->model_user->getUserByUsername(array($username));
@@ -332,17 +332,17 @@
 			}
 			elseif ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
-			if(true)
-				{
-					$this->redirect('/vimeoc/user');
+				if(true)
+					{
+						$this->redirect('/vimeoc/user');
+					}
+					else 
+					{
+						$this->tmpl->assign("success",$this->loadMessages('auth.valid.reset'));
+						$this->tmpl->assign("login",$this->loadMessages('auth.valid.login'));
+						$this->loadTemplate('view_valid');
+					}
 				}
-				else 
-				{
-					$this->tmpl->assign("success",$this->loadMessages('auth.valid.reset'));
-					$this->tmpl->assign("login",$this->loadMessages('auth.valid.login'));
-					$this->loadTemplate('view_valid');
-				}
-			}
 		}
 		/**
 		 * Load an invalid page if an invalid password reset link is clicked.
@@ -369,6 +369,7 @@
 					$this->loadTemplate('view_invalid');
 				}
 			}
-		}			
+		}
+		
 	}	
 ?>
