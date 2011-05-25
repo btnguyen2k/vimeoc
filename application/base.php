@@ -387,7 +387,7 @@
 		function __construct()
 		{
 			$ini_array = parse_ini_file(__DIR__."/configs/db.ini");
-			$this->url = $ini_array['driver']."://".$ini_array['username'].":".$ini_array['password']."@".$ini_array['host']."/".$ini_array['database'];
+			$this->url = $ini_array['driver']."://".$ini_array['username'].":".$ini_array['password']."@".$ini_array['host'].($ini_array['port']?':'.$ini_array['port']:'')."/".$ini_array['database'];
 		}
 		
 		/**
