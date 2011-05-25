@@ -49,6 +49,14 @@
 		 */
 		function defaultUserMessagesSource()
 		{
+			$userId = $this->getLoggedUser();
+			if($userId > 0)
+			{
+				$this->loadModel('model_user');
+				$user = $this->model_user->getUserByUserId($userId);
+				$this->tmpl->assign('userAvatar', $user['avatar']);
+			}
+			
 			$this->tmpl->assign("menuUploadVideo", $this->loadMessages('user.menu.link.uploadVideo'));
 			$this->tmpl->assign("menuVideos", $this->loadMessages('user.menu.link.videos'));
 			$this->tmpl->assign("menuAlbums", $this->loadMessages('user.menu.link.albums'));
@@ -57,6 +65,63 @@
 			$this->tmpl->assign("menuPassword", $this->loadMessages('user.menu.link.password'));
 			$this->tmpl->assign("menuShortcutURL", $this->loadMessages('user.menu.link.shortcutURL'));
 			$this->tmpl->assign("menuLogout", $this->loadMessages('user.menu.link.logout'));
+		}
+		
+		/**
+		 * 
+		 * Load messages source for profile shortcut page
+		 */
+		function profileShortcutMessagesSource()
+		{
+			$this->defaultUserMessagesSource();
+			
+			$this->tmpl->assign("title", $this->loadMessages('user.shortcut.title'));
+			$this->tmpl->assign("profileShortcut", $this->loadMessages('user.shortcut.profileShortcut'));
+			$this->tmpl->assign("domain", BASE_PATH . CONTEXT);
+		}
+		
+		/**
+		 * 
+		 * Profile shortcut action
+		 */
+		function profileShortcut()
+		{
+			$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			
+			$this->loadModel('model_user');
+			
+			if($_SERVER['REQUEST_METHOD'] == 'GET')
+			{
+				$user = $this->model_user->getUserByUserId($userId);
+				$this->tmpl->assign('alias', $user['profile_alias']);
+				$this->loadTemplate('view_user_shortcut');
+			}
+			else if($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$user = $this->model_user->getUserByUserId($userId);
+				
+				$alias = $_POST['alias'];
+				// check alias format
+				
+				if($this->model_user->existsAlias(array($alias, $userId)))
+				{
+					$this->tmpl->assign('errorMessage', $this->loadErrorMessage('error.user.shortcut.duplicated', array($alias)));
+					$this->tmpl->assign('alias', $user['profile_alias']);
+					$this->loadTemplate('view_user_shortcut');
+				}
+				else 
+				{
+					$this->model_user->updateUserAlias(array($alias, $userId));
+					$this->tmpl->assign('successMessage', $this->loadMessages('user.information.update.success', array("profile shortcut's URL")));
+					$this->tmpl->assign('alias', $alias);
+					$this->loadTemplate('view_user_shortcut');
+				}
+			}
 		}
 		
 		/**
@@ -104,10 +169,11 @@
 					$tmpName = $_FILES['portrait']['tmp_name'];
 					$fileName = $_FILES['portrait']['name'];
 					
+					$user = $this->model_user->getUserByUserId(array($userId));
+					
 					if($type != 'image/jpeg' && $type != 'image/png' && $type != 'image/gif')
 					{
-						$this->tmpl->assign('errorMessage', 'We only support GIF, PNG and JPEG image.');
-						$user = $this->model_user->getUserByUserId(array($userId));
+						$this->tmpl->assign('errorMessage', $this->loadErrorMessage('error.user.portrait.notsupport'));
 						$this->tmpl->assign('avatar', $user['avatar']);	
 						$this->loadTemplate('view_user_portrait');
 						return;
@@ -116,7 +182,6 @@
 					if($size > 5)
 					{
 						$this->tmpl->assign('errorMessage', 'Maximum file size is 5MB.');
-						$user = $this->model_user->getUserByUserId(array($userId));
 						$this->tmpl->assign('avatar', $user['avatar']);	
 						$this->loadTemplate('view_user_portrait');
 						return;
@@ -138,7 +203,7 @@
 					}
 					else 
 					{
-						$this->tmpl->assign('successMessage', 'Success');
+						$this->tmpl->assign('successMessage', $this->loadMessages('user.information.update.success', array("portrait")));
 						$this->tmpl->assign('avatar', $name);
 						$this->loadTemplate('view_user_portrait');
 					}
@@ -155,9 +220,9 @@
 			$this->defaultUserMessagesSource();
 			
 			$this->tmpl->assign("title", $this->loadMessages('user.personalInfo.title'));
-			$this->tmpl->assign("fullName", $this->loadMessages('user.personalInfo.fullName'));
-			$this->tmpl->assign("email", $this->loadMessages('user.personalInfo.email'));
-			$this->tmpl->assign("yourWebsite", $this->loadMessages('user.personalInfo.website'));
+			$this->tmpl->assign("fullNameTitle", $this->loadMessages('user.personalInfo.fullName'));
+			$this->tmpl->assign("emailTitle", $this->loadMessages('user.personalInfo.email'));
+			$this->tmpl->assign("yourWebsiteTitle", $this->loadMessages('user.personalInfo.website'));
 			
 			$this->tmpl->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
 			$this->tmpl->assign('urlInvalid', $this->loadErrorMessage('error.url.invalid'));
@@ -203,7 +268,7 @@
 				}
 				else 
 				{
-					$this->tmpl->assign('successMessage', 'Success');
+					$this->tmpl->assign('successMessage', $this->loadMessages('user.information.update.success', array("personal info")));
 				}
 				
 				$user = $this->model_user->getUserByUserId(array($userId));
@@ -264,7 +329,7 @@
 					}
 					else 
 					{
-						$this->tmpl->assign('successMessage', 'Success');
+						$this->tmpl->assign('successMessage', $this->loadMessages('user.information.update.success', array("password")));
 					}
 				}
 				else 

@@ -181,7 +181,7 @@
 		
 		/**
 		 * 
-		 * Update user information
+		 * Update user information (fullName, email and website)
 		 * @param $user
 		 */
 		function updateUserInformation($params)
@@ -231,6 +231,30 @@
 			return null;
 
 		}
-
+		
+		/**
+		 * 
+		 * Check if the alias exists?
+		 * @param $params
+		 */
+		function existsAlias($params)
+		{
+			$sql = 'SELECT profile_alias FROM user WHERE profile_alias =? and id !=?';
+			$types = array('text', 'text', 'integer');
+			$res = $this->execute_query($sql, $params, $types);
+			
+			return sizeof($res) > 0;
+		}
+		
+		/**
+		 * Update user alias
+		 * @param $params
+		 */
+		function updateUserAlias($params)
+		{
+			$sql = 'UPDATE user SET profile_alias =? WHERE id=?';
+			$types = array('text', 'integer');
+			return $this->execute_command($sql, $params, $types);
+		}
 	}
 ?>

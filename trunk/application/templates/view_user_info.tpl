@@ -19,7 +19,7 @@
 			$("#error_valid_email").hide();
 		}
 
-		if(!checkUrl(website)){
+		if($.trim(website) != '' && !checkUrl(website)){
 			$("#error_valid_url").show();
 			return false;
 		}else{
@@ -40,16 +40,16 @@
 			<fieldset>
 				<ul>
 					<li>
-						<span>{$fullName} *</span><br/>						
+						<span>{$fullNameTitle} *</span><br/>						
 						<input type="text" name="fullName" value="{$fullName}"/>
 					</li>					
 					<li>
-						<span>{$email} *</span><br/>
+						<span>{$emailTitle} *</span><br/>
 						<input type="text" name="email" value="{$email}"/>
 						<span class="red" id="error_valid_email" style="display: none;">{$emailInvalid}</span>
 					</li>
 					<li>
-						<span>{$yourWebsite}</span><br/>
+						<span>{$yourWebsiteTitle}</span><br/>
 						<input type="text" name="website" value="{$website}"/>
 						<span class="red" id="error_valid_url" style="display: none;">{$urlInvalid}</span>
 					</li>

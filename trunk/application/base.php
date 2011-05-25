@@ -220,13 +220,25 @@
 		 * Load message source
 		 * @param $code
 		 */
-		function loadMessages($code)
+		function loadMessages($code, $params=array())
 		{
 			if($this->messages === null){
 				$this->messages = parse_ini_file(__DIR__.'/configs/messages.ini');
 			}
-			
-			return $this->messages[$code];
+			if(sizeof($params) == 0)
+				return $this->messages[$code];
+			else
+			{
+				$msg = $this->messages[$code];
+				for($i=0; i<sizeof($params); $i++)
+				{
+					$search = '{' . $i . '}';
+					$replaceStr = $params[$i];
+					$msg = str_replace($msg, $replace, $msg);
+				}
+				
+				return $msg;
+			}
 		}
 		
 		/**
@@ -234,13 +246,25 @@
 		 * Load error message source
 		 * @param $code
 		 */
-		function loadErrorMessage($code)
+		function loadErrorMessage($code, $params=array())
 		{
 			if($this->errorMessages === null){
 				$this->errorMessages = parse_ini_file(__DIR__.'/configs/errors.ini');
 			}
 			
-			return $this->errorMessages[$code];
+			if(sizeof($params) == 0)
+				return $this->errorMessages[$code];
+			else
+			{
+				$msg = $this->errorMessages[$code];
+				for($i=0; $i<count($params); $i++)
+				{
+					$search = '{' . $i . '}';
+					$replaceStr = $params[$i];
+					$msg = str_replace($search, $replaceStr, $msg);
+				}
+				return $msg;
+			}
 		}
 		
 		/**
