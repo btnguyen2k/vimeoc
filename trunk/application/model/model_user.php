@@ -82,8 +82,7 @@
 		{
 			$sql = 'select username from user where username=? and password=?';
 			$types = array('text', 'text', 'text');
-			$res = $this->execute_query($sql,$params,$types);
-			
+			$res = $this->execute_query($sql,$params,$types);		
 			return sizeof($res) > 0;
 		}
 		/**
@@ -108,7 +107,6 @@
 			$sql = 'select username from user where username=?';
 			$types= array('text','text');
 			$res=$this->execute_query($sql,$params,$types);
-			
 			return sizeof($res) > 0;
 		}
 		
