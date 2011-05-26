@@ -29,7 +29,7 @@
 			<a href="{$ctx}/user/portrait">{$menuPortrait}</a>
 		</li>
 		<li>
-			<a href="#">{$menuPassword}</a>
+			<a href="{$ctx}/user/passwordpages">{$menuPassword}</a>
 		</li>
 		<li>
 			<a href="{$ctx}/user/profileShortcut">{$menuShortcutURL}</a>
