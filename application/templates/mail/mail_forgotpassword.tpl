@@ -1,5 +1,5 @@
 Forgot password
 Dear Mr/Ms {$user.full_name} ,
 Your username is {$user.username}
-Please click here: <a href="localhost/vimeoc/auth/resetpassword/?email={$user.email}&secret={$user.code}"></a>
+Please click <a href="{$user.domain}/auth/resetPassword/?email={$user.email}&secret={$user.code}">here</a>
 Regard

@@ -178,8 +178,10 @@
 					$this->setSessionValue("logged", true);
 					$this->setSessionValue("cookie", 0);
 					$this->setSessionValue("remember", false);
-					$this->redirect($this->ctx().'/auth/thankyou');
-					//$this->redirect($this->ctx().'/user');
+					
+					$this->tmpl->assign("success",$this->loadMessages('auth.thankyou.success'));
+					$this->tmpl->assign("login",$this->loadMessages('auth.thankyou.login'));
+					$this->loadTemplate('view_thankyou');
 				}
 			}
 		}
@@ -187,7 +189,7 @@
 		 * Load default messages of ForgotPassword Form
 		 */
 		
-		function forgotpasswordMessagesSource() 
+		function forgotPasswordMessagesSource() 
 		{
 			$this->tmpl->assign("title",$this->loadMessages('auth.forgotpassword.title'));
 			$this->tmpl->assign("email",$this->loadMessages('auth.forgotpassword.email'));
@@ -197,7 +199,7 @@
 		 * This page lets the user find lost password
 		 * 
 		 */
-		function forgotpassword()
+		function forgotPassword()
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
 			{
@@ -218,16 +220,17 @@
 				else 
 				{	
 					$email=$_POST['xemail'];
-					$salt='1de34';
+					$salt=$this->loadResources('salt');
 					$code = $this->encodeUsername($email,$salt);
 					$params = array($username);
 					// sending forgotpassword mail
 					$user = $this->model_user->getUsersByUsername($params);
 					$user['code']=$code;
 					$user['email']=$email;
+					$user['domain']=BASE_PATH . CONTEXT;
 					$this->sendingEmailWithSmarty('mail_forgotpassword', 'user', $user, null, $user['email']);
-					$this->redirect($this->ctx().'/user');
-
+					$this->tmpl->assign("sent",$this->loadMessages('auth.submitsucceed.sent'));
+					$this->loadTemplate('view_sent_resetpassword_result');
 				}
 			
 			}
@@ -236,7 +239,7 @@
 		 * Load default messages of ResetPassword form
 		 */
 		
-		function resetpasswordMessagesSource()
+		function resetPasswordMessagesSource()
 		{
 			$this->tmpl->assign("title",$this->loadMessages('auth.resetpassword.title'));
 			$this->tmpl->assign("password",$this->loadMessages('auth.resetpassword.password'));
@@ -245,15 +248,14 @@
 		 * This page lets the user choose another password
 		 * 
 		 */
-		function resetpassword()
+		function resetPassword()
 		{
 			$this->loadModel('model_user');	
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
-				$email=$_GET['email'];
-				$this->tmpl->assign("email",$email);
+				$email=$_GET['email'];				
 				$code=$_GET['secret'];
-				$salt='1de34';
+				$salt=$this->loadResources('salt');
 				$ecode=$this->encodeUsername($email,$salt);
 				if($code==$ecode)
 				{
@@ -261,8 +263,9 @@
 				}
 				else 
 				{
-					$this->redirect($this->ctx().'/auth/invalid');
-					return;
+					$this->tmpl->assign("reset",$this->loadMessages('auth.invalid.reset'));
+					$this->tmpl->assign("try",$this->loadMessages('auth.invalid.try'));
+					$this->loadTemplate('view_invalid');
 				}	
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -271,62 +274,13 @@
 				$password=$_POST['password'];
 				$emails=$_POST['email'];
 				$params=array($this->encodePassword($password),$emails);
-				$this->model_user->updatepassword($params);
-				$this->redirect($this->ctx().'/auth/valid');		
+				$this->model_user->updatePassword($params);
+				$this->tmpl->assign("success",$this->loadMessages('auth.valid.reset'));
+				$this->tmpl->assign("login",$this->loadMessages('auth.valid.login'));
+				$this->redirect($this->ctx().'/auth/login/');
 			}			
 		}	
-		/**
-		 * 
-		 * Load a Submitsucceed page to notice "Submit successfully"
-		 * 
-		 */
-		function submitsucceed()
-		{
-			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
-			{
-				$this->tmpl->assign("sent",$this->loadMessages('auth.submitsucceed.sent'));
-				$this->loadTemplate('view_submitsucceed');
-			}
-			elseif ($_SERVER['REQUEST_METHOD'] == 'POST')
-			{
-				if(true)
-				{
-					$this->redirect('/vimeoc/auth/login');
-				}
-				else 
-				{
-					$this->tmpl->assign("sent",$this->loadMessages('auth.submitsucceed.sent'));
-					$this->loadTemplate('view_submitsucceed');
-				}
-			}
-		}
-		/**
-		 * Load thankyou page to notice that your account is created successfully."
-		 * 
-		 */
-		function thankyou()
-		{
-			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
-			{
-				$this->tmpl->assign("success",$this->loadMessages('auth.thankyou.success'));
-				$this->tmpl->assign("login",$this->loadMessages('auth.thankyou.login'));
-				$this->loadTemplate('view_thankyou');
-			}
-			elseif ($_SERVER['REQUEST_METHOD'] == 'POST')
-			{
-				if(true)
-				{
-					$this->redirect('/vimeoc/user');
-				}
-				else 
-				{
-					$this->tmpl->assign("success",$this->loadMessages('auth.thankyou.success'));
-					$this->tmpl->assign("login",$this->loadMessages('auth.thankyou.login'));
-					$this->loadTemplate('view_thankyou');
-				}
-
-			}
-		}
+		
 		/**
 		 * Load a valid page if a valid password reset link is clicked
 		 * 

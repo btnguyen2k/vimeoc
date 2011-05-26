@@ -170,7 +170,7 @@
 		 * update password 
 		 * @param $params
 		 */
-		function updatepassword($params)
+		function updatePassword($params)
 		{
 			$sql = "Update user Set password=? where username=? ";
 			$types= array('text','text');
