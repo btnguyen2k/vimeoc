@@ -166,7 +166,9 @@
 		 
 		 	$headers = array ('From' => $from,
 							  'To' => $to,
-		   					  'Subject' => $subject);
+		   					  'Subject' => $subject,
+		 					  'Content-type' => 'text/html',
+		 					  'charset' => 'utf-8');
 		 	
 		 	if($ssl == 'true')
 		 	{

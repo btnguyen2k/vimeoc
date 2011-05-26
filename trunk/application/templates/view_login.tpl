@@ -30,6 +30,6 @@ function checkEmail()
 		{$password}<input id="password" name="password" type="password" />
 	</div>
 	<div>
-		<input type="submit" value="{$submit}"/><a href="forgotpassword">[Forgot your password ?]</a>
+		<input type="submit" value="{$submit}"/><a href="{$ctx}/auth/forgotPassword">[Forgot your password ?]</a>
 	</div>
 </form>

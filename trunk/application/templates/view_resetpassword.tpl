@@ -1,6 +1,5 @@
-<title>Reset Password</title>
 <h1 align="center">{$title}</h1>
-<form " name="resetpasswordform" action="{$ctx}/auth/resetpassword/" method="post">
+<form name="resetpasswordform" action="{$ctx}/auth/resetPassword/" method="post">
 	<div>
 		{$password}<input id="password" type="password" name='password'/>
 		<input type="hidden" name="email" value="{$email}"/>
