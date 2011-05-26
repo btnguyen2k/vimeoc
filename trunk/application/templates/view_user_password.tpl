@@ -24,14 +24,31 @@
 	
 	<div id="user_password_body" class="user_page_body">
 		<center><h1>{$title}</h1></center><br/>
-		<span class="red">{$errorMessage}</span>
-		<span class="green">{$successMessage}</span>
+			
+			{if $FailMessage eq ""}
+		  		 &nbsp;
+			{else}
+		   		<span class="red">{$FailMessage}</span>
+			{/if}
+			
+			{if $successMessage eq ""}
+  				 &nbsp;
+			{else}
+   				<span class="green" align="center">{$successMessage}</span>
+			{/if}
+			
+
 		<form action="{$ctx}/user/passwordpages/" method="post" onSubmit="return checkpassword(this)">
 			<fieldset>
 				<ul>
 					<li>
 						<span>{$currentpassword} </span><br/>						
 						<input type="password" name="currentpassword" id="currentpassword"/>
+						{if $errorMessage eq ""}
+  				 			&nbsp;
+						{else}
+   							<span class="red">{$errorMessage}</span>
+						{/if}	
 					</li>					
 					<li>
 						<span>{$newpassword}</span><br/>

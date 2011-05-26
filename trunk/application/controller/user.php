@@ -322,19 +322,21 @@
 				{
 					
 					$res=$this->model_user->updateUserPassword($params);
-					echo "The password has been update";
+					
 					if($res == 0)
 					{
-						$this->tmpl->assign('errorMessage', 'Error');
+						$this->tmpl->assign('FailMessage', $this->loadMessages('user.password.fail'));
+						$this->loadTemplate('view_user_password');
 					}
 					else 
 					{
-						$this->tmpl->assign('successMessage', $this->loadMessages('user.information.update.success', array("password")));
+						$this->tmpl->assign('successMessage', $this->loadMessages('user.password.success'));
+						$this->loadTemplate('view_user_password');
 					}
 				}
 				else 
 				{
-					die('fail');
+					$this->tmpl->assign("errorMessage", $this->loadMessages('user.password.error'));
 					$this->loadTemplate('view_user_password');
 				}
 			}
