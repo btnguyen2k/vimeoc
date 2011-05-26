@@ -247,24 +247,33 @@
 		 */
 		function resetpassword()
 		{
+			$this->loadModel('model_user');	
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$email=$_GET['email'];
 				$this->tmpl->assign("email",$email);
-				$code=$_GET['code'];
-				$this->loadTemplate('view_resetpassword');
-				
+				$code=$_GET['secret'];
+				$salt='1de34';
+				$ecode=$this->encodeUsername($email,$salt);
+				if($code==$ecode)
+				{
+					$this->loadTemplate('view_resetpassword');
+				}
+				else 
+				{
+					$this->redirect($this->ctx().'/auth/invalid');
+					return;
+				}	
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
-					$this->loadModel('model_user');
-					$password=$_POST['password'];
-					$emails=$_POST['email'];
-					$params=array($this->encodePassword($password),$emails);
-					$this->model_user->updatepassword($params);
-					
-			}
-			
+				$this->loadModel('model_user');
+				$password=$_POST['password'];
+				$emails=$_POST['email'];
+				$params=array($this->encodePassword($password),$emails);
+				$this->model_user->updatepassword($params);
+				$this->redirect($this->ctx().'/auth/valid');		
+			}			
 		}	
 		/**
 		 * 
