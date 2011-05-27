@@ -45,6 +45,9 @@
 			$this->tmpl->assign("email",$this->loadMessages('auth.login.username'));
 			$this->tmpl->assign("password", $this->loadMessages('auth.login.password'));
 			$this->tmpl->assign("submit", $this->loadMessages('auth.login.submit'));
+			
+			$this->tmpl->assign('passwordInvalid', $this->loadErrorMessage('error.password.invalid'));
+			$this->tmpl->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
 		}
 
 		/** 
@@ -122,6 +125,13 @@
 			$this->tmpl->assign("rpassword", $this->loadMessages('auth.signup.rpassword'));
 			$this->tmpl->assign("understand", $this->loadMessages('auth.signup.understand'));
 			$this->tmpl->assign("term", $this->loadMessages('auth.signup.term'));
+			
+			$this->tmpl->assign('passwordInvalid', $this->loadErrorMessage('error.password.invalid'));
+			$this->tmpl->assign('mathpasswordInvalid', $this->loadErrorMessage('error.mathpassword.invalid'));
+			$this->tmpl->assign('termInvalid', $this->loadErrorMessage('error.term.invalid'));
+			$this->tmpl->assign('retypepasswordInvalid', $this->loadErrorMessage('error.retypepassword.invalid'));
+			$this->tmpl->assign('fullnameInvalid', $this->loadErrorMessage('error.fullname.invalid'));
+			$this->tmpl->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
 		}
 		
 		/**
@@ -171,12 +181,6 @@
 					$user = $this->model_user->getUserByUserId($params);
 					$user['password']=$password2;
 					$this->sendingEmailWithSmarty('mail_welcome', 'user', $user, null, $user['email']);
-					
-					$this->setSessionValue("uid", $user['id']);
-					$this->setSessionValue("username", $user['username']);
-					$this->setSessionValue("logged", true);
-					$this->setSessionValue("cookie", 0);
-					$this->setSessionValue("remember", false);
 					
 					$this->tmpl->assign("success",$this->loadMessages('auth.thankyou.success'));
 					$this->tmpl->assign("login",$this->loadMessages('auth.thankyou.login'));
