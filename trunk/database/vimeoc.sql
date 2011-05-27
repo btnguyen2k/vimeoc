@@ -205,6 +205,7 @@ CREATE TABLE IF NOT EXISTS `user_role` (
 CREATE TABLE IF NOT EXISTS `video` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL,
+  `video_title` varchar(255) DEFAULT NULL,
   `video_path` varchar(255) NOT NULL,
   `thumbnails_path` varchar(255) DEFAULT NULL,
   `video_theme` varchar(1000) DEFAULT NULL,
