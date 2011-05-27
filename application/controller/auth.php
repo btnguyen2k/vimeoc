@@ -92,7 +92,6 @@
 						$this->setSessionValue("logged", true);
 						$this->setSessionValue("cookie", 0);
 						$this->setSessionValue("remember", false);
-						
 						$this->redirect($this->ctx().'/user');
 					}
 					else 
@@ -231,8 +230,7 @@
 					$this->sendingEmailWithSmarty('mail_forgotpassword', 'user', $user, null, $user['email']);
 					$this->tmpl->assign("sent",$this->loadMessages('auth.submitsucceed.sent'));
 					$this->loadTemplate('view_sent_resetpassword_result');
-				}
-			
+				}		
 			}
 		}
 		/**
@@ -253,7 +251,8 @@
 			$this->loadModel('model_user');	
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
-				$email=$_GET['email'];				
+				$email=$_GET['email'];		
+				$this->tmpl->assign("email",$email);		
 				$code=$_GET['secret'];
 				$salt=$this->loadResources('salt');
 				$ecode=$this->encodeUsername($email,$salt);
@@ -270,14 +269,14 @@
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
-				$this->loadModel('model_user');
 				$password=$_POST['password'];
 				$emails=$_POST['email'];
 				$params=array($this->encodePassword($password),$emails);
 				$this->model_user->updatePassword($params);
+				$this->tmpl->assign("title",$this->loadMessages('auth.valid.title'));
 				$this->tmpl->assign("success",$this->loadMessages('auth.valid.reset'));
 				$this->tmpl->assign("login",$this->loadMessages('auth.valid.login'));
-				$this->redirect($this->ctx().'/auth/login/');
+				$this->loadTemplate('view_valid');
 			}			
 		}	
 		
@@ -305,7 +304,7 @@
 						$this->tmpl->assign("login",$this->loadMessages('auth.valid.login'));
 						$this->loadTemplate('view_valid');
 					}
-				}
+			}
 		}
 		/**
 		 * Load an invalid page if an invalid password reset link is clicked.
@@ -321,7 +320,7 @@
 			}
 			elseif ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
-			if(true)
+				if(true)
 				{
 					$this->redirect('/vimeoc/user');
 				}

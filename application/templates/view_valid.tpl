@@ -1,6 +1,6 @@
-<title>Successfully</title>
-<h4 align="center">{$reset}</h4>
+<title>{$title}</title>
+<h4 align="center">{$success}</h4>
 <div align="center"> 
-	<a href="login" >{$login}</a>
+	<a href="{$ctx}/auth/login" >{$login}</a>
 </div>
 
