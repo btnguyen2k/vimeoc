@@ -3,7 +3,14 @@
 	{include file="{$base_dir_templates}/blocks/user_left_menu.tpl"}
 	<div id="user_video_body" class="user_page_body">
 	{section name=index loop=$videos}
-	  video: {$videos[index].id} <img src="{$videos[index].thumbnails_path}"></img><br />
+		<div>
+			{if $videos[index].thumbnails_path != ''}
+			<img src="{$videos[index].thumbnails_path}" />			
+			{else}
+			<img src="{$ctx}/images/icon-video.gif" width="100"/>
+			{/if}
+			video: {$videos[index].id}
+		</div>	  
 	{/section}<br/>
 	{$message}
 	{$pagination}
