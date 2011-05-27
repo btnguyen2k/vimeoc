@@ -12,11 +12,11 @@
 	}
 </script>
 <h1 align="center">{$title}</h1>
-{if $error eq ""}
-   &nbsp;
-{else}
-   <span class="red">{$error}</span>
-{/if}
+	{if $error eq ""}
+	   &nbsp;
+	{else}
+	   <span class="red">{$error}</span>
+	{/if}
 <form onSubmit="return checkEmail()" name="forgotpasswordform" action="{$ctx}/auth/forgotpassword/" method="post">
 	{$email} <input name="xemail" type="text" class="inputs" id="email_address" size="35" maxlength="255"/>
 	<div>
