@@ -22,9 +22,9 @@
 	$array_tmp_uri = preg_split('[\\/]', $url, -1, PREG_SPLIT_NO_EMPTY);
 	
 	//Here, we will define what is what in the URL
-	$array_uri['controller'] = $array_tmp_uri[0]; //a class
-	$array_uri['method']	 = $array_tmp_uri[1]; //a function
-	$array_uri['var']		 = $array_tmp_uri[2]; //a variable
+	$array_uri['controller'] = isset($array_tmp_uri[0])?$array_tmp_uri[0]:NULL; //a class
+	$array_uri['method']	 = isset($array_tmp_uri[1])?$array_tmp_uri[1]:NULL; //a function
+	$array_uri['var']		 = isset($array_tmp_uri[2])?$array_tmp_uri[2]:NULL; //a variable
 	
 	//Load our base API
 	require_once("application/base.php");
