@@ -202,7 +202,7 @@
          */
         function _createImage()
         {
-            $this->_getImageInfo($imgFile);
+            $this->_getImageInfo();//$this->_getImageInfo($imgFile);
             if($this->imgType=='GIF')
             {
                 $this->_img=@imagecreatefromgif($this->imgFile);
