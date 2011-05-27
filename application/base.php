@@ -233,11 +233,11 @@
 			else
 			{
 				$msg = $this->messages[$code];
-				for($i=0; i<sizeof($params); $i++)
+				for($i=0; $i<sizeof($params); $i++)
 				{
 					$search = '{' . $i . '}';
 					$replaceStr = $params[$i];
-					$msg = str_replace($msg, $replace, $msg);
+					$msg = str_replace($msg, $replaceStr, $msg);
 				}
 				
 				return $msg;
