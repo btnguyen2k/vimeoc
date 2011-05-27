@@ -1,6 +1,7 @@
 <?php if (!defined('BASE_PATH')) exit('Not allowed.');
 	define("ROLE_ADMIN", "ROLE_ADMIN");
 	define("ROLE_USER", "ROLE_USER");
+	define("APP_DIR", dirname($_SERVER['SCRIPT_FILENAME']) . '/application');
 	
 	require_once 'utils.php';
 	
@@ -29,10 +30,10 @@
 		{
 			$this->uri = $uri;
 			$this->tmpl = new Smarty();
-			$this->tmpl->template_dir =  __DIR__ . '/templates/';
-	     	$this->tmpl->compile_dir = __DIR__ . '/templates_c/';
-	      	$this->tmpl->config_dir = __DIR__ . '/configs/';
-	      	$this->tmpl->cache_dir = __DIR__ . '/cache/';
+			$this->tmpl->template_dir =  APP_DIR . '/templates/';
+	     	$this->tmpl->compile_dir = APP_DIR . '/templates_c/';
+	      	$this->tmpl->config_dir = APP_DIR . '/configs/';
+	      	$this->tmpl->cache_dir = APP_DIR . '/cache/';
 	     
 	      	$this->tmpl->caching = false; 
 		}
@@ -105,8 +106,8 @@
 		 */
 		function loadTemplate($template)
 		{			
-			$this->tmpl->assign("base_dir_decorator", __DIR__ . '/templates/decorator/');
-			$this->tmpl->assign("base_dir_templates", __DIR__ . '/templates/');
+			$this->tmpl->assign("base_dir_decorator", APP_DIR . '/templates/decorator/');
+			$this->tmpl->assign("base_dir_templates", APP_DIR . '/templates/');
 			$this->tmpl->assign('body_code', $template.'.tpl');
 			$this->tmpl->assign('ctx', $this->ctx());
 			$this->tmpl->display('decorator/default.tpl');
@@ -150,7 +151,7 @@
 			
 			if($this->emailConfiguration == null)
 			{
-				$this->emailConfiguration = parse_ini_file(__DIR__.'/configs/mail.ini');
+				$this->emailConfiguration = parse_ini_file(APP_DIR.'/configs/mail.ini');
 			}
 			
 			if($from == null)
@@ -225,7 +226,7 @@
 		function loadMessages($code, $params=array())
 		{
 			if($this->messages === null){
-				$this->messages = parse_ini_file(__DIR__.'/configs/messages.ini');
+				$this->messages = parse_ini_file(APP_DIR.'/configs/messages.ini');
 			}
 			if(sizeof($params) == 0)
 				return $this->messages[$code];
@@ -251,7 +252,7 @@
 		function loadErrorMessage($code, $params=array())
 		{
 			if($this->errorMessages === null){
-				$this->errorMessages = parse_ini_file(__DIR__.'/configs/errors.ini');
+				$this->errorMessages = parse_ini_file(APP_DIR.'/configs/errors.ini');
 			}
 			
 			if(sizeof($params) == 0)
@@ -278,7 +279,7 @@
 		{
 			if($this->resources === null)
 			{
-				$this->resources = parse_ini_file(__DIR__.'/configs/resources.ini');
+				$this->resources = parse_ini_file(APP_DIR.'/configs/resources.ini');
 			}
 			
 			return $this->resources[$code];
@@ -412,7 +413,7 @@
 		 */
 		function __construct()
 		{
-			$ini_array = parse_ini_file(__DIR__."/configs/db.ini");
+			$ini_array = parse_ini_file(APP_DIR."/configs/db.ini");
 			$this->url = $ini_array['driver']."://".$ini_array['username'].":".$ini_array['password']."@".$ini_array['host'].($ini_array['port']?':'.$ini_array['port']:'')."/".$ini_array['database'];
 		}
 		
