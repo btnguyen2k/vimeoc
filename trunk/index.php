@@ -4,10 +4,10 @@
 	//Load constants variables
 	require_once("application/constants.php");
 	
-	define("BASE_DIR", __DIR__);
+	define("BASE_DIR", dirname($_SERVER['SCRIPT_FILENAME']));
 	
 	//Define Smarty lib path
-	define("SMARTY_DIR", __DIR__ . "/libs/smarty/");
+	define("SMARTY_DIR", BASE_DIR . "/libs/smarty/");
 		
 	//Include Smarty 
 	require_once(SMARTY_DIR.'Smarty.class.php');
