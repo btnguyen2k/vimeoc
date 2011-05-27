@@ -425,7 +425,7 @@
 		{
 		    $conn = MDB2::factory($this->url);
 		    if(PEAR::isError($conn)) {
-		        die("Error while connecting : " . $con->getMessage());
+		        die("Error while connecting : " . $conn->getMessage());
 		    }
 		    return $conn;
 		}
