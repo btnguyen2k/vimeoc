@@ -1,7 +1,9 @@
 <?php 
+	$configs = parse_ini_file(__DIR__.'/configs/resources.ini');
+	
 	//Define our site URL
-	define("BASE_PATH", "http://localhost");
+	define("BASE_PATH", $configs['domain']);
 	
 	//Define our basepath
-	define("CONTEXT", "/vimeoc");
+	define("CONTEXT", $configs['context']);
 ?>
