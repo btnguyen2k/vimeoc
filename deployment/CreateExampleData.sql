@@ -1,14 +1,6 @@
--- phpMyAdmin SQL Dump
--- version 3.2.4
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: May 27, 2011 at 03:37 CH
--- Server version: 5.1.41
--- PHP Version: 5.3.1
+START TRANSACTION;
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -20,65 +12,6 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 
 --
--- Dumping data for table `album`
---
-
-INSERT INTO `album` (`id`, `user_id`, `album_name`, `album_locked`, `album_alias`, `creation_date`, `description`) VALUES
-(1, 23, 'HAI', b'1', NULL, '2011-05-26 11:50:52', NULL),
-(2, 21, 'HaiPham', b'0', NULL, '2011-05-26 11:58:47', NULL);
-
---
--- Dumping data for table `album_video`
---
-
-INSERT INTO `album_video` (`album_id`, `video_id`, `creation_date`) VALUES
-(1, 1, '2011-05-26 12:10:11'),
-(1, 2, '2011-05-26 12:10:18'),
-(1, 3, '2011-05-26 12:10:23'),
-(1, 4, '2011-05-26 12:10:29'),
-(1, 5, '2011-05-26 12:10:34'),
-(2, 6, '2011-05-26 12:07:55'),
-(2, 7, '2011-05-26 12:08:01'),
-(2, 8, '2011-05-26 12:08:07'),
-(2, 9, '2011-05-26 12:08:14'),
-(2, 10, '2011-05-26 12:08:19');
-
---
--- Dumping data for table `channel`
---
-
-
---
--- Dumping data for table `channel_video`
---
-
-
---
--- Dumping data for table `comment`
---
-
-
---
--- Dumping data for table `like`
---
-
-
---
--- Dumping data for table `role`
---
-
-
---
--- Dumping data for table `tag`
---
-
-
---
--- Dumping data for table `tag_component`
---
-
-
---
 -- Dumping data for table `user`
 --
 
@@ -88,10 +21,32 @@ INSERT INTO `user` (`id`, `username`, `password`, `email`, `password_hint`, `acc
 (22, 'truonghai.ad@yahoo.com', '1dsat4a3d4512812aaa4d3f977a04e00a74ebaa04ebfe1', 'truonghai.ad@yahoo.com', NULL, b'0', b'1', 'Truong Hai', NULL, NULL, '2011-05-26 11:08:26', NULL),
 (23, 'truonghai.pham@gmail.com', '1dsat4a3d4512812aaa4d3f977a04e00a74ebaa04ebfe1', 'truonghai.pham@gmail.com', NULL, b'0', b'1', 'Hai', NULL, NULL, '2011-05-26 11:10:01', NULL);
 
+
+--
+-- Dumping data for table `role`
+--
+INSERT INTO `role` (`id`, `name`) VALUES
+(-9, 'ROLE_ADMIN'),
+(1, 'ROLE_USER');
+
+
 --
 -- Dumping data for table `user_role`
 --
+INSERT INTO `user_role` (`user_id`, `role_id`, `creation_date`) VALUES
+(20, 1, '2011-05-24 11:16:48'),
+(21, 1, '2011-05-24 11:16:48'),
+(22, 1, '2011-05-24 11:16:48'),
+(23, 1, '2011-05-24 11:16:48');
 
+
+--
+-- Dumping data for table `album`
+--
+
+INSERT INTO `album` (`id`, `user_id`, `album_name`, `album_locked`, `album_alias`, `creation_date`, `description`) VALUES
+(1, 23, 'HAI', b'1', NULL, '2011-05-26 11:50:52', NULL),
+(2, 21, 'HaiPham', b'0', NULL, '2011-05-26 11:58:47', NULL);
 
 --
 -- Dumping data for table `video`
@@ -109,6 +64,24 @@ INSERT INTO `video` (`id`, `user_id`, `video_path`, `thumbnails_path`, `video_th
 (9, 21, 'E:\\Users\\son\\Desktop\\video', NULL, NULL, NULL, 21, 12, 56, b'0', '2011-05-26 11:37:27', NULL),
 (10, 21, 'C:\\Users\\son\\VIDEO\\entertaiment', NULL, NULL, NULL, 0, 0, 0, b'0', '2011-05-26 11:41:23', NULL);
 
+--
+-- Dumping data for table `album_video`
+--
+
+INSERT INTO `album_video` (`album_id`, `video_id`, `creation_date`) VALUES
+(1, 1, '2011-05-26 12:10:11'),
+(1, 2, '2011-05-26 12:10:18'),
+(1, 3, '2011-05-26 12:10:23'),
+(1, 4, '2011-05-26 12:10:29'),
+(1, 5, '2011-05-26 12:10:34'),
+(2, 6, '2011-05-26 12:07:55'),
+(2, 7, '2011-05-26 12:08:01'),
+(2, 8, '2011-05-26 12:08:07'),
+(2, 9, '2011-05-26 12:08:14'),
+(2, 10, '2011-05-26 12:08:19');
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+COMMIT;
