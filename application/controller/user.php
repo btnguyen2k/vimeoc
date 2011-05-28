@@ -28,6 +28,8 @@
 				$this->redirect($this->ctx().'/auth/login/');
 			}
 			
+			$this->tmpl->assign('title', $this->loadMessages('home.title'));
+			
 			$this->loadModel('model_album');
 			$model_album = $this->model_album;
 			$this->tmpl->assign('album_count', $model_album->countAlbumByUserId($userId));
