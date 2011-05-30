@@ -38,6 +38,7 @@
 		 * 
 		 * Load login form default messages
 		 */
+		
 		function loginMessagesSource()
 		{
 			$this->tmpl->assign("title", $this->loadMessages('auth.login.title'));
@@ -202,6 +203,7 @@
 		 * This page lets the user find lost password
 		 * 
 		 */
+		
 		function forgotPassword()
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
@@ -237,6 +239,7 @@
 				}		
 			}
 		}
+		
 		/**
 		 * Load default messages of ResetPassword form
 		 */
@@ -246,10 +249,12 @@
 			$this->tmpl->assign("title",$this->loadMessages('auth.resetpassword.title'));
 			$this->tmpl->assign("password",$this->loadMessages('auth.resetpassword.password'));
 		}
+		
 		/**
 		 * This page lets the user choose another password
 		 * 
 		 */
+		
 		function resetPassword()
 		{
 			$this->loadModel('model_user');	
@@ -288,6 +293,7 @@
 		 * Load a valid page if a valid password reset link is clicked
 		 * 
 		 */
+		
 		function valid()
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 

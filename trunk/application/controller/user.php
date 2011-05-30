@@ -69,6 +69,7 @@
 			$this->tmpl->assign("menuLogout", $this->loadMessages('user.menu.link.logout'));
 		}
 		
+		
 		/**
 		 * 
 		 * Load messages source for profile shortcut page
@@ -528,6 +529,52 @@
 			
 			$this->userVideoMessagesSource();
 			$this->loadTemplate('view_user_video');
+		}
+		
+		/**
+		 * Default message source for videopage
+		 * 
+		 */
+		
+		function videopageMessagesSource()
+		{
+			$this->tmpl->assign("title", $this->loadMessages('user.videopage.title'));
+			$this->tmpl->assign("day", $this->loadMessages('user.videopage.day'));
+			$this->tmpl->assign("by", $this->loadMessages('user.videopage.by'));
+			$this->tmpl->assign("plays", $this->loadMessages('user.videopage.plays'));
+			$this->tmpl->assign("comments", $this->loadMessages('user.videopage.comments'));
+			$this->tmpl->assign("likes", $this->loadMessages('user.videopage.likes'));
+			$this->tmpl->assign("tag", $this->loadMessages('user.videopage.tag'));
+			$this->tmpl->assign("albums", $this->loadMessages('user.videopage.albums'));
+		}
+		/**
+		 * Display video pages
+		 * 
+		 */
+		
+		function videopage()
+		{
+			$this->loadModel('model_user');
+			$this->loadModel('model_video');
+			$video=array();
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
+			{
+				$id=$_GET['Id'];
+				$userid=$_GET['userId'];
+				$params=array($id);
+				$fullname=$this->model_user->getFullNamebyUserId(array($userid));
+				$play=$this->model_video->getplaybyUserId(array($userid));
+				$comment=$this->model_video->getcommentbyId($params);
+				$like=$this->model_video->getlikebyId($params);
+				$album=$this->model_video->getAlbumbyId(array($id,$userid));
+				$this->tmpl->assign("play",$play['play_count']);
+				$this->tmpl->assign("comment",$comment['comment_count']);
+				$this->tmpl->assign("like",$like['like_count']);
+				$this->tmpl->assign("album",$album['album_name']);
+				$this->tmpl->assign("fullname",$fullname['full_name']);
+				$this->tmpl->assign("video",$video);
+				$this->loadTemplate('view_videopage');
+			} 
 		}
 	}
 ?>
