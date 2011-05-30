@@ -11,6 +11,12 @@ div.user_page div#user_menu {float: left; width: 200px;}
 div.user_page div.user_page_body {float: left; width: 500px;}
 div.user_page div.user_page_help {float: right; padding-top: 50px;}
 
+div.video_page {}
+
+div.video_page div#video_menu {float: left; width: 200px;}
+div.video_page div.video_page_body {float: left; width: 500px;}
+
+
 .red {color: red}
 .green {color: green}
 .blue {color: blue}

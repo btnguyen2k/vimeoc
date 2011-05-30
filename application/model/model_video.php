@@ -65,5 +65,103 @@
 			$res = $this->execute_query($sql,$params,$types);
 			return $res[0]['count'];
 		}
+		/**
+		 * 
+		 *Get Fullname by user Id
+		 * @param $params
+		 */
+		function getFullNamebyUserId($params)
+		{
+			$sql= 'select full_name from user where id=?';
+			$types =  array('text','integer');
+			$res = $this->execute_query($sql,$params,$types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
+		}
+		/**
+		 * 
+		 *Get play by user Id ...
+		 * @param $params
+		 */
+		function getplaybyUserId($params)
+		{
+			$sql= 'select play_count from video where user_id=?';
+			$types =  array('text','integer');
+			$res = $this->execute_query($sql,$params,$types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
+		}
+		/**
+		 *  
+		 * Get comment by user Id ...
+		 * @param $params
+		 */
+		function getcommentbyId($params)
+		{	
+			$sql= 'select comment_count from video where id=?';
+			$types =  array('text','integer');
+			$res = $this->execute_query($sql,$params,$types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
+		}
+		/**
+		 * Get likes by user Id
+		 */
+		function getlikebyId($params)
+		{	
+			$sql= 'select like_count from video where id=?';
+			$types =  array('text','integer');
+			$res = $this->execute_query($sql,$params,$types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
+		}
+		/**
+		 * Get Album by userID
+		 * 
+		 */
+		function getAlbumbyId($params)
+		{	
+			$sql= 'select album_name from album where id=? and user_id=?';
+			$types =  array('text','integer','integer');
+			$res = $this->execute_query($sql,$params,$types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
+		}
+		/**
+		 * update title by Id
+		 * @param $params
+		 */
+		function updateTitlebyId($params)
+		{
+			$sql = "Update video Set video_title=? where id=? ";
+			$types= array('text','integer');
+			$res = $this->execute_command($sql,$params,$types);
+		}
+		/**
+		 * 
+		 * update description by Id
+		 * @param $params
+		 */
+		function updateDescriptionbyId($params)
+		{
+			$sql = "Update video Set description=? where id=? ";
+			$types= array('text','integer');
+			$res = $this->execute_command($sql,$params,$types);
+		}
 	}
 ?>

@@ -45,6 +45,7 @@
 		 * Get role by name
 		 * @param $name
 		 */
+		
 		function getRoleByName($name)
 		{
 			$sql = 'SELECT * FROM role WHERE name=?';
@@ -64,6 +65,7 @@
 		 * Check whether username exists or not
 		 * @param $params
 		 */
+		
 		function isExists($params)
 		{
 			$sql = 'select username from user where username=?';
@@ -78,6 +80,7 @@
 		 * Validate username and password
 		 * @param $params
 		 */
+		
 		function checkUsernameAndPassword($params)
 		{
 			$sql = 'select username from user where username=? and password=?';
@@ -85,10 +88,12 @@
 			$res = $this->execute_query($sql,$params,$types);		
 			return sizeof($res) > 0;
 		}
+		
 		/**
 		 * Validate password
 		 * @param $params
 		 */
+		
 		function checkPassword($params)
 		{
 			$sql = 'select password from user where password=? and id=?';
@@ -102,6 +107,7 @@
 		 * validate username
 		 * @param $params
 		 */
+		
 		function checkUsername($params)
 		{
 			$sql = 'select username from user where username=?';
@@ -116,6 +122,7 @@
 		 * Get user by username
 		 * @param $params username value
 		 */
+		
 		function getUserByUsername($params)
 		{
 			$sql = 'SELECT * FROM user WHERE username=?';
@@ -135,6 +142,7 @@
 		 * Get user by user id
 		 * @param $params
 		 */
+		
 		function getUserByUserId($params)
 		{
 			$sql = 'select * from user where id=?';
@@ -147,11 +155,13 @@
 			}
 			return null;
 		}
+		
 		/**
 		 * 
 		 * Get user by username
 		 * 
 		 */
+		
 		function getUsersByUsername($params)
 		{
 			$sql = 'select * from user where username=?';
@@ -170,6 +180,7 @@
 		 * update password 
 		 * @param $params
 		 */
+		
 		function updatePassword($params)
 		{
 			$sql = "Update user Set password=? where username=? ";
@@ -182,6 +193,7 @@
 		 * Update user information (fullName, email and website)
 		 * @param $user
 		 */
+		
 		function updateUserInformation($params)
 		{
 			$sql = 'UPDATE user SET full_name=?, email=?, website=? where id=?';
@@ -193,6 +205,7 @@
 		 * Update user password
 		 * @param $password
 		 */
+		
 		function updateUserPassword($params)
 		{
 			$sql = 'Update user set password=? where id=?';
@@ -200,12 +213,13 @@
 			return $this->execute_command($sql, $params, $type);
 			
 		}
-
+		
 		/**
 		 * 
 		 * Update user avatar
 		 * @param $params
 		 */
+		
 		function updateUserAvatar($params)
 		{
 			$sql = 'UPDATE user SET avatar=? WHERE id=?';
@@ -217,6 +231,7 @@
 		 * Select fullname
 		 * @param $params
 		 */
+		
 		function getFullNamebyUserId($params)
 		{
 			$sql= 'select full_name from user where id=?';
@@ -235,6 +250,7 @@
 		 * Check if the alias exists?
 		 * @param $params
 		 */
+		
 		function existsAlias($params)
 		{
 			$sql = 'SELECT profile_alias FROM user WHERE profile_alias =? and id !=?';
@@ -248,6 +264,7 @@
 		 * Update user alias
 		 * @param $params
 		 */
+		
 		function updateUserAlias($params)
 		{
 			$sql = 'UPDATE user SET profile_alias =? WHERE id=?';
