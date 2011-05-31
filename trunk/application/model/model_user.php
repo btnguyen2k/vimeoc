@@ -128,12 +128,10 @@
 			$sql = 'SELECT * FROM user WHERE username=?';
 			$types = array('text');
 			$res = $this->execute_query($sql,$params,$types);
-			
 			if(sizeof($res) > 0)
 			{
 				return $res[0] ;
 			}
-			
 			return null;
 		}
 		

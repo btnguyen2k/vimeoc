@@ -163,5 +163,54 @@
 			$types= array('text','integer');
 			$res = $this->execute_command($sql,$params,$types);
 		}
+		/**
+		 * select tag by tag_ID
+		 * @param $params
+		 */
+		function gettagfromtagandtagcomponent($params)
+		{
+			$sql = "select name from tag t inner join tag_component tc on t.id=tc.tag_id
+			where tc.component_type=? and tc.component_id=? ";
+			$types= array('integer','integer');
+			$res = $this->execute_query($sql,$params,$types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
+		}
+		/**
+		 * select video from video
+		 * @param $params
+		 */
+		function getvideofromvideoId($params)
+		{
+			$sql = "select* from video where id=?";
+			$types = array('integer');
+			$res = $this->execute_query($sql,$params,$types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
+		}
+		/**
+		 * update video by video id
+		 * @param $params
+		 */
+		
+		function updateVideobyVideoId($params)
+		{
+			$sql = "Update video Set video_title=? and description=? where id=? ";
+			$types= array('text','text','integer');
+			$res = $this->execute_command($sql,$params,$types);
+		}
+		/**
+		 * update tag by component_type and component_id
+		 * @param $params
+		 */
+		
+		//function updateTagbyComponentTypeandComponentId
+		
 	}
 ?>

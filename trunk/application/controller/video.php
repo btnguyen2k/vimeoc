@@ -72,13 +72,25 @@
 		
 		function videosetting()
 		{
-			$this->loadModel('model_user');	
+			$this->loadModel('model_video');	
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
+				$videoid=$_GET['videoid'];
+				$tagid=$_GET['tagid'];
+				$tcid=$_GET['tcid'];
+				$video= $this->model_video->getvideofromvideoId(array($videoid));
+				$this->tmpl->assign('title_', $video['video_title']);
+				$this->tmpl->assign('description_', $video['description']);
+				$tags=$this->model_video->gettagfromtagandtagcomponent(array($tagid,$tcid));
+				$this->tmpl->assign('tag_', $tags);
 				$this->loadTemplate('view_video_videosetting');
+				// Session to get videoid, tagid and tcid
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
+				$title=$_POST['title'];
+				$description=$_POST['description'];
+				$tag=$_POST['tag'];
 				$this->loadTemplate('view_video_videosetting');
 			}
 		}
