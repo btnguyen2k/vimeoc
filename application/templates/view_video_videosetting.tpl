@@ -42,22 +42,29 @@
 				<ul>
 					<li>
 						<span>{$title} </span><br/>						
-						<input type="text" name="title" id="title"/>
+						<input type="text" name="title" id="title" value="{$title_}"/>
 						<span class="red" id="error_valid_title" style="display: none;">{$titleiInvalid}</span>
 					</li>					
 					<li>
 						<span>{$description}</span><br/>
-						<textarea type="text" name="description" id="description"></textarea>
+						<textarea type="text" name="description" id="description" >{$description_}</textarea>
 						<span class="red" id="error_valid_description" style="display: none;">{$descriptionInvalid}</span>
 					</li>
 					<li>
 						<span>{$tag}</span><br/>
-						<input type="text" name="tag" id="tag"/>
+						<input type="text" name="tag" id="tag" value="{$tag_}"/>
 						<span class="red" id="error_valid_tag" style="display: none;">{$tagInvalid}</span>
 					</li>
 					<li>
 						<input type="submit" value="Save" />
 					</li>
+					<div>
+						{section name=foo loop=$tag_ step=-1}
+						{section foo $tag_ step=-1}
+  						{$tag_[foo]}<br />
+						{/section}
+					</div>
+					
 				</ul>
 			</fieldset>
 		</form>
