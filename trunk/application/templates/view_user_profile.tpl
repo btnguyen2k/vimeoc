@@ -1,5 +1,5 @@
-<h1 align="center">(:$title:)</h1>
+<h1 align="center"><:$title:></h1>
 
 	<div>
-		(:$fullname:) 's profile						
+		<:$fullname:> 's profile						
 	</div>

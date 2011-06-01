@@ -15,18 +15,18 @@
 	}
 </script>
 <div id="user_shortcut" class="user_page">
-	{include file="{$base_dir_templates}/blocks/user_left_menu.tpl"}
+	<:include file="<:$base_dir_templates:>/blocks/user_left_menu.tpl":>
 	
 	<div id="user_shortcut_body" class="user_page_body">
-		<center><h1>{$title}</h1></center><br/>		
-		<span class="red">{$errorMessage}</span>
-		<span class="green">{$successMessage}</span>
-		<form action="{$ctx}/user/profileShortcut/" method="post" onsubmit="return checkProfileAlias(this);">
+		<center><h1><:$title:></h1></center><br/>		
+		<span class="red"><:$errorMessage:></span>
+		<span class="green"><:$successMessage:></span>
+		<form action="<:$ctx:>/user/profileShortcut/" method="post" onsubmit="return checkProfileAlias(this);">
 			<fieldset>
 				<ul>
 					<li>
-						<span>{$profileShortcut}</span><br/>
-						{$domain}/<input name="alias" value="{$alias}" maxlength="16"/>	
+						<span><:$profileShortcut:></span><br/>
+						<:$domain:>/<input name="alias" value="<:$alias:>" maxlength="16"/>	
 						<span class="red" id="error_valid_alias" style="display: none;">Invalid shortcut</span>					
 					</li>
 					<li>

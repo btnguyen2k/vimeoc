@@ -12,10 +12,6 @@
 	//Include Smarty 
 	require_once(SMARTY_DIR.'Smarty.class.php');
 	
-	$smarty = new Smarty();
-	$smarty->left_delimiter = "(:";
-	$smarty->right_delimiter = ":)";
-	
 	//Take the initial PATH.
 	$url = $_SERVER['REQUEST_URI'];
 	$url = str_replace(CONTEXT,"",$url);

@@ -30,6 +30,8 @@
 		{
 			$this->uri = $uri;
 			$this->tmpl = new Smarty();
+			$this->tmpl->left_delimiter = '<:';
+			$this->tmpl->right_delimiter = ':>';
 			$this->tmpl->template_dir =  APP_DIR . '/templates/';
 	     	$this->tmpl->compile_dir = APP_DIR . '/templates_c/';
 	      	$this->tmpl->config_dir = APP_DIR . '/configs/';
