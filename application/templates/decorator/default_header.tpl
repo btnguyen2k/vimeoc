@@ -1,17 +1,17 @@
-<title>(:$title:)</title>
-<link href="{$ctx}/css/style.css" rel="stylesheet" type="text/css">
+<title><:$title:></title>
+<link href="<:$ctx:>/css/style.css" rel="stylesheet" type="text/css">
 
 <!-- jquery library -->
-<script src="{$ctx}/script/jquery.min.js" type="text/javascript"></script>
+<script src="<:$ctx:>/script/jquery.min.js" type="text/javascript"></script>
 
 <!-- Facebox library -->
-<script src="{$ctx}/script/facebox/facebox.js" type="text/javascript"></script>
-<link href="{$ctx}/script/facebox/facebox.css" rel="stylesheet" type="text/css">
+<script src="<:$ctx:>/script/facebox/facebox.js" type="text/javascript"></script>
+<link href="<:$ctx:>/script/facebox/facebox.css" rel="stylesheet" type="text/css">
 
 <!-- Global -->
-<script type="text/javascript" src="{$ctx}/script/global.js"></script>
+<script type="text/javascript" src="<:$ctx:>/script/global.js"></script>
 <script type="text/javascript">
-	var ctx = '(:$ctx:)';
+	var ctx = '<:$ctx:>';
 </script>
 
 <meta http-equiv="content-language" content="en" />

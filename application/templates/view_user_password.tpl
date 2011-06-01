@@ -20,42 +20,42 @@
 	}
 </script>
 <div id="user_password" class="user_page">
-	(:include file="(:$base_dir_templates:)/blocks/user_left_menu.tpl":)
+	<:include file="<:$base_dir_templates:>/blocks/user_left_menu.tpl":>
 	
 	<div id="user_password_body" class="user_page_body">
-		<center><h1>(:$title:)</h1></center><br/>
+		<center><h1><:$title:></h1></center><br/>
 			
-			(:if $FailMessage eq "":)
+			<:if $FailMessage eq "":>
 		  		 &nbsp;
-			(:else:)
-		   		<span class="red">(:$FailMessage:)</span>
-			(:/if:)
+			<:else:>
+		   		<span class="red"><:$FailMessage:></span>
+			<:/if:>
 			
-			(:if $successMessage eq "":)
+			<:if $successMessage eq "":>
   				 &nbsp;
-			(:else:)
-   				<span class="green" align="center">(:$successMessage:)</span>
-			(:/if:)
+			<:else:>
+   				<span class="green" align="center"><:$successMessage:></span>
+			<:/if:>
 			
 
-		<form action="(:$ctx:)/user/passwordpages/" method="post" onSubmit="return checkpassword(this)">
+		<form action="<:$ctx:>/user/passwordpages/" method="post" onSubmit="return checkpassword(this)">
 			<fieldset>
 				<ul>
 					<li>
-						<span>(:$currentpassword:) </span><br/>						
+						<span><:$currentpassword:> </span><br/>						
 						<input type="password" name="currentpassword" id="currentpassword"/>
-						(:if $errorMessage eq "":)
+						<:if $errorMessage eq "":>
   				 			&nbsp;
-						(:else:)
-   							<span class="red">(:$errorMessage:)</span>
-						(:/if:)	
+						<:else:>
+   							<span class="red"><:$errorMessage:></span>
+						<:/if:>	
 					</li>					
 					<li>
-						<span>(:$newpassword:)</span><br/>
+						<span><:$newpassword:></span><br/>
 						<input type="password" name="newpassword" id="newpassword"/>
 					</li>
 					<li>
-						<span>(:$repassword:)</span><br/>
+						<span><:$repassword:></span><br/>
 						<input type="password" name="retypepassword" id="retypepassword"/>
 					</li>
 					<li>
