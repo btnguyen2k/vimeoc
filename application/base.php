@@ -396,6 +396,17 @@
 	        $output = $saltHash.$outHash;
 	        return $output;
 	    }
+	    
+	    /**
+	     * 
+	     * Assign key value to smarty template
+	     * @param $name
+	     * @param $value
+	     */
+	    function assign($name, $value)
+	    {
+	    	$this->tmpl->assign($name, $value);
+	    }
 	}
 	
 	

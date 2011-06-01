@@ -35,7 +35,7 @@
 					return;
 				}
 			}
-			$this->tmpl->assign('title', $this->loadMessages('home.title'));
+			$this->assign('title', $this->loadMessages('home.title'));
 			$this->loadTemplate('view_home');
 		}
 	}

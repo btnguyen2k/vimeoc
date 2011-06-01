@@ -28,18 +28,18 @@
 				$this->redirect($this->ctx().'/auth/login/');
 			}
 			
-			$this->tmpl->assign('title', $this->loadMessages('home.title'));
+			$this->assign('title', $this->loadMessages('home.title'));
 			
 			$this->loadModel('model_album');
 			$model_album = $this->model_album;
-			$this->tmpl->assign('album_count', $model_album->countAlbumByUserId($userId));
+			$this->assign('album_count', $model_album->countAlbumByUserId($userId));
 			
 			$model_video = $this->loadModel('model_video');
 			$model_video = $this->model_video;
-			$this->tmpl->assign('video_count', $model_video->countVideoByUserId($userId));
+			$this->assign('video_count', $model_video->countVideoByUserId($userId));
 			
 			$videos = $model_video->selectVideoByUserId($userId, 2, 0, 'creation_date', 'DESC');
-			$this->tmpl->assign('recent_videos', $videos);
+			$this->assign('recent_videos', $videos);
 			
 			$this->userHomeMessagesSource();
 			$this->loadTemplate('view_user_home');
@@ -56,17 +56,17 @@
 			{
 				$this->loadModel('model_user');
 				$user = $this->model_user->getUserByUserId($userId);
-				$this->tmpl->assign('userAvatar', $user['avatar']);
+				$this->assign('userAvatar', $user['avatar']);
 			}
 			
-			$this->tmpl->assign("menuUploadVideo", $this->loadMessages('user.menu.link.uploadVideo'));
-			$this->tmpl->assign("menuVideos", $this->loadMessages('user.menu.link.videos'));
-			$this->tmpl->assign("menuAlbums", $this->loadMessages('user.menu.link.albums'));
-			$this->tmpl->assign("menuPersonalInfo", $this->loadMessages('user.menu.link.personalInfo'));
-			$this->tmpl->assign("menuPortrait", $this->loadMessages('user.menu.link.portrait'));
-			$this->tmpl->assign("menuPassword", $this->loadMessages('user.menu.link.password'));
-			$this->tmpl->assign("menuShortcutURL", $this->loadMessages('user.menu.link.shortcutURL'));
-			$this->tmpl->assign("menuLogout", $this->loadMessages('user.menu.link.logout'));
+			$this->assign("menuUploadVideo", $this->loadMessages('user.menu.link.uploadVideo'));
+			$this->assign("menuVideos", $this->loadMessages('user.menu.link.videos'));
+			$this->assign("menuAlbums", $this->loadMessages('user.menu.link.albums'));
+			$this->assign("menuPersonalInfo", $this->loadMessages('user.menu.link.personalInfo'));
+			$this->assign("menuPortrait", $this->loadMessages('user.menu.link.portrait'));
+			$this->assign("menuPassword", $this->loadMessages('user.menu.link.password'));
+			$this->assign("menuShortcutURL", $this->loadMessages('user.menu.link.shortcutURL'));
+			$this->assign("menuLogout", $this->loadMessages('user.menu.link.logout'));
 		}
 		
 		
@@ -78,9 +78,9 @@
 		{
 			$this->defaultUserMessagesSource();
 			
-			$this->tmpl->assign("title", $this->loadMessages('user.shortcut.title'));
-			$this->tmpl->assign("profileShortcut", $this->loadMessages('user.shortcut.profileShortcut'));
-			$this->tmpl->assign("domain", BASE_PATH . CONTEXT);
+			$this->assign("title", $this->loadMessages('user.shortcut.title'));
+			$this->assign("profileShortcut", $this->loadMessages('user.shortcut.profileShortcut'));
+			$this->assign("domain", BASE_PATH . CONTEXT);
 		}
 		
 		/**
@@ -101,7 +101,7 @@
 			if($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$user = $this->model_user->getUserByUserId($userId);
-				$this->tmpl->assign('alias', $user['profile_alias']);
+				$this->assign('alias', $user['profile_alias']);
 				$this->loadTemplate('view_user_shortcut');
 			}
 			else if($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -113,15 +113,15 @@
 				
 				if($this->model_user->existsAlias(array($alias, $userId)))
 				{
-					$this->tmpl->assign('errorMessage', $this->loadErrorMessage('error.user.shortcut.duplicated', array($alias)));
-					$this->tmpl->assign('alias', $user['profile_alias']);
+					$this->assign('errorMessage', $this->loadErrorMessage('error.user.shortcut.duplicated', array($alias)));
+					$this->assign('alias', $user['profile_alias']);
 					$this->loadTemplate('view_user_shortcut');
 				}
 				else 
 				{
 					$this->model_user->updateUserAlias(array($alias, $userId));
-					$this->tmpl->assign('successMessage', $this->loadMessages('user.information.update.success', array("profile shortcut's URL")));
-					$this->tmpl->assign('alias', $alias);
+					$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("profile shortcut's URL")));
+					$this->assign('alias', $alias);
 					$this->loadTemplate('view_user_shortcut');
 				}
 			}
@@ -135,9 +135,9 @@
 		{
 			$this->defaultUserMessagesSource();
 			
-			$this->tmpl->assign('title', $this->loadMessages('user.portrait.title'));
-			$this->tmpl->assign('currentPortrait', $this->loadMessages('user.portrait.current'));
-			$this->tmpl->assign('uploadNew', $this->loadMessages('user.portrait.upload'));					
+			$this->assign('title', $this->loadMessages('user.portrait.title'));
+			$this->assign('currentPortrait', $this->loadMessages('user.portrait.current'));
+			$this->assign('uploadNew', $this->loadMessages('user.portrait.upload'));					
 		}
 		
 		/**
@@ -156,7 +156,7 @@
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$user = $this->model_user->getUserByUserId(array($userId));
-				$this->tmpl->assign('avatar', $user['avatar']);
+				$this->assign('avatar', $user['avatar']);
 				$this->loadTemplate('view_user_portrait');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -176,16 +176,16 @@
 					
 					if($type != 'image/jpeg' && $type != 'image/png' && $type != 'image/gif')
 					{
-						$this->tmpl->assign('errorMessage', $this->loadErrorMessage('error.user.portrait.notsupport'));
-						$this->tmpl->assign('avatar', $user['avatar']);	
+						$this->assign('errorMessage', $this->loadErrorMessage('error.user.portrait.notsupport'));
+						$this->assign('avatar', $user['avatar']);	
 						$this->loadTemplate('view_user_portrait');
 						return;
 					}
 					
 					if($size > 5)
 					{
-						$this->tmpl->assign('errorMessage', 'Maximum file size is 5MB.');
-						$this->tmpl->assign('avatar', $user['avatar']);	
+						$this->assign('errorMessage', 'Maximum file size is 5MB.');
+						$this->assign('avatar', $user['avatar']);	
 						$this->loadTemplate('view_user_portrait');
 						return;
 					}
@@ -202,12 +202,12 @@
 				    
 					if($ret == 0)
 					{
-						$this->tmpl->assign('errorMessage', 'Error');
+						$this->assign('errorMessage', 'Error');
 					}
 					else 
 					{
-						$this->tmpl->assign('successMessage', $this->loadMessages('user.information.update.success', array("portrait")));
-						$this->tmpl->assign('avatar', $name);
+						$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("portrait")));
+						$this->assign('avatar', $name);
 						$this->loadTemplate('view_user_portrait');
 					}
 				}
@@ -222,14 +222,14 @@
 		{
 			$this->defaultUserMessagesSource();
 			
-			$this->tmpl->assign("title", $this->loadMessages('user.personalInfo.title'));
-			$this->tmpl->assign("fullNameTitle", $this->loadMessages('user.personalInfo.fullName'));
-			$this->tmpl->assign("emailTitle", $this->loadMessages('user.personalInfo.email'));
-			$this->tmpl->assign("yourWebsiteTitle", $this->loadMessages('user.personalInfo.website'));
+			$this->assign("title", $this->loadMessages('user.personalInfo.title'));
+			$this->assign("fullNameTitle", $this->loadMessages('user.personalInfo.fullName'));
+			$this->assign("emailTitle", $this->loadMessages('user.personalInfo.email'));
+			$this->assign("yourWebsiteTitle", $this->loadMessages('user.personalInfo.website'));
 			
-			$this->tmpl->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
-			$this->tmpl->assign('urlInvalid', $this->loadErrorMessage('error.url.invalid'));
-			$this->tmpl->assign('requiredField', $this->loadErrorMessage('error.field.required'));
+			$this->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
+			$this->assign('urlInvalid', $this->loadErrorMessage('error.url.invalid'));
+			$this->assign('requiredField', $this->loadErrorMessage('error.field.required'));
 		}
 		
 		/**
@@ -250,9 +250,9 @@
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$user = $this->model_user->getUserByUserId(array($userId));
-				$this->tmpl->assign('fullName', $user['full_name']);
-				$this->tmpl->assign('email', $user['email']);
-				$this->tmpl->assign('website', $user['website']);
+				$this->assign('fullName', $user['full_name']);
+				$this->assign('email', $user['email']);
+				$this->assign('website', $user['website']);
 				
 				$this->loadTemplate('view_user_info');
 			} 
@@ -267,17 +267,17 @@
 				
 				if($ret == 0)
 				{
-					$this->tmpl->assign('errorMessage', 'Error');
+					$this->assign('errorMessage', 'Error');
 				}
 				else 
 				{
-					$this->tmpl->assign('successMessage', $this->loadMessages('user.information.update.success', array("personal info")));
+					$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("personal info")));
 				}
 				
 				$user = $this->model_user->getUserByUserId(array($userId));
-				$this->tmpl->assign('fullName', $user['full_name']);
-				$this->tmpl->assign('email', $user['email']);
-				$this->tmpl->assign('website', $user['website']);
+				$this->assign('fullName', $user['full_name']);
+				$this->assign('email', $user['email']);
+				$this->assign('website', $user['website']);
 				$this->loadTemplate('view_user_info');
 			}
 		}
@@ -290,10 +290,10 @@
 		{
 			$this->defaultUserMessagesSource();
 			
-			$this->tmpl->assign("title", $this->loadMessages('user.password.title'));
-			$this->tmpl->assign("currentpassword", $this->loadMessages('user.password.currentpassword'));
-			$this->tmpl->assign("newpassword", $this->loadMessages('user.password.newpassword'));
-			$this->tmpl->assign("repassword", $this->loadMessages('user.password.retypepassword'));
+			$this->assign("title", $this->loadMessages('user.password.title'));
+			$this->assign("currentpassword", $this->loadMessages('user.password.currentpassword'));
+			$this->assign("newpassword", $this->loadMessages('user.password.newpassword'));
+			$this->assign("repassword", $this->loadMessages('user.password.retypepassword'));
 			
 		}
 		
@@ -328,18 +328,18 @@
 					
 					if($res == 0)
 					{
-						$this->tmpl->assign('FailMessage', $this->loadMessages('user.password.fail'));
+						$this->assign('FailMessage', $this->loadMessages('user.password.fail'));
 						$this->loadTemplate('view_user_password');
 					}
 					else 
 					{
-						$this->tmpl->assign('successMessage', $this->loadMessages('user.password.success'));
+						$this->assign('successMessage', $this->loadMessages('user.password.success'));
 						$this->loadTemplate('view_user_password');
 					}
 				}
 				else 
 				{
-					$this->tmpl->assign("errorMessage", $this->loadMessages('user.password.error'));
+					$this->assign("errorMessage", $this->loadMessages('user.password.error'));
 					$this->loadTemplate('view_user_password');
 				}
 			}
@@ -350,7 +350,7 @@
 		 */
 		function userprofileMessagesSource()
 		{
-			$this->tmpl->assign("title", $this->loadMessages('user.profile.title'));
+			$this->assign("title", $this->loadMessages('user.profile.title'));
 		}
 		
 		/**
@@ -365,7 +365,7 @@
 				$id=$_GET['userId'];
 				$params=array($id);
 				$fullname=$this->model_user->getFullNamebyUserId($params);
-				$this->tmpl->assign("fullname",$fullname['full_name']);
+				$this->assign("fullname",$fullname['full_name']);
 				$this->loadTemplate('view_user_profile');
 				
 			} 
@@ -521,11 +521,11 @@
 					$pagination.= "</div>\n";		
 				}
 			}else{
-				$this->tmpl->assign('message', 'You have no video');
+				$this->assign('message', 'You have no video');
 			}
 			
-			$this->tmpl->assign('videos', $videos);
-			$this->tmpl->assign('pagination', $pagination);
+			$this->assign('videos', $videos);
+			$this->assign('pagination', $pagination);
 			
 			$this->userVideoMessagesSource();
 			$this->loadTemplate('view_user_video');
@@ -538,14 +538,14 @@
 		
 		function videopageMessagesSource()
 		{
-			$this->tmpl->assign("title", $this->loadMessages('user.videopage.title'));
-			$this->tmpl->assign("day", $this->loadMessages('user.videopage.day'));
-			$this->tmpl->assign("by", $this->loadMessages('user.videopage.by'));
-			$this->tmpl->assign("plays", $this->loadMessages('user.videopage.plays'));
-			$this->tmpl->assign("comments", $this->loadMessages('user.videopage.comments'));
-			$this->tmpl->assign("likes", $this->loadMessages('user.videopage.likes'));
-			$this->tmpl->assign("tag", $this->loadMessages('user.videopage.tag'));
-			$this->tmpl->assign("albums", $this->loadMessages('user.videopage.albums'));
+			$this->assign("title", $this->loadMessages('user.videopage.title'));
+			$this->assign("day", $this->loadMessages('user.videopage.day'));
+			$this->assign("by", $this->loadMessages('user.videopage.by'));
+			$this->assign("plays", $this->loadMessages('user.videopage.plays'));
+			$this->assign("comments", $this->loadMessages('user.videopage.comments'));
+			$this->assign("likes", $this->loadMessages('user.videopage.likes'));
+			$this->assign("tag", $this->loadMessages('user.videopage.tag'));
+			$this->assign("albums", $this->loadMessages('user.videopage.albums'));
 		}
 		/**
 		 * Display video pages
@@ -567,12 +567,12 @@
 				$comment=$this->model_video->getcommentbyId($params);
 				$like=$this->model_video->getlikebyId($params);
 				$album=$this->model_video->getAlbumbyId(array($id,$userid));
-				$this->tmpl->assign("play",$play['play_count']);
-				$this->tmpl->assign("comment",$comment['comment_count']);
-				$this->tmpl->assign("like",$like['like_count']);
-				$this->tmpl->assign("album",$album['album_name']);
-				$this->tmpl->assign("fullname",$fullname['full_name']);
-				$this->tmpl->assign("video",$video);
+				$this->assign("play",$play['play_count']);
+				$this->assign("comment",$comment['comment_count']);
+				$this->assign("like",$like['like_count']);
+				$this->assign("album",$album['album_name']);
+				$this->assign("fullname",$fullname['full_name']);
+				$this->assign("video",$video);
 				$this->loadTemplate('view_videopage');
 			} 
 		}

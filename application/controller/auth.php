@@ -41,14 +41,14 @@
 		
 		function loginMessagesSource()
 		{
-			$this->tmpl->assign("title", $this->loadMessages('auth.login.title'));
-			$this->tmpl->assign("loginForm", $this->loadMessages('auth.login.title'));
-			$this->tmpl->assign("email",$this->loadMessages('auth.login.username'));
-			$this->tmpl->assign("password", $this->loadMessages('auth.login.password'));
-			$this->tmpl->assign("submit", $this->loadMessages('auth.login.submit'));
+			$this->assign("title", $this->loadMessages('auth.login.title'));
+			$this->assign("loginForm", $this->loadMessages('auth.login.title'));
+			$this->assign("email",$this->loadMessages('auth.login.username'));
+			$this->assign("password", $this->loadMessages('auth.login.password'));
+			$this->assign("submit", $this->loadMessages('auth.login.submit'));
 			
-			$this->tmpl->assign('passwordInvalid', $this->loadErrorMessage('error.password.invalid'));
-			$this->tmpl->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
+			$this->assign('passwordInvalid', $this->loadErrorMessage('error.password.invalid'));
+			$this->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
 		}
 
 		/** 
@@ -105,8 +105,8 @@
 				}				
 				else 
 				{	
-					$this->tmpl->assign("errorMessage", $this->loadMessages('auth.login.error'));
-					$this->tmpl->assign("username", $username);
+					$this->assign("errorMessage", $this->loadMessages('auth.login.error'));
+					$this->assign("username", $username);
 					$this->loadTemplate('view_login');
 				}				
 			}
@@ -119,20 +119,20 @@
 		
 		function signupMessagesSource()
 		{
-			$this->tmpl->assign("fullname",$this->loadMessages('auth.signup.fullname'));
-			$this->tmpl->assign("title", $this->loadMessages('auth.signup.title'));
-			$this->tmpl->assign("password", $this->loadMessages('auth.signup.password'));
-			$this->tmpl->assign("email", $this->loadMessages('auth.signup.email'));
-			$this->tmpl->assign("rpassword", $this->loadMessages('auth.signup.rpassword'));
-			$this->tmpl->assign("understand", $this->loadMessages('auth.signup.understand'));
-			$this->tmpl->assign("term", $this->loadMessages('auth.signup.term'));
+			$this->assign("fullname",$this->loadMessages('auth.signup.fullname'));
+			$this->assign("title", $this->loadMessages('auth.signup.title'));
+			$this->assign("password", $this->loadMessages('auth.signup.password'));
+			$this->assign("email", $this->loadMessages('auth.signup.email'));
+			$this->assign("rpassword", $this->loadMessages('auth.signup.rpassword'));
+			$this->assign("understand", $this->loadMessages('auth.signup.understand'));
+			$this->assign("term", $this->loadMessages('auth.signup.term'));
 			
-			$this->tmpl->assign('passwordInvalid', $this->loadErrorMessage('error.password.invalid'));
-			$this->tmpl->assign('mathpasswordInvalid', $this->loadErrorMessage('error.mathpassword.invalid'));
-			$this->tmpl->assign('termInvalid', $this->loadErrorMessage('error.term.invalid'));
-			$this->tmpl->assign('retypepasswordInvalid', $this->loadErrorMessage('error.retypepassword.invalid'));
-			$this->tmpl->assign('fullnameInvalid', $this->loadErrorMessage('error.fullname.invalid'));
-			$this->tmpl->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
+			$this->assign('passwordInvalid', $this->loadErrorMessage('error.password.invalid'));
+			$this->assign('mathpasswordInvalid', $this->loadErrorMessage('error.mathpassword.invalid'));
+			$this->assign('termInvalid', $this->loadErrorMessage('error.term.invalid'));
+			$this->assign('retypepasswordInvalid', $this->loadErrorMessage('error.retypepassword.invalid'));
+			$this->assign('fullnameInvalid', $this->loadErrorMessage('error.fullname.invalid'));
+			$this->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
 		}
 		
 		/**
@@ -169,7 +169,7 @@
 				
 				if ($this->model_user->isExists(array($username)) == true)
 				{
-					$this->tmpl->assign("errorMessage", $this->loadMessages('auth.signup.errors'));
+					$this->assign("errorMessage", $this->loadMessages('auth.signup.errors'));
 					$this->loadTemplate('view_signup');
 				}
 				else 
@@ -183,8 +183,8 @@
 					$user['password']=$password2;
 					$this->sendingEmailWithSmarty('mail_welcome', 'user', $user, null, $user['email']);
 					
-					$this->tmpl->assign("success",$this->loadMessages('auth.thankyou.success'));
-					$this->tmpl->assign("login",$this->loadMessages('auth.thankyou.login'));
+					$this->assign("success",$this->loadMessages('auth.thankyou.success'));
+					$this->assign("login",$this->loadMessages('auth.thankyou.login'));
 					$this->loadTemplate('view_thankyou');
 				}
 			}
@@ -195,8 +195,8 @@
 		
 		function forgotPasswordMessagesSource() 
 		{
-			$this->tmpl->assign("title",$this->loadMessages('auth.forgotpassword.title'));
-			$this->tmpl->assign("email",$this->loadMessages('auth.forgotpassword.email'));
+			$this->assign("title",$this->loadMessages('auth.forgotpassword.title'));
+			$this->assign("email",$this->loadMessages('auth.forgotpassword.email'));
 		}
 		
 		/**
@@ -219,7 +219,7 @@
 			
 				if ($this->model_user->isExists(array($username)) == false)
 				{
-					$this->tmpl->assign("error", $this->loadMessages('auth.forgotpassword.error'));
+					$this->assign("error", $this->loadMessages('auth.forgotpassword.error'));
 					$this->loadTemplate('view_forgotpassword');
 				}
 				else 
@@ -234,7 +234,7 @@
 					$user['email']=$email;
 					$user['domain']=BASE_PATH . CONTEXT;
 					$this->sendingEmailWithSmarty('mail_forgotpassword', 'user', $user, null, $user['email']);
-					$this->tmpl->assign("sent",$this->loadMessages('auth.submitsucceed.sent'));
+					$this->assign("sent",$this->loadMessages('auth.submitsucceed.sent'));
 					$this->loadTemplate('view_sent_resetpassword_result');
 				}		
 			}
@@ -246,8 +246,8 @@
 		
 		function resetPasswordMessagesSource()
 		{
-			$this->tmpl->assign("title",$this->loadMessages('auth.resetpassword.title'));
-			$this->tmpl->assign("password",$this->loadMessages('auth.resetpassword.password'));
+			$this->assign("title",$this->loadMessages('auth.resetpassword.title'));
+			$this->assign("password",$this->loadMessages('auth.resetpassword.password'));
 		}
 		
 		/**
@@ -261,7 +261,7 @@
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$email=$_GET['email'];		
-				$this->tmpl->assign("email",$email);		
+				$this->assign("email",$email);		
 				$code=$_GET['secret'];
 				$salt=$this->loadResources('salt');
 				$ecode=$this->encodeUsername($email,$salt);
@@ -271,8 +271,8 @@
 				}
 				else 
 				{
-					$this->tmpl->assign("reset",$this->loadMessages('auth.invalid.reset'));
-					$this->tmpl->assign("try",$this->loadMessages('auth.invalid.try'));
+					$this->assign("reset",$this->loadMessages('auth.invalid.reset'));
+					$this->assign("try",$this->loadMessages('auth.invalid.try'));
 					$this->loadTemplate('view_invalid');
 				}	
 			}
@@ -282,9 +282,9 @@
 				$emails=$_POST['email'];
 				$params=array($this->encodePassword($password),$emails);
 				$this->model_user->updatePassword($params);
-				$this->tmpl->assign("title",$this->loadMessages('auth.valid.title'));
-				$this->tmpl->assign("success",$this->loadMessages('auth.valid.reset'));
-				$this->tmpl->assign("login",$this->loadMessages('auth.valid.login'));
+				$this->assign("title",$this->loadMessages('auth.valid.title'));
+				$this->assign("success",$this->loadMessages('auth.valid.reset'));
+				$this->assign("login",$this->loadMessages('auth.valid.login'));
 				$this->loadTemplate('view_valid');
 			}			
 		}	
@@ -298,8 +298,8 @@
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
 			{
-				$this->tmpl->assign("reset",$this->loadMessages('auth.valid.reset'));
-				$this->tmpl->assign("login",$this->loadMessages('auth.valid.login'));
+				$this->assign("reset",$this->loadMessages('auth.valid.reset'));
+				$this->assign("login",$this->loadMessages('auth.valid.login'));
 				$this->loadTemplate('view_valid');
 			}
 			elseif ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -310,8 +310,8 @@
 					}
 					else 
 					{
-						$this->tmpl->assign("success",$this->loadMessages('auth.valid.reset'));
-						$this->tmpl->assign("login",$this->loadMessages('auth.valid.login'));
+						$this->assign("success",$this->loadMessages('auth.valid.reset'));
+						$this->assign("login",$this->loadMessages('auth.valid.login'));
 						$this->loadTemplate('view_valid');
 					}
 			}
@@ -324,8 +324,8 @@
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
 			{
-				$this->tmpl->assign("reset",$this->loadMessages('auth.invalid.reset'));
-				$this->tmpl->assign("try",$this->loadMessages('auth.invalid.try'));
+				$this->assign("reset",$this->loadMessages('auth.invalid.reset'));
+				$this->assign("try",$this->loadMessages('auth.invalid.try'));
 				$this->loadTemplate('view_invalid');
 			}
 			elseif ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -336,8 +336,8 @@
 				}
 				else 
 				{
-					$this->tmpl->assign("reset",$this->loadMessages('auth.invalid.reset'));
-					$this->tmpl->assign("try",$this->loadMessages('auth.invalid.try'));
+					$this->assign("reset",$this->loadMessages('auth.invalid.reset'));
+					$this->assign("try",$this->loadMessages('auth.invalid.try'));
 					$this->loadTemplate('view_invalid');
 				}
 			}
