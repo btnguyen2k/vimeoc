@@ -443,6 +443,7 @@
 			$_default_display_mode = 1;
 			$_default_sort_mode = 1;
 			$_default_page_size = 2;
+			$_default_search_term = '';
 			
 			$videos = array();
 			$pagination = '';
@@ -474,6 +475,11 @@
 				}else{
 					$_page_size = $_search_obj->psize ? $_search_obj->psize : $_default_page_size;
 				}
+				if(in_array('term', array_keys($_GET))){
+					$_search_term = trim($_GET['term']);
+				}else{
+					$_search_term = $_search_obj->term ? $_search_obj->term : $_default_search_term;
+				}
 			}
 			$page = $_GET['page'] ? $_GET['page'] : 1;			
 			if(!is_numeric($page)){
@@ -489,18 +495,19 @@
 			
 			$_search_obj->mode = $_display_mode;
 			$_search_obj->sort = $_sort_mode;
-			$_search_obj-> psize = $_page_size;
+			$_search_obj->psize = $_page_size;
+			$_search_obj->term = $_search_term;
 			$_SESSION['SEARCH'] = serialize($_search_obj);
 			
 			$this->loadModel('model_video');
 			$model_video = $this->model_video;
-			$video_count = $model_video->countVideoByUserId($userId, $limit, $offset, $sort_column, $sort_order);
+			$video_count = $model_video->countVideoByUserId($userId, $limit, $offset, $_search_term, $sort_column, $sort_order);
 			if($video_count > 0){
 				if($limit > 0){
 					if($limit && ($page > ceil($video_count / $limit))){
 						$this->redirect($this->ctx().'/user/video/');
 					}
-					$videos = $model_video->selectVideoByUserId($userId, $limit, $offset, $sort_column, $sort_order);
+					$videos = $model_video->selectVideoByUserId($userId, $limit, $offset, $_search_term, $sort_column, $sort_order);
 					//var_dump($videos);
 					//paging
 					//$video_count = 30;
@@ -600,7 +607,7 @@
 						$pagination.= "</div>\n";		
 					}
 				}else{
-					$videos = $model_video->selectVideoByUserId($userId, $limit, $offset, $sort_column, $sort_order);
+					$videos = $model_video->selectVideoByUserId($userId, $limit, $offset, $_search_term, $sort_column, $sort_order);
 				}
 			}else{
 				$this->assign('message', 'You have no video');
@@ -615,6 +622,7 @@
 			$this->assign('display_mode', $_display_mode);
 			$this->assign('sort_mode', $_sort_mode);
 			$this->assign('page_size', $_page_size);
+			$this->assign('search_term', $_search_term);
 			
 			//var_dump($_SERVER);
 			$this->userVideoMessagesSource();
