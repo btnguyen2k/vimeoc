@@ -54,37 +54,37 @@
 		
 	}
 </script>
-<h1 align="center">{$title}</h1>
-<form onSubmit="return checkEmail()" name="signupform" action="{$ctx}/auth/signup/" method="post">
+<h1 align="center">(:$title}</h1>
+<form onSubmit="return checkEmail()" name="signupform" action="(:$ctx:)/auth/signup/" method="post">
 	<div>
-		{$fullname}<input id="fullname" name="fullname" />
-		<span class="red" id="error_valid_fullname" style="display: none;">{$fullnameInvalid}</span>
+		(:$fullname:)<input id="fullname" name="fullname" />
+		<span class="red" id="error_valid_fullname" style="display: none;">(:$fullnameInvalid:)</span>
 	</div>
 	<div>
-		{$email} <input name="email" type="text" class="inputs" id="email_address"size="35" maxlength="255">
-		<span class="red" id="error_valid_email" style="display: none;">{$emailInvalid}</span>
-		{if $errorMessage eq ""}
+		(:$email:) <input name="email" type="text" class="inputs" id="email_address"size="35" maxlength="255">
+		<span class="red" id="error_valid_email" style="display: none;">(:$emailInvalid:)</span>
+		(:if $errorMessage eq "":)
   			 &nbsp;
-		{else}
-   			<span class="red">{$errorMessage}</span>
-		{/if}
+		(:else:)
+   			<span class="red">(:$errorMessage:)</span>
+		(:/if:)
 	</div> 
 	<div>
-		{$password}<input id="password" type="password" name="password" />
-		<span class="red" id="error_valid_password" style="display: none;">{$passwordInvalid}</span>
+		(:$password:)<input id="password" type="password" name="password" />
+		<span class="red" id="error_valid_password" style="display: none;">(:$passwordInvalid:)</span>
 		
 	</div>
 	<div>
-		{$rpassword}<input id="rpassword" type="password" name="rpassword" />
-		<span class="red" id="error_valid_rpassword" style="display: none;">{$retypepasswordInvalid}</span>
-		<span class="red" id="error_valid_mpassword" style="display: none;">{$mathpasswordInvalid}</span>
+		(:$rpassword:)<input id="rpassword" type="password" name="rpassword" />
+		<span class="red" id="error_valid_rpassword" style="display: none;">(:$retypepasswordInvalid:)</span>
+		<span class="red" id="error_valid_mpassword" style="display: none;">(:$mathpasswordInvalid:)</span>
 	</div>
 	<div>	
-		<input id="agree" type="checkbox" name="agree"/> {$understand}<a href="#">{$term}</a>
+		<input id="agree" type="checkbox" name="agree"/> (:$understand:)<a href="#">(:$term:)</a>
 		
 	</div>
 	<div>
-	<span class="red" id="error_valid_term" style="display: none;">{$termInvalid}</span><br/>
+	<span class="red" id="error_valid_term" style="display: none;">(:$termInvalid:)</span><br/>
 		<input type="submit" value="Sign Up" />
 		
 	</div>	
