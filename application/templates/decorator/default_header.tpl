@@ -1,4 +1,4 @@
-<title>{$title}</title>
+<title>(:$title:)</title>
 <link href="{$ctx}/css/style.css" rel="stylesheet" type="text/css">
 
 <!-- jquery library -->
@@ -11,7 +11,7 @@
 <!-- Global -->
 <script type="text/javascript" src="{$ctx}/script/global.js"></script>
 <script type="text/javascript">
-	var ctx = '{$ctx}';
+	var ctx = '(:$ctx:)';
 </script>
 
 <meta http-equiv="content-language" content="en" />

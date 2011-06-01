@@ -1,8 +1,8 @@
-<h1 align="center">{$title}</h1>
-<form name="resetpasswordform" action="{$ctx}/auth/resetPassword/" method="post">
+<h1 align="center">(:$title:)</h1>
+<form name="resetpasswordform" action="(:$ctx:)/auth/resetPassword/" method="post">
 	<div>
-		{$password}<input id="password" type="password" name='password'/>
-		<input type="hidden" name="email" value="{$email}"/>
+		(:$password:)<input id="password" type="password" name='password'/>
+		<input type="hidden" name="email" value="(:$email:)"/>
 	</div>
 	<div>
 		<input id="save" type="submit" value="Save"/>

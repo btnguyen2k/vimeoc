@@ -1,6 +1,6 @@
 <script type="text/javascript">
 	function checkProfileAlias(form){
-		var regex = /[^a-zA-Z0-9]/;
+		var regex = /[^a-zA-Z0-9]{1,16}/;
 		var alias = $(form).find("input[name=alias]").val();		
 
 		var flag = !regex.test(alias) && alias.length <= 16;
