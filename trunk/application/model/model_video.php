@@ -53,9 +53,9 @@
 		 * 
 		 * Select data
 		 */
-		function countVideoByUserId($params)
+		function countVideoByUserId($id, $limit = 0, $offset = 0)
 		{					
-			$sql = 'select 
+			/*$sql = 'select 
 						count(id) as `count` 
 					from 
 						video 
@@ -63,7 +63,30 @@
 						user_id = ? ';
 			$types = array('integer');
 			$res = $this->execute_query($sql,$params,$types);
-			return $res[0]['count'];
+			return $res[0]['count'];*/
+			
+			$types = array();
+			$params = array(); 
+			$sql = "select 
+						count(id) as `count`
+					from 
+						video 
+					where 
+						user_id = ? ";
+			$types[] = 'integer';
+			
+			$params[] = $id;
+			//var_dump($sql);
+			/*if($limit > 0){
+				$sql .= ' limit ? offset ?';
+				$types[] = 'integer';
+				$types[] = 'integer';
+				$params[] = $limit;
+				$params[] = $offset;
+			}*/
+			$res = $this->execute_query($sql,$params,$types);
+
+			return ($res[0] && $res[0]['count']) ? $res[0]['count'] : 0;
 		}
 		/**
 		 * 
