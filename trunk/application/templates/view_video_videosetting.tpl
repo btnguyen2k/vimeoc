@@ -36,8 +36,19 @@
 	
 	<div id="video_videosetting_body" class="video_page_body">
 		<center><h1><:$name:></h1></center><br/>
+			<:if $FailMessage eq "":>
+		  		 &nbsp;
+			<:else:>
+		   		<span class="red"><:$FailMessage:></span>
+			<:/if:>
+			
+			<:if $successMessage eq "":>
+  				 &nbsp;
+			<:else:>
+   				<span class="green" align="center"><:$successMessage:></span>
+			<:/if:>
 		
-		<form action="<:$ctx:>/video/videosetting" method="post" onSubmit="return checkvalidate()" name="videosettingform">
+		<form action="<:$ctx:>/video/videoSetting" method="post" onSubmit="return checkvalidate()" name="videosettingform">
 			<fieldset>
 				<ul>
 					<li>
@@ -52,19 +63,15 @@
 					</li>
 					<li>
 						<span><:$tag:></span><br/>
-						<input type="text" name="tag" id="tag" value="<:$tag_:>"/>
+						<input type="text" name="tag" id="tag" size=40 value="<:section name=a loop=$tag_:><:$tag_[a].name:>,<:/section:>"/>
 						<span class="red" id="error_valid_tag" style="display: none;"><:$tagInvalid:></span>
 					</li>
 					<li>
 						<input type="submit" value="Save" />
 					</li>
-					<div>
-						<:section name=foo loop=$tag_ step=-1:>
-						<:section foo $tag_ step=-1:>
-  						<:$tag_[foo]:><br />
-						<:/section:>
-					</div>
-					
+					<li>
+						<input type="hidden" name="videoid" value="<:$hiddenvideo:>"/>
+					</li>
 				</ul>
 			</fieldset>
 		</form>

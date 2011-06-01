@@ -86,7 +86,7 @@
 		 *Get play by user Id ...
 		 * @param $params
 		 */
-		function getplaybyUserId($params)
+		function getPlaybyUserId($params)
 		{
 			$sql= 'select play_count from video where user_id=?';
 			$types =  array('text','integer');
@@ -102,7 +102,7 @@
 		 * Get comment by user Id ...
 		 * @param $params
 		 */
-		function getcommentbyId($params)
+		function getCommentbyId($params)
 		{	
 			$sql= 'select comment_count from video where id=?';
 			$types =  array('text','integer');
@@ -116,7 +116,7 @@
 		/**
 		 * Get likes by user Id
 		 */
-		function getlikebyId($params)
+		function getLikebyId($params)
 		{	
 			$sql= 'select like_count from video where id=?';
 			$types =  array('text','integer');
@@ -167,26 +167,23 @@
 		 * select tag by tag_ID
 		 * @param $params
 		 */
-		function gettagfromtagandtagcomponent($params)
+		function getTagfromTagandTagcomponent($params)
 		{
 			$sql = "select name from tag t inner join tag_component tc on t.id=tc.tag_id
 			where tc.component_type=? and tc.component_id=? ";
 			$types= array('integer','integer');
 			$res = $this->execute_query($sql,$params,$types);
-			if(sizeof($res) > 0)
-			{
-				return $res[0] ;
-			}
-			return null;
+			return $res;
 		}
 		/**
 		 * select video from video
 		 * @param $params
 		 */
-		function getvideofromvideoId($params)
+		function getVideofromVideoId($params)
 		{
-			$sql = "select* from video where id=?";
-			$types = array('integer');
+			$sql = "select* from video v inner join tag_component tc on v.id=tc.component_id 
+			where v.id=? and tc.component_id=?";
+			$types = array('integer','integer');
 			$res = $this->execute_query($sql,$params,$types);
 			if(sizeof($res) > 0)
 			{
@@ -205,10 +202,6 @@
 			$types= array('text','text','integer');
 			$res = $this->execute_command($sql,$params,$types);
 		}
-		/**
-		 * update tag by component_type and component_id
-		 * @param $params
-		 */
 		
 		//function updateTagbyComponentTypeandComponentId
 		
