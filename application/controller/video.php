@@ -52,7 +52,7 @@
 		 * 
 		 */
 		
-		function videosettingMessagesSource()
+		function videoSettingMessagesSource()
 		{
 			$this->defaultVideoMessagesSource();
 			
@@ -70,7 +70,7 @@
 		 *
 		 */
 		
-		function videosetting()
+		function videoSetting()
 		{
 			$this->loadModel('model_video');	
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
@@ -78,11 +78,12 @@
 				$videoid=$_GET['videoid'];
 				$tagid=$_GET['tagid'];
 				$tcid=$_GET['tcid'];
-				$video= $this->model_video->getvideofromvideoId(array($videoid));
+				$video= $this->model_video->getVideofromVideoId(array($videoid,$tcid));
 				$this->assign('title_', $video['video_title']);
 				$this->assign('description_', $video['description']);
-				$tags=$this->model_video->gettagfromtagandtagcomponent(array($tagid,$tcid));
+				$tags=$this->model_video->getTagfromTagandTagcomponent(array($tagid,$tcid));
 				$this->assign('tag_', $tags);
+				$this->assign('hiddenvideo',$videoid);
 				$this->loadTemplate('view_video_videosetting');
 				// Session to get videoid, tagid and tcid
 			}
@@ -91,6 +92,12 @@
 				$title=$_POST['title'];
 				$description=$_POST['description'];
 				$tag=$_POST['tag'];
+				$videoid=$_POST['videoid'];
+				$tagid=$_POST['tagid'];
+				$tcid=$_POST['tcid'];
+				$updatetitle= $this->model_video->updateTitlebyId(array($title,$videoid));
+				$updatedescrition= $this->model_video->updateDescriptionbyId(array($description,$videoid));
+				$this->assign('successMessage', $this->loadMessages('user.videosetting.updatesuccess'));
 				$this->loadTemplate('view_video_videosetting');
 			}
 		}

@@ -295,6 +295,9 @@
 			$this->assign("newpassword", $this->loadMessages('user.password.newpassword'));
 			$this->assign("repassword", $this->loadMessages('user.password.retypepassword'));
 			
+			$this->assign('cpassword', $this->loadErrorMessage('error.password.invalid'));
+			$this->assign('mpassword', $this->loadErrorMessage('error.mathpassword.invalid'));
+			
 		}
 		
 		/**
@@ -367,7 +370,6 @@
 				$fullname=$this->model_user->getFullNamebyUserId($params);
 				$this->assign("fullname",$fullname['full_name']);
 				$this->loadTemplate('view_user_profile');
-				
 			} 
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 			{
@@ -563,9 +565,9 @@
 				$userid=$_GET['userId'];
 				$params=array($id);
 				$fullname=$this->model_user->getFullNamebyUserId(array($userid));
-				$play=$this->model_video->getplaybyUserId(array($userid));
-				$comment=$this->model_video->getcommentbyId($params);
-				$like=$this->model_video->getlikebyId($params);
+				$play=$this->model_video->getPlaybyUserId(array($userid));
+				$comment=$this->model_video->getCommentbyId($params);
+				$like=$this->model_video->getLikebyId($params);
 				$album=$this->model_video->getAlbumbyId(array($id,$userid));
 				$this->assign("play",$play['play_count']);
 				$this->assign("comment",$comment['comment_count']);

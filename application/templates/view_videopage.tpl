@@ -21,4 +21,4 @@
 		<:else:>
 			<img src="<:$ctx:>/images/icon-video.gif" width="100"/>
 		<:/if:>
-	</div>	
+	</div>

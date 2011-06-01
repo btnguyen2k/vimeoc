@@ -197,6 +197,8 @@
 		{
 			$this->assign("title",$this->loadMessages('auth.forgotpassword.title'));
 			$this->assign("email",$this->loadMessages('auth.forgotpassword.email'));
+			
+			$this->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
 		}
 		
 		/**
