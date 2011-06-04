@@ -72,6 +72,13 @@
 		
 		function videoSetting()
 		{
+			$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			
 			$this->loadModel('model_video');	
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
@@ -99,6 +106,70 @@
 				$updatedescrition= $this->model_video->updateDescriptionbyId(array($description,$videoid));
 				$this->assign('successMessage', $this->loadMessages('user.videosetting.updatesuccess'));
 				$this->loadTemplate('view_video_videosetting');
+			}
+		}
+		/**
+		 *  Load messages source for video_addtopage
+		 * 
+		 */
+		
+		function addToPageMessagesSource()
+		{
+			$this->defaultVideoMessagesSource();
+			
+			$this->assign("add", $this->loadMessages('video.addtopage.addtialbum'));
+			$this->assign("title", $this->loadMessages('video.addtopage.title'));
+			
+		}
+		
+		/**
+		 * view and action for video_addtopage
+		 */
+		function addToPage()
+		{
+			$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			$this->loadModel('model_video');
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
+			{
+				$this->loadModel('model_video');	
+				$videoid=$_GET['videoId'];
+				$albums= $this->model_video->getAlbumByUserId(array($userId));
+				$video=$this->model_video->getVideoByVideoId(array($userId,$videoid));
+				$this->assign("videoid",$videoid);
+				$this->assign("video",$video['video_title']);
+				$this->assign("albums",$albums);
+				$this->loadTemplate('view_video_addtopage');
+			}
+			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$videoid=$_POST['videoid'];
+				$albumid=$_POST["album_id"];
+				$mAlbumId = split(',', $albumid);
+				$albumUncheck = $_POST["albumUncheck"];
+				$mAlbumUncheck = split(',', $albumUncheck);
+				for($j=0;$j<sizeof($mAlbumUncheck);$j++)
+				{
+					$this->model_video->dropAlbumIdAndVideoId(array($mAlbumUncheck[$j],$videoid));
+				}
+				
+				for($i=0;$i<sizeof($mAlbumId);$i++)
+				{
+					if ($this->model_video->isExist(array($mAlbumId[$i],$videoid)) == true)
+					{
+						$this->assign("errorMessage", $this->loadMessages('video.addtopage.error'));
+					}
+					else 
+					{
+						$this->model_video->addVideoToAlBum(array($mAlbumId[$i],$videoid));
+						$this->assign('successMessage', $this->loadMessages('video.addtopage.successful'));
+					}
+				}
+					$this->loadTemplate('view_video_addtopage');
 			}
 		}
 	}

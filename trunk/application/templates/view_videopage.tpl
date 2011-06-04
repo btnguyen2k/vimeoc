@@ -10,7 +10,7 @@
 		<:$play:><:$plays:>,<:$comment:><:$comments:>,<:$like:><:$likes:>
 	</div>
 	<div align="right">
-		<:$tag:>
+		<:$tag:><:section name=a loop=$tags:><:$tags[a].name:>,<:/section:>
 	</div>
 	<div align="right">
 		<:$albums:><span class=blue><:$album:></span>
