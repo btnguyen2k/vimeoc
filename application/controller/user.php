@@ -316,6 +316,7 @@
 			$this->loadModel('model_user');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
+				$this->assign('a',$userId);
 				$this->loadTemplate('view_user_password');
 			} 
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST') 
@@ -652,19 +653,25 @@
 		
 		function videopage()
 		{
+		$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			
 			$this->loadModel('model_user');
 			$this->loadModel('model_video');
 			$video=array();
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$id=$_GET['Id'];
-				$userid=$_GET['userId'];
 				$params=array($id);
-				$fullname=$this->model_user->getFullNamebyUserId(array($userid));
-				$play=$this->model_video->getPlaybyUserId(array($userid));
+				$fullname=$this->model_user->getFullNamebyUserId(array($userId));
+				$play=$this->model_video->getPlaybyUserId(array($userId));
 				$comment=$this->model_video->getCommentbyId($params);
 				$like=$this->model_video->getLikebyId($params);
-				$album=$this->model_video->getAlbumbyId(array($id,$userid));
+				$album=$this->model_video->getAlbumbyId(array($id,$userId));
 				$this->assign("play",$play['play_count']);
 				$this->assign("comment",$comment['comment_count']);
 				$this->assign("like",$like['like_count']);
