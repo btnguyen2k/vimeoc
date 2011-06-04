@@ -26,8 +26,13 @@
 			$params = array(); 
 			$sql = "select 
 						id as `id`,
-						video_path as `video_path`,
-						thumbnails_path as `thumbnails_path` 
+						video_path as `video_path`, 
+						video_title as `video_title`, 
+						thumbnails_path as `thumbnails_path`, 
+						play_count as `play_count`, 
+						comment_count as `comment_count`, 
+						like_count as `like_count`, 
+						creation_date as `creation_date` 
 					from 
 						video 
 					where 
@@ -45,7 +50,7 @@
 				$params[] = $offset;
 			}
 			$res = $this->execute_query($sql,$params,$types);
-
+			
 			return $res;
 		}
 

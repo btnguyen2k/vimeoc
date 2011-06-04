@@ -29,6 +29,7 @@
 		 */
 		function logout()
 		{
+			session_destroy();
 			$this->sessionDefaults(); 			
 	
 			$this->redirect($this->ctx().'/home');	

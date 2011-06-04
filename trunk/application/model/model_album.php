@@ -36,6 +36,28 @@
 		
 		/**
 		 * 
+		 * Select album by video id
+		 */
+		function selectAlbumByVideoId($videoId)
+		{			
+			$sql = 'select distinct 
+						album_id as `album_id`, 
+						album_name as `album_name`
+					from 
+						album as a 
+					join 
+						album_video as b 
+					on 
+						a.id = b.album_id and b.video_id = ?';
+			$types = array('integer');
+			$params = array($videoId);
+			$res = $this->execute_query($sql,$params,$types);
+			
+			return $res;
+		}
+		
+		/**
+		 * 
 		 * Select count album by user id
 		 */
 		function countAlbumByUserId($params)
