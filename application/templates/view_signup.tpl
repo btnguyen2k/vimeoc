@@ -54,7 +54,7 @@
 		
 	}
 </script>
-<h1 align="center"><:$title}</h1>
+<h1 align="center"><:$title:></h1>
 <form onSubmit="return checkEmail()" name="signupform" action="<:$ctx:>/auth/signup/" method="post">
 	<div>
 		<:$fullname:><input id="fullname" name="fullname" />
