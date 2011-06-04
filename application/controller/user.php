@@ -38,7 +38,7 @@
 			$model_video = $this->model_video;
 			$this->assign('video_count', $model_video->countVideoByUserId($userId));
 			
-			$videos = $model_video->selectVideoByUserId($userId, 2, 0, 'creation_date', 'DESC');
+			$videos = $model_video->selectVideoByUserId($userId, 2, 0, '', 'creation_date', 'DESC');
 			$this->assign('recent_videos', $videos);
 			
 			$this->userHomeMessagesSource();
@@ -614,6 +614,22 @@
 				$this->assign('message', 'You have no video');
 			}
 			
+			if(is_array($videos) && (count($videos) > 0)){
+				$this->loadModel('model_album');
+				$model_album = $this->model_album;
+				
+				$this->loadModel('model_tag');
+				$model_tag = $this->model_tag;
+				
+				foreach($videos as &$video){
+					$video['creation_date'] = date_format(new DateTime($video['creation_date']), 'U');
+					$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : $video['thumbnails_path'];
+					$video['album'] = $model_album->selectAlbumByVideoId($video['id']);
+					$video['tag'] = $model_tag->selectTagByVideoId($video['id']);
+					//krumo($video);
+				}
+			}
+			
 			$this->assign('videos', $videos);
 			$this->assign('pagination', $pagination);
 			$this->assign('display_modes', $_display_modes);
@@ -624,6 +640,7 @@
 			$this->assign('sort_mode', $_sort_mode);
 			$this->assign('page_size', $_page_size);
 			$this->assign('search_term', $_search_term);
+			$this->assign('page', $page);
 			
 			//var_dump($_SERVER);
 			$this->userVideoMessagesSource();
