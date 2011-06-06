@@ -2,7 +2,7 @@
 
 	/**
 	 * 
-	 * User controller
+	 * Video controller
 	 * @author Tri
 	 *
 	 */
@@ -136,7 +136,6 @@
 			$this->loadModel('model_video');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
-				$this->loadModel('model_video');	
 				$videoid=$_GET['videoId'];
 				$albums= $this->model_video->getAlbumByUserId(array($userId));
 				$video=$this->model_video->getVideoByVideoId(array($userId,$videoid));
@@ -172,5 +171,41 @@
 					$this->loadTemplate('view_video_addtopage');
 			}
 		}
+		
+		/**
+		 * Load messages source for preAndPostRoll
+		 * 
+		 */
+		
+		function preAndPostRollMessagesSource()
+		{
+			$this->defaultVideoMessagesSource();
+			
+			$this->assign("title", $this->loadMessages('video.preandpostroll.title'));
+			$this->assign("PreRoll", $this->loadMessages('video.preandpostroll.preroll'));
+			$this->assign("PostRoll", $this->loadMessages('video.preandpostroll.postroll'));
+			$this->assign("successMessage", $this->loadMessages('video.preandpostroll.successful'));
+		}
+		
+		
+		/**
+		 * View and action for preAndPostRoll
+		 * 
+		 */
+		function preAndPostRoll()
+		{
+			$this->loadModel('model_video');
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
+			{
+				5
+				$this->loadTemplate('view_video_preandpostroll');
+			}
+			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				
+				$this->loadTemplate('view_video_preandpostroll');
+			}
+		}
+		
 	}
 ?>
