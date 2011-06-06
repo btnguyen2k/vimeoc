@@ -184,7 +184,7 @@
 			$this->assign("title", $this->loadMessages('video.preandpostroll.title'));
 			$this->assign("PreRoll", $this->loadMessages('video.preandpostroll.preroll'));
 			$this->assign("PostRoll", $this->loadMessages('video.preandpostroll.postroll'));
-			$this->assign("successMessage", $this->loadMessages('video.preandpostroll.successful'));
+			
 		}
 		
 		
@@ -194,18 +194,31 @@
 		 */
 		function preAndPostRoll()
 		{
+			$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
 			$this->loadModel('model_video');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
-				5
+				$videoid=$_GET['videoId'];
+				$video = $this->model_video->getVideoByVideoId(array($userId,$videoid));
+				$this->assign("videoid",$videoid);
+				$this->assign("video",$video[video_title]);
 				$this->loadTemplate('view_video_preandpostroll');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
-				
+				$preRoll=$_POST['hpreroll'];
+				$postRoll=$_POST['hpostroll'];
+				$videoid=$_POST['videoid'];
+				$this->model_video->updatePre_roll(array($preRoll,$videoid,$userId));
+				$this->model_video->updatePost_roll(array($postRoll,$videoid,$userId));
+				$this->assign("successMessage", $this->loadMessages('video.preandpostroll.successful'));
 				$this->loadTemplate('view_video_preandpostroll');
 			}
 		}
-		
 	}
 ?>
