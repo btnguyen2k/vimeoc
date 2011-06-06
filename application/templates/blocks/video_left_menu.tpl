@@ -14,7 +14,7 @@
 	</ul>
 	<ul>
 		<li>
-			<a href="#"><:$videobasicinfo:></a>
+			<a href="<:$ctx:>/video/videosetting"><:$videobasicinfo:></a>
 		</li>
 		<li>
 			<a href="#"><:$videothumbnail:></a>
@@ -28,7 +28,7 @@
 			<a href="#"><:$videocustomurl:></a>
 		</li>
 		<li>
-			<a href="#"><:$videoaddto:></a>
+			<a href="<:$ctx:>/video/addtopage"><:$videoaddto:></a>
 		</li>
 	</ul>
 	<ul>
