@@ -46,6 +46,7 @@
 			$this->assign("videoaddto", $this->loadMessages('user.video.link.addto'));
 			$this->assign("videodelete", $this->loadMessages('user.video.link.delete'));
 			$this->assign("videobacktovideo", $this->loadMessages('user.video.link.backtovideo'));
+			$this->assign("videopreandpost", $this->loadMessages('user.video.link.preandpostroll'));
 		}
 		/**
 		 * Load messages source for videosetting page

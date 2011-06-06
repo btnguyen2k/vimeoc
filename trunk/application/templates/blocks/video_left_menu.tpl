@@ -22,6 +22,9 @@
 		<li>
 			<a href="#"><:$videovideofile:></a>
 		</li>
+		<li>
+			<a href="<:$ctx:>/video/preandpostroll"><:$videopreandpost:></a>
+		</li>
 	</ul>
 	<ul>
 		<li>
