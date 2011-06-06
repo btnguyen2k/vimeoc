@@ -304,10 +304,27 @@
 			$types = array('integer', 'integer');
 			$this->execute_command($sql, $params, $types);
 		}
-		/**
-		 * 
-		 * 
-		 */
 		
+		/**
+		 *update pre_roll by videoId 
+		 * @param $params
+		 */
+		function updatePre_roll($params)
+		{
+			$sql = "Update video Set pre_roll=? where id=? and user_id=?";
+			$types= array('integer','integer','integer');
+			$res = $this->execute_command($sql,$params,$types);
+		}
+		
+		/**
+		 * update post_roll by videoId
+		 * @param $params
+		 */
+		function updatePost_roll($params)
+		{
+			$sql = "Update video Set post_roll=? where id=? and user_id=?";
+			$types= array('integer','integer','integer');
+			$res = $this->execute_command($sql,$params,$types);	
+		}
 	}
 ?>

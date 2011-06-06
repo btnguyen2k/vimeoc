@@ -1,5 +1,24 @@
+<script type="text/javascript">
+	
+	function Check_PreandPostRoll()
+	{
+		var pre_roll=$("#Preroll").attr("checked")
+		var post_roll=$("#Postroll").attr("checked")
+		if(pre_roll)
+			$("#hpreroll").val("01");
+		else
+			$("#hpreroll").val("00");
 
-<h1 align="center"><:$title:></h1>
+		
+		if(post_roll)
+			$("#hpostroll").val("01");
+		else
+			$("#hpostroll").val("00");
+		
+	}
+
+</script>
+<h1 align="center"><:$video:><:$title:></h1>
 <div id="video_preandpostroll" class="video_page">
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
 	<div id="video_preandpostroll_body" class="video_page_body">	
@@ -15,15 +34,20 @@
 			<fieldset>
 				<ul>
 					<div>
-						<input type="checkbox" id="album_check1" name="albums1"/><:$PreRoll:>
+						<input type="checkbox" id="Preroll" name="Preroll" value="01"/><:$PreRoll:>
 					</div>
 					
 					<div>
-						<input type="checkbox" id="album_check2" name="albums2"/><:$PostRoll:>
+						<input type="checkbox" id="Postroll" name="Postroll" value="01"/><:$PostRoll:>
 					</div>
 					
 					<div>
-						<input type="submit" value="Save"  />
+						<input type="submit" value="Save" onClick="Check_PreandPostRoll()" />
+					</div>
+					<div> 
+						<input type="hidden" name="videoid" id="videoid" value="<:$videoid:>"/>
+						<input type="hidden" name="hpreroll" id="hpreroll" value=""/>
+						<input type="hidden" name="hpostroll" id="hpostroll" value=""/>
 					</div>
 				</ul>
 			</fieldset>
