@@ -6,6 +6,8 @@ function checkEmail()
 	
 	var pattern=/^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.([a-zA-Z])+([a-zA-Z])+/;
 	var flag=true;
+
+	
 	
     if(pattern.test(e)){     
     	$("#error_valid_email").hide();

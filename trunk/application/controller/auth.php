@@ -134,6 +134,12 @@
 			$this->assign('retypepasswordInvalid', $this->loadErrorMessage('error.retypepassword.invalid'));
 			$this->assign('fullnameInvalid', $this->loadErrorMessage('error.fullname.invalid'));
 			$this->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
+			$this->assign('passwordlength', $this->loadErrorMessage('error.password.length'));
+			$this->assign('repasswordlength', $this->loadErrorMessage('error.retypepassword.length'));
+			$this->assign('fullnamelength', $this->loadErrorMessage('error.fullname.length'));
+			$this->assign('emaillength', $this->loadErrorMessage('error.email.length'));
+			$this->assign('passwordless', $this->loadErrorMessage('error.password.lesslength'));
+			$this->assign('repasswordless', $this->loadErrorMessage('error.rpassword.lesslength'));
 		}
 		
 		/**
@@ -170,6 +176,7 @@
 				
 				if ($this->model_user->isExists(array($username)) == true)
 				{
+					$this->assign("username",$username);
 					$this->assign("errorMessage", $this->loadMessages('auth.signup.errors'));
 					$this->loadTemplate('view_signup');
 				}
@@ -182,6 +189,7 @@
 					$params = array($userId);
 					$user = $this->model_user->getUserByUserId($params);
 					$user['password']=$password2;
+					$user['domain']=BASE_PATH . CONTEXT;
 					$this->sendingEmailWithSmarty('mail_welcome', 'user', $user, null, $user['email']);
 					
 					$this->assign("success",$this->loadMessages('auth.thankyou.success'));
@@ -219,10 +227,16 @@
 			{
 				$this->loadModel('model_user');	
 				$username= $_POST['xemail'];
-			
+				
+				if ($username=="")
+				{
+					$this->assign("errorNull", $this->loadMessages('auth.forgotpassword.errornull'));
+				}
+				
 				if ($this->model_user->isExists(array($username)) == false)
 				{
-					$this->assign("error", $this->loadMessages('auth.forgotpassword.error'));
+					
+					$this->assign("error", $this->loadMessages('auth.forgotpassword.errorvalid'));
 					$this->loadTemplate('view_forgotpassword');
 				}
 				else 
