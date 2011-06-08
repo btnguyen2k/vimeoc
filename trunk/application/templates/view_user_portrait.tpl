@@ -10,7 +10,7 @@
 				success: function(data){
 				}
 			});						
-			return false;
+			//return false;
 		});
 	});
 </script>
