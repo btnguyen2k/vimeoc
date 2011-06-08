@@ -367,10 +367,26 @@
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$id=$_GET['userId'];
+				$profileAlias=$_GET['profile_alias'];
 				$params=array($id);
-				$fullname=$this->model_user->getFullNamebyUserId($params);
-				$this->assign("fullname",$fullname['full_name']);
-				$this->loadTemplate('view_user_profile');
+				$fullname_Alias=$this->model_user->getFullnameByProfileAlias(array($profileAlias));
+				$fullname_UserId=$this->model_user->getFullNamebyUserId($params);
+				if($fullname_Alias!=0)
+				{
+					$this->assign("fullname",$fullname_Alias['full_name']);
+					$this->loadTemplate('view_user_profile');
+				}
+				else if ($fullname_UserId!=0)
+				{
+					$this->assign("fullname",$fullname_UserId['full_name']);
+					$this->loadTemplate('view_user_profile');
+				}
+				else 
+				{
+					$this->loadTemplate('view_home');
+				}
+				
+				
 			} 
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 			{
