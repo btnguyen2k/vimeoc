@@ -66,6 +66,7 @@
 			$this->assign('descriptionInvalid', $this->loadErrorMessage('error.video.description'));
 			$this->assign('tagInvalid', $this->loadErrorMessage('error.video.tag'));
 		}
+		
 		/**
 		 *view and action for videosetting form 
 		 *
@@ -226,6 +227,128 @@
 				$this->model_video->updatePost_roll(array($postRoll,$videoid,$userId));
 				$this->assign("successMessage", $this->loadMessages('video.preandpostroll.successful'));
 				$this->loadTemplate('view_video_preandpostroll');
+			}
+		}
+		/**
+		 * Load messages source for videosetting page
+		 * 
+		 */
+		
+		function customUrlMessagesSource()
+		{
+			$this->defaultVideoMessagesSource();
+			$this->assign("message_title", $this->loadMessages('video.customurl.title'));
+			$this->assign("chooseYourCustomUrl", $this->loadMessages('video.customurl.chooseYourCustomUrl'));
+			$this->assign("message_invalid_url", $this->loadMessages('video.customurl.invalidUrl'));
+			$this->assign("message_url_hint", $this->loadMessages('video.customurl.hint'));
+		}
+		/**
+		 * View and action for video custom url
+		 * 
+		 */
+		function customUrl()
+		{
+			$userId = $this->getLoggedUser();
+			if($userId == 0){
+				$this->redirect($this->ctx() . '/auth/login/');
+				return;
+			}
+			$this->loadModel('model_video');
+			$model_video = $this->model_video;
+
+			$this->loadModel('model_user');
+			$model_user = $this->model_user;
+			
+			if ($_SERVER['REQUEST_METHOD'] == 'GET'){
+				$videoId = $_GET['videoId'];
+				if(!$videoId){
+					$this->redirect($this->ctx() . '/user/video/');
+					return;
+				}
+				
+				$video = $model_video->getVideoById($videoId);
+				if((!$video) || ($video['user_id'] != $userId)){
+					$this->redirect($this->ctx() . '/user/video/');
+					return;
+				}
+				
+				$user = $model_user->getUserByUserId(array($userId));
+				$this->assign('user_alias', $user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']);
+				$this->assign('video_alias', $video['video_alias']);
+				$this->assign('videoId', $video['video_id']);
+				$this->assign('videoTitle', $video['video_title']);
+				$this->assign("domain", BASE_PATH . CONTEXT);
+				
+				if(!$video['video_alias']){
+					$previewLink = BASE_PATH . CONTEXT . "/" . $video['video_id'];
+				}else{
+					$previewLink = BASE_PATH . CONTEXT . "/" . ($user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']) .  "/" . $video['video_alias'];
+				}
+				$this->assign("previewUrl", $previewLink);
+				
+				$this->loadTemplate('view_video_custom_url');
+			}else if($_SERVER['REQUEST_METHOD'] == 'POST'){
+				$videoId = $_POST['videoId'];
+				$url_alias = $_POST['url_alias'];
+				$errorFlag = false;
+				
+				//server side validate here
+				$urlReg = "/^[a-z0-9]{0,32}\$/";
+				if(!preg_match($urlReg, $url_alias)){
+					$this->assign('errorMessage', $this->loadMessages('video.customurl.invalidUrl'));
+					$errorFlag = true;
+				}
+				
+				//check owner id
+				$video = $model_video->getVideoById($videoId);
+				$user = $model_user->getUserByUserId(array($userId));
+				$this->assign('user_alias', $user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']);
+				$this->assign('videoId', $videoId);
+				$this->assign("domain", BASE_PATH . CONTEXT);
+				$this->assign('video_alias', $video['video_alias']);
+				$this->assign('videoTitle', $video['video_title']);
+				
+				if((!$errorFlag) && ((!$video) || ($video['user_id'] != $userId))){
+					$this->assign('errorMessage', $this->loadMessages('video.customurl.invalidVideoId'));
+					$this->assign('videoTitle', 'N/A');
+					$errorFlag = true;
+				}
+				
+				//check exist alias here
+				if((!$errorFlag) && ($model_video->isAliasExist(array($url_alias, $userId)))){
+					$this->assign('errorMessage', str_replace('%%1', "'{$url_alias}'", $this->loadMessages('video.customurl.aliasExists')));
+					$errorFlag = true;
+				}
+				
+				//save video alias
+				if(!$errorFlag){
+					if($model_video->updateAliasById(array($url_alias, $videoId))){
+						$this->assign('successMessage', $this->loadMessages('video.customurl.success'));
+						$this->assign('video_alias', $url_alias);
+						
+						if(!$url_alias){
+							$previewLink = BASE_PATH . CONTEXT . "/" . $video['video_id'];
+						}else{
+							$previewLink = BASE_PATH . CONTEXT . "/" . ($user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']) .  "/" . $url_alias;
+						}
+						$this->assign("previewUrl", $previewLink);
+					}else{krumo($this->loadMessages('video.customurl.error'));
+						$this->assign('errorMessage', $this->loadMessages('video.customurl.error'));
+						$this->assign('video_alias', $video['video_alias']);
+						$errorFlag = true;
+					}
+				}
+				
+				if($errorFlag){
+					if(!$video['video_alias']){
+						$previewLink = BASE_PATH . CONTEXT . "/" . $video['video_id'];
+					}else{
+						$previewLink = BASE_PATH . CONTEXT . "/" . ($user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']) .  "/" . $video['video_alias'];
+					}
+					$this->assign("previewUrl", $previewLink);
+				}
+				
+				$this->loadTemplate('view_video_custom_url');
 			}
 		}
 	}

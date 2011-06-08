@@ -53,6 +53,30 @@
 			
 			return $res;
 		}
+		
+		/**
+		 * 
+		 * Select data
+		 */
+		function getVideoById($videoId)
+		{					
+			$sql = 'select 
+						id as `video_id`, 
+						user_id  as `user_id`, 
+						video_title as `video_title`, 
+						video_alias as `video_alias`  
+					from 
+						video 
+					where 
+						id = ? ';
+			$types = array('integer');
+			$params = array($videoId);
+			$res = $this->execute_query($sql,$params,$types);
+			if(is_array($res) && count($res) > 0){
+				return $res[0];
+			}
+			return null;
+		}
 
 		/**
 		 * 
@@ -67,6 +91,22 @@
 					where 
 						user_id = ? ';
 			$types = array('integer');
+			$res = $this->execute_query($sql,$params,$types);
+			return $res[0]['count'];
+		}
+		/**
+		 * 
+		 * check alias exist
+		 */
+		function isAliasExist($params)
+		{					
+			$sql = 'select 
+						count(id) as `count` 
+					from 
+						video 
+					where 
+						video_alias=? and user_id = ?';
+			$types = array('text', 'integer');
 			$res = $this->execute_query($sql,$params,$types);
 			return $res[0]['count'];
 		}
@@ -185,7 +225,17 @@
 			$types= array('text','integer');
 			$res = $this->execute_command($sql,$params,$types);
 		}
-		
+		/**
+		 * update alias by Id
+		 * @param $params
+		 */
+		function updateAliasById($params)
+		{
+			$sql = "Update video Set video_alias=? where id=? ";
+			$types= array('text','integer');
+			$res = $this->execute_command($sql,$params,$types);
+			return $res;
+		}
 		/**
 		 * select tag by tag_ID
 		 * @param $params
