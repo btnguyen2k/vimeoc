@@ -4,6 +4,9 @@
 <!-- jquery library -->
 <script src="<:$ctx:>/script/jquery.min.js" type="text/javascript"></script>
 
+<!-- jquery form library -->
+<script src="<:$ctx:>/script/jquery.form.js" type="text/javascript"></script>
+
 <!-- Facebox library -->
 <script src="<:$ctx:>/script/facebox/facebox.js" type="text/javascript"></script>
 <link href="<:$ctx:>/script/facebox/facebox.css" rel="stylesheet" type="text/css">

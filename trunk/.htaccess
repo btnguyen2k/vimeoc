@@ -3,9 +3,10 @@ RewriteBase /vimeoc/
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !(home|user|auth|video|album|channel)
-RewriteRule ^(.*)$ index1.php?controller=user&method=userprofile&profile_alias=$1 [L]
+RewriteCond %{REQUEST_URI} !(home|user|auth|video|album|channel|upload_frame)
+RewriteRule ^(.*)$ index1.php?controller=user&method=userprofile&profileAlias=$1 [L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !(upload_frame)
 RewriteRule ^(.*)$ index.php/$1 [L]
