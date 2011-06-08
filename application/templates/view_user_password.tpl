@@ -2,7 +2,7 @@
 	function checkpassword(){
 		var cpass = document.getElementById("currentpassword").value;
 		var npass = document.getElementById("newpassword").value;
-		var rpass = document.getElementById("retypepassword").value
+		var rpass = document.getElementById("retypepassword").value;
 		var flag=true;
 
 		if(cpass==""){
@@ -13,8 +13,26 @@
 			$("#error_valid_cpassword").hide();
 		}
 
+		
+		if(npass.length<6||npass.length>8){
+			$("#error_less_npassword").show();
+			flag=false;	
+		}else{
+			$("#error_less_npassword").hide();
+		}
+
+			
+		if(rpass.length<6||rpass.length>8){
+			$("#error_less_rpassword").show();
+			flag=false;
+		}else{
+			$("#error_less_rpassword").hide();
+		}
+
+		
 		if(npass==""){
 			$("#error_valid_npassword").show();
+			$("#error_less_npassword").hide();
 			flag=false;
 		}else{
 			$("#error_valid_npassword").hide();
@@ -22,6 +40,7 @@
 		
 		if(rpass==""){
 			$("#error_valid_rpassword").show();
+			$("#error_less_rpassword").hide();
 			flag=false;
 		}else{
 			$("#error_valid_rpassword").hide();
@@ -34,7 +53,6 @@
 			$("#error_valid_mpassword").hide();
 		}
 
-		
 		return flag;			
 	}
 </script>
@@ -63,7 +81,7 @@
 					<li>
 						<span><:$currentpassword:> </span><br/>						
 						<input type="password" name="currentpassword" id="currentpassword"/>
-						<span class="red" id="error_valid_cpassword" style="display: none;"><:$cpassword:></span>
+						<span class="red" id="error_valid_cpassword" style="display: none;"><:$cpasswordinvalid:></span>
 						<:if $errorMessage eq "":>
   				 			&nbsp;
 						<:else:>
@@ -73,12 +91,14 @@
 					<li>
 						<span><:$newpassword:></span><br/>
 						<input type="password" name="newpassword" id="newpassword"/>
-						<span class="red" id="error_valid_npassword" style="display: none;"><:$cpassword:></span>
+						<span class="red" id="error_valid_npassword" style="display: none;"><:$npasswordinvalid:></span>
+						<span class="red" id="error_less_npassword" style="display: none;"><:$lessnpassword:></span>
 					</li>
 					<li>
 						<span><:$repassword:></span><br/>
 						<input type="password" name="retypepassword" id="retypepassword"/>
-						<span class="red" id="error_valid_rpassword" style="display: none;"><:$cpassword:></span><br/>
+						<span class="red" id="error_valid_rpassword" style="display: none;"><:$rpasswordinvalid:></span>
+						<span class="red" id="error_less_rpassword" style="display: none;"><:$lessrpassword:></span><br/>
 						<span class="red" id="error_valid_mpassword" style="display: none;"><:$mpassword:></span>
 					</li>
 					<li>

@@ -99,7 +99,6 @@
 		}
 		return flag;
 
-		
 	}
 </script>
 <h1 align="center"><:$title:></h1>
@@ -147,7 +146,6 @@
 	</div>
 	<div>
 	<span class="red" id="error_valid_term" style="display: none;"><:$termInvalid:></span><br/>
-		<input type="submit" value="Sign Up" />
-		
+		<input type="submit" value="Sign Up1"  />
 	</div>	
 </form>	
