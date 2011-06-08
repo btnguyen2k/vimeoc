@@ -69,7 +69,7 @@
 			}
 			
 			$file = "application/controller/".$controllerName.".php";
-				
+			
 			if(!file_exists($file)) die();
 				
 			require_once($file);
@@ -239,7 +239,7 @@
 				{
 					$search = '{' . $i . '}';
 					$replaceStr = $params[$i];
-					$msg = str_replace($msg, $replaceStr, $msg);
+					$msg = str_replace($search, $replaceStr, $msg);
 				}
 				
 				return $msg;
