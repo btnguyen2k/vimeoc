@@ -24,7 +24,7 @@
 	   <span class="red"><:$errorNull:></span>
 	<:/if:>
 <form onSubmit="return checkEmail()" name="forgotpasswordform" action="<:$ctx:>/auth/forgotpassword/" method="post">
-	<:$email:> <input name="xemail" type="text" class="inputs" id="email_address" size="35" maxlength="255"/>
+	<:$email:> <input name="email" type="text" class="inputs" id="email_address" size="35" maxlength="255"/>
 	<span class="red" id="error_valid_email" style="display: none;"><:$emailInvalid:></span>
 	<div>
 		<input type="submit" value="Help Me" />

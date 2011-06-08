@@ -1,5 +1,10 @@
 <script type="text/javascript">
-	
+
+	$(document).ready(function() {
+	   Checked();
+	});
+
+
 	function Check_PreandPostRoll()
 	{
 		var pre_roll=$("#Preroll").attr("checked")
@@ -13,10 +18,23 @@
 		if(post_roll)
 			$("#hpostroll").val("01");
 		else
-			$("#hpostroll").val("00");
-		
+			$("#hpostroll").val("00");		
 	}
 
+	function Checked()
+	{
+		if($("#getpreroll").val()==1)
+			$("#Preroll").attr('checked',true);
+		else
+			$("#Preroll").attr('checked',false);
+
+		if($("#getpostroll").val()==1)
+			$("#Postroll").attr('checked',true);
+		else
+			$("#Postroll").attr('checked',false);
+	}
+
+	
 </script>
 <h1 align="center"><:$video:><:$title:></h1>
 <div id="video_preandpostroll" class="video_page">
@@ -42,12 +60,15 @@
 					</div>
 					
 					<div>
+						
 						<input type="submit" value="Save" onClick="Check_PreandPostRoll()" />
 					</div>
 					<div> 
 						<input type="hidden" name="videoid" id="videoid" value="<:$videoid:>"/>
 						<input type="hidden" name="hpreroll" id="hpreroll" value=""/>
 						<input type="hidden" name="hpostroll" id="hpostroll" value=""/>
+						<input type="hidden" name="getpreroll" id="getpreroll" value="<:$getpreRoll:>"/>
+						<input type="hidden" name="getpostroll" id="getpostroll" value="<:$getpostRoll:>"/>
 					</div>
 				</ul>
 			</fieldset>

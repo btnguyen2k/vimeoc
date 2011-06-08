@@ -368,7 +368,7 @@
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$id=$_GET['userId'];
-				$profileAlias=$_GET['profile_alias'];
+				$profileAlias=$_GET['profileAlias'];
 				$params=array($id);
 				$fullname_Alias=$this->model_user->getFullnameByProfileAlias(array($profileAlias));
 				$fullname_UserId=$this->model_user->getFullNamebyUserId($params);
