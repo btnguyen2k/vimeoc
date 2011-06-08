@@ -226,7 +226,7 @@
 		}
 		
 		/**
-		 * Select fullname
+		 * Select fullname by User Id
 		 * @param $params
 		 */
 		
@@ -269,5 +269,23 @@
 			$types = array('text', 'integer');
 			return $this->execute_command($sql, $params, $types);
 		}
+		
+		/**
+		 * Select full name by profile_Alias
+		 * @param $params
+		 */
+		
+		function getFullnameByProfileAlias($params)
+		{
+			$sql= 'select full_name from user where profile_alias=?';
+			$types =  array('text','text');
+			$res = $this->execute_query($sql,$params,$types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
+		}
+		
 	}
 ?>
