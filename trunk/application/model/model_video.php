@@ -242,10 +242,10 @@
 			return $res;
 		}
 		/**
-		 * select video by video id
+		 * select video by video id and UserId
 		 * @param $params
 		 */
-		function getVideoByVideoId($params)
+		function getVideoByVideoIdAndUserId($params)
 		{
 			$sql= "select video_title from video where user_id=? and id=?";
 			$type= array('text','integer','integer');
@@ -326,5 +326,24 @@
 			$types= array('integer','integer','integer');
 			$res = $this->execute_command($sql,$params,$types);	
 		}
+		
+		/**
+		 * select video by VideoId
+		 * @param $params
+		 */
+		function getVideoByVideoId($params)
+		{
+			$sql = "select * from video where id=?";
+			$types= array('integer');
+			$res = $this->execute_query($sql,$params,$types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
+			
+		}
 	}
+		
+
 ?>

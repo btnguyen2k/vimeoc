@@ -205,7 +205,14 @@
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$videoid=$_GET['videoId'];
-				$video = $this->model_video->getVideoByVideoId(array($userId,$videoid));
+				$video = $this->model_video->getVideoByVideoIdAndUserId(array($userId,$videoid));
+				$preRoll = $this->model_video->getVideoByVideoId(array($videoid));
+				$postRoll = $this->model_video->getVideoByVideoId(array($videoid));
+				$video2 = $this->model_video->getVideoByVideoId(array($videoid));
+				echo $video2[pre_roll];
+				echo $video2[post_roll];
+				$this->assign("getpreRoll",$video2[pre_roll]);
+				$this->assign("getpostRoll",$video2[post_roll]);
 				$this->assign("videoid",$videoid);
 				$this->assign("video",$video[video_title]);
 				$this->loadTemplate('view_video_preandpostroll');
