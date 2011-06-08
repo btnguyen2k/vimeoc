@@ -1,5 +1,11 @@
 RewriteEngine On
 RewriteBase /vimeoc/
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !(home|user|auth|video|album|channel)
+RewriteRule ^(.*)$ index1.php?controller=user&method=userprofile&profile_alias=$1 [L]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php/$1 [L]
