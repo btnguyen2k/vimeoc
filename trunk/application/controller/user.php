@@ -185,7 +185,7 @@
 					if($size > 5)
 					{
 						$this->assign('errorMessage', 'Maximum file size is 5MB.');
-						$this->assign('avatar', $user['avatar']);	
+						$this->assign('avatar', $user['avatar']);							
 						$this->loadTemplate('view_user_portrait');
 						return;
 					}
@@ -208,6 +208,7 @@
 					{
 						$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("portrait")));
 						$this->assign('avatar', $name);
+						$this->assign('userAvatar', $name);
 						$this->loadTemplate('view_user_portrait');
 					}
 				}
