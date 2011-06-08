@@ -174,7 +174,7 @@
 					$fileName = $_FILES['portrait']['name'];
 					
 					$user = $this->model_user->getUserByUserId(array($userId));
-					/*
+					
 					if($type != 'image/jpeg' && $type != 'image/png' && $type != 'image/gif')
 					{
 						$this->assign('errorMessage', $this->loadErrorMessage('error.user.portrait.notsupport'));
@@ -190,17 +190,14 @@
 						$this->loadTemplate('view_user_portrait');
 						return;
 					}
-					*/
+					
 					$fileInfo = utils::getFileType($fileName);
 					$name = utils::genRandomString(32) . '.' . $fileInfo[1];
 					$target = BASE_DIR . $this->loadResources('image.upload.path') . $name;
 					
-					move_uploaded_file($tmpName, $target);
-					/*
 					$rimg = new RESIZEIMAGE($tmpName);
 				    $rimg->resize_limitwh(300, 300, $target);				    
 				    $rimg->close(); 
-				    */
 				    
 				    $ret = $this->model_user->updateUserAvatar(array($name, $userId));
 				    
