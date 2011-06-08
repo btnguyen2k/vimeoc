@@ -28,7 +28,7 @@
 	</ul>
 	<ul>
 		<li>
-			<a href="#"><:$videocustomurl:></a>
+			<a href="<:$ctx:>/video/customUrl/?videoId=<:$videoId:>"><:$videocustomurl:></a>
 		</li>
 		<li>
 			<a href="<:$ctx:>/video/addtopage"><:$videoaddto:></a>
