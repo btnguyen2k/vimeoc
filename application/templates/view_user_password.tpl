@@ -7,6 +7,7 @@
 
 		if(cpass==""){
 			$("#error_valid_cpassword").show();
+			$("#error_password_wrong").hide();			
 			flag=false;
 		}else{
 			$("#error_valid_cpassword").hide();
@@ -33,6 +34,7 @@
 			$("#error_valid_mpassword").hide();
 		}
 
+		
 		return flag;			
 	}
 </script>
@@ -65,7 +67,7 @@
 						<:if $errorMessage eq "":>
   				 			&nbsp;
 						<:else:>
-   							<span class="red"><:$errorMessage:></span>
+   							<span class="red" id="error_password_wrong"><:$errorMessage:></span>
 						<:/if:>	
 					</li>					
 					<li>
