@@ -226,7 +226,7 @@
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
 				$this->loadModel('model_user');	
-				$username= $_POST['xemail'];
+				$username= $_POST['email'];
 				
 				if ($username=="")
 				{
