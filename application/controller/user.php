@@ -299,6 +299,11 @@
 			
 			$this->assign('cpassword', $this->loadErrorMessage('error.password.invalid'));
 			$this->assign('mpassword', $this->loadErrorMessage('error.mathpassword.invalid'));
+			$this->assign('lessnpassword', $this->loadErrorMessage('error.password.lesslength'));
+			$this->assign('lessrpassword', $this->loadErrorMessage('error.rpassword.lesslength'));
+			$this->assign('cpasswordinvalid', $this->loadErrorMessage('error.cpassword.invalid'));
+			$this->assign('npasswordinvalid', $this->loadErrorMessage('error.npassword.invalid'));
+			$this->assign('rpasswordinvalid', $this->loadErrorMessage('error.rpassword.invalid'));
 			
 		}
 		
