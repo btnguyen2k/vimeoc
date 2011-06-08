@@ -191,7 +191,6 @@
 					$user['password']=$password2;
 					$user['domain']=BASE_PATH . CONTEXT;
 					$this->sendingEmailWithSmarty('mail_welcome', 'user', $user, null, $user['email']);
-					
 					$this->assign("success",$this->loadMessages('auth.thankyou.success'));
 					$this->assign("login",$this->loadMessages('auth.thankyou.login'));
 					$this->loadTemplate('view_thankyou');
