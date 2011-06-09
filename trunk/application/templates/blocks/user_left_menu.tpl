@@ -14,7 +14,7 @@
 	</ul>
 	<ul>
 		<li>
-			<a href="#"><:$menuUploadVideo:></a>
+			<a href="<:$ctx:>/user/addvideoupload/"><:$menuUploadVideo:></a>
 		</li>
 		<li>
 			<a href="<:$ctx:>/user/video"><:$menuVideos:></a>

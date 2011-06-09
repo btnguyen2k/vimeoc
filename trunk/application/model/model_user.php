@@ -286,6 +286,24 @@
 			}
 			return null;
 		}
+		/**
+		 * 
+		 * Get user by user id
+		 * @param $params
+		 */
 		
+//		function getUserByUserId($params)
+//		{
+//			$sql = 'select * from user where id=?';
+//			$types = array('integer');
+//			$res = $this->execute_query($sql,$params,$types);
+//			
+//			if(sizeof($res) > 0)
+//			{
+//				return $res[0] ;
+//			}
+//			return null;
+//		}
+//		
 	}
 ?>
