@@ -744,14 +744,17 @@
 			}
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
-				$user = $this->model_user->getUserByUserId(array($userId));
-				$this->assign('avatar', $user['avatar']);
+				$videoId=$_GET['videoId'];
+				$video = $this->model_user->getVideoByVideoIdAndUserId(array($userId,$videoId));
+				$this->assign('video', $video['video_title']);
+				$this->assign('videoid',$videoId);
 				$this->assign('upId', uniqid());
 				$this->loadTemplate("view_user_uploadvideo");
 			}
 			else if($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
-			if($_FILES['video']['error'] > 0)
+				$videoId=$_POST['videoid'];
+				if($_FILES['video']['error'] > 0)
 				{
 					echo $_FILES['video']['error'];
 				}
@@ -762,20 +765,12 @@
 					$tmpName = $_FILES['video']['tmp_name'];
 					$fileName = $_FILES['video']['name'];
 					
-					$user = $this->model_user->getUserByUserId(array($userId));
-					
-//					if($type != 'video/wmv' && $type != 'video/mp4' && $type != 'video/flv')
-//					{
-//						$this->assign('errorMessage', $this->loadErrorMessage('error.user.upload.notsupport'));
-//						$this->assign('avatar', $user['avatar']);	
-//						$this->loadTemplate("view_user_uploadvideo");
-//						return;
-//					}
-					
+					$video = $this->model_user->getVideoByVideoIdAndUserId(array($userId,$videoId));
+						
 					if($size > 102400)
 					{
 						$this->assign('errorMessage', 'Maximum file size is 1GB');
-						$this->assign('avatar', $user['avatar']);							
+						$this->assign('video', $video['video_title']);							
 						$this->loadTemplate("view_user_uploadvideo");
 						return;
 					}
@@ -783,13 +778,10 @@
 					$fileInfo = utils::getFileType($fileName);
 					$name = utils::genRandomString(32) . '.' . $fileInfo[1];
 					$target = BASE_DIR . $this->loadResources('video.upload.path') . $name;
+					move_uploaded_file($tmpName, $target);
 					
-					$rimg = new RESIZEIMAGE($tmpName);
-				    $rimg->resize_limitwh(300, 300, $target);				    
-				    $rimg->close(); 
-				    
-				    $ret = $this->model_user->updateUserAvatar(array($name, $userId));
-				    
+				    $ret = $this->model_user->updateVideo(array($name,$videoId));
+			
 					if($ret == 0)
 					{
 						$this->assign('errorMessage', 'Error');
@@ -797,8 +789,9 @@
 					else 
 					{
 						$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("video")));
-						$this->assign('avatar', $name);
+						$this->assign('video', $name);
 						$this->assign('userAvatar', $name);
+						
 						$this->loadTemplate("view_user_uploadvideo");
 					}
 				}
