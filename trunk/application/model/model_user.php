@@ -226,6 +226,18 @@
 		}
 		
 		/**
+		 * Update video video_title
+		 * @param $params
+		 */
+		function updateVideo($params)
+		{
+			$sql = 'UPDATE video SET video_title=? WHERE id=?';
+			$types = array('text', 'integer');
+			return $this->execute_command($sql, $params, $types);
+		}
+		
+		
+		/**
 		 * Select fullname by User Id
 		 * @param $params
 		 */
@@ -286,24 +298,24 @@
 			}
 			return null;
 		}
+		
 		/**
 		 * 
-		 * Get user by user id
+		 * Get video by userid and video id
 		 * @param $params
 		 */
 		
-//		function getUserByUserId($params)
-//		{
-//			$sql = 'select * from user where id=?';
-//			$types = array('integer');
-//			$res = $this->execute_query($sql,$params,$types);
-//			
-//			if(sizeof($res) > 0)
-//			{
-//				return $res[0] ;
-//			}
-//			return null;
-//		}
-//		
+		function getVideoByVideoIdAndUserId($params)
+		{
+			$sql= "select video_title from video where user_id=? and id=?";
+			$type= array('text','integer','integer');
+			$res = $this->execute_query($sql,$params,$types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
+		}
+		
 	}
 ?>

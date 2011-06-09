@@ -26,7 +26,7 @@
 					<li>
 						<span><:$choose:> </span><br/>	
 						<:if $avatar != '':>
-						<img src="<:$ctx:>/video/upload/<:$avatar:>" width="50" height="50"/>
+						<img src="<:$ctx:>/video/upload/<:$video:>" width="50" height="50"/>
 						<:else:>
 						<img src="<:$ctx:>/video/avatar.png" width="50" height="50"/>
 						<:/if:>
@@ -34,6 +34,7 @@
     					<input type="hidden" name="APC_UPLOAD_PROGRESS" id="progress_key" value="<:$upId:>"/>
 						<input type="file" name="video" />
 						<input type="submit" value="Upload" />
+						<input type="hidden" name="videoid" id="videoid" value="<:$videoid:>">
 					</li>
 				</ul>
 			</fieldset>		
