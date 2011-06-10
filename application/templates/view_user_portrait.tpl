@@ -1,15 +1,18 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#videoForm").submit(function(){
-			function set() {
-				$('#upload_frame').attr('src','<:$ctx:>/upload_frame.php?upId=<:$upId:>');
-			}
-			setTimeout(set);
-			$('#upload_frame').show();
-			$(this).ajaxSubmit({
-				success: function(data){
+			if($(this.portrait).val() == ''){
+				$("#error_file").show();
+				return false;
+			}else{
+				$("#error_file").hide();
+				function set() {
+					$('#upload_frame').attr('src','<:$ctx:>/upload_frame.php?upId=<:$upId:>');
 				}
-			});						
+				setTimeout(set);
+				$('#upload_frame').show();
+				$(this).ajaxSubmit();		
+			}				
 		});
 	});
 </script>
@@ -32,11 +35,12 @@
 						<:/if:>
 					</li>
 					<li>
-						<span><:$uploadNew:></span><br/>
+						<span><:$uploadNew:></span>*<br/>
 						<!--APC hidden field-->
     					<input type="hidden" name="APC_UPLOAD_PROGRESS" id="progress_key" value="<:$upId:>"/>
-						<input type="file" name="portrait" />
-					</li>
+						<input type="file" name="portrait"/><br/>
+						<span style="display: none" class="red" id="error_file"><:$requiredFields:></span>
+					</li> 
 					<li>
 						<input type="submit" value="Upload" />
 					</li>
