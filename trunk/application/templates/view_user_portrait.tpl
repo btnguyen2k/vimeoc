@@ -4,10 +4,11 @@
 		var upId = '<:$upId:>';
 		var imageContext = '<:$ctx:>/images/upload/';
 		$("#videoForm").submit(function(){
-			if($(this.portrait).val() == ''){
+			var form = this;
+			if($(form.portrait).val() == ''){
 				$("#error_file").show();
 			}else{
-				if(limitAttach(this, this.portrait.value, imageExtArray)){
+				if(limitAttach(form, form.portrait.value, imageExtArray)){
 					$("#error_file").hide();
 					function set() {
 						$('#upload_frame').attr('src','<:$ctx:>/upload_frame.php?upId='+upId);
@@ -18,6 +19,7 @@
 						var data = eval('('+json+')');
 						$("#progress_key").val(data.upId);
 						upId = data.upId;
+						form.portrait.value = '';
 						
 						if(data.status == 1){
 							$("#top_error").hide();
