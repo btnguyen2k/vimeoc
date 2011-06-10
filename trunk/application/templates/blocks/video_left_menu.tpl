@@ -39,7 +39,7 @@
 			<a href="#"><:$videodelete:></a>
 		</li>
 		<li>
-			<a href="<:$ctx:>/user/videopage"><:$videobacktovideo:></a>
+			<a href="<:$ctx:>/user/video/"><:$videobacktovideo:></a>
 		</li>
 	</ul>
 </div>
