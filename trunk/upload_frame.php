@@ -30,14 +30,13 @@ function refreshProgressBar(){
 			if(data != ''){
 				$('#progress_container').fadeIn(100);	//fade in progress bar	
 				$('#progress_bar').width(data +"%");	//set width of progress bar based on the $status value (set at the top of this page)
-				$('#progress_completed').html(parseInt(data) +"%");	//display the % completed within the progress bar
+				$('#progress_completed').html(parseInt(data) +"%");	//display the % completed within the progress bar				
+				parent.document.getElementById('upload_frame').style.display = "";
 			}
 
 			if(data != 100){
 				setTimeout('refreshProgressBar()', 100);
 			}
-
-			$(parent.document.getElementById('upload_frame')).show();
 	});
 }
 </script>
