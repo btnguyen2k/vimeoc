@@ -4,6 +4,9 @@
 		var title= document.getElementById("title").value;
 		var description= document.getElementById("description").value;
 		var tag= document.getElementById("tag").value;
+
+		
+		
 		var flag=true;
 
 		if(title==""){
@@ -35,7 +38,7 @@
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
 	
 	<div id="video_videosetting_body" class="video_page_body">
-		<center><h1><:$name:></h1></center><br/>
+		<center><h1><:$title_:><:$name:></h1></center><br/>
 			<:if $FailMessage eq "":>
 		  		 &nbsp;
 			<:else:>
@@ -70,6 +73,7 @@
 						<input type="submit" value="Save" />
 					</li>
 					<li>
+						<input type="hidden" name="tcid" value="<:$tcid:>" />
 						<input type="hidden" name="videoid" value="<:$hiddenvideo:>"/>
 					</li>
 				</ul>

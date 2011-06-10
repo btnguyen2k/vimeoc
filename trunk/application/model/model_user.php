@@ -153,6 +153,23 @@
 			}
 			return null;
 		}
+		/**
+		 * Get video by video id
+		 * @param $params
+		 */
+		function getVideoByVideoId($params)
+		{
+			$sql = 'select * from video where id=?';
+			$types = array('integer');
+			$res = $this->execute_query($sql,$params,$types);
+			
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
+		}
+		
 		
 		/**
 		 * 
