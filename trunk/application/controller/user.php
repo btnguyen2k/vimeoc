@@ -178,39 +178,40 @@
 					if($type != 'image/jpeg' && $type != 'image/png' && $type != 'image/gif')
 					{
 						$this->assign('errorMessage', $this->loadErrorMessage('error.user.portrait.notsupport'));
-						$this->assign('avatar', $user['avatar']);	
-						$this->loadTemplate('view_user_portrait');
-						return;
-					}
-					
-					if($size > 500)
-					{
-						$this->assign('errorMessage', 'Maximum file size is 5MB.');
-						$this->assign('avatar', $user['avatar']);							
-						$this->loadTemplate('view_user_portrait');
-						return;
-					}
-					
-					$fileInfo = utils::getFileType($fileName);
-					$name = utils::genRandomString(32) . '.' . $fileInfo[1];
-					$target = BASE_DIR . $this->loadResources('image.upload.path') . $name;
-					
-					$rimg = new RESIZEIMAGE($tmpName);
-				    $rimg->resize_limitwh(300, 300, $target);				    
-				    $rimg->close(); 
-				    
-				    $ret = $this->model_user->updateUserAvatar(array($name, $userId));
-				    
-					if($ret == 0)
-					{
-						$this->assign('errorMessage', 'Error');
-					}
-					else 
-					{
-						$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("portrait")));
-						$this->assign('avatar', $name);
-						$this->assign('userAvatar', $name);
-						$this->loadTemplate('view_user_portrait');
+						$this->assign('avatar', $user['avatar']);
+						$this->assign('upId', uniqid());	
+						$this->loadTemplate('view_user_portrait');						
+					}else{
+						if($size > 5)//5MB
+						{
+							$this->assign('errorMessage', $this->loadErrorMessage('error.user.upload.maximum.file.size', array('5MB')));
+							$this->assign('avatar', $user['avatar']);
+							$this->assign('upId', uniqid());							
+							$this->loadTemplate('view_user_portrait');
+						}else{
+							$fileInfo = utils::getFileType($fileName);
+							$name = utils::genRandomString(32) . '.' . $fileInfo[1];
+							$target = BASE_DIR . $this->loadResources('image.upload.path') . $name;
+							
+							$rimg = new RESIZEIMAGE($tmpName);
+						    $rimg->resize_limitwh(300, 300, $target);				    
+						    $rimg->close(); 
+						    
+						    $ret = $this->model_user->updateUserAvatar(array($name, $userId));
+						    
+							if($ret == 0)
+							{
+								$this->assign('errorMessage', 'Error');
+							}
+							else 
+							{
+								$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("portrait")));
+								$this->assign('avatar', $name);
+								$this->assign('userAvatar', $name);
+								$this->assign('upId', uniqid());
+								$this->loadTemplate('view_user_portrait');
+							}
+						}
 					}
 				}
 			}
