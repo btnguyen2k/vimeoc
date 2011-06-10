@@ -14,7 +14,7 @@
 	</ul>
 	<ul>
 		<li>
-			<a href="<:$ctx:>/video/videosetting"><:$videobasicinfo:></a>
+			<a href="<:$ctx:>/video/videosetting/?videoId=<:$videoId:>"><:$videobasicinfo:></a>
 		</li>
 		<li>
 			<a href="#"><:$videothumbnail:></a>
@@ -23,7 +23,7 @@
 			<a href="<:$ctx:>/video/updateVideoFile/?videoId=<:$videoId:>"><:$videovideofile:></a>
 		</li>
 		<li>
-			<a href="<:$ctx:>/video/preandpostroll"><:$videopreandpost:></a>
+			<a href="<:$ctx:>/video/preandpostroll/?videoId=<:$videoId:>"><:$videopreandpost:></a>
 		</li>
 	</ul>
 	<ul>
@@ -31,7 +31,7 @@
 			<a href="<:$ctx:>/video/customUrl/?videoId=<:$videoId:>"><:$videocustomurl:></a>
 		</li>
 		<li>
-			<a href="<:$ctx:>/video/addtopage"><:$videoaddto:></a>
+			<a href="<:$ctx:>/video/addtopage/?videoId=<:$videoId:>"><:$videoaddto:></a>
 		</li>
 	</ul>
 	<ul>

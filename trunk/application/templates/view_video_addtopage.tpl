@@ -24,7 +24,6 @@
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
 	<div id="video_addtopage_body" class="video_page_body">	
 		<div>	
-			<:$add:>
 			<br/>
 			<:if $successMessage eq "":>
   				 &nbsp;
@@ -38,29 +37,33 @@
    				<span class="red" align="center"><:$errorMessage:></span>
 			<:/if:>
 		</div>
+		<:if $albums.size == 0:>
+		Cannot find any albums. Please <a href="#">add</a> some.
+		<:else:>
 		<form action="<:$ctx:>/video/addtopage" method="post" name="addtopageform">
 			<fieldset>
 				<ul>
-					<div>
+					<li>
 						<:section name=a loop=$albums:>
 						<input type="checkbox" id="album_check" name="albums" value="<:$albums[a].id:>"/>
 						<:$albums[a].album_name:><br/>
 						<:/section:>
-					</div>
-					<div>
+					</li>
+					<li>
 						<input type="submit" name="save" value="Save" onClick="checkClick()" />
-					</div>
-					<div>
+					</li>
+					<li>
 						<input type="hidden" name="videoid" value="<:$videoid:>">
-					</div>
-					<div>
+					</li>
+					<li>
 						<input type="hidden" name="album_id" id="album_id" value=""/>
-					</div>
-					<div>
+					</li>
+					<li>
 						<input type="hidden" name="albumUncheck" id="albumUncheck" value="" />
-					</div>
+					</li>
 				</ul>
 			</fieldset>
 		</form>		
+		<:/if:>
 	</div>
 </div>
