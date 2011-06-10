@@ -20,12 +20,12 @@
 						upId = data.upId;
 						
 						if(data.status == 1){
-							$("#top_error").html(data.errorMessage).hide();
+							$("#top_error").hide();
 							$("#top_success").html(data.successMessage).show();
 							$("#small_avatar").attr("src", imageContext+data.avatar);
 							$('#upload_frame').hide('slow');
 						}else{
-							$("#top_success").html(data.successMessage).hide();
+							$("#top_success").hide();
 							$("#top_error").html(data.errorMessage).show();
 							$('#upload_frame').hide();
 						}
