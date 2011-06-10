@@ -139,7 +139,8 @@
 			
 			$this->assign('title', $this->loadMessages('user.portrait.title'));
 			$this->assign('currentPortrait', $this->loadMessages('user.portrait.current'));
-			$this->assign('uploadNew', $this->loadMessages('user.portrait.upload'));					
+			$this->assign('uploadNew', $this->loadMessages('user.portrait.upload'));	
+			$this->assign('imageExtSupport', $this->loadResources('image.upload.ext.support'));				
 		}
 		
 		/**
@@ -735,6 +736,7 @@
 			$this->defaultUserMessagesSource();	
 			$this->assign("title", $this->loadMessages('user.uploadvideo.title'));
 			$this->assign("choose", $this->loadMessages('user.uploadvideo.chooseavideotoupload'));
+			$this->assign('videoExtSupport', $this->loadResources('video.upload.ext.support'));
 		}
 		/**
 		 * action upload video
@@ -768,15 +770,9 @@
 					$maxsize = $this->loadResources('video.upload.maxsize');
 					if($size > $maxsize)
 					{
-//						$this->assign('errorMessage', $this->loadErrorMessage('error.user.upload.maximum.file.size', array($maxsize.'MB')));
-//						$this->assign('upId', uniqid());
-//						$this->loadTemplate("view_user_uploadvideo");
 						$ret = array('status'=>0, 'errorMessage'=>$this->loadErrorMessage('error.user.upload.maximum.file.size', array($maxsize.'MB')), 'upId'=>uniqid());
 						echo json_encode($ret);	
 					}else if($size == 0){
-//						$this->assign('errorMessage', $this->loadErrorMessage('error.field.required'));
-//						$this->assign('upId', uniqid());							
-//						$this->loadTemplate('view_user_portrait');
 						$ret = array('status'=>0, 'errorMessage'=>$this->loadErrorMessage('error.field.required'), 'upId'=>uniqid());
 						echo json_encode($ret);	
 					}else{
@@ -794,9 +790,6 @@
 						}
 						else 
 						{
-//							$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("video")));
-//							$this->assign('upId', uniqid());
-//							$this->loadTemplate("view_user_uploadvideo");
 							$ret = array('status'=>1, 'successMessage'=>$this->loadMessages('user.information.update.success', array("video")), 'upId'=>uniqid());
 							echo json_encode($ret);	
 						}
