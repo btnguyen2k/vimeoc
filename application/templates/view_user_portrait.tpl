@@ -1,6 +1,6 @@
 <script type="text/javascript">
 	$(document).ready(function(){
-		var imageExtArray = new Array(".jpg", ".png", ".gif");
+		var imageExtArray = '<:$imageExtSupport:>'.split(",");
 		var upId = '<:$upId:>';
 		var imageContext = '<:$ctx:>/images/upload/';
 		$("#portraitForm").submit(function(){
