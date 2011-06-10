@@ -11,8 +11,7 @@
 				}
 				setTimeout(set);
 				$('#upload_frame').show();
-				$(this).ajaxSubmit();		
-			}				
+			}
 		});
 	});
 </script>
