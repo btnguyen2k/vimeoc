@@ -36,6 +36,8 @@ function refreshProgressBar(){
 			if(data != 100){
 				setTimeout('refreshProgressBar()', 100);
 			}
+
+			$(parent.document.getElementById('upload_frame')).show();
 	});
 }
 </script>

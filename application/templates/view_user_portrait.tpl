@@ -14,7 +14,7 @@
 						$('#upload_frame').attr('src','<:$ctx:>/upload_frame.php?upId='+upId);
 					}
 					setTimeout(set);
-					$('#upload_frame').show();
+					//$('#upload_frame').show();
 					$("#videoForm").ajaxSubmit(function(json){
 						var data = eval('('+json+')');
 						$("#progress_key").val(data.upId);
