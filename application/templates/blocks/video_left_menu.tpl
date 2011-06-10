@@ -14,7 +14,7 @@
 	</ul>
 	<ul>
 		<li>
-			<a href="<:$ctx:>/video/videosetting/?videoId=<:$videoId:>"><:$videobasicinfo:></a>
+			<a href="<:$ctx:>/video/videosetting/?videoId=<:$videoid:>"><:$videobasicinfo:></a>
 		</li>
 		<li>
 			<a href="#"><:$videothumbnail:></a>

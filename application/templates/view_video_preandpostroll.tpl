@@ -48,7 +48,7 @@
    				<span class="green" align="center"><:$successMessage:></span>
 			<:/if:>
 		</div>
-		<form action="<:$ctx:>/video/preandpostroll" method="post" name="preandpostrollform">
+		<form action="<:$ctx:>/video/preandpostroll/?videoId=<:$videoid:>" method="post" name="preandpostrollform">
 			<fieldset>
 				<ul>
 					<div>

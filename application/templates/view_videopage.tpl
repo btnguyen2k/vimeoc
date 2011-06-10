@@ -11,11 +11,12 @@
 				<:/if:>
 			</div>
 			<div style="float: left">
-				<p><a href="<:$ctx:>/video/videosetting">[Setting]</a><a href="<:$ctx:>/auth/Delete">[Delete]</a></p>
+				<p><a href="<:$ctx:>/video/videosetting/?videoId=<:$videoid:>">[Setting]</a><a href="<:$ctx:>/auth/Delete">[Delete]</a></p>
 				<p><:$day:><:$by:>:<span class=blue><:$fullname:></span></p>
 				<p><:$play:><:$plays:>,<:$comment:><:$comments:>,<:$like:><:$likes:></p>
 				<p><:$tag:><:section name=a loop=$tags:><:$tags[a].name:>,<:/section:></p>
 				<p><:$albums:><span class=blue><:$album:></span></p>
+				<input type="hidden" id="videoid" name="videoid" value="<:$videoid:>"/>
 			</div>
 		</div>		
 	</div>

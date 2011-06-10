@@ -86,29 +86,37 @@
 			$this->loadModel('model_video');	
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
-				$videoid=$_GET['videoid'];
+				$videoid=$_GET['videoId'];
+				$tcid=$_GET['videoId'];
 				$tagid=$_GET['tagid'];
-				$tcid=$_GET['tcid'];
+				
+				$tags=$this->model_video->getTagfromTagandTagcomponent(array($tcid));
 				$video= $this->model_video->getVideofromVideoId(array($videoid,$tcid));
 				$this->assign('title_', $video['video_title']);
 				$this->assign('description_', $video['description']);
-				$tags=$this->model_video->getTagfromTagandTagcomponent(array($tagid,$tcid));
 				$this->assign('tag_', $tags);
+				$this->assign('tcid', $tcid);
 				$this->assign('hiddenvideo',$videoid);
 				$this->loadTemplate('view_video_videosetting');
-				// Session to get videoid, tagid and tcid
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
-				$title=$_POST['title'];
+				$videoTitle=$_POST['title'];
 				$description=$_POST['description'];
 				$tag=$_POST['tag'];
 				$videoid=$_POST['videoid'];
 				$tagid=$_POST['tagid'];
 				$tcid=$_POST['tcid'];
-				$updatetitle= $this->model_video->updateTitlebyId(array($title,$videoid));
+				$updatetitle= $this->model_video->updateTitlebyId(array($videoTitle,$videoid));
 				$updatedescrition= $this->model_video->updateDescriptionbyId(array($description,$videoid));
 				$this->assign('successMessage', $this->loadMessages('user.videosetting.updatesuccess'));
+				
+				
+				$tags=$this->model_video->getTagfromTagandTagcomponent(array($tcid));
+				$video= $this->model_video->getVideofromVideoId(array($videoid,$tcid));
+				$this->assign('title_', $video['video_title']);
+				$this->assign('description_', $video['description']);
+				$this->assign('tag_', $tags);
 				$this->loadTemplate('view_video_videosetting');
 			}
 		}
@@ -146,7 +154,7 @@
 					return;
 				}
 				$albums= $this->model_video->getAlbumByUserId(array($userId));
-				$video=$this->model_video->getVideoByVideoId(array($videoid));
+				$video=$this->model_video->getVideoByVideoId(array($userId,$videoid));
 				$this->assign("videoid",$videoid);
 				$this->assign("video",$video['video_title']);
 				$this->assign("albums",$albums);
@@ -218,8 +226,6 @@
 			{
 				$videoid=$_GET['videoId'];
 				$video = $this->model_video->getVideoByVideoIdAndUserId(array($userId,$videoid));
-				$preRoll = $this->model_video->getVideoByVideoId(array($videoid));
-				$postRoll = $this->model_video->getVideoByVideoId(array($videoid));
 				$video2 = $this->model_video->getVideoByVideoId(array($videoid));
 				$this->assign("getpreRoll",$video2[pre_roll]);
 				$this->assign("getpostRoll",$video2[post_roll]);
@@ -233,8 +239,14 @@
 				$postRoll=$_POST['hpostroll'];
 				$videoid=$_POST['videoid'];
 				$this->model_video->updatePre_roll(array($preRoll,$videoid,$userId));
-				$this->model_video->updatePost_roll(array($postRoll,$videoid,$userId));
+				$this->model_video->updatePost_roll(array($postRoll,$videoid,$userId));				
 				$this->assign("successMessage", $this->loadMessages('video.preandpostroll.successful'));
+				
+				$video = $this->model_video->getVideoByVideoIdAndUserId(array($userId,$videoid));
+				$video2 = $this->model_video->getVideoByVideoId(array($videoid));
+				$this->assign("getpreRoll",$video2[pre_roll]);
+				$this->assign("getpostRoll",$video2[post_roll]);
+				$this->assign("video",$video[video_title]);
 				$this->loadTemplate('view_video_preandpostroll');
 			}
 		}
@@ -497,7 +509,7 @@
 			$video=array();
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
-				$id=$_GET['Id'];
+				$id=$_GET['videoId'];
 				$params=array($id);
 				$fullname=$this->model_user->getFullNamebyUserId(array($userId));
 				$play=$this->model_video->getPlaybyUserId(array($userId));
@@ -510,8 +522,9 @@
 				$this->assign("album",$album['album_name']);
 				$this->assign("fullname",$fullname['full_name']);
 				$this->assign("video",$video);
+				$this->assign("videoid",$id);
 				$this->loadTemplate('view_videopage');
-			} 
+			}
 		}
 		
 	}

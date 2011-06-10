@@ -244,8 +244,8 @@
 		function getTagfromTagandTagcomponent($params)
 		{
 			$sql = "select name from tag t inner join tag_component tc on t.id=tc.tag_id
-			where tc.component_type=? and tc.component_id=? ";
-			$types= array('integer','integer');
+			where tc.component_id=? ";
+			$types= array('integer');
 			$res = $this->execute_query($sql,$params,$types);
 			return $res;
 		}
@@ -425,6 +425,18 @@
 			$sql = 'INSERT INTO video(user_id, video_path) values(?,?)';
 			$types = array('integer', 'text');
 			return $this->execute_command($sql, $params, $types);
+		}
+		
+		/**
+		 * select tagid by videoId
+		 * @param $params
+		 */
+		function getTagIdfromVideoId($params)
+		{
+			$sql = "select tag_id from tag_component where component_id=?";
+			$types= array('integer');
+			$res = $this->execute_query($sql,$params,$types);
+			return $res;
 		}
 	}
 		
