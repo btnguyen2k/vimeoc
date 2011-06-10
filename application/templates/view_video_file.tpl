@@ -36,20 +36,20 @@
 		});
 	});
 </script>
-<div id="user_addvideoupload" class="user_page">
-	<:include file="<:$base_dir_templates:>/blocks/user_left_menu.tpl":>
-	
-	<div id="user_addvideoupload_body" class="user_page_body">
-		<center><h1><:$title:></h1></center><br/>
+<div id="video_custom_url" class="user_page">
+	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
+	<div id="video_file_body" class="user_page_body">
+		<center><h1><:$videoTitle:> - <:$message_title:></h1></center><br/>		
 		<span class="red" id="top_error"><:$errorMessage:></span>
 		<span class="green" id="top_success"><:$successMessage:></span>
-		<form action="<:$ctx:>/user/addvideoupload/" id="videoForm" method="post" enctype="multipart/form-data">
+		<form action="<:$ctx:>/video/updateVideoFile/" id="videoForm" method="post" enctype="multipart/form-data">
 			<fieldset>
 				<ul>
 					<li>
 						<span><:$choose:> </span><br/>	
 						<!--APC hidden field-->
     					<input type="hidden" name="APC_UPLOAD_PROGRESS" id="progress_key" value="<:$upId:>"/>
+    					<input type="hidden" name="videoId" value="<:$videoId:>"/>
 						<input type="file" name="video" /><br/>
 						<span style="display: none" class="red" id="error_file"><:$requiredFields:></span>
 						<span style="display: none" class="red" id="notSupportExt"><:$videoExtSupport:></span>
@@ -62,7 +62,8 @@
 		</form>
 		<iframe id="upload_frame" name="upload_frame" frameborder="0" border="0" src="" scrolling="no" scrollbar="no" > </iframe>
 	</div>
+	
 	<div id="user_info_help" class="user_page_help">
-			Help?
+		Help?<div><:$message_url_hint:></div>
 	</div>
 </div>

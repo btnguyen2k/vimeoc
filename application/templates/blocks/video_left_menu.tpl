@@ -20,7 +20,7 @@
 			<a href="#"><:$videothumbnail:></a>
 		</li>
 		<li>
-			<a href="#"><:$videovideofile:></a>
+			<a href="<:$ctx:>/video/updateVideoFile/?videoId=<:$videoId:>"><:$videovideofile:></a>
 		</li>
 		<li>
 			<a href="<:$ctx:>/video/preandpostroll"><:$videopreandpost:></a>

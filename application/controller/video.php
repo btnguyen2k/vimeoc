@@ -47,6 +47,8 @@
 			$this->assign("videodelete", $this->loadMessages('user.video.link.delete'));
 			$this->assign("videobacktovideo", $this->loadMessages('user.video.link.backtovideo'));
 			$this->assign("videopreandpost", $this->loadMessages('user.video.link.preandpostroll'));
+			$this->assign("videoId", $_GET["videoId"]);
+			$this->assign("requiredFields", $this->loadErrorMessage('error.field.required'));
 		}
 		/**
 		 * Load messages source for videosetting page
@@ -349,6 +351,106 @@
 				}
 				
 				$this->loadTemplate('view_video_custom_url');
+			}
+		}
+		
+		/**
+		 * 
+		 * Default messagesSource for updateVideoFile page
+		 */
+		function updateVideoFileMessagesSource(){
+			$this->defaultVideoMessagesSource();
+			$this->assign("message_title", $this->loadMessages('video.videofile.title'));
+			$this->assign('choose', $this->loadMessages('video.videofile.choose'));
+			$this->assign('videoExtSupport', $this->loadResources('video.upload.ext.support'));
+		}
+		
+		/**
+		 * 
+		 * updateVideoFile action
+		 */
+		function updateVideoFile(){
+			$userId = $this->getLoggedUser();
+			if($userId == 0){
+				$this->redirect($this->ctx() . '/auth/login/');
+				return;
+			}
+			$this->loadModel('model_video');
+			$model_video = $this->model_video;
+
+			$this->loadModel('model_user');
+			$model_user = $this->model_user;
+			
+			if($_SERVER["REQUEST_METHOD"] == "GET"){
+				$videoId = $_GET['videoId'];
+				if(!$videoId){
+					$this->redirect($this->ctx() . '/user/video/');
+					return;
+				}
+				
+				$video = $model_video->getVideoById($videoId);
+				if((!$video) || ($video['user_id'] != $userId)){
+					$this->redirect($this->ctx() . '/user/video/');
+					return;
+				}
+				
+				$this->assign('videoTitle', $video['video_title']);
+				$this->assign('upId', uniqid());
+				
+				$this->loadTemplate('view_video_file');
+			}else if($_SERVER["REQUEST_METHOD"] == "POST"){
+				$videoId = $_POST['videoId'];
+				if(!$videoId){
+					$ret=array('status'=>0,'errorMessage'=>'Invalid data');
+					echo json_encode($ret);
+					return;
+				}
+				
+				$video = $model_video->getVideoById($videoId);
+				if((!$video) || ($video['user_id'] != $userId)){
+					$ret=array('status'=>0,'errorMessage'=>'Invalid data');
+					echo json_encode($ret);
+					return;
+				}
+				
+				if($_FILES['video']['error'] > 0)
+				{
+					echo $_FILES['video']['error'];
+				}
+				else 
+				{
+					$type = $_FILES['video']['type'];
+					$size = $_FILES['video']['size'] / (1024*1024);
+					$tmpName = $_FILES['video']['tmp_name'];
+					$fileName = $_FILES['video']['name'];
+					$maxsize = $this->loadResources('video.upload.maxsize');
+					if($size > $maxsize)
+					{
+						$ret = array('status'=>0, 'errorMessage'=>$this->loadErrorMessage('error.user.upload.maximum.file.size', array($maxsize.'MB')), 'upId'=>uniqid());
+						echo json_encode($ret);	
+					}else if($size == 0){
+						$ret = array('status'=>0, 'errorMessage'=>$this->loadErrorMessage('error.field.required'), 'upId'=>uniqid());
+						echo json_encode($ret);	
+					}else{
+						$fileInfo = utils::getFileType($fileName);
+						$name = utils::genRandomString(32) . '.' . $fileInfo[1];
+						$target = BASE_DIR . $this->loadResources('video.upload.path') . $name;
+						move_uploaded_file($tmpName, $target);
+						
+					    $ret = $this->model_video->updateVideoFile(array($name, $videoId));
+				
+						if($ret == 0)
+						{
+							$ret = array('status'=>0, 'errorMessage'=>'Error', 'upId'=>uniqid());
+							echo json_encode($ret);	
+						}
+						else 
+						{
+							$ret = array('status'=>1, 'successMessage'=>$this->loadMessages('user.information.update.success', array("video")), 'upId'=>uniqid());
+							echo json_encode($ret);	
+						}
+					}
+				}
 			}
 		}
 	}

@@ -407,6 +407,17 @@
 		
 		/**
 		 * 
+		 * Update video file
+		 * @param $params
+		 */
+		function updateVideoFile($params){
+			$sql = 'UPDATE video SET video_path = ? WHERE id = ?';
+			$types = array('text', 'integer');
+			return $this->execute_command($sql, $params, $types);
+		}
+		
+		/**
+		 * 
 		 * Add new video
 		 * @param $params
 		 */
