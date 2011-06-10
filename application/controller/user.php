@@ -174,7 +174,7 @@
 					$size = $_FILES['portrait']['size'] / (1024*1024);
 					$tmpName = $_FILES['portrait']['tmp_name'];
 					$fileName = $_FILES['portrait']['name'];
-					
+					$maxsize = $this->loadResources('video.upload.maxsize');
 					$user = $this->model_user->getUserByUserId(array($userId));
 					
 					if($type != 'image/jpeg' && $type != 'image/png' && $type != 'image/gif')
@@ -184,9 +184,10 @@
 						$this->assign('upId', uniqid());	
 						$this->loadTemplate('view_user_portrait');						
 					}else{
-						if($size > 5)//5MB
+						
+						if($size > $maxsize)
 						{
-							$this->assign('errorMessage', $this->loadErrorMessage('error.user.upload.maximum.file.size', array('5MB')));
+							$this->assign('errorMessage', $this->loadErrorMessage('error.user.upload.maximum.file.size', array($maxsize.'MB')));
 							$this->assign('avatar', $user['avatar']);
 							$this->assign('upId', uniqid());							
 							$this->loadTemplate('view_user_portrait');
@@ -211,6 +212,7 @@
 								$this->assign('errorMessage', 'Error');
 								$this->assign('avatar', $user['avatar']);
 								$this->assign('userAvatar', $user['avatar']);
+								$this->loadTemplate('view_user_portrait');
 							}
 							else 
 							{
@@ -745,7 +747,7 @@
 		 */
 		function addvideoupload()
 		{
-			$this->loadModel('model_user');
+			$this->loadModel('model_video');
 			$userId = $this->getLoggedUser();
 			if($userId == 0)
 			{
@@ -753,11 +755,7 @@
 				return;
 			}
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
-			{
-				$videoId=$_GET['videoId'];
-				$video = $this->model_user->getVideoByVideoIdAndUserId(array($userId,$videoId));
-				$this->assign('video', $video['video_title']);
-				$this->assign('videoid',$videoId);
+			{				
 				$this->assign('upId', uniqid());
 				$this->loadTemplate("view_user_uploadvideo");
 			}
@@ -774,35 +772,36 @@
 					$size = $_FILES['video']['size'] / (1024*1024);
 					$tmpName = $_FILES['video']['tmp_name'];
 					$fileName = $_FILES['video']['name'];
-					
-					$video = $this->model_user->getVideoByVideoIdAndUserId(array($userId,$videoId));
-						
-					if($size > 102400)
+					$maxsize = $this->loadResources('video.upload.maxsize');
+					if($size > $maxsize)
 					{
-						$this->assign('errorMessage', 'Maximum file size is 1GB');
-						$this->assign('video', $video['video_title']);							
+						$this->assign('errorMessage', $this->loadErrorMessage('error.user.upload.maximum.file.size', array($maxsize.'MB')));
+						$this->assign('upId', uniqid());
 						$this->loadTemplate("view_user_uploadvideo");
-						return;
-					}
-					
-					$fileInfo = utils::getFileType($fileName);
-					$name = utils::genRandomString(32) . '.' . $fileInfo[1];
-					$target = BASE_DIR . $this->loadResources('video.upload.path') . $name;
-					move_uploaded_file($tmpName, $target);
-					
-				    $ret = $this->model_user->updateVideo(array($name,$videoId));
-			
-					if($ret == 0)
-					{
-						$this->assign('errorMessage', 'Error');
-					}
-					else 
-					{
-						$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("video")));
-						$this->assign('video', $name);
-						$this->assign('userAvatar', $name);
+					}else if($size == 0){
+						$this->assign('errorMessage', $this->loadErrorMessage('error.field.required'));
+						$this->assign('upId', uniqid());							
+						$this->loadTemplate('view_user_portrait');
+					}else{
+						$fileInfo = utils::getFileType($fileName);
+						$name = utils::genRandomString(32) . '.' . $fileInfo[1];
+						$target = BASE_DIR . $this->loadResources('video.upload.path') . $name;
+						move_uploaded_file($tmpName, $target);
 						
-						$this->loadTemplate("view_user_uploadvideo");
+					    $ret = $this->model_video->addNewVideo(array($userId, $name));
+				
+						if($ret == 0)
+						{
+							$this->assign('errorMessage', 'Error');
+							$this->assign('upId', uniqid());	
+							$this->loadTemplate("view_user_uploadvideo");
+						}
+						else 
+						{
+							$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("video")));
+							$this->assign('upId', uniqid());
+							$this->loadTemplate("view_user_uploadvideo");
+						}
 					}
 				}
 			}

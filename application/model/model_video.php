@@ -393,6 +393,28 @@
 			return null;
 			
 		}
+		
+		/**
+		 * Update video video_title
+		 * @param $params
+		 */
+		function updateVideo($params)
+		{
+			$sql = 'UPDATE video SET video_title=? WHERE id=?';
+			$types = array('text', 'integer');
+			return $this->execute_command($sql, $params, $types);
+		}
+		
+		/**
+		 * 
+		 * Add new video
+		 * @param $params
+		 */
+		function addNewVideo($params){
+			$sql = 'INSERT INTO video(user_id, video_path) values(?,?)';
+			$types = array('integer', 'text');
+			return $this->execute_command($sql, $params, $types);
+		}
 	}
 		
 

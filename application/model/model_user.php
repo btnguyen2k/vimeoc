@@ -226,18 +226,6 @@
 		}
 		
 		/**
-		 * Update video video_title
-		 * @param $params
-		 */
-		function updateVideo($params)
-		{
-			$sql = 'UPDATE video SET video_title=? WHERE id=?';
-			$types = array('text', 'integer');
-			return $this->execute_command($sql, $params, $types);
-		}
-		
-		
-		/**
 		 * Select fullname by User Id
 		 * @param $params
 		 */
