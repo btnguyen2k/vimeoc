@@ -3,7 +3,7 @@
 		var imageExtArray = new Array(".jpg", ".png", ".gif");
 		var upId = '<:$upId:>';
 		var imageContext = '<:$ctx:>/images/upload/';
-		$("#videoForm").submit(function(){
+		$("#portraitForm").submit(function(){
 			var form = this;
 			if($(form.portrait).val() == ''){
 				$("#error_file").show();
@@ -15,7 +15,7 @@
 					}
 					setTimeout(set);
 					$('#upload_frame').show();
-					$("#videoForm").ajaxSubmit(function(json){
+					$("#portraitForm").ajaxSubmit(function(json){
 						var data = eval('('+json+')');
 						$("#progress_key").val(data.upId);
 						upId = data.upId;
@@ -45,7 +45,7 @@
 		<center><h1><:$title:></h1></center><br/>		
 		<span class="red" id="top_error"><:$errorMessage:></span>
 		<span class="green" id="top_success"><:$successMessage:></span>
-		<form action="<:$ctx:>/user/portrait/" id="videoForm" method="post" enctype="multipart/form-data">
+		<form action="<:$ctx:>/user/portrait/" id="portraitForm" method="post" enctype="multipart/form-data">
 			<fieldset>
 				<ul>
 					<li>
