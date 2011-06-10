@@ -287,7 +287,7 @@
 		function getAlbumByUserId($params)
 		{
 			$sql = "select * from album where user_id=?";
-			$types= array('text','integer');
+			$types= array('integer');
 			$res = $this->execute_query($sql,$params,$types);
 			return $res;
 		}

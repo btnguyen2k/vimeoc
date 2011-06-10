@@ -141,8 +141,12 @@
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$videoid=$_GET['videoId'];
+				if(!$videoid){
+					$this->redirect($this->ctx().'user/home');
+					return;
+				}
 				$albums= $this->model_video->getAlbumByUserId(array($userId));
-				$video=$this->model_video->getVideoByVideoId(array($userId,$videoid));
+				$video=$this->model_video->getVideoByVideoId(array($videoid));
 				$this->assign("videoid",$videoid);
 				$this->assign("video",$video['video_title']);
 				$this->assign("albums",$albums);
@@ -212,8 +216,6 @@
 				$preRoll = $this->model_video->getVideoByVideoId(array($videoid));
 				$postRoll = $this->model_video->getVideoByVideoId(array($videoid));
 				$video2 = $this->model_video->getVideoByVideoId(array($videoid));
-				echo $video2[pre_roll];
-				echo $video2[post_roll];
 				$this->assign("getpreRoll",$video2[pre_roll]);
 				$this->assign("getpostRoll",$video2[post_roll]);
 				$this->assign("videoid",$videoid);
