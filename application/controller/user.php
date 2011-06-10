@@ -202,6 +202,8 @@
 							if($ret == 0)
 							{
 								$this->assign('errorMessage', 'Error');
+								$this->assign('avatar', $user['avatar']);
+								$this->assign('userAvatar', $user['avatar']);
 							}
 							else 
 							{
