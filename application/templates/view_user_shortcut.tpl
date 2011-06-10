@@ -3,7 +3,7 @@
 		var regex = /^[a-zA-Z0-9]{1,16}$/;
 		var alias = $(form).find("input[name=alias]").val();		
 
-		var flag = !regex.test(alias) && alias.length <= 16;
+		var flag = regex.test(alias) && alias.length <= 16;
 
 		if(!flag){
 			$("#error_valid_alias").show();
