@@ -1,6 +1,6 @@
 <script type="text/javascript">
 	$(document).ready(function(){
-		var videoExtArray = new Array(".wmv", ".avi");
+		var videoExtArray = new Array(".wmv", ".avi", ".flv");
 		var upId = '<:$upId:>';
 		$("#videoForm").submit(function(){
 			var form = this;
