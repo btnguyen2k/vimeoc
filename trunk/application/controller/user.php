@@ -179,10 +179,6 @@
 					
 					if($type != 'image/jpeg' && $type != 'image/png' && $type != 'image/gif')
 					{
-//						$this->assign('errorMessage', $this->loadErrorMessage('error.user.portrait.notsupport'));
-//						$this->assign('avatar', $user['avatar']);
-//						$this->assign('upId', uniqid());	
-//						$this->loadTemplate('view_user_portrait');					
 						$ret = array('status'=>0, 'errorMessage'=>$this->loadErrorMessage('error.user.portrait.notsupport'), 'upId'=>uniqid());
 						
 						echo json_encode($ret);	
@@ -190,18 +186,10 @@
 						
 						if($size > $maxsize)
 						{
-//							$this->assign('errorMessage', $this->loadErrorMessage('error.user.upload.maximum.file.size', array($maxsize.'MB')));
-//							$this->assign('avatar', $user['avatar']);
-//							$this->assign('upId', uniqid());							
-//							$this->loadTemplate('view_user_portrait');
 							$ret = array('status'=>0, 'errorMessage'=>$this->loadErrorMessage('error.user.upload.maximum.file.size', array($maxsize.'MB')), 'upId'=>uniqid());
 						
 							echo json_encode($ret);	
 						}else if($size == 0){
-//							$this->assign('errorMessage', $this->loadErrorMessage('error.field.required'));
-//							$this->assign('avatar', $user['avatar']);
-//							$this->assign('upId', uniqid());							
-//							$this->loadTemplate('view_user_portrait');
 							$ret = array('status'=>0, 'errorMessage'=>$this->loadErrorMessage('error.field.required'), 'upId'=>uniqid());
 						
 							echo json_encode($ret);	
@@ -218,21 +206,12 @@
 						    
 							if($ret == 0)
 							{
-//								$this->assign('errorMessage', 'Error');
-//								$this->assign('avatar', $user['avatar']);
-//								$this->assign('userAvatar', $user['avatar']);
-//								$this->loadTemplate('view_user_portrait');
 								$ret = array('status'=>0, 'errorMessage'=>'Error', 'upId'=>uniqid());
 						
 								echo json_encode($ret);	
 							}
 							else 
 							{
-//								$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("portrait")));
-//								$this->assign('avatar', $name);
-//								$this->assign('userAvatar', $name);
-//								$this->assign('upId', uniqid());
-//								$this->loadTemplate('view_user_portrait');
 								$ret = array('status'=>1, 'successMessage'=>$this->loadMessages('user.information.update.success', array("portrait")), 'upId'=>uniqid(), 'avatar'=>$name);
 						
 								echo json_encode($ret);	
@@ -776,7 +755,6 @@
 			}
 			else if($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
-				$videoId=$_POST['videoid'];
 				if($_FILES['video']['error'] > 0)
 				{
 					echo $_FILES['video']['error'];
@@ -790,13 +768,17 @@
 					$maxsize = $this->loadResources('video.upload.maxsize');
 					if($size > $maxsize)
 					{
-						$this->assign('errorMessage', $this->loadErrorMessage('error.user.upload.maximum.file.size', array($maxsize.'MB')));
-						$this->assign('upId', uniqid());
-						$this->loadTemplate("view_user_uploadvideo");
+//						$this->assign('errorMessage', $this->loadErrorMessage('error.user.upload.maximum.file.size', array($maxsize.'MB')));
+//						$this->assign('upId', uniqid());
+//						$this->loadTemplate("view_user_uploadvideo");
+						$ret = array('status'=>0, 'errorMessage'=>$this->loadErrorMessage('error.user.upload.maximum.file.size', array($maxsize.'MB')), 'upId'=>uniqid());
+						echo json_encode($ret);	
 					}else if($size == 0){
-						$this->assign('errorMessage', $this->loadErrorMessage('error.field.required'));
-						$this->assign('upId', uniqid());							
-						$this->loadTemplate('view_user_portrait');
+//						$this->assign('errorMessage', $this->loadErrorMessage('error.field.required'));
+//						$this->assign('upId', uniqid());							
+//						$this->loadTemplate('view_user_portrait');
+						$ret = array('status'=>0, 'errorMessage'=>$this->loadErrorMessage('error.field.required'), 'upId'=>uniqid());
+						echo json_encode($ret);	
 					}else{
 						$fileInfo = utils::getFileType($fileName);
 						$name = utils::genRandomString(32) . '.' . $fileInfo[1];
@@ -807,15 +789,16 @@
 				
 						if($ret == 0)
 						{
-							$this->assign('errorMessage', 'Error');
-							$this->assign('upId', uniqid());	
-							$this->loadTemplate("view_user_uploadvideo");
+							$ret = array('status'=>0, 'errorMessage'=>'Error', 'upId'=>uniqid());
+							echo json_encode($ret);	
 						}
 						else 
 						{
-							$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("video")));
-							$this->assign('upId', uniqid());
-							$this->loadTemplate("view_user_uploadvideo");
+//							$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("video")));
+//							$this->assign('upId', uniqid());
+//							$this->loadTemplate("view_user_uploadvideo");
+							$ret = array('status'=>1, 'successMessage'=>$this->loadMessages('user.information.update.success', array("video")), 'upId'=>uniqid());
+							echo json_encode($ret);	
 						}
 					}
 				}
