@@ -41,7 +41,7 @@
 				<ul>
 					<li>
 						<span><:$fullNameTitle:> *</span><br/>						
-						<input type="text" name="fullName" value="<:$fullName:>"/>
+						<input type="text" name="fullName" value="<:$fullName:>" maxlength="150"/>
 					</li>					
 					<li>
 						<span><:$emailTitle:> *</span><br/>
@@ -50,7 +50,7 @@
 					</li>
 					<li>
 						<span><:$yourWebsiteTitle:></span><br/>
-						<input type="text" name="website" value="<:$website:>"/>
+						<input type="text" name="website" value="<:$website:>" maxlength="255"/>
 						<span class="red" id="error_valid_url" style="display: none;"><:$urlInvalid:></span>
 					</li>
 					<li>
