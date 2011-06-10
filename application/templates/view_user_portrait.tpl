@@ -22,7 +22,7 @@
 						if(data.status == 1){
 							$("#top_error").hide();
 							$("#top_success").html(data.successMessage).show();
-							$("#small_avatar").attr("src", imageContext+data.avatar);
+							$(".userAvatar").attr("src", imageContext+data.avatar);
 							$('#upload_frame').hide('slow');
 						}else{
 							$("#top_success").hide();
@@ -49,9 +49,9 @@
 					<li>
 						<span><:$currentPortrait:></span><br/>
 						<:if $avatar != '':>
-						<img id="small_avatar" src="<:$ctx:>/images/upload/<:$avatar:>" width="50" height="50"/>
+						<img class="userAvatar" src="<:$ctx:>/images/upload/<:$avatar:>" width="50" height="50"/>
 						<:else:>
-						<img id="small_avatar" src="<:$ctx:>/images/avatar.png" width="50" height="50"/>
+						<img class="userAvatar" src="<:$ctx:>/images/avatar.png" width="50" height="50"/>
 						<:/if:>
 					</li>
 					<li>
