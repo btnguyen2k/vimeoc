@@ -11,7 +11,7 @@
 				if(limitAttach(form, form.portrait.value, imageExtArray)){
 					$("#error_file").hide();
 					function set() {
-						$('#upload_frame').attr('src','<:$ctx:>/upload_frame.php?upId='+upId);
+						$('#upload_frame').attr('src','<:$ctx:>/upload_frame.php?upId='+upId);						
 					}
 					setTimeout(set);
 					//$('#upload_frame').show();
@@ -70,7 +70,7 @@
 				</ul>				
 			</fieldset>
 		</form>
-		<iframe id="upload_frame" name="upload_frame" frameborder="0" border="0" src="" scrolling="no" scrollbar="no" > </iframe>
+		<iframe id="upload_frame" name="upload_frame" frameborder="0" border="0" src="" scrolling="no" scrollbar="no" style="display: none;"> </iframe>
 	</div>
 	
 	<div id="user_info_help" class="user_page_help">
