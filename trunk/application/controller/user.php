@@ -67,6 +67,8 @@
 			$this->assign("menuPassword", $this->loadMessages('user.menu.link.password'));
 			$this->assign("menuShortcutURL", $this->loadMessages('user.menu.link.shortcutURL'));
 			$this->assign("menuLogout", $this->loadMessages('user.menu.link.logout'));
+			
+			$this->assign("requiredFields", $this->loadErrorMessage('error.field.required'));
 		}
 		
 		
@@ -188,7 +190,12 @@
 							$this->assign('avatar', $user['avatar']);
 							$this->assign('upId', uniqid());							
 							$this->loadTemplate('view_user_portrait');
-						}else{
+						}else if($size == 0){
+							$this->assign('errorMessage', $this->loadErrorMessage('error.field.required'));
+							$this->assign('avatar', $user['avatar']);
+							$this->assign('upId', uniqid());							
+							$this->loadTemplate('view_user_portrait');
+						}else{							
 							$fileInfo = utils::getFileType($fileName);
 							$name = utils::genRandomString(32) . '.' . $fileInfo[1];
 							$target = BASE_DIR . $this->loadResources('image.upload.path') . $name;
