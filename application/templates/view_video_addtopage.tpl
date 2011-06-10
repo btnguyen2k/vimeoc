@@ -37,7 +37,7 @@
    				<span class="red" align="center"><:$errorMessage:></span>
 			<:/if:>
 		</div>
-		<:if $albums.size == 0:>
+		<:if $albums|@count == 0:>
 		Cannot find any albums. Please <a href="#">add</a> some.
 		<:else:>
 		<form action="<:$ctx:>/video/addtopage" method="post" name="addtopageform">

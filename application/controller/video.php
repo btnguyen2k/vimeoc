@@ -142,7 +142,7 @@
 			{
 				$videoid=$_GET['videoId'];
 				if(!$videoid){
-					$this->redirect($this->ctx().'user/home');
+					$this->redirect($this->ctx().'/user/home');
 					return;
 				}
 				$albums= $this->model_video->getAlbumByUserId(array($userId));
@@ -176,7 +176,12 @@
 						$this->assign('successMessage', $this->loadMessages('video.addtopage.successful'));
 					}
 				}
-					$this->loadTemplate('view_video_addtopage');
+				$albums= $this->model_video->getAlbumByUserId(array($userId));
+				$video=$this->model_video->getVideoByVideoId(array($videoid));
+				$this->assign("videoid",$videoid);
+				$this->assign("video",$video['video_title']);
+				$this->assign("albums",$albums);
+				$this->loadTemplate('view_video_addtopage');
 			}
 		}
 		
