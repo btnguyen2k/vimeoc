@@ -678,57 +678,6 @@
 		}
 		
 		/**
-		 * Default message source for videopage
-		 * 
-		 */
-		
-		function videopageMessagesSource()
-		{
-			$this->assign("title", $this->loadMessages('user.videopage.title'));
-			$this->assign("day", $this->loadMessages('user.videopage.day'));
-			$this->assign("by", $this->loadMessages('user.videopage.by'));
-			$this->assign("plays", $this->loadMessages('user.videopage.plays'));
-			$this->assign("comments", $this->loadMessages('user.videopage.comments'));
-			$this->assign("likes", $this->loadMessages('user.videopage.likes'));
-			$this->assign("tag", $this->loadMessages('user.videopage.tag'));
-			$this->assign("albums", $this->loadMessages('user.videopage.albums'));
-		}
-		/**
-		 * Display video pages
-		 * 
-		 */
-		
-		function videopage()
-		{
-			$userId = $this->getLoggedUser();
-			if($userId == 0)
-			{
-				$this->redirect($this->ctx().'/auth/login/');
-				return;
-			}
-			
-			$this->loadModel('model_user');
-			$this->loadModel('model_video');
-			$video=array();
-			if ($_SERVER['REQUEST_METHOD'] == 'GET')
-			{
-				$id=$_GET['Id'];
-				$params=array($id);
-				$fullname=$this->model_user->getFullNamebyUserId(array($userId));
-				$play=$this->model_video->getPlaybyUserId(array($userId));
-				$comment=$this->model_video->getCommentbyId($params);
-				$like=$this->model_video->getLikebyId($params);
-				$album=$this->model_video->getAlbumbyId(array($id,$userId));
-				$this->assign("play",$play['play_count']);
-				$this->assign("comment",$comment['comment_count']);
-				$this->assign("like",$like['like_count']);
-				$this->assign("album",$album['album_name']);
-				$this->assign("fullname",$fullname['full_name']);
-				$this->assign("video",$video);
-				$this->loadTemplate('view_videopage');
-			} 
-		}
-		/**
 		 * Default message sourse for upload video pages
 		 */
 		function addvideouploadMessagesSource()
@@ -738,6 +687,7 @@
 			$this->assign("choose", $this->loadMessages('user.uploadvideo.chooseavideotoupload'));
 			$this->assign('videoExtSupport', $this->loadResources('video.upload.ext.support'));
 		}
+		
 		/**
 		 * action upload video
 		 */

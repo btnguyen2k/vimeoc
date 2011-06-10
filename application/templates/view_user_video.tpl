@@ -27,7 +27,7 @@
 
 		<:if 2 == $display_mode:>
 			<:foreach from=$videos key=k item=v:>
-				<a href="<:$ctx:>/video/videosetting/?videoId=<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
+				<a href="<:$ctx:>/video/videopage/?videoId=<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
 				id: <:$v['id']:><br/>
 				title: <:$v['video_title']:><br/>
 				<div class="creation_date">uploaded: <span class="relative_time"><:$v['creation_date']:></span></div>
@@ -39,7 +39,7 @@
 			<:/foreach:>
 		<:else:>
 			<:foreach from=$videos key=k item=v:>
-				<a href="<:$ctx:>/video/videosetting/?videoId=<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
+				<a href="<:$ctx:>/video/videopage/?videoId=<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
 				title: <:$v['video_title']:><br/><br/>
 			<:/foreach:>
 		<:/if:>
