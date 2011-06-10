@@ -438,6 +438,18 @@
 			$res = $this->execute_query($sql,$params,$types);
 			return $res;
 		}
+		/**
+		 * drop information by video Id
+		 * @param $params
+		 */
+		
+		function dropVideoByVideoId($params)
+		{
+			$sql = 'delete from video where id=?';
+			$types = array('integer');
+			$this->execute_command($sql, $params, $types);
+		}
+		
 	}
 		
 

@@ -516,6 +516,7 @@
 				$comment=$this->model_video->getCommentbyId($params);
 				$like=$this->model_video->getLikebyId($params);
 				$album=$this->model_video->getAlbumbyId(array($id,$userId));
+				$this->model_video->dropVideoByVideoId(array($id));
 				$this->assign("play",$play['play_count']);
 				$this->assign("comment",$comment['comment_count']);
 				$this->assign("like",$like['like_count']);
