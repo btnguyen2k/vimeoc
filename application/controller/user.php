@@ -653,7 +653,7 @@
 				
 				foreach($videos as &$video){
 					$video['creation_date'] = date_format(new DateTime($video['creation_date']), 'U');
-					$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : $video['thumbnails_path'];
+					$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
 					$video['album'] = $model_album->selectAlbumByVideoId($video['id']);
 					$video['tag'] = $model_tag->selectTagByVideoId($video['id']);
 					//krumo($video);

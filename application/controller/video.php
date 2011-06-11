@@ -251,7 +251,7 @@
 			}
 		}
 		/**
-		 * Load messages source for videosetting page
+		 * Load messages source for video custom url page
 		 * 
 		 */
 		
@@ -316,7 +316,7 @@
 				//server side validate here
 				$urlReg = "/^[a-z0-9]{0,32}\$/";
 				if(!preg_match($urlReg, $url_alias)){
-					$this->assign('errorMessage', $this->loadMessages('video.customurl.invalidUrl'));
+					$this->assign('errorMessage', $this->loadErrorMessage('error.video.alias.invalidUrl'));
 					$errorFlag = true;
 				}
 				
@@ -330,14 +330,14 @@
 				$this->assign('videoTitle', $video['video_title']);
 				
 				if((!$errorFlag) && ((!$video) || ($video['user_id'] != $userId))){
-					$this->assign('errorMessage', $this->loadMessages('video.customurl.invalidVideoId'));
+					$this->assign('errorMessage', $this->loadErrorMessage('error.video.alias.invalidVideoId'));
 					$this->assign('videoTitle', 'N/A');
 					$errorFlag = true;
 				}
 				
 				//check exist alias here
 				if((!$errorFlag) && ($model_video->isAliasExist(array($url_alias, $userId)))){
-					$this->assign('errorMessage', str_replace('%%1', "'{$url_alias}'", $this->loadMessages('video.customurl.aliasExists')));
+					$this->assign('errorMessage', $this->loadErrorMessage('error.video.alias.aliasExists', array($url_alias)));
 					$errorFlag = true;
 				}
 				
@@ -353,8 +353,8 @@
 							$previewLink = BASE_PATH . CONTEXT . "/" . ($user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']) .  "/" . $url_alias;
 						}
 						$this->assign("previewUrl", $previewLink);
-					}else{krumo($this->loadMessages('video.customurl.error'));
-						$this->assign('errorMessage', $this->loadMessages('video.customurl.error'));
+					}else{
+						$this->assign('errorMessage', $this->loadErrorMessage('error.video.alias'));
 						$this->assign('video_alias', $video['video_alias']);
 						$errorFlag = true;
 					}
@@ -516,7 +516,7 @@
 				$comment=$this->model_video->getCommentbyId($params);
 				$like=$this->model_video->getLikebyId($params);
 				$album=$this->model_video->getAlbumbyId(array($id,$userId));
-				$this->model_video->dropVideoByVideoId(array($id));
+				//$this->model_video->dropVideoByVideoId(array($id));
 				$this->assign("play",$play['play_count']);
 				$this->assign("comment",$comment['comment_count']);
 				$this->assign("like",$like['like_count']);
@@ -527,6 +527,115 @@
 				$this->loadTemplate('view_videopage');
 			}
 		}
+	
+		function thumbnailMessagesSource()
+		{
+			$this->defaultVideoMessagesSource();
+			$this->assign("title", $this->loadMessages('video.thumbnail.title'));
+			$this->assign("hint", $this->loadMessages('video.thumbnail.hint'));
+			$this->assign("currentThumbnail", $this->loadMessages('video.thumbnail.currentThumbnail'));
+			$this->assign("uploadNewThumbnail", $this->loadMessages('video.thumbnail.uploadNewThumbnail'));
+
+		}
 		
+		function thumbnail(){
+			$userId = $this->getLoggedUser();
+			if($userId == 0){
+				$this->redirect($this->ctx() . '/auth/login/');
+				return;
+			}
+			$this->loadModel('model_video');
+			$model_video = $this->model_video;
+
+			$this->loadModel('model_user');
+			$model_user = $this->model_user;
+			
+			if ($_SERVER['REQUEST_METHOD'] == 'GET'){
+				$videoId = $_GET['videoId'];
+				if(!$videoId){
+					$this->redirect($this->ctx() . '/user/video/');
+					return;
+				}
+				
+				$video = $model_video->getVideoById($videoId);
+				if((!$video) || ($video['user_id'] != $userId)){
+					$this->redirect($this->ctx() . '/user/video/');
+					return;
+				}
+				$this->assign('videoId', $video['video_id']);
+				$this->assign('videoTitle', $video['video_title']);
+				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->ctx(). $this->loadResources('image.upload.path') . $video['thumbnails_path']) : ($this->ctx() . '/images/icon-video.gif'));
+				$this->assign('upId', uniqid());
+				$this->loadTemplate('view_video_thumbnail');
+			}elseif ($_SERVER['REQUEST_METHOD'] == 'POST'){
+				if($_FILES['portrait']['error'] > 0)
+				{
+					$ret = array('status' => 0, 'errorMessage' => $this->loadErrorMessage('error.video.thumbnail'), 'upId' => uniqid());
+					echo json_encode($ret);
+					return;
+				}
+				else{
+					$error_flag = false;
+					$videoId = $_POST['videoId'];
+					$video = $model_video->getVideoById($videoId);
+					//check video owner
+					if(!$video || ($video['user_id'] != $userId)){
+						$ret = array('status' => 0, 'errorMessage' => $this->loadErrorMessage('error.video.thumbnail.invalidVideoId'), 'upId' => uniqid());
+						echo json_encode($ret);
+						return;
+					}else{
+						$old_thumbnail = $video['thumbnails_path'];
+					}
+					
+					//check upload error
+					$type = $_FILES['thumbnail_image']['type'];
+					$size = $_FILES['thumbnail_image']['size'] / (1024*1024);
+					$tmpName = $_FILES['thumbnail_image']['tmp_name'];
+					$fileName = $_FILES['thumbnail_image']['name'];
+					$fileInfo = utils::getFileType($fileName);
+					
+					$extSupport = explode(',', $this->loadResources('image.upload.ext.support'));
+					//if((!$errorFlag) && ($type != 'image/jpeg' && $type != 'image/png' && $type != 'image/gif')){
+					if(!in_array('.' . $fileInfo[1], $extSupport)){
+						$ret = array('status' => 0, 'errorMessage' => $this->loadErrorMessage('error.video.thumbnail.notSupport'), 'upId' => uniqid());
+						echo json_encode($ret);
+						return;
+					}
+					
+					$maxsize = $this->loadResources('image.upload.maxsize');
+					if($size > $maxsize){
+						$ret = array('status' => 0, 'errorMessage' => $this->loadErrorMessage('error.video.thumbnail.fileSizeLimit'), 'upId' => uniqid());
+						echo json_encode($ret);
+						return;
+					}
+					
+					do{
+						$name = utils::genRandomString(32) . '.' . $fileInfo[1];
+						$target = BASE_DIR . $this->loadResources('image.upload.path') . $name;
+					}while(file_exists($target));
+					
+					$rimg = new RESIZEIMAGE($tmpName);
+				    $rimg->resize_limitwh(300, 300, $target);				    
+				    $rimg->close();
+				    
+				    $result = $model_video->updateThumbnailById(array($name, $videoId));
+				    
+					if($result == 0){
+						$ret = array('status' => 0, 'errorMessage' => $this->loadErrorMessage('error.video.thumbnail'), 'upId' => uniqid());
+						echo json_encode($ret);
+						return;
+					}else{
+						$video['thumbnails_path'] = $name;
+						if($old_thumbnail && file_exists(BASE_DIR . $this->loadResources('image.upload.path') . $old_thumbnail)){
+							unlink(BASE_DIR . $this->loadResources('image.upload.path') . $old_thumbnail);
+							file_put_contents('d:\log.txt', "delete " . $name . "\n", FILE_APPEND);
+						}
+						$ret = array('status' => 1, 'successMessage' => $this->loadMessages('video.thumbnail.success'), 'upId' => uniqid(), 'thumbnail' => ($this->ctx() . $this->loadResources('image.upload.path') . $name));
+						echo json_encode($ret);
+						return;
+					}
+				}
+			}
+		}
 	}
 ?>
