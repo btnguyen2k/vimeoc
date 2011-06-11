@@ -154,7 +154,7 @@
 					return;
 				}
 				$albums= $this->model_video->getAlbumByUserId(array($userId));
-				$video=$this->model_video->getVideoByVideoId(array($userId,$videoid));
+				$video=$this->model_video->getVideoByVideoId(array($videoid));
 				$this->assign("videoid",$videoid);
 				$this->assign("video",$video['video_title']);
 				$this->assign("albums",$albums);
