@@ -189,6 +189,21 @@
 			return null;
 		}
 		
+		/**
+		 * check user id by video id
+		 * @param $params
+		 */
+		function checkUserId($params)
+		{
+			$sql='select user_id from video where id=?';
+			$types =  array('integer','integer');
+			$res = $this->execute_query($sql,$params,$types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
+		}
 		
 		/**
 		 * Get Album by userID
@@ -270,8 +285,8 @@
 		function getVideofromVideoId($params)
 		{
 			$sql = "select* from video v inner join tag_component tc on v.id=tc.component_id 
-			where v.id=? and tc.component_id=?";
-			$types = array('integer','integer');
+			where v.id=?";
+			$types = array('integer');
 			$res = $this->execute_query($sql,$params,$types);
 			if(sizeof($res) > 0)
 			{
@@ -279,6 +294,74 @@
 			}
 			return null;
 		}
+		
+		/**
+		 * Exist tag
+		 * @param $params
+		 */
+		
+		function isTagExist($params)
+		{
+			$sql ='select name from tag where name=?';
+			$types = array('text');
+			$res = $this->execute_query($sql,$params,$types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
+		}
+		/**
+		 * Add new tag_name
+		 * @param $params
+		 */
+		
+		function addTagName($params)
+		{
+			$sql='INSERT INTO tag(name) VALUES (?)';
+			$types = array('text');
+			$this->execute_command($sql, $params, $types);
+		}
+		/**
+		 * add new tag_id and component_id
+		 * @param $params
+		 */
+		
+		function addTagIdAndComponentId($params)
+		{
+			$sql='INSERT INTO tag_component(tag_id,component_id) values(?,?)';
+			$types = array('integer', 'integer');
+			$this->execute_command($sql, $params, $types);
+		}
+		/**
+		 * get tagname
+		 */
+		function getTagName($params)
+		{
+			$sql='select name from tag where name=?';
+			$types =  array('name', 'text');
+			$res = $this->execute_query($sql,$params,$types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;	
+		}
+		
+		/**
+		 * get tag_id by Name
+		 * @param $params
+		 */
+		
+		function getTagIdByName($params)
+		{
+			$sql = 'select * from tag where name=?';
+			$types =  array( 'text');
+			$res = $this->execute_query($sql,$params,$types);
+			return $res;			
+		}
+		
+		
 		/**
 		 * update video by video id
 		 * @param $params
@@ -317,6 +400,20 @@
 				return $res[0] ;
 			}
 			return null;
+		}
+		
+		/**
+		 * check Id and component Id
+		 * @param $params
+		 */
+		
+		function checkIdAndComponentId($params)
+		{
+			$sql = 'select tag_id,component_id from tag_component where tag_id=? and component_id=?';
+			$types =  array('integer','integer','integer','integer');
+			$res = $this->execute_query($sql,$params,$types);
+			
+			return sizeof($res) > 0;
 		}
 		
 		/**

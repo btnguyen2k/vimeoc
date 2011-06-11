@@ -91,7 +91,7 @@
 				$tagid=$_GET['tagid'];
 				
 				$tags=$this->model_video->getTagfromTagandTagcomponent(array($tcid));
-				$video= $this->model_video->getVideofromVideoId(array($videoid,$tcid));
+				$video= $this->model_video->getVideofromVideoId(array($videoid));
 				$this->assign('title_', $video['video_title']);
 				$this->assign('description_', $video['description']);
 				$this->assign('tag_', $tags);
@@ -104,16 +104,40 @@
 				$videoTitle=$_POST['title'];
 				$description=$_POST['description'];
 				$tag=$_POST['tag'];
+				$slipTag=split(',', $tag);
 				$videoid=$_POST['videoid'];
 				$tagid=$_POST['tagid'];
 				$tcid=$_POST['tcid'];
+				for($j=0;$j<sizeof($slipTag);$j++)
+				{				
+					if($slipTag[$j]!="")
+					{
+						$checkTag=$this->model_video->isTagExist(array($slipTag[$j]));
+						if($checkTag==0)
+						{
+							$this->model_video->addTagName(array($slipTag[$j]));			
+							$tagNewId=$this->model_video->getTagIdByName(array($slipTag[$j]));
+							$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],$videoid));
+						}
+						else 
+						{
+	
+							$tagNewId=$this->model_video->getTagIdByName(array($slipTag[$j]));
+							$res=$this->model_video->checkIdAndComponentId(array($tagNewId[0]["id"],$videoid));
+							if($res==0)
+							{
+								$this->assign('successMessage', $this->loadMessages('user.videosetting.updatesuccess'));
+								$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],$videoid));
+							}
+						}
+					}
+					
+				}		
 				$updatetitle= $this->model_video->updateTitlebyId(array($videoTitle,$videoid));
-				$updatedescrition= $this->model_video->updateDescriptionbyId(array($description,$videoid));
-				$this->assign('successMessage', $this->loadMessages('user.videosetting.updatesuccess'));
-				
-				
+				$updatedescrition= $this->model_video->updateDescriptionbyId(array($description,$videoid));				
 				$tags=$this->model_video->getTagfromTagandTagcomponent(array($tcid));
-				$video= $this->model_video->getVideofromVideoId(array($videoid,$tcid));
+				$video= $this->model_video->getVideofromVideoId(array($videoid));
+				$this->assign('hiddenvideo',$videoid);
 				$this->assign('title_', $video['video_title']);
 				$this->assign('description_', $video['description']);
 				$this->assign('tag_', $tags);
@@ -247,11 +271,12 @@
 				$this->assign("getpreRoll",$video2[pre_roll]);
 				$this->assign("getpostRoll",$video2[post_roll]);
 				$this->assign("video",$video[video_title]);
+				$this->assign("videoid",$videoid);
 				$this->loadTemplate('view_video_preandpostroll');
 			}
 		}
 		/**
-		 * Load messages source for video custom url page
+		 * Load messages source for videosetting page
 		 * 
 		 */
 		
@@ -516,7 +541,6 @@
 				$comment=$this->model_video->getCommentbyId($params);
 				$like=$this->model_video->getLikebyId($params);
 				$album=$this->model_video->getAlbumbyId(array($id,$userId));
-				//$this->model_video->dropVideoByVideoId(array($id));
 				$this->assign("play",$play['play_count']);
 				$this->assign("comment",$comment['comment_count']);
 				$this->assign("like",$like['like_count']);
@@ -525,6 +549,17 @@
 				$this->assign("video",$video);
 				$this->assign("videoid",$id);
 				$this->loadTemplate('view_videopage');
+			}
+			else if($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$id=$_POST['videoid'];
+				$res=$this->model_video->checkUserId(array($id));
+				if($res["user_id"]==$userId)
+				{
+					$this->model_video->dropVideoByVideoId(array($id));
+				}
+				$this->loadTemplate('view_videopage');
+				
 			}
 		}
 	
@@ -538,104 +573,5 @@
 
 		}
 		
-		function thumbnail(){
-			$userId = $this->getLoggedUser();
-			if($userId == 0){
-				$this->redirect($this->ctx() . '/auth/login/');
-				return;
-			}
-			$this->loadModel('model_video');
-			$model_video = $this->model_video;
-
-			$this->loadModel('model_user');
-			$model_user = $this->model_user;
-			
-			if ($_SERVER['REQUEST_METHOD'] == 'GET'){
-				$videoId = $_GET['videoId'];
-				if(!$videoId){
-					$this->redirect($this->ctx() . '/user/video/');
-					return;
-				}
-				
-				$video = $model_video->getVideoById($videoId);
-				if((!$video) || ($video['user_id'] != $userId)){
-					$this->redirect($this->ctx() . '/user/video/');
-					return;
-				}
-				$this->assign('videoId', $video['video_id']);
-				$this->assign('videoTitle', $video['video_title']);
-				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->ctx(). $this->loadResources('image.upload.path') . $video['thumbnails_path']) : ($this->ctx() . '/images/icon-video.gif'));
-				$this->assign('upId', uniqid());
-				$this->loadTemplate('view_video_thumbnail');
-			}elseif ($_SERVER['REQUEST_METHOD'] == 'POST'){
-				if($_FILES['portrait']['error'] > 0)
-				{
-					$ret = array('status' => 0, 'errorMessage' => $this->loadErrorMessage('error.video.thumbnail'), 'upId' => uniqid());
-					echo json_encode($ret);
-					return;
-				}
-				else{
-					$error_flag = false;
-					$videoId = $_POST['videoId'];
-					$video = $model_video->getVideoById($videoId);
-					//check video owner
-					if(!$video || ($video['user_id'] != $userId)){
-						$ret = array('status' => 0, 'errorMessage' => $this->loadErrorMessage('error.video.thumbnail.invalidVideoId'), 'upId' => uniqid());
-						echo json_encode($ret);
-						return;
-					}else{
-						$old_thumbnail = $video['thumbnails_path'];
-					}
-					
-					//check upload error
-					$type = $_FILES['thumbnail_image']['type'];
-					$size = $_FILES['thumbnail_image']['size'] / (1024*1024);
-					$tmpName = $_FILES['thumbnail_image']['tmp_name'];
-					$fileName = $_FILES['thumbnail_image']['name'];
-					$fileInfo = utils::getFileType($fileName);
-					
-					$extSupport = explode(',', $this->loadResources('image.upload.ext.support'));
-					//if((!$errorFlag) && ($type != 'image/jpeg' && $type != 'image/png' && $type != 'image/gif')){
-					if(!in_array('.' . $fileInfo[1], $extSupport)){
-						$ret = array('status' => 0, 'errorMessage' => $this->loadErrorMessage('error.video.thumbnail.notSupport'), 'upId' => uniqid());
-						echo json_encode($ret);
-						return;
-					}
-					
-					$maxsize = $this->loadResources('image.upload.maxsize');
-					if($size > $maxsize){
-						$ret = array('status' => 0, 'errorMessage' => $this->loadErrorMessage('error.video.thumbnail.fileSizeLimit'), 'upId' => uniqid());
-						echo json_encode($ret);
-						return;
-					}
-					
-					do{
-						$name = utils::genRandomString(32) . '.' . $fileInfo[1];
-						$target = BASE_DIR . $this->loadResources('image.upload.path') . $name;
-					}while(file_exists($target));
-					
-					$rimg = new RESIZEIMAGE($tmpName);
-				    $rimg->resize_limitwh(300, 300, $target);				    
-				    $rimg->close();
-				    
-				    $result = $model_video->updateThumbnailById(array($name, $videoId));
-				    
-					if($result == 0){
-						$ret = array('status' => 0, 'errorMessage' => $this->loadErrorMessage('error.video.thumbnail'), 'upId' => uniqid());
-						echo json_encode($ret);
-						return;
-					}else{
-						$video['thumbnails_path'] = $name;
-						if($old_thumbnail && file_exists(BASE_DIR . $this->loadResources('image.upload.path') . $old_thumbnail)){
-							unlink(BASE_DIR . $this->loadResources('image.upload.path') . $old_thumbnail);
-							file_put_contents('d:\log.txt', "delete " . $name . "\n", FILE_APPEND);
-						}
-						$ret = array('status' => 1, 'successMessage' => $this->loadMessages('video.thumbnail.success'), 'upId' => uniqid(), 'thumbnail' => ($this->ctx() . $this->loadResources('image.upload.path') . $name));
-						echo json_encode($ret);
-						return;
-					}
-				}
-			}
-		}
 	}
 ?>
