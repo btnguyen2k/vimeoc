@@ -179,7 +179,14 @@
 				}
 				$albums= $this->model_video->getAlbumByUserId(array($userId));
 				$video=$this->model_video->getVideoByVideoId(array($videoid));
+				$albumIds=$this->model_video->getAlbumIdByVideoIdWithoutJoin(array($videoid));
+				$str="";
+				for($i=0;$i<sizeof($albumIds);$i++)
+				{
+					$str .= $albumIds[$i]['album_id'] . ',';
+				}
 				$this->assign("videoid",$videoid);
+				$this->assign("checkedAlbums",$str);
 				$this->assign("video",$video['video_title']);
 				$this->assign("albums",$albums);
 				$this->loadTemplate('view_video_addtopage');
@@ -195,7 +202,6 @@
 				{
 					$this->model_video->dropAlbumIdAndVideoId(array($mAlbumUncheck[$j],$videoid));
 				}
-				
 				for($i=0;$i<sizeof($mAlbumId);$i++)
 				{
 					if ($this->model_video->isExist(array($mAlbumId[$i],$videoid)) == true)
@@ -211,6 +217,7 @@
 				$albums= $this->model_video->getAlbumByUserId(array($userId));
 				$video=$this->model_video->getVideoByVideoId(array($videoid));
 				$this->assign("videoid",$videoid);
+				$this->assign("checkedAlbums",$albumid);
 				$this->assign("video",$video['video_title']);
 				$this->assign("albums",$albums);
 				$this->loadTemplate('view_video_addtopage');
@@ -231,7 +238,7 @@
 			$this->assign("PostRoll", $this->loadMessages('video.preandpostroll.postroll'));
 			
 		}
-		
+
 		
 		/**
 		 * View and action for preAndPostRoll
