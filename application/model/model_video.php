@@ -95,6 +95,8 @@
 			$res = $this->execute_query($sql,$params,$types);
 			return $res[0]['count'];
 		}
+	
+		
 		/**
 		 * 
 		 * check alias exist
@@ -174,7 +176,7 @@
 			return null;
 		}
 		/**
-		 * Get albumid by videoid
+		 * Get albumid by videoid 
 		 */
 		function getAlbumIdByVideoId($params)
 		{
@@ -188,6 +190,20 @@
 			}
 			return null;
 		}
+		/**
+		 * get albumid byVideoId
+		 * @param params
+		 */
+		
+		function getAlbumIdByVideoIdWithoutJoin($params)
+		{
+			$sql= 'select album_id from album_video where video_id=?';
+			$types= array('integer');
+			$res = $this->execute_query($sql,$params,$types);
+			return $res;
+			 
+		}
+		
 		
 		/**
 		 * check user id by video id
@@ -558,6 +574,7 @@
 			$types = array('integer');
 			$this->execute_command($sql, $params, $types);
 		}
+		
 		
 	}
 		

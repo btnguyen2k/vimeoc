@@ -1,4 +1,8 @@
 <script type="text/javascript">
+	$(document).ready(function() {
+		   loadCheckedAlbum();
+		});
+
 	function checkClick()
 	{	
 		var str = "";
@@ -17,6 +21,15 @@
 	    });
 	    stru = stru.substring(0, stru.length-1);
 	    $("#albumUncheck").val(stru);
+	}
+
+	function loadCheckedAlbum()
+	{
+		var checkedAlbumIds = $("#checkedAlbums").val();
+		var ids = checkedAlbumIds.split(',');
+		for(var i=0; i<ids.length; i++){
+			$("#album_"+ids[i]).attr("checked","checked");
+		}
 	}
 </script>
 <h1 align="center"><:$video:>-<:$title:></h1>
@@ -45,7 +58,7 @@
 				<ul>
 					<li>
 						<:section name=a loop=$albums:>
-						<input type="checkbox" id="album_check" name="albums" value="<:$albums[a].id:>"/>
+						<input type="checkbox" name="albums" id="album_<:$albums[a].id:>" value="<:$albums[a].id:>"/>
 						<:$albums[a].album_name:><br/>
 						<:/section:>
 					</li>
@@ -60,6 +73,7 @@
 					</li>
 					<li>
 						<input type="hidden" name="albumUncheck" id="albumUncheck" value="" />
+						<input type="hidden" id="checkedAlbums" value="<:$checkedAlbums:>"/>
 					</li>
 				</ul>
 			</fieldset>
