@@ -31,6 +31,8 @@
 		}	
 			
 		return flag;
+
+		
 	}
 </script>
 
@@ -39,10 +41,10 @@
 	
 	<div id="video_videosetting_body" class="video_page_body">
 		<center><h1><:$title_:><:$name:></h1></center><br/>
-			<:if $FailMessage eq "":>
+			<:if $errorMessage eq "":>
 		  		 &nbsp;
 			<:else:>
-		   		<span class="red"><:$FailMessage:></span>
+		   		<span class="red"><:$errorMessage:></span>
 			<:/if:>
 			
 			<:if $successMessage eq "":>
@@ -51,7 +53,7 @@
    				<span class="green" align="center"><:$successMessage:></span>
 			<:/if:>
 		
-		<form action="<:$ctx:>/video/videoSetting" method="post" onSubmit="return checkvalidate()" name="videosettingform">
+		<form action="<:$ctx:>/video/videoSetting/?videoId=<:$hiddenvideo:>" method="post" onSubmit="return checkvalidate()" name="videosettingform">
 			<fieldset>
 				<ul>
 					<li>
