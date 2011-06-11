@@ -274,14 +274,7 @@
 				$params = array($fullName, $email, $website, $userId);
 				$ret = $this->model_user->updateUserInformation($params);
 				
-				if($ret == 0)
-				{
-					$this->assign('errorMessage', 'Error');
-				}
-				else 
-				{
-					$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("personal info")));
-				}
+				$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("personal info")));
 				
 				$user = $this->model_user->getUserByUserId(array($userId));
 				$this->assign('fullName', $user['full_name']);
@@ -399,8 +392,6 @@
 				{
 					$this->loadTemplate('view_home');
 				}
-				
-				
 			} 
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 			{
