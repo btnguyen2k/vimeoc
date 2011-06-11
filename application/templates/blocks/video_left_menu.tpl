@@ -36,9 +36,6 @@
 	</ul>
 	<ul>
 		<li>
-			<a href="#"><:$videodelete:></a>
-		</li>
-		<li>
 			<a href="<:$ctx:>/user/video/"><:$videobacktovideo:></a>
 		</li>
 	</ul>
