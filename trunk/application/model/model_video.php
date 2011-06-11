@@ -64,7 +64,8 @@
 						id as `video_id`, 
 						user_id  as `user_id`, 
 						video_title as `video_title`, 
-						video_alias as `video_alias`  
+						video_alias as `video_alias`,  
+						thumbnails_path as `thumbnails_path` 
 					from 
 						video 
 					where 
@@ -232,6 +233,17 @@
 		function updateAliasById($params)
 		{
 			$sql = "Update video Set video_alias=? where id=? ";
+			$types= array('text','integer');
+			$res = $this->execute_command($sql,$params,$types);
+			return $res;
+		}
+		/**
+		 * update alias by Id
+		 * @param $params
+		 */
+		function updateThumbnailById($params)
+		{
+			$sql = "Update video Set thumbnails_path=? where id=? ";
 			$types= array('text','integer');
 			$res = $this->execute_command($sql,$params,$types);
 			return $res;

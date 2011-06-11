@@ -14,10 +14,10 @@
 	</ul>
 	<ul>
 		<li>
-			<a href="<:$ctx:>/video/videosetting/?videoId=<:$videoid:>"><:$videobasicinfo:></a>
+			<a href="<:$ctx:>/video/videosetting/?videoId=<:$videoId:>"><:$videobasicinfo:></a>
 		</li>
 		<li>
-			<a href="#"><:$videothumbnail:></a>
+			<a href="<:$ctx:>/video/thumbnail/?videoId=<:$videoId:>"><:$videothumbnail:></a>
 		</li>
 		<li>
 			<a href="<:$ctx:>/video/updateVideoFile/?videoId=<:$videoId:>"><:$videovideofile:></a>
