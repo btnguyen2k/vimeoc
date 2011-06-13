@@ -178,6 +178,8 @@
 				{
 					$this->assign("username",$username);
 					$this->assign("errorMessage", $this->loadMessages('auth.signup.errors'));
+					$this->assign('fullname_',$fullName);
+					$this->assign('username_',$username);
 					$this->loadTemplate('view_signup');
 				}
 				else 

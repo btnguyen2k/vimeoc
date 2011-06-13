@@ -287,7 +287,7 @@
 			}
 		}
 		/**
-		 * Load messages source for videosetting page
+		 * Load messages source for customUrl page
 		 * 
 		 */
 		
