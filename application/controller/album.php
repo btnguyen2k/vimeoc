@@ -89,5 +89,56 @@
 				$this->loadTemplate('view_album_createnewalbum');
 			}
 		}
+		/**
+		 * Load defaul album basic info page
+		 * 
+		 */
+		function albumSettingMessagesSource()
+		{
+			$this->defaultAlbumMessagesSource();
+			
+			$this->assign("name", $this->loadMessages('album.albumsetting.name'));
+			$this->assign("title", $this->loadMessages('album.albumsetting.title'));
+			$this->assign('description', $this->loadMessages('album.albumsetting.description'));
+			
+			$this->assign('errorDescription', $this->loadErrorMessage('error.album.create.description'));
+		}
+		/**
+		 * Load and action album basic info page
+		 * 
+		 */
+		
+		function albumSetting()
+		{
+			$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			$this->loadModel('model_album');
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
+			{
+				$albumId=$_GET['albumId'];
+				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
+				$this->assign("albumId",$albumId);
+				$this->assign("description_",$album['description']);
+				$this->assign("title_",$album['album_name']);
+				$this->loadTemplate('view_album_albumsetting');
+			}
+			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$albumDescription=$_POST['description'];
+				$albumName=$_POST['title'];
+				$albumId=$_POST['albumid'];
+				$this->model_album->updateAlbumTileByAlbumId(array($albumName,$albumId));
+				$this->model_album->updateAlbumDescriptionByAlbumId(array($albumDescription,$albumId));
+				$this->assign('successMessage',$this->loadMessages('album.albumsetting.successful'));
+				$this->assign('description_',$albumDescription);
+				$this->assign('title_',$albumName);
+				$this->assign('albumId',$albumId);
+				$this->loadTemplate('view_album_albumsetting');
+			}
+		}
 	}
 ?>

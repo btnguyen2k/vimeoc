@@ -83,6 +83,42 @@
 			$this->execute_command($sql, $params, $types);
 			
 		}
+		/**
+		 * get album by albumId and userId
+		 * @param params
+		 */
+		function getAlbumbyAlbumIdAndUserId($params)
+		{
+			$sql = 'SELECT * FROM album WHERE id=? and user_id=?';
+			$types = array('integer','integer');
+			$res = $this->execute_query($sql,$params,$types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
+		}
+		/**
+		 * update AlbumTitle by AlbumId
+		 * @param params
+		 */
+		function updateAlbumTileByAlbumId($params)
+		{
+			$sql = 'Update album Set album_name=? where id=? ';
+			$types= array('text','integer');
+			$res = $this->execute_command($sql,$params,$types);
+		}
+		/**
+		 * update AlbumDescription by AlbumId
+		 * @param params
+		 */
+		function updateAlbumDescriptionByAlbumId($params)
+		{
+			$sql = 'Update album Set description=? where id=? ';
+			$types= array('text','integer');
+			$res = $this->execute_command($sql,$params,$types);
+		}
+		
 		
 	}
 ?>
