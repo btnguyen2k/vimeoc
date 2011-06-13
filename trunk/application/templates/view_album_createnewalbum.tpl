@@ -12,11 +12,7 @@
 		}else{
 			$("#error_valid_description").hide();
 		}
-		
-	
 	}
-
-
 </script>
 <center><h1><:$name:></h1></center>
 <div id="album_createnewalbum" class="album_page">

@@ -14,7 +14,7 @@
 	</ul>
 	<ul>
 		<li>
-			<a href="#"><:$menubasicinfoAlbum:></a>
+			<a href="<:$ctx:>/album/albumsetting"><:$menubasicinfoAlbum:></a>
 		</li>
 		<li>
 			<a href="#"><:$menuthumbnailAlbum:></a>

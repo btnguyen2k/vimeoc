@@ -141,6 +141,7 @@
 				$updatedescrition= $this->model_video->updateDescriptionbyId(array($description,$videoid));				
 				$tags=$this->model_video->getTagfromTagandTagcomponent(array($tcid));
 				$video= $this->model_video->getVideofromVideoId(array($videoid));
+				$this->assign('tcid', $tcid);
 				$this->assign('hiddenvideo',$videoid);
 				$this->assign('title_', $video['video_title']);
 				$this->assign('description_', $video['description']);

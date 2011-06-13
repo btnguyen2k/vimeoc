@@ -53,7 +53,7 @@
 		<:if $albums|@count == 0:>
 		Cannot find any albums. Please <a href="#">add</a> some.
 		<:else:>
-		<form action="<:$ctx:>/video/addtopage" method="post" name="addtopageform">
+		<form action="<:$ctx:>/video/addtopage/?videoId=<:$videoid:>" method="post" name="addtopageform">
 			<fieldset>
 				<ul>
 					<li>
