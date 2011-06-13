@@ -20,7 +20,7 @@
 		 * 
 		 * Select data
 		 */
-		function selectVideoByUserId($id, $limit = 0, $offset = 0, $sort_column = 'creation_date', $sort_order = 'ASC')
+		function selectVideoByUserId($id, $limit = 0, $offset = 0, $term = '', $sort_column = 'creation_date', $sort_order = 'ASC')
 		{
 			$types = array();
 			$params = array(); 
@@ -36,12 +36,20 @@
 					from 
 						video 
 					where 
-						user_id = ?
-					order by {$sort_column} {$sort_order} ";
+						user_id = ? ";
 			$types[] = 'integer';
-			
 			$params[] = $id;
-			//var_dump($sql);
+			
+			if(!empty($term)){
+				$sql .= " and (video_title like ? or description like ?) ";
+				$types[] = 'text';
+				$types[] = 'text';
+				$params[] = '%' . $term . '%';
+				$params[] = '%' . $term . '%';
+			}
+			
+			$sql .= " order by {$sort_column} {$sort_order} ";
+			
 			if($limit > 0){
 				$sql .= ' limit ? offset ?';
 				$types[] = 'integer';
@@ -83,17 +91,29 @@
 		 * 
 		 * Select data
 		 */
-		function countVideoByUserId($params)
+		function countVideoByUserId($id, $limit = 0, $offset = 0,  $term = '')
 		{					
-			$sql = 'select 
+			$types = array();
+			$params = array(); 
+			$sql = "select 
 						count(id) as `count` 
 					from 
 						video 
 					where 
-						user_id = ? ';
-			$types = array('integer');
+						user_id = ? ";
+			$types[] = 'integer';
+			$params[] = $id;
+			
+			if(!empty($term)){
+				$sql .= " and (video_title like ? or description like ?) ";
+				$types[] = 'text';
+				$types[] = 'text';
+				$params[] = '%' . $term . '%';
+				$params[] = '%' . $term . '%';
+			}
 			$res = $this->execute_query($sql,$params,$types);
-			return $res[0]['count'];
+
+			return ($res[0] && $res[0]['count']) ? $res[0]['count'] : 0;
 		}
 	
 		
