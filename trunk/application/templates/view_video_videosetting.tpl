@@ -53,7 +53,7 @@
    				<span class="green" align="center"><:$successMessage:></span>
 			<:/if:>
 		
-		<form action="<:$ctx:>/video/videoSetting/?videoId=<:$hiddenvideo:>" method="post" onSubmit="return checkvalidate()" name="videosettingform">
+		<form action="<:$ctx:>/video/videosetting/?videoId=<:$hiddenvideo:>" method="post" onSubmit="return checkvalidate()" name="videosettingform">
 			<fieldset>
 				<ul>
 					<li>
