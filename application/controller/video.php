@@ -585,5 +585,104 @@
 
 		}
 		
+	function thumbnail(){
+			$userId = $this->getLoggedUser();
+			if($userId == 0){
+				$this->redirect($this->ctx() . '/auth/login/');
+				return;
+			}
+			$this->loadModel('model_video');
+			$model_video = $this->model_video;
+
+			$this->loadModel('model_user');
+			$model_user = $this->model_user;
+			
+			if ($_SERVER['REQUEST_METHOD'] == 'GET'){
+				$videoId = $_GET['videoId'];
+				if(!$videoId){
+					$this->redirect($this->ctx() . '/user/video/');
+					return;
+				}
+				
+				$video = $model_video->getVideoById($videoId);
+				if((!$video) || ($video['user_id'] != $userId)){
+					$this->redirect($this->ctx() . '/user/video/');
+					return;
+				}
+				$this->assign('videoId', $video['video_id']);
+				$this->assign('videoTitle', $video['video_title']);
+				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->ctx(). $this->loadResources('image.upload.path') . $video['thumbnails_path']) : ($this->ctx() . '/images/icon-video.gif'));
+				$this->assign('upId', uniqid());
+				$this->loadTemplate('view_video_thumbnail');
+			}elseif ($_SERVER['REQUEST_METHOD'] == 'POST'){
+				if($_FILES['portrait']['error'] > 0)
+				{
+					$ret = array('status' => 0, 'errorMessage' => $this->loadErrorMessage('error.video.thumbnail'), 'upId' => uniqid());
+					echo json_encode($ret);
+					return;
+				}
+				else{
+					$error_flag = false;
+					$videoId = $_POST['videoId'];
+					$video = $model_video->getVideoById($videoId);
+					//check video owner
+					if(!$video || ($video['user_id'] != $userId)){
+						$ret = array('status' => 0, 'errorMessage' => $this->loadErrorMessage('error.video.thumbnail.invalidVideoId'), 'upId' => uniqid());
+						echo json_encode($ret);
+						return;
+					}else{
+						$old_thumbnail = $video['thumbnails_path'];
+					}
+					
+					//check upload error
+					$type = $_FILES['thumbnail_image']['type'];
+					$size = $_FILES['thumbnail_image']['size'] / (1024*1024);
+					$tmpName = $_FILES['thumbnail_image']['tmp_name'];
+					$fileName = $_FILES['thumbnail_image']['name'];
+					$fileInfo = utils::getFileType($fileName);
+					
+					$extSupport = explode(',', $this->loadResources('image.upload.ext.support'));
+					//if((!$errorFlag) && ($type != 'image/jpeg' && $type != 'image/png' && $type != 'image/gif')){
+					if(!in_array('.' . $fileInfo[1], $extSupport)){
+						$ret = array('status' => 0, 'errorMessage' => $this->loadErrorMessage('error.video.thumbnail.notSupport'), 'upId' => uniqid());
+						echo json_encode($ret);
+						return;
+					}
+					
+					$maxsize = $this->loadResources('image.upload.maxsize');
+					if($size > $maxsize){
+						$ret = array('status' => 0, 'errorMessage' => $this->loadErrorMessage('error.video.thumbnail.fileSizeLimit'), 'upId' => uniqid());
+						echo json_encode($ret);
+						return;
+					}
+					
+					do{
+						$name = utils::genRandomString(32) . '.' . $fileInfo[1];
+						$target = BASE_DIR . $this->loadResources('image.upload.path') . $name;
+					}while(file_exists($target));
+					
+					$rimg = new RESIZEIMAGE($tmpName);
+				    $rimg->resize_limitwh(300, 300, $target);				    
+				    $rimg->close();
+				    
+				    $result = $model_video->updateThumbnailById(array($name, $videoId));
+				    
+					if($result == 0){
+						$ret = array('status' => 0, 'errorMessage' => $this->loadErrorMessage('error.video.thumbnail'), 'upId' => uniqid());
+						echo json_encode($ret);
+						return;
+					}else{
+						$video['thumbnails_path'] = $name;
+						if($old_thumbnail && file_exists(BASE_DIR . $this->loadResources('image.upload.path') . $old_thumbnail)){
+							unlink(BASE_DIR . $this->loadResources('image.upload.path') . $old_thumbnail);
+							file_put_contents('d:\log.txt', "delete " . $name . "\n", FILE_APPEND);
+						}
+						$ret = array('status' => 1, 'successMessage' => $this->loadMessages('video.thumbnail.success'), 'upId' => uniqid(), 'thumbnail' => ($this->ctx() . $this->loadResources('image.upload.path') . $name));
+						echo json_encode($ret);
+						return;
+					}
+				}
+			}
+		}
 	}
 ?>

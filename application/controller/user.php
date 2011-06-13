@@ -632,7 +632,7 @@
 					$videos = $model_video->selectVideoByUserId($userId, $limit, $offset, $_search_term, $sort_column, $sort_order);
 				}
 			}else{
-				$this->assign('message', 'You have no video');
+				$this->assign('message', 'No video');
 			}
 			
 			if(is_array($videos) && (count($videos) > 0)){
