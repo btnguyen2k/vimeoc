@@ -104,12 +104,12 @@
 <h1 align="center"><:$title:></h1>
 <form onSubmit="return checkEmail()" name="signupform" action="<:$ctx:>/auth/signup/" method="post">
 	<div>
-		<:$fullname:><input id="fullname" name="fullname" />
+		<:$fullname:><input id="fullname" name="fullname" value="<:$fullname_:>"/>
 		<span class="red" id="error_valid_fullname" style="display: none;"><:$fullnameInvalid:></span>
 		<span class="red" id="error_length_fullname" style="display: none;"><:$fullnamelength:></span>
 	</div>
 	<div>
-		<:$email:> <input name="email" type="text" class="inputs" id="email_address"size="35" maxlength="255">
+		<:$email:> <input name="email" type="text" class="inputs" id="email_address"size="35" maxlength="255" value="<:$username_:>">
 		<span class="red" id="error_valid_email" style="display: none;"><:$emailInvalid:></span>	
 		<:if $errorMessage eq "":>
   			 &nbsp;
@@ -146,6 +146,6 @@
 	</div>
 	<div>
 	<span class="red" id="error_valid_term" style="display: none;"><:$termInvalid:></span><br/>
-		<input type="submit" value="Sign Up1"  />
+		<input type="submit" value="Sign Up"  />
 	</div>	
 </form>	

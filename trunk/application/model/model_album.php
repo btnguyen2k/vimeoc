@@ -72,5 +72,17 @@
 			$res = $this->execute_query($sql,$params,$types);
 			return $res[0]['count'];
 		}
+		/**
+		 *  add new album
+		 *@param params 
+		 */
+		function addNewAlbum($params)
+		{
+			$sql = 'INSERT INTO album(user_id,album_name, description) VALUES (?, ?, ?)';
+			$types = array('integer' ,'text', 'text');
+			$this->execute_command($sql, $params, $types);
+			
+		}
+		
 	}
 ?>

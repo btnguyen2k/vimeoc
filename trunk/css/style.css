@@ -16,6 +16,11 @@ div.video_page {}
 div.video_page div#video_menu {float: left; width: 200px;}
 div.video_page div.video_page_body {float: left; width: 500px;}
 
+div.album_page {}
+
+div.album_page div#album_menu {float: left; width: 200px;}
+div.album_page div.album_page_body {float: left; width: 500px;}
+
 /*iframe*/
 #upload_frame {border:0px; height:40px; width:400px; display:none;}
 
