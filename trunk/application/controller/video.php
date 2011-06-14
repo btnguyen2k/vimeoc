@@ -64,6 +64,7 @@
 			$this->assign("title", $this->loadMessages('user.videosetting.title'));
 			$this->assign('description', $this->loadMessages('user.videosetting.description'));
 			$this->assign('tag', $this->loadMessages('user.videosetting.tags'));
+			$this->assign('hint', $this->loadMessages('user.videosetting.hint'));
 
 			$this->assign('titleiInvalid', $this->loadErrorMessage('error.video.title'));
 			$this->assign('descriptionInvalid', $this->loadErrorMessage('error.video.description'));
@@ -147,7 +148,7 @@
 				$this->assign('title_', $video['video_title']);
 				$this->assign('description_', $video['description']);
 				$this->assign('tag_', $tags);
-				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_videosetting');
+				$this->loadTemplate('view_video_videosetting');
 			}
 		}
 		/**
@@ -161,6 +162,7 @@
 			
 			$this->assign("add", $this->loadMessages('video.addtopage.addtialbum'));
 			$this->assign("title", $this->loadMessages('video.addtopage.title'));
+			$this->assign("hint", $this->loadMessages('video.addtopage.hint'));
 			
 		}
 		
@@ -242,6 +244,7 @@
 			$this->assign("title", $this->loadMessages('video.preandpostroll.title'));
 			$this->assign("PreRoll", $this->loadMessages('video.preandpostroll.preroll'));
 			$this->assign("PostRoll", $this->loadMessages('video.preandpostroll.postroll'));
+			$this->assign("hint", $this->loadMessages('video.preandpostroll.hint'));
 			
 		}
 
@@ -553,15 +556,37 @@
 				$play=$this->model_video->getPlaybyUserId(array($userId));
 				$comment=$this->model_video->getCommentbyId($params);
 				$like=$this->model_video->getLikebyId($params);
-				$album=$this->model_video->getAlbumbyId(array($id,$userId));
+				$albums=$this->model_video->getAlbumByVideoIdAndUserId(array($id,$userId));
+				$tags=$this->model_video->getTagfromTagandTagcomponent(array($id));
+				$this->assign("tags",$tags);
 				$this->assign("play",$play['play_count']);
 				$this->assign("comment",$comment['comment_count']);
 				$this->assign("like",$like['like_count']);
-				$this->assign("album",$album['album_name']);
+				$this->assign("album",$albums);
 				$this->assign("fullname",$fullname['full_name']);
 				$this->assign("video",$video);
 				$this->assign("videoid",$id);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_videopage');
+//				$start = '09:00';
+//				$end   = '10:30';
+//				$diff=$this->get_time_difference($start, $end);
+//				$strDate;
+//				if( $diff )
+//				{
+//					if($diff[0]['days']==0)
+//					{
+//						if ($diff[0]['hours']==0)
+//						{
+//							if ($diff[0]['minutes']==0)
+//							{
+//								
+//							}
+//						}
+//					}					
+//				}
+//				else
+//				{
+//				}
 			}
 			else if($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
@@ -586,7 +611,7 @@
 
 		}
 		
-	function thumbnail(){
+		function thumbnail(){
 			$userId = $this->getLoggedUser();
 			if($userId == 0){
 				$this->redirect($this->ctx() . '/auth/login/');

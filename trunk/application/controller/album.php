@@ -52,13 +52,14 @@
 		 * Load defaul create new album page
 		 * 
 		 */
-		function createnewalbumMessagesSource()
+		function createNewAlbumMessagesSource()
 		{
 			$this->defaultAlbumMessagesSource();
 			
 			$this->assign("name", $this->loadMessages('album.create.name'));
 			$this->assign("title", $this->loadMessages('album.create.title'));
 			$this->assign('description', $this->loadMessages('album.create.description'));
+			$this->assign('hint', $this->loadMessages('album.create.hint'));
 			
 			$this->assign('errorDescription', $this->loadErrorMessage('error.album.create.description'));
 		}
@@ -67,7 +68,7 @@
 		 * 
 		 */
 		
-		function createnewalbum()
+		function createNewAlbum()
 		{
 			$userId = $this->getLoggedUser();
 			if($userId == 0)
@@ -102,6 +103,7 @@
 			$this->assign("name", $this->loadMessages('album.albumsetting.name'));
 			$this->assign("title", $this->loadMessages('album.albumsetting.title'));
 			$this->assign('description', $this->loadMessages('album.albumsetting.description'));
+			$this->assign('hint', $this->loadMessages('album.albumsetting.hint'));
 			
 			$this->assign('errorDescription', $this->loadErrorMessage('error.album.create.description'));
 		}
@@ -142,5 +144,51 @@
 				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_albumsetting');
 			}
 		}
+		
+		/**
+		 * Load defaul Thumbnail page
+		 * 
+		 */
+		
+		function albumThumbnailMessagesSource()
+		{
+			$this->defaultAlbumMessagesSource();
+			
+			$this->assign("name", $this->loadMessages('album.albumthumbnail.name'));
+			$this->assign("choose", $this->loadMessages('album.albumthumbnail.choose'));
+			$this->assign('hint', $this->loadMessages('album.albumthumbnail.hint'));
+		}
+		
+		/**
+		 * Load and action album Thumbnail page
+		 * 
+		 */
+		
+		function albumThumbnail()
+		{
+			$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			$this->loadModel('model_album');
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
+			{
+				$albumId=$_GET['albumId'];
+				$videoThumbnails=$this->model_album->getVideoThumbnailsByAlbumId(array($albumId));
+				
+				$this->assign("videoThumbnails",$videoThumbnails);
+				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_albumthumbnail');
+			}
+			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_albumthumbnail');
+			}
+			
+			
+		}
+		
 	}
+	
 ?>

@@ -83,6 +83,7 @@
 			
 			$this->assign("title", $this->loadMessages('user.shortcut.title'));
 			$this->assign("profileShortcut", $this->loadMessages('user.shortcut.profileShortcut'));
+			$this->assign("hint", $this->loadMessages('user.shortcut.hint'));
 			$this->assign("domain", BASE_PATH . CONTEXT);
 		}
 		
@@ -141,7 +142,8 @@
 			$this->assign('title', $this->loadMessages('user.portrait.title'));
 			$this->assign('currentPortrait', $this->loadMessages('user.portrait.current'));
 			$this->assign('uploadNew', $this->loadMessages('user.portrait.upload'));	
-			$this->assign('imageExtSupport', $this->loadResources('image.upload.ext.support'));				
+			$this->assign('imageExtSupport', $this->loadResources('image.upload.ext.support'));		
+			$this->assign('hint', $this->loadMessages('user.portrait.hint'));
 		}
 		
 		/**
@@ -236,6 +238,7 @@
 			$this->assign("fullNameTitle", $this->loadMessages('user.personalInfo.fullName'));
 			$this->assign("emailTitle", $this->loadMessages('user.personalInfo.email'));
 			$this->assign("yourWebsiteTitle", $this->loadMessages('user.personalInfo.website'));
+			$this->assign("hint", $this->loadMessages('user.personalInfo.hint'));
 			
 			$this->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
 			$this->assign('urlInvalid', $this->loadErrorMessage('error.url.invalid'));
@@ -297,6 +300,7 @@
 			$this->assign("currentpassword", $this->loadMessages('user.password.currentpassword'));
 			$this->assign("newpassword", $this->loadMessages('user.password.newpassword'));
 			$this->assign("repassword", $this->loadMessages('user.password.retypepassword'));
+			$this->assign("hint", $this->loadMessages('user.password.hint'));
 			
 			$this->assign('cpassword', $this->loadErrorMessage('error.password.invalid'));
 			$this->assign('mpassword', $this->loadErrorMessage('error.mathpassword.invalid'));
@@ -678,6 +682,7 @@
 			$this->assign("title", $this->loadMessages('user.uploadvideo.title'));
 			$this->assign("choose", $this->loadMessages('user.uploadvideo.chooseavideotoupload'));
 			$this->assign('videoExtSupport', $this->loadResources('video.upload.ext.support'));
+			$this->assign("hint", $this->loadMessages('user.uploadvideo.hint'));
 		}
 		
 		/**

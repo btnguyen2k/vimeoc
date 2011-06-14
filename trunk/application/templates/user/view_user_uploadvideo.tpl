@@ -63,6 +63,6 @@
 		<iframe id="upload_frame" name="upload_frame" frameborder="0" border="0" src="" scrolling="no" scrollbar="no" > </iframe>
 	</div>
 	<div id="user_info_help" class="user_page_help">
-			Help?
+			Help?<div><:$hint:></div>
 	</div>
 </div>

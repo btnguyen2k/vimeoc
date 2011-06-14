@@ -74,6 +74,6 @@
 	</div>
 	
 	<div id="user_info_help" class="user_page_help">
-		Help?
+		Help?<div><:$hint:></div>
 	</div>
 </div>
