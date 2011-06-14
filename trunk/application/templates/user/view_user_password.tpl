@@ -58,23 +58,10 @@
 </script>
 <div id="user_password" class="user_page">
 	<:include file="<:$base_dir_templates:>/blocks/user_left_menu.tpl":>
-	
 	<div id="user_password_body" class="user_page_body">
 		<center><h1><:$title:></h1></center><br/>
-			
-			<:if $FailMessage eq "":>
-		  		 &nbsp;
-			<:else:>
-		   		<span class="red"><:$FailMessage:></span>
-			<:/if:>
-			
-			<:if $successMessage eq "":>
-  				 &nbsp;
-			<:else:>
-   				<span class="green" align="center"><:$successMessage:></span>
-			<:/if:>
-			
-
+		<span class="red"><:$FailMessage:></span>
+		<span class="green" align="center"><:$successMessage:></span>
 		<form action="<:$ctx:>/user/passwordpages/" method="post" onSubmit="return checkpassword(this)">
 			<fieldset>
 				<ul>

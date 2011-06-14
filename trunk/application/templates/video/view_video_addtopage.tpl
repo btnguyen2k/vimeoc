@@ -32,24 +32,12 @@
 		}
 	}
 </script>
-<h1 align="center"><:$video:>-<:$title:></h1>
 <div id="video_addtopage" class="video_page">
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
 	<div id="video_addtopage_body" class="video_page_body">	
-		<div>	
-			<br/>
-			<:if $successMessage eq "":>
-  				 &nbsp;
-			<:else:>
-   				<span class="green" align="center"><:$successMessage:></span>
-			<:/if:>
-			
-			<:if $errorMessage eq "":>
-  				 &nbsp;
-			<:else:>
-   				<span class="red" align="center"><:$errorMessage:></span>
-			<:/if:>
-		</div>
+		<h1 align="center"><:$video:>-<:$title:></h1><br/>
+		<span class="green" align="center"><:$successMessage:></span>
+		<span class="red" align="center"><:$errorMessage:></span>		
 		<:if $albums|@count == 0:>
 		Cannot find any albums. Please <a href="#">add</a> some.
 		<:else:>
@@ -61,19 +49,13 @@
 						<input type="checkbox" name="albums" id="album_<:$albums[a].id:>" value="<:$albums[a].id:>"/>
 						<:$albums[a].album_name:><br/>
 						<:/section:>
+						<input type="hidden" name="videoid" value="<:$videoid:>">
+						<input type="hidden" name="album_id" id="album_id" value=""/>
+						<input type="hidden" name="albumUncheck" id="albumUncheck" value="" />
+						<input type="hidden" id="checkedAlbums" value="<:$checkedAlbums:>"/>
 					</li>
 					<li>
 						<input type="submit" name="save" value="Save" onClick="checkClick()" />
-					</li>
-					<li>
-						<input type="hidden" name="videoid" value="<:$videoid:>">
-					</li>
-					<li>
-						<input type="hidden" name="album_id" id="album_id" value=""/>
-					</li>
-					<li>
-						<input type="hidden" name="albumUncheck" id="albumUncheck" value="" />
-						<input type="hidden" id="checkedAlbums" value="<:$checkedAlbums:>"/>
 					</li>
 				</ul>
 			</fieldset>

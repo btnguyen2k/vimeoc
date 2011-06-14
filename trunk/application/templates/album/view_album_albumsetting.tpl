@@ -15,18 +15,11 @@ function checkValidForm()
 }
 </script>
 
-<center><h1><:$title_:><:$name:></h1></center>
 <div id="album_albumsetting" class="album_page">
 	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
 	<div id="album_albumsetting_body" class="album_page_body">
-			<div>
-			<br/>
-			<:if $successMessage eq "":>
-  				 &nbsp;
-			<:else:>
-   				<span class="green" align="center"><:$successMessage:></span>
-			<:/if:>
-		</div>
+		<center><h1><:$title_:><:$name:></h1></center>
+		<span class="green" align="center"><:$successMessage:></span>
 		<form action="<:$ctx:>/album/albumsetting/?albumId=<:$albumId:>" method="post" name="albumsetting" onSubmit="return checkValidForm(this)" >
 			<fieldset>
 				<ul>
@@ -40,7 +33,7 @@ function checkValidForm()
 						<span><:$description:></span><br/>
 					</li>
 					<li>
-						<textarea type="text" name="description" id="description"><:$description_:></textarea>
+						<textarea name="description" id="description" cols="30" rows="5"><:$description_:></textarea>
 						<span class="red" id="error_valid_description" style="display: none;"><:$errorDescription:></span>
 					</li>
 					<li>

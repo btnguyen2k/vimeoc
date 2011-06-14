@@ -1,5 +1,6 @@
 <?php 
-
+	define("USER_TEMPLATE_DIR", "user/");
+	
 	/**
 	 * 
 	 * User controller
@@ -7,8 +8,8 @@
 	 *
 	 */
 	class User extends Application
-	{
-	/**
+	{		
+		/**
 		 * 
 		 * Constructor
 		 */
@@ -42,7 +43,7 @@
 			$this->assign('recent_videos', $videos);
 			
 			$this->userHomeMessagesSource();
-			$this->loadTemplate('view_user_home');
+			$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_home');
 		}
 		
 		/**
@@ -104,7 +105,7 @@
 			{
 				$user = $this->model_user->getUserByUserId($userId);
 				$this->assign('alias', $user['profile_alias']);
-				$this->loadTemplate('view_user_shortcut');
+				$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_shortcut');
 			}
 			else if($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
@@ -117,14 +118,14 @@
 				{
 					$this->assign('errorMessage', $this->loadErrorMessage('error.user.shortcut.duplicated', array($alias)));
 					$this->assign('alias', $user['profile_alias']);
-					$this->loadTemplate('view_user_shortcut');
+					$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_shortcut');
 				}
 				else 
 				{
 					$this->model_user->updateUserAlias(array($alias, $userId));
 					$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("profile shortcut's URL")));
 					$this->assign('alias', $alias);
-					$this->loadTemplate('view_user_shortcut');
+					$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_shortcut');
 				}
 			}
 		}
@@ -161,7 +162,7 @@
 				$user = $this->model_user->getUserByUserId(array($userId));
 				$this->assign('avatar', $user['avatar']);
 				$this->assign('upId', uniqid());
-				$this->loadTemplate('view_user_portrait');
+				$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_portrait');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
@@ -263,7 +264,7 @@
 				$this->assign('email', $user['email']);
 				$this->assign('website', $user['website']);
 				
-				$this->loadTemplate('view_user_info');
+				$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_info');
 			} 
 			else if($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
@@ -280,7 +281,7 @@
 				$this->assign('fullName', $user['full_name']);
 				$this->assign('email', $user['email']);
 				$this->assign('website', $user['website']);
-				$this->loadTemplate('view_user_info');
+				$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_info');
 			}
 		}
 		
@@ -324,7 +325,7 @@
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$this->assign('a',$userId);
-				$this->loadTemplate('view_user_password');
+				$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_password');
 			} 
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 			{
@@ -340,18 +341,18 @@
 					if($res == 0)
 					{
 						$this->assign('FailMessage', $this->loadMessages('user.password.fail'));
-						$this->loadTemplate('view_user_password');
+						$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_password');
 					}
 					else 
 					{
 						$this->assign('successMessage', $this->loadMessages('user.password.success'));
-						$this->loadTemplate('view_user_password');
+						$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_password');
 					}
 				}
 				else 
 				{
 					$this->assign("errorMessage", $this->loadMessages('user.password.error'));
-					$this->loadTemplate('view_user_password');
+					$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_password');
 				}
 			}
 		}
@@ -381,21 +382,21 @@
 				if($fullname_Alias!=0)
 				{
 					$this->assign("fullname",$fullname_Alias['full_name']);
-					$this->loadTemplate('view_user_profile');
+					$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_profile');
 				}
 				else if ($fullname_UserId!=0)
 				{
 					$this->assign("fullname",$fullname_UserId['full_name']);
-					$this->loadTemplate('view_user_profile');
+					$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_profile');
 				}
 				else 
 				{
-					$this->loadTemplate('view_home');
+					$this->loadTemplate(USER_TEMPLATE_DIR.'view_home');
 				}
 			} 
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 			{
-				$this->loadTemplate('view_user_profile');
+				$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_profile');
 			}
 		}
 		
@@ -665,7 +666,7 @@
 			
 			//var_dump($_SERVER);
 			$this->userVideoMessagesSource();
-			$this->loadTemplate('view_user_video');
+			$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_video');
 		}
 		
 		/**
@@ -694,7 +695,7 @@
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{				
 				$this->assign('upId', uniqid());
-				$this->loadTemplate("view_user_uploadvideo");
+				$this->loadTemplate(USER_TEMPLATE_DIR."view_user_uploadvideo");
 			}
 			else if($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
