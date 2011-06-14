@@ -242,19 +242,16 @@
 		}
 		
 		/**
-		 * Get Album by userID
+		 * Get Album name by videoId and UserId
 		 * 
 		 */
-		function getAlbumbyId($params)
+		function getAlbumByVideoIdAndUserId($params)
 		{	
-			$sql= 'select album_name from album where id=? and user_id=?';
+			$sql= 'select distinct album_name from album ab inner join album_video av 
+			on ab.id=av.album_id where video_id=? and user_id=?';	
 			$types =  array('text','integer','integer');
 			$res = $this->execute_query($sql,$params,$types);
-			if(sizeof($res) > 0)
-			{
-				return $res[0] ;
-			}
-			return null;
+			return $res;
 		}
 		/**
 		 * update title by Id
@@ -594,8 +591,21 @@
 			$types = array('integer');
 			$this->execute_command($sql, $params, $types);
 		}
-		
-		
+		/**
+		 * get creation date by VideoId
+		 * @param params
+		 */
+		function getCreationDateByVideoId($params)
+		{			
+			$sql = "select creation_date from video where id=?";
+			$types= array('integer');
+			$res = $this->execute_query($sql,$params,$types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
+		}
 	}
 		
 

@@ -118,7 +118,18 @@
 			$types= array('text','integer');
 			$res = $this->execute_command($sql,$params,$types);
 		}
+		/**
+		 * get video thumbnails by albumid 
+		 */
 		
+	function getVideoThumbnailsByAlbumId($params)
+		{					
+			$sql = 'select thumbnails_path from video v inner join album_video av on v.id=av.video_id 
+			where av.album_id=? ';
+			$types = array('integer');
+			$res = $this->execute_query($sql,$params,$types);		
+			return $res;
+		}
 		
 	}
 ?>
