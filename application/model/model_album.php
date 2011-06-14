@@ -15,11 +15,53 @@
 		{
 			parent::__construct();
 		}
-
+		
+		function selectAlbumsByUserId($id, $limit = 0, $offset = 0, $term = '', $sort_column = 'creation_date', $sort_order = 'ASC')
+		{
+			$types = array();
+			$params = array(); 
+			$sql = "select 
+						a.id as `album_id`, 
+						a.album_name as `album_name`, 
+						count(b.video_id) as 'video_count', 
+						UNIX_TIMESTAMP(a.creation_date) as 'create_date' 
+					from 
+						album a 
+					left outer join 
+						album_video b 
+					on 
+						b.album_id = a.id 
+					where
+						a.user_id = ? ";
+			
+			$types[] = 'integer';
+			$params[] = $id;
+			
+			if(!empty($term)){
+				$sql .= " and (a.album_name like ? or a.description like ?) ";
+				$types[] = 'text';
+				$types[] = 'text';
+				$params[] = '%' . $term . '%';
+				$params[] = '%' . $term . '%';
+			}
+			
+			$sql .= "group by a.id order by a.{$sort_column} {$sort_order} ";
+			
+			if($limit > 0){
+				$sql .= ' limit ? offset ?';
+				$types[] = 'integer';
+				$types[] = 'integer';
+				$params[] = $limit;
+				$params[] = $offset;
+			}
+			$res = $this->execute_query($sql,$params,$types);
+			
+			return $res;
+		}
 		/**
 		 * 
 		 * Select album by user id
-		 */
+		 *
 		function selectAlbumByUserId($params)
 		{					
 			$sql = 'select 
@@ -32,7 +74,7 @@
 			$res = $this->execute_query($sql,$params,$types);
 			
 			return $res;
-		}
+		}*/
 		
 		/**
 		 * 
@@ -60,17 +102,30 @@
 		 * 
 		 * Select count album by user id
 		 */
-		function countAlbumByUserId($params)
-		{					
-			$sql = 'select 
-						count(id) as `count` 
+		function countAlbumByUserId($id, $limit = 0, $offset = 0, $term = '')
+		{
+			$types = array();
+			$params = array(); 
+			$sql = "select 
+						count(a.id) as `count` 
 					from 
-						album 
-					where 
-						user_id=?';
-			$types = array('integer');
+						album a 
+					where
+						a.user_id = ? ";
+			
+			$types[] = 'integer';
+			$params[] = $id;
+			
+			if(!empty($term)){
+				$sql .= " and (a.album_name like ? or a.description like ?) ";
+				$types[] = 'text';
+				$types[] = 'text';
+				$params[] = '%' . $term . '%';
+				$params[] = '%' . $term . '%';
+			}
 			$res = $this->execute_query($sql,$params,$types);
-			return $res[0]['count'];
+			
+			return ($res[0] && $res[0]['count']) ? $res[0]['count'] : 0;
 		}
 		/**
 		 *  add new album
