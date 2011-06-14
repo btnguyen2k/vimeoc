@@ -1,5 +1,6 @@
 <?php 
-
+	define("VIDEO_TEMPLATE_DIR", "video/");
+	
 	/**
 	 * 
 	 * Video controller
@@ -97,7 +98,7 @@
 				$this->assign('tag_', $tags);
 				$this->assign('tcid', $tcid);
 				$this->assign('hiddenvideo',$videoid);
-				$this->loadTemplate('view_video_videosetting');
+				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_videosetting');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
@@ -146,7 +147,7 @@
 				$this->assign('title_', $video['video_title']);
 				$this->assign('description_', $video['description']);
 				$this->assign('tag_', $tags);
-				$this->loadTemplate('view_video_videosetting');
+				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_videosetting');
 			}
 		}
 		/**
@@ -194,7 +195,7 @@
 				$this->assign("checkedAlbums",$str);
 				$this->assign("video",$video['video_title']);
 				$this->assign("albums",$albums);
-				$this->loadTemplate('view_video_addtopage');
+				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_addtopage');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
@@ -225,7 +226,7 @@
 				$this->assign("checkedAlbums",$albumid);
 				$this->assign("video",$video['video_title']);
 				$this->assign("albums",$albums);
-				$this->loadTemplate('view_video_addtopage');
+				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_addtopage');
 			}
 		}
 		
@@ -267,7 +268,7 @@
 				$this->assign("getpostRoll",$video2[post_roll]);
 				$this->assign("videoid",$videoid);
 				$this->assign("video",$video[video_title]);
-				$this->loadTemplate('view_video_preandpostroll');
+				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_preandpostroll');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
@@ -284,7 +285,7 @@
 				$this->assign("getpostRoll",$video2[post_roll]);
 				$this->assign("video",$video[video_title]);
 				$this->assign("videoid",$videoid);
-				$this->loadTemplate('view_video_preandpostroll');
+				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_preandpostroll');
 			}
 		}
 		/**
@@ -344,7 +345,7 @@
 				}
 				$this->assign("previewUrl", $previewLink);
 				
-				$this->loadTemplate('view_video_custom_url');
+				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_custom_url');
 			}else if($_SERVER['REQUEST_METHOD'] == 'POST'){
 				$videoId = $_POST['videoId'];
 				$url_alias = $_POST['url_alias'];
@@ -406,7 +407,7 @@
 					$this->assign("previewUrl", $previewLink);
 				}
 				
-				$this->loadTemplate('view_video_custom_url');
+				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_custom_url');
 			}
 		}
 		
@@ -454,7 +455,7 @@
 				$this->assign('videoTitle', $video['video_title']);
 				$this->assign('upId', uniqid());
 				
-				$this->loadTemplate('view_video_file');
+				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_file');
 			}else if($_SERVER["REQUEST_METHOD"] == "POST"){
 				$videoId = $_POST['videoId'];
 				if(!$videoId){
@@ -560,7 +561,7 @@
 				$this->assign("fullname",$fullname['full_name']);
 				$this->assign("video",$video);
 				$this->assign("videoid",$id);
-				$this->loadTemplate('view_videopage');
+				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_videopage');
 			}
 			else if($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
@@ -570,7 +571,7 @@
 				{
 					$this->model_video->dropVideoByVideoId(array($id));
 				}
-				$this->loadTemplate('view_videopage');
+				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_videopage');
 				
 			}
 		}
@@ -613,7 +614,7 @@
 				$this->assign('videoTitle', $video['video_title']);
 				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->ctx(). $this->loadResources('image.upload.path') . $video['thumbnails_path']) : ($this->ctx() . '/images/icon-video.gif'));
 				$this->assign('upId', uniqid());
-				$this->loadTemplate('view_video_thumbnail');
+				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_thumbnail');
 			}elseif ($_SERVER['REQUEST_METHOD'] == 'POST'){
 				if($_FILES['portrait']['error'] > 0)
 				{

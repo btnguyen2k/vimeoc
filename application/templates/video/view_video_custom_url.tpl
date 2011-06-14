@@ -1,8 +1,8 @@
 <link href="<:$ctx:>/css/video_custom_url.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="<:$ctx:>/script/video_custom_url.js"></script>
-<div id="video_custom_url">
+<div id="video_custom_url" class="user_page">
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
-	<div id="video_custom_url_body">
+	<div id="video_custom_url_body" class="user_page_body">
 		<center><h1><:$videoTitle:> - <:$message_title:></h1></center><br/>		
 		<span class="red"><:$errorMessage:></span>
 		<span class="green"><:$successMessage:></span>

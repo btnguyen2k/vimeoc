@@ -36,40 +36,28 @@
 
 	
 </script>
-<h1 align="center"><:$video:><:$title:></h1>
 <div id="video_preandpostroll" class="video_page">
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
-	<div id="video_preandpostroll_body" class="video_page_body">	
-		<div>
-			<br/>
-			<:if $successMessage eq "":>
-  				 &nbsp;
-			<:else:>
-   				<span class="green" align="center"><:$successMessage:></span>
-			<:/if:>
-		</div>
+	<div id="video_preandpostroll_body" class="video_page_body">
+		<h1 align="center"><:$video:><:$title:></h1>	
+		<span class="green" align="center"><:$successMessage:></span>
 		<form action="<:$ctx:>/video/preandpostroll/?videoId=<:$videoid:>" method="post" name="preandpostrollform">
 			<fieldset>
 				<ul>
-					<div>
+					<li>
 						<input type="checkbox" id="Preroll" name="Preroll" value="01"/><:$PreRoll:>
-					</div>
-					
-					<div>
+					</li>
+					<li>
 						<input type="checkbox" id="Postroll" name="Postroll" value="01"/><:$PostRoll:>
-					</div>
-					
-					<div>
-						
-						<input type="submit" value="Save" onClick="Check_PreandPostRoll()" />
-					</div>
-					<div> 
+					</li>
+					<li>
 						<input type="hidden" name="videoid" id="videoid" value="<:$videoid:>"/>
 						<input type="hidden" name="hpreroll" id="hpreroll" value=""/>
 						<input type="hidden" name="hpostroll" id="hpostroll" value=""/>
 						<input type="hidden" name="getpreroll" id="getpreroll" value="<:$getpreRoll:>"/>
 						<input type="hidden" name="getpostroll" id="getpostroll" value="<:$getpostRoll:>"/>
-					</div>
+						<input type="submit" value="Save" onClick="Check_PreandPostRoll()" />
+					</li>
 				</ul>
 			</fieldset>
 		</form>

@@ -1,4 +1,6 @@
 <?php
+	define("ALBUM_TEMPLATE_DIR","album/");
+	
 	/**
 	 * 
 	 * Album controller
@@ -76,7 +78,7 @@
 			$this->loadModel('model_album');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{						
-				$this->loadTemplate('view_album_createnewalbum');
+				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_createnewalbum');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
@@ -86,7 +88,7 @@
 				$this->assign("successMessage",$this->loadMessages('album.create.successful'));
 //				$this->assign('title_',$albumName);
 //				$this->assign('description_',$description);
-				$this->loadTemplate('view_album_createnewalbum');
+				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_createnewalbum');
 			}
 		}
 		/**
@@ -124,7 +126,7 @@
 				$this->assign("albumId",$albumId);
 				$this->assign("description_",$album['description']);
 				$this->assign("title_",$album['album_name']);
-				$this->loadTemplate('view_album_albumsetting');
+				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_albumsetting');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
@@ -137,7 +139,7 @@
 				$this->assign('description_',$albumDescription);
 				$this->assign('title_',$albumName);
 				$this->assign('albumId',$albumId);
-				$this->loadTemplate('view_album_albumsetting');
+				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_albumsetting');
 			}
 		}
 	}

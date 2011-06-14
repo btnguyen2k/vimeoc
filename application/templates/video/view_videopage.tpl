@@ -3,7 +3,6 @@
 function confirmAction() {
     if (confirm("Are you sure you want to delete the following video?"))
     {
-    	//$("#confirm").val("yes");
     	$("form").submit();
     }
     else
