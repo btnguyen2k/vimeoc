@@ -26,7 +26,7 @@ function confirmAction() {
 				</div>
 				<div style="float: left">
 					<p><a href="<:$ctx:>/video/videosetting/?videoId=<:$videoid:>">[Setting]</a><a href="<:$ctx:>/auth/Delete" onclick="return confirmAction()">[Delete]</a></p>
-					<p><:$day:><:$by:>:<span class=blue><:$fullname:></span></p>
+					<p><:$days:> ago<:$by:>:<span class=blue><:$fullname:></span></p>
 					<p><:$play:><:$plays:>,<:$comment:><:$comments:>,<:$like:><:$likes:></p>
 					<p><:$tag:><:section name=a loop=$tags:><:$tags[a].name:>,<:/section:></p>
 					<p><:$albums:> <:section name=a loop=$album:><span class="blue"><:$album[a].album_name:>,</span><:/section:> </p>
