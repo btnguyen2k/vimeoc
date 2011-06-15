@@ -177,14 +177,37 @@
 		 * get video thumbnails by albumid 
 		 */
 		
-	function getVideoThumbnailsByAlbumId($params)
+		function getVideoThumbnailsByAlbumId($params)
 		{					
-			$sql = 'select thumbnails_path from video v inner join album_video av on v.id=av.video_id 
-			where av.album_id=? ';
-			$types = array('integer');
+			$sql = 'select * from video v inner join album_video av on v.id=av.video_id 
+			where av.album_id=? and v.user_id=?';
+			$types = array('integer','integer');
 			$res = $this->execute_query($sql,$params,$types);		
 			return $res;
 		}
+		/**
+		 * update video.thumbnail to album.thumbnail
+		 * @param params
+		 */
 		
+		function updateVideoThumbnailToAlbumThumbnail($params)
+		{
+			$sql = 'Update album Set thumbnails_path=? where id=? ';
+			$types= array('text','integer');
+			$res = $this->execute_command($sql,$params,$types);
+		}
+		/**
+		 * get avideo id by albumId
+		 * @param params
+		 */
+		function getVideoIdByAlbumId($params)
+		{
+			$sql= 'select id from video v inner join album_video av on v.id=av.video_id
+			where av.album_id=?';
+			$types =  array('text','integer');
+			$res = $this->execute_query($sql,$params,$types);
+			return sizeof($res) > 0;
+		}
+
 	}
 ?>
