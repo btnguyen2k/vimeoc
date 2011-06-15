@@ -2,9 +2,8 @@
 
 <div id="album_albumthumbnail" class="album_page">
 <div>
-	<:if $album.thumbnails_path != '':>
-		<img src="<:$albumThumbnail:>" />
-		<>
+	<:if $albumThumbnail != '':>
+		<img src="<:$ctx:><:$albumThumbnail:>" />
 	<:else:>
 		<img src="<:$ctx:>/images/icon-video.gif" width="100"/>
 	<:/if:>
@@ -45,8 +44,8 @@
 							<input type="radio" name="videoThumbnail" value="<:$videoThumbnails[a].thumbnails_path:>"/>
 						<:/if:>
 						
-						<:if $video.thumbnails_path != '':>
-							<img src="<:$videoThumbnails[a].thumbnails_path:>" />
+						<:if $videoThumbnails[a].thumbnails_path != '':>
+							<img src="<:$ctx:><:$videoThumbnails[a].thumbnails_path:>" />
 						<:else:>
 							<img src="<:$ctx:>/images/icon-video.gif" width="100"/>
 						<:/if:>
