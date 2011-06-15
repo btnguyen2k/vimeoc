@@ -967,6 +967,10 @@
 				}
 			}*/
 			
+			foreach($albums as &$album){
+					$album['thumbnail'] = empty($album['thumbnail']) ? $this->ctx() . '/images/icon-album.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $album['thumbnail']);
+				}
+			
 			$this->assign('albums', $albums);
 			$this->assign('pagination', $pagination);
 			$this->assign('sort_modes', $_sort_modes);
