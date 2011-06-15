@@ -1,0 +1,1 @@
+ALTER TABLE `album` ADD `thumbnail` VARCHAR( 255 ) NULL;

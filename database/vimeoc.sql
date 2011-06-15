@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS `album` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL,
   `album_name` varchar(255) NOT NULL,
+  `thumbnail` varchar(255) NULL,
   `album_locked` bit(1) NOT NULL DEFAULT b'0',
   `album_alias` varchar(255) DEFAULT NULL,
   `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,

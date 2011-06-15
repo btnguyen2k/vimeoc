@@ -24,7 +24,8 @@
 						a.id as `album_id`, 
 						a.album_name as `album_name`, 
 						count(b.video_id) as 'video_count', 
-						UNIX_TIMESTAMP(a.creation_date) as 'create_date' 
+						UNIX_TIMESTAMP(a.creation_date) as 'create_date',
+						thumbnail as `thumbnail` 
 					from 
 						album a 
 					left outer join 
