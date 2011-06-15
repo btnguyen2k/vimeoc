@@ -1,3 +1,7 @@
+<script>
+
+</script>
+
 <div id="album_albumthumbnail" class="album_page">
 	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
 	<div id="album_albumthumbnail_body" class="album_page_body">
@@ -14,13 +18,13 @@
 					</li>
 					<li>
 						<:section name=a loop=$videoThumbnails:>
-						<input type="radio" name="video_thumbnail" id="" value=""/>
+						<input type="radio" name="video_thumbnail" id="" value="<:$videoThumbnails[a].id:>"/>
 						<:if $video.thumbnails_path != '':>
 							<img src="<:$videoThumbnails[a].thumbnails_path:>" />
 						<:else:>
 							<img src="<:$ctx:>/images/icon-video.gif" width="100"/>
 						<:/if:>
-						<:$albums[a].album_name:><br/>
+						<:$videoThumbnails[a].video_title:><br/>
 						<:/section:>
 					</li>
 				</ul>
