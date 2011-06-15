@@ -37,9 +37,6 @@
 						<:/if:>
 						
 					</li>
-					album:<:$albumThumbnail:><br/>
-					video11:<:$videoThumbnails[0].thumbnails_path:><br/>
-					video15:<:$videoThumbnails[1].thumbnails_path:>
 					<li>
 						<:section name=a loop=$videoThumbnails:>
 						<:if $albumThumbnail eq $videoThumbnails[a].thumbnails_path:>
