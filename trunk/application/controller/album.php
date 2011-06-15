@@ -157,6 +157,8 @@
 			$this->assign("name", $this->loadMessages('album.albumthumbnail.name'));
 			$this->assign("choose", $this->loadMessages('album.albumthumbnail.choose'));
 			$this->assign('hint', $this->loadMessages('album.albumthumbnail.hint'));
+			
+			
 		}
 		
 		/**
@@ -176,13 +178,36 @@
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$albumId=$_GET['albumId'];
-				$videoThumbnails=$this->model_album->getVideoThumbnailsByAlbumId(array($albumId));
-				
+				$videoThumbnails=$this->model_album->getVideoThumbnailsByAlbumId(array($albumId,$userId));
+				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
+				$res=$this->model_album->getVideoIdByAlbumId(array($albumId));
+				if($res==0)
+				{
+					$this->assign('error', $this->loadErrorMessage('error.albumthumbnail.error'));
+				}
+				$this->assign("albumThumbnail",$album['thumbnails_path']);
+				$this->assign("albumName",$album['album_name']);
+				$this->assign("albumId",$albumId);
 				$this->assign("videoThumbnails",$videoThumbnails);
 				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_albumthumbnail');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
+				$albumId=$_POST['albumId'];
+				$radioChecked=$_POST['radioCheck'];
+				$videoThumbnails=$this->model_album->getVideoThumbnailsByAlbumId(array($albumId,$userId));
+				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
+				$res=$this->model_album->getVideoIdByAlbumId(array($albumId));
+				if($res==0)
+				{
+					$this->assign('error', $this->loadErrorMessage('error.albumthumbnail.error'));
+				}
+				$resa=$this->model_album->updateVideoThumbnailToAlbumThumbnail(array($radioChecked,$albumId));
+				$this->assign("albumThumbnail",$album['thumbnails_path']);
+				$this->assign("albumName",$album['album_name']);
+				$this->assign('albumId',$albumId);
+				$this->assign('succeesMessage',$this->loadMessages('album.albumthumbnail.success'));
+				$this->assign("videoThumbnails",$videoThumbnails);
 				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_albumthumbnail');
 			}
 			
