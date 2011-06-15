@@ -17,7 +17,7 @@
 			<a href="<:$ctx:>/album/albumsetting"><:$menubasicinfoAlbum:></a>
 		</li>
 		<li>
-			<a href="#"><:$menuthumbnailAlbum:></a>
+			<a href="<:$ctx:>/album/albumthumbnail"><:$menuthumbnailAlbum:></a>
 		</li>
 		<li>
 			<a href="#"><:$menuarrangeAlbum:></a>
