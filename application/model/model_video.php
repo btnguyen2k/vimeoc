@@ -66,6 +66,54 @@
 		 * 
 		 * Select data
 		 */
+		function selectVideoByAlbumId($id, $limit = 0, $offset = 0, $term = '', $sort_column = 'creation_date', $sort_order = 'ASC')
+		{
+			$types = array();
+			$params = array(); 
+			$sql = 'select 
+						v.id as `id`,
+						v.video_path as `video_path`, 
+						v.video_title as `video_title`, 
+						v.thumbnails_path as `thumbnails_path`, 
+						v.play_count as `play_count`, 
+						v.comment_count as `comment_count`, 
+						v.like_count as `like_count`, 
+						UNIX_TIMESTAMP(v.creation_date) as `creation_date` 
+					from 
+						video v, 
+						album a, 
+						album_video av 
+					where 
+						a.id = ? and v.id = av.video_id and a.id = av.album_id ';
+			$types[] = 'integer';
+			$params[] = $id;
+			
+			if(!empty($term)){
+				$sql .= " and (v.video_title like ? or v.description like ?) ";
+				$types[] = 'text';
+				$types[] = 'text';
+				$params[] = '%' . $term . '%';
+				$params[] = '%' . $term . '%';
+			}
+			
+			$sql .= " order by {$sort_column} {$sort_order} ";
+			
+			if($limit > 0){
+				$sql .= ' limit ? offset ?';
+				$types[] = 'integer';
+				$types[] = 'integer';
+				$params[] = $limit;
+				$params[] = $offset;
+			}
+			$res = $this->execute_query($sql,$params,$types);
+			
+			return $res;
+		}
+		
+		/**
+		 * 
+		 * Select data
+		 */
 		function getVideoById($videoId)
 		{					
 			$sql = 'select 
@@ -87,6 +135,37 @@
 			return null;
 		}
 
+		/**
+		 * 
+		 * Select data
+		 */
+		function countVideoByAlbumId($id, $limit = 0, $offset = 0,  $term = '')
+		{					
+			$types = array();
+			$params = array(); 
+			$sql = 'select 
+						count(v.id) as `count` 
+					from 
+						video v, 
+						album a, 
+						album_video av 
+					where 
+						a.id = ? and v.id = av.video_id and a.id = av.album_id ';
+			$types[] = 'integer';
+			$params[] = $id;
+			
+			if(!empty($term)){
+				$sql .= " and (v.video_title like ? or v.description like ?) ";
+				$types[] = 'text';
+				$types[] = 'text';
+				$params[] = '%' . $term . '%';
+				$params[] = '%' . $term . '%';
+			}
+			$res = $this->execute_query($sql,$params,$types);
+
+			return ($res[0] && $res[0]['count']) ? $res[0]['count'] : 0;
+		}
+		
 		/**
 		 * 
 		 * Select data
