@@ -57,7 +57,7 @@
 		                $diff = $diff % 3600;
 		            if( $minutes=intval((floor($diff/60))) )
 		                $diff = $diff % 60;
-		            $diff    =    intval( $diff );            
+		            $diff    =    intval( $diff );
 		            return( array('days'=>$days, 'hours'=>$hours, 'minutes'=>$minutes, 'seconds'=>$diff) );
 		        }
 		        else
