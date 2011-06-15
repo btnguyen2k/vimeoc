@@ -1,22 +1,9 @@
-<script>
-//$(document).ready(function() {
-//		CheckVideoThumbnail();
-//	});
 
-	function CheckRadioClick()
-	{
-		 $(':radio:checked').each(function(){
-			 $("#radioCheck").val($(this).val());
-		    });
-
-		 
-	} 	
-</script>
 
 <div id="album_albumthumbnail" class="album_page">
 <div>
 	<:if $album.thumbnails_path != '':>
-		<img src="<:$album.thumbnails_path:>" />
+		<img src="<:$albumThumbnail:>" />
 		<>
 	<:else:>
 		<img src="<:$ctx:>/images/icon-video.gif" width="100"/>
@@ -32,7 +19,7 @@
 			<:/if:>
 			
 			
-		<form action="<:$ctx:>/album/albumThumbnail/?albumId=<:$albumId:>" method="post" name="albumThumbnail" onClick="return CheckRadioClick()">
+		<form action="<:$ctx:>/album/albumThumbnail/?albumId=<:$albumId:>" method="post" name="albumThumbnail" >
 			<fieldset>
 				<ul>
 					<li>
@@ -50,9 +37,17 @@
 						<:/if:>
 						
 					</li>
+					album:<:$albumThumbnail:><br/>
+					video11:<:$videoThumbnails[0].thumbnails_path:><br/>
+					video15:<:$videoThumbnails[1].thumbnails_path:>
 					<li>
 						<:section name=a loop=$videoThumbnails:>
-						<input type="radio" name="videoThumbnail" id="videoThumbnail" value="<:$videoThumbnails[a].thumbnails_path:>"/>
+						<:if $albumThumbnail eq $videoThumbnails[a].thumbnails_path:>
+							<input checked="true" type="radio" name="videoThumbnail" value="<:$videoThumbnails[a].thumbnails_path:>" />
+						<:else:>
+							<input type="radio" name="videoThumbnail" value="<:$videoThumbnails[a].thumbnails_path:>"/>
+						<:/if:>
+						
 						<:if $video.thumbnails_path != '':>
 							<img src="<:$videoThumbnails[a].thumbnails_path:>" />
 						<:else:>
@@ -65,6 +60,7 @@
 					<li>
 						<input type="hidden" id="albumId" name="albumId" value="<:$albumId:>"/>
 						<input type="hidden" id="radioCheck" name="radioCheck" value=""/>
+						<input type="hidden" id=albumThumbnail" name=""
 					</li>
 					
 				</ul>
