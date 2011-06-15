@@ -29,7 +29,7 @@ function confirmAction() {
 					<p><:$day:><:$by:>:<span class=blue><:$fullname:></span></p>
 					<p><:$play:><:$plays:>,<:$comment:><:$comments:>,<:$like:><:$likes:></p>
 					<p><:$tag:><:section name=a loop=$tags:><:$tags[a].name:>,<:/section:></p>
-					<p><:$albums:><span class=blue><:$album:></span></p>
+					<p><:$albums:> <:section name=a loop=$album:><span class="blue"><:$album[a].album_name:>,</span><:/section:> </p>
 					<input type="hidden" id="videoid" name="videoid" value="<:$videoid:>"/>
 					<input type="hidden" id="confirm" name="confirm" value=""/>
 				</div>

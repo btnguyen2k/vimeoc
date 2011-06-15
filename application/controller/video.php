@@ -567,26 +567,29 @@
 				$this->assign("video",$video);
 				$this->assign("videoid",$id);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_videopage');
-//				$start = '09:00';
-//				$end   = '10:30';
-//				$diff=$this->get_time_difference($start, $end);
-//				$strDate;
-//				if( $diff )
-//				{
-//					if($diff[0]['days']==0)
-//					{
-//						if ($diff[0]['hours']==0)
-//						{
-//							if ($diff[0]['minutes']==0)
-//							{
-//								
-//							}
-//						}
-//					}					
-//				}
-//				else
-//				{
-//				}
+				$video=$this->model_video->getVideoByVideoId(array($id));
+				$start = $video['creation_date'];
+				$now =  mktime(date("H"), date("i"),date("s"), date("m"), date("d"), date("Y"));
+				$end   =date("Y-m-d H:i:s", $now);
+				$diff=$this->get_time_difference($start, $end);
+				echo $start;
+				echo $end;
+				echo $diff[0]['days'];
+				$strDate="";
+				if( true )
+				{
+					if($diff[0]['days']==0)
+						if ($diff[0]['hours']==0)
+							if ($diff[0]['minutes']==0)
+								$strDate.= $diff[0]['seconds'] . 'seconds';
+							else 
+								$strDate.= $diff[0]['minutes'] . 'minutes';
+						else 
+							$strDate.= $diff[0]['hours']. 'hours';
+					else 
+						$strDate.= $diff[0]['days']. 'days';					
+				}
+				echo $strDate;
 			}
 			else if($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
