@@ -460,13 +460,13 @@
 				$albumId=$_POST['albumId'];
 				$radioChecked=$_POST['videoThumbnail'];
 				$videoThumbnails=$this->model_album->getVideoThumbnailsByAlbumId(array($albumId,$userId));
+				$res=$this->model_album->getVideoIdByAlbumId(array($albumId));
 				if($res==0)
 				{
 					$this->assign('error', $this->loadErrorMessage('error.albumthumbnail.error'));
 				}
 				$this->model_album->updateVideoThumbnailToAlbumThumbnail(array($radioChecked,$albumId));
 				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
-				$res=$this->model_album->getVideoIdByAlbumId(array($albumId));
 				$this->assign("albumThumbnail",$album['thumbnails_path']);
 				$this->assign("albumName",$album['album_name']);
 				$this->assign('albumId',$albumId);
