@@ -209,6 +209,17 @@
 			$res = $this->execute_query($sql,$params,$types);
 			return sizeof($res) > 0;
 		}
+		
+		/**
+		 *  update password by userid and album id
+		 *  @param params
+		 */
+		function updatePasswordByUserIdandAlbumId($params)
+		{
+			$sql = 'Update album Set password=? where id=? and user_id=?';
+			$types= array('text','integer','integer');
+			$res = $this->execute_command($sql,$params,$types);
+		}
 
 	}
 ?>

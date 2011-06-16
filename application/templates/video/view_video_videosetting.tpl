@@ -68,7 +68,7 @@
 					</li>
 					<li>
 						<span><:$tag:></span><br/>
-						<input type="text" name="tag" id="tag" size=40 value="<:section name=a loop=$tag_:><:$tag_[a].name:>,<:/section:>"/>
+						<input type="text" name="tag" id="tag" size=40 value="<:$tag_:>"/>
 						<span class="red" id="error_valid_tag" style="display: none;"><:$tagInvalid:></span>
 					</li>
 					<li>
