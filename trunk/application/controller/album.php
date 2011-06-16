@@ -477,7 +477,51 @@
 			
 			
 		}
-		
+		/**
+		 * Load defaul password page
+		 * 
+		 */
+		function albumPasswordMessagesSource()
+		{
+			$this->defaultAlbumMessagesSource();
+			
+			$this->assign("name", $this->loadMessages('album.password.name'));
+			$this->assign("protected", $this->loadMessages('album.password.protected'));
+			$this->assign('hint', $this->loadMessages('album.password.hint'));
+		}
+
+		/**
+		 * Load and action album password page
+		 * 
+		 */
+		function albumPassword()
+		{
+			$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			$this->loadModel('model_album');
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
+			{
+				$albumId=$_GET['albumId'];
+				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
+				$this->assign("albumName",$album['album_name']);
+				$this->assign("albumId",$albumId);
+				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_password');
+			}
+			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$albumId=$_POST['albumId'];
+				$albumPassword=$_POST['password'];
+				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
+				$this->model_album->updatePasswordByUserIdandAlbumId(array($albumPassword,$albumId,$userId));
+				$this->assign("albumName",$album['album_name']);
+				$this->assign("albumId",$albumId);
+				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_password');
+			}
+		}
 	}
 	
 ?>

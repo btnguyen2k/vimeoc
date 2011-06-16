@@ -94,9 +94,15 @@
 				
 				$tags=$this->model_video->getTagfromTagandTagcomponent(array($tcid));
 				$video= $this->model_video->getVideofromVideoId(array($videoid));
+				$strTags="";
+				for($i=0;$i<sizeof($tags);$i++)
+				{
+					$strTags .= $tags[$i]['name'] . ',' ; 
+				}
+				$strTags = substr($strTags, 0, -1); 
 				$this->assign('title_', $video['video_title']);
 				$this->assign('description_', $video['description']);
-				$this->assign('tag_', $tags);
+				$this->assign('tag_', $strTags);
 				$this->assign('tcid', $tcid);
 				$this->assign('hiddenvideo',$videoid);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_videosetting');
@@ -143,12 +149,18 @@
 				$updatedescrition= $this->model_video->updateDescriptionbyId(array($description,$videoid));				
 				$tags=$this->model_video->getTagfromTagandTagcomponent(array($tcid));
 				$video= $this->model_video->getVideofromVideoId(array($videoid));
+				$strTags="";
+				for($i=0;$i<sizeof($tags);$i++)
+				{
+					$strTags .= $tags[$i]['name'] . ',' ; 
+				}
+				$strTags = substr($strTags, 0, -1); 
 				$this->assign('tcid', $tcid);
 				$this->assign('hiddenvideo',$videoid);
 				$this->assign('title_', $video['video_title']);
 				$this->assign('description_', $video['description']);
-				$this->assign('tag_', $tags);
-				$this->loadTemplate('view_video_videosetting');
+				$this->assign('tag_', $strTags);
+				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_videosetting');
 			}
 		}
 		/**
