@@ -44,7 +44,7 @@
 					</li>
 					<li>
 						<input type="submit" value="Save"/>
-						<input type=button onClick="window.location.href='<:$ctx:>/user/video/'" value='Cancel'>
+						<input type=button onClick="window.location.href='<:$ctx:>/user/album/albumsetting/'" value='Cancel'>
 					</li>
 				</ul>
 			</fieldset>

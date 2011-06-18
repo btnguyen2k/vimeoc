@@ -526,6 +526,53 @@
 				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_password');
 			}
 		}
+		/**
+		 * Load defaul delete album page
+		 * 
+		 */
+		
+		function albumDeleteMessagesSource()
+		{
+			$this->defaultAlbumMessagesSource();
+			
+			$this->assign("name", $this->loadMessages('album.delete.name'));
+			$this->assign("question", $this->loadMessages('album.delete.quetion'));
+			$this->assign('hint', $this->loadMessages('album.delete.hint'));
+		}
+		
+		/**
+		 * Load and action delete album page
+		 * 
+		 */
+		
+		function albumDelete()
+		{
+			$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			$this->loadModel('model_album');
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
+			{
+				$albumId=$_GET['albumId'];
+				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
+				$this->assign("albumName",$album['album_name']);
+				$this->assign("albumId",$albumId);
+				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_deletealbum');
+			}
+			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$albumId=$_POST['albumId'];
+				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
+				$this->assign("albumName",$album['album_name']);
+				$this->assign("albumId",$albumId);
+				$this->model_album->dropAlbumByAlbumId(array($albumId));
+				$this->model_album->dropAlbumVideoByAlbumId(array($albumId));
+				$this->redirect($this->ctx().'/user/album/albumsetting');
+			}
+		}
 	}
 	
 ?>

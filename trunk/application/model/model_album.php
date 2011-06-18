@@ -220,6 +220,28 @@
 			$types= array('text','integer','integer');
 			$res = $this->execute_command($sql,$params,$types);
 		}
+		
+		/**
+		 * delete  from album by albumId
+		 * @param params
+		 */
+		function dropAlbumByAlbumId($params)
+		{
+			$sql = 'delete from album where id=?';
+			$types = array('integer');
+			$this->execute_command($sql, $params, $types);
+		}
+		
+		/**
+		 * delete  from album by albumId
+		 * @param params
+		 */
+		function dropAlbumVideoByAlbumId($params)
+		{
+			$sql = 'delete from album_video where album_id=?';
+			$types = array('integer');
+			$this->execute_command($sql, $params, $types);
+		}
 
 	}
 ?>
