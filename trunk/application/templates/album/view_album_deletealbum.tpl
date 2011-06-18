@@ -18,7 +18,7 @@
 					<li>
 						<center>
 							<input type="submit" value="Yes"  />
-							<input type="button" value="No" onClick="window.location.href='<:$ctx:>/user/album/albumsetting/'">
+							<input type="button" value="No" onClick="window.location.href='<:$ctx:>/album/albumsetting/?albumId=<:$albumId:>'">
 						</center>
 						
 					</li>
