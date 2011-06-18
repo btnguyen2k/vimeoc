@@ -242,6 +242,7 @@
 			$types = array('integer');
 			$this->execute_command($sql, $params, $types);
 		}
+		
 
 	}
 ?>

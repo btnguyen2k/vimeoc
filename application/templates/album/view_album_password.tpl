@@ -1,5 +1,16 @@
 <script type="text/javascript">
+$(document).ready(function() {
+		checkPasswordNull();
+	});
 
+	function checkPasswordNull()
+	{
+		if($("#password").val()!="")
+		{
+			$("#passwordCheck").attr("checked",true);
+			$("#password").removeAttr('disabled');
+		}
+	}
 	function checkChange()
 	{
 		var check=$("#passwordCheck").attr("checked");
@@ -11,23 +22,35 @@
 		else
 		{
 			$("#password").removeAttr('disabled');
+			
 		}
 	}
 
 	function checkPassword()
 	{
 		var check=$("#passwordCheck").attr("checked");
+		var password=$("#password").val();
 		if(!check)
 		{
 			$("#password").val("");
 			$("#error_valid_password").show();
+			$("#success_message").hide();
+			$("#invalid_password").hide();
+			return false;
+		}
+		else if(password=="")
+		{
+			$("#invalid_password").show();
+			$("#error_valid_password").hide();
+			$("#success_message").hide();
 			return false;
 		}
 		else
 		{
-			$("#error_valid_password").hide();
+			$("#invalid_password").hide();
 		}
 	}
+	
 </script>
 <div id="album_password" class="album_page">
 <div>
@@ -43,9 +66,10 @@
 		<:if $successMessage eq "":>
   			&nbsp;
 		<:else:>
-   			<span class="green" ><:$successMessage:></span>
+   			<span class="green" id="success_message" ><:$successMessage:></span>
 		<:/if:>	
 		<span class="red" id="error_valid_password" style="display: none;"><:$errorMessage:></span>
+		<span class="red" id="invalid_password" style="display: none;"><:$passwordInvalid:></span>
 		<form action="<:$ctx:>/album/albumPassword/?albumId=<:$albumId:>" method="post" name="albumPassword" onSubmit="return checkPassword(this)">
 			<fieldset>
 				<ul>
@@ -54,7 +78,7 @@
 						<span><:$protected:></span><br/>
 					</li>
 					<li>
-						<input type="text" id="password" name="password" disabled="disabled" />
+						<input type="text" id="password" name="password" disabled="disabled" value="<:$albumPassword:>" />
 					</li>
 					<li>
 						<input type="submit" value="Save"/>
