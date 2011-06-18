@@ -489,7 +489,8 @@
 			$this->assign("protected", $this->loadMessages('album.password.protected'));
 			$this->assign('hint', $this->loadMessages('album.password.hint'));
 			
-			$this->assign('errorMessage',$this->loadErrorMessage('error.albumpassword.error'));
+			$this->assign('errorMessage',$this->loadErrorMessage('error.albumpassword.remove'));
+			$this->assign('passwordInvalid',$this->loadErrorMessage('error.albumpassword.invalid'));
 			
 		}
 
@@ -512,16 +513,18 @@
 				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
 				$this->assign("albumName",$album['album_name']);
 				$this->assign("albumId",$albumId);
+				$this->assign("albumPassword",$album['password']);
 				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_password');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
 				$albumId=$_POST['albumId'];
 				$albumPassword=$_POST['password'];
-				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
 				$this->model_album->updatePasswordByUserIdandAlbumId(array($albumPassword,$albumId,$userId));
+				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
 				$this->assign("successMessage",$this->loadMessages('album.password.success'));
 				$this->assign("albumName",$album['album_name']);
+				$this->assign("albumPassword",$album['password']);
 				$this->assign("albumId",$albumId);
 				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_password');
 			}
