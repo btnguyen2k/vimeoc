@@ -14,19 +14,19 @@
 	</ul>
 	<ul>
 		<li>
-			<a href="<:$ctx:>/album/albumsetting"/><:$menubasicinfoAlbum:></a>
+			<a href="<:$ctx:>/album/albumsetting/?albumId=<:$albumId:>"><:$menubasicinfoAlbum:></a>
 		</li>
 		<li>
-			<a href="<:$ctx:>/album/albumthumbnail"/><:$menuthumbnailAlbum:></a>
+			<a href="<:$ctx:>/album/albumthumbnail/?albumId=<:$albumId:>"><:$menuthumbnailAlbum:></a>
 		</li>
 		<li>
 			<a href="#"><:$menuarrangeAlbum:></a>
 		</li>
 		<li>
-			<a href="<:$ctx:>/album/albumPassword"/><:$menupasswordAlbum:></a>
+			<a href="<:$ctx:>/album/albumPassword/?albumId=<:$albumId:>"><:$menupasswordAlbum:></a>
 		</li>
 		<li>
-			<a href="<:$ctx:>/album/albumDelete"/><:$menudeleteAlbum:></a>
+			<a href="<:$ctx:>/album/albumDelete/?albumId=<:$albumId:>"><:$menudeleteAlbum:></a>
 		</li>
 		<li>
 			<a href="<:$ctx:>/user/album"/><:$menubackAlbum:></a>
