@@ -20,7 +20,7 @@
 			<a href="<:$ctx:>/user/video"><:$menuVideos:></a>
 		</li>
 		<li>
-			<a href="#"><:$menuAlbums:></a>
+			<a href="<:$ctx:>/user/album"><:$menuAlbums:></a>
 		</li>
 	</ul>
 	<ul>
