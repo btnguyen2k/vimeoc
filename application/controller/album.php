@@ -488,6 +488,9 @@
 			$this->assign("name", $this->loadMessages('album.password.name'));
 			$this->assign("protected", $this->loadMessages('album.password.protected'));
 			$this->assign('hint', $this->loadMessages('album.password.hint'));
+			
+			$this->assign('errorMessage',$this->loadErrorMessage('error.albumpassword.error'));
+			
 		}
 
 		/**
@@ -517,6 +520,7 @@
 				$albumPassword=$_POST['password'];
 				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
 				$this->model_album->updatePasswordByUserIdandAlbumId(array($albumPassword,$albumId,$userId));
+				$this->assign("successMessage",$this->loadMessages('album.password.success'));
 				$this->assign("albumName",$album['album_name']);
 				$this->assign("albumId",$albumId);
 				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_password');
