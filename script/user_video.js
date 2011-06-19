@@ -33,7 +33,7 @@ function relativeTime(timestamp){
 	if(distance_in_minutes < 1051199){
 		return '1 year ago';
 	}
-	return 'hơn ' + Math.round(distance_in_minutes/525960) + ' yeas ago';
+	return 'more than ' + Math.round(distance_in_minutes/525960) + ' yeas ago';
 }
 
 $(document).ready(function(){

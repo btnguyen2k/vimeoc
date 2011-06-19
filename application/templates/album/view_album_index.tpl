@@ -1,19 +1,15 @@
-<link href="<:$ctx:>/css/user_video.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="<:$ctx:>/script/user_video.js"></script>
-<div id="user_info" class="user_page">
-	<:include file="<:$base_dir_templates:>/blocks/user_left_menu.tpl":>
+<link href="<:$ctx:>/css/album_index.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="<:$ctx:>/script/album_index.js"></script>
+<div id="user_info" class="album_page">
+	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
 	<br/><br/>
-	<div id="user_video_body" class="user_page_body">
+	<div id="user_video_body" class="album_page_body">
+		<center><h1><:$title:> <:$album_name:></h1></center><br/>
 		<form id="search_form" name="search_from" action="">
 		<input type="hidden" id="id" name="id" value="<:$albumId:>"></input>
 		<select id="mode" name="mode">
 			<:foreach from=$display_modes key=k item=v:>
 				<option <:if $k == $display_mode:>selected="selected"<:/if:> value="<:$k:>"><:$v:></option>
-			<:/foreach:>
-		</select>
-		<select id="sort" name="sort">
-			<:foreach from=$sort_modes key=k item=v:>
-				<option <:if $k == $sort_mode:>selected="selected"<:/if:> value="<:$k:>"><:$v:></option>
 			<:/foreach:>
 		</select>
 		<select id="psize" name="psize">
