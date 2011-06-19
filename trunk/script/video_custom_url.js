@@ -5,10 +5,10 @@ function checkVideoCustomUrl(form){
 	var flag = regex.test(alias);
 
 	if(!flag){
-		$("#error_valid_alias").show();
+		$("#error_message").html(invalid_url_message);
 		return false;
 	}else{
-		$("#error_valid_alias").hide();
+		$("#error_message").html('');
 		return true;
 	}
 }
