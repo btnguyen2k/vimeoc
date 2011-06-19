@@ -393,10 +393,9 @@
 					$this->assign('errorMessage', $this->loadErrorMessage('error.video.alias.aliasExists', array($url_alias)));
 					$errorFlag = true;
 				}
-				
 				//save video alias
 				if(!$errorFlag){
-					if($model_video->updateAliasById(array($url_alias, $videoId))){
+					if(($video['video_alias'] == $url_alias) ||$model_video->updateAliasById(array($url_alias, $videoId))){
 						$this->assign('successMessage', $this->loadMessages('video.customurl.success'));
 						$this->assign('video_alias', $url_alias);
 						
