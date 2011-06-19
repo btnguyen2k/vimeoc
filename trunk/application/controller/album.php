@@ -25,6 +25,7 @@
 		function indexMessagesSource()		
 		{
 			$this->defaultAlbumMessagesSource();
+			$this->assign('title', $this->loadMessages('album.index.title'));
 		}
 		/**
 		 * 
@@ -33,20 +34,60 @@
 		function index()
 		{
 			$userId = $this->getLoggedUser();
-			if($userId == 0){
+			/*if($userId == 0){
 				$this->redirect($this->ctx().'/auth/login/');
 				return;
-			}
+			}*/
 			if($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$albumId = $_GET['id'];
 			}elseif($_SERVER['REQUEST_METHOD'] == 'POST'){
 				$albumId = $_POST['id'];
 			}
-			if(!$albumId){
-				$this->redirect($this->ctx() . '/user');
+			
+			if(!ctype_digit($albumId)){
+				//$this->assign('errorMessage', $this->loadErrorMessage('error.video.alias.invalidUrl'));
+				$error_flag = true;
+				$this->loadTemplate('view_404');
 				return;
 			}
+		
+			$this->loadModel('model_album');
+			$model_album = $this->model_album;
+			$album = $model_album->selectAlbumById($albumId);
+			
+			if(!$album){
+				$error_flag = true;
+				$this->loadTemplate('view_404');
+				return;
+			}
+			//check user input password
+			if($_SERVER['REQUEST_METHOD'] == 'POST'){
+				$password = $_POST['password'];
+				if($password != $album['password']){
+					$this->assign('albumId', $albumId);
+					$this->indexMessagesSource();
+					$this->assign("title", $this->loadMessages('album.index.password.title'));
+					$this->assign("input_password_label", $this->loadMessages('album.index.password.input_label'));
+					$this->assign('errorMessage', $this->loadErrorMessage('error.album.index.password.invalid_password'));
+					$this->loadTemplate(ALBUM_TEMPLATE_DIR . 'view_album_index_password');
+					return;
+				}else{
+					$_SESSION['AUTHORISED_ALBUM_PASSWORD'] = $_SESSION['AUTHORISED_ALBUM_PASSWORD'] . $albumId . ',';
+				}
+			}
+			$authorised_album_password = explode(',', $_SESSION['AUTHORISED_ALBUM_PASSWORD']);
+			//check album password
+			if($album['password'] && ($album['user_id'] != $userId) && !(in_array($albumId, $authorised_album_password))){
+				$this->assign('albumId', $albumId);
+				$this->indexMessagesSource();
+				$this->assign("title", $this->loadMessages('album.index.password.title'));
+				$this->assign("input_password_label", $this->loadMessages('album.index.password.input_label'));
+				$this->loadTemplate(ALBUM_TEMPLATE_DIR . 'view_album_index_password');
+				return;
+			}
+			
+			
 			$_search_obj = unserialize($_SESSION['ALBUM_SEARCH']);
 			
 			$_display_modes = array(1 => 'Thumnail mode', 2 => 'Detail mode');
@@ -100,14 +141,9 @@
 				}else{
 					$_display_mode = $_search_obj->mode ? $_search_obj->mode : $_default_display_mode;
 				}
-				if($_GET['sort']){
-					$_sort_mode = $_GET['sort'];
-					if(!in_array($_sort_mode, array_keys($_sort_modes), false)){
-						$_sort_mode = $_default_sort_mode;
-					}
-				}else{
-					$_sort_mode = $_search_obj->sort ? $_search_obj->sort : $_default_sort_mode;
-				}
+				
+				$_sort_mode = $album['arrange'] ? $album['arrange'] : $_default_sort_mode;
+
 				if($_GET['psize']){
 					$_page_size = $_GET['psize'];
 					if(!in_array($_page_size, array_keys($_page_sizes), false)){
@@ -262,7 +298,7 @@
 				$model_tag = $this->model_tag;
 				
 				foreach($videos as &$video){
-					$video['creation_date'] = date_format(new DateTime($video['creation_date']), 'U');
+					//$video['creation_date'] = date_format(new DateTime($video['creation_date']), 'U');
 					$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
 					$video['album'] = $model_album->selectAlbumByVideoId($video['id']);
 					$video['tag'] = $model_tag->selectTagByVideoId($video['id']);
@@ -273,7 +309,7 @@
 			$this->assign('videos', $videos);
 			$this->assign('pagination', $pagination);
 			$this->assign('display_modes', $_display_modes);
-			$this->assign('sort_modes', $_sort_modes);
+			//$this->assign('sort_modes', $_sort_modes);
 			$this->assign('page_sizes', $_page_sizes);
 			
 			$this->assign('display_mode', $_display_mode);
@@ -283,10 +319,12 @@
 			$this->assign('page', $page);
 			
 			$this->assign('albumId', $albumId);
+			$this->assign('album_name', $album['album_name']);
 			
 			//var_dump($_SERVER);
 			//$this->userVideoMessagesSource();
 			//krumo($videos);
+			$this->indexMessagesSource();
 			$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_index');
 		}
 		
@@ -302,6 +340,7 @@
 				$this->loadModel('model_user');
 				$user = $this->model_user->getUserByUserId($userId);
 				$this->assign('userAvatar', $user['avatar']);
+				$this->assign('user_fullname', $user['full_name']);
 			}		
 			$this->assign("menuMyAlbum", $this->loadMessages('album.menu.myalbum.link'));
 			$this->assign("menubasicinfoAlbum", $this->loadMessages('album.menu.basicinfo.link'));
@@ -574,6 +613,362 @@
 				$this->model_album->dropAlbumByAlbumId(array($albumId));
 				$this->model_album->dropAlbumVideoByAlbumId(array($albumId));
 				$this->redirect($this->ctx().'/user/album/albumsetting');
+			}
+		}
+
+		
+		/**
+		 * Load defaul password page
+		 * 
+		 */
+		function arrangeMessagesSource(){
+			$this->defaultAlbumMessagesSource();
+		}
+		
+		function arrange(){
+			$userId = $this->getLoggedUser();
+			if($userId == 0){
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			if($_SERVER['REQUEST_METHOD'] == 'GET'){
+				$error_flag = false;
+				$albumId = $_GET['id'];
+				
+				//validate album id
+				//$integer_reg = "/^[0-9]+\$/";
+				if(!ctype_digit($albumId)){
+					//$this->assign('errorMessage', $this->loadErrorMessage('error.video.alias.invalidUrl'));
+					$error_flag = true;
+					$this->loadTemplate('view_404');
+					return;
+				}
+				
+				//if(!$error_flag){
+					$this->loadModel('model_album');
+					$model_album = $this->model_album;
+					$album = $model_album->selectAlbumById($albumId);
+					
+					//validate album owner
+					if(!$album){
+						$error_flag = true;
+						$this->loadTemplate('view_404');
+						return;
+					}
+
+					if($album['user_id'] != $userId){
+						$error_flag = true;
+						$this->loadTemplate('view_access_denied');
+						return;
+					}
+				//}
+				
+				$this->loadModel('model_video');
+				$model_video = $this->model_video;
+				
+				$_sort_modes = array(
+					1 => 'Newest video first',
+					2 => 'Oldest video first',
+					3 => 'Most played',
+					4 => 'Most commented',
+					5 => 'Most liked',
+					6 => 'Alphabetical'
+				);
+				$_sort_columns = array(
+					1 => 'creation_date',
+					2 => 'creation_date',
+					3 => 'play_count',
+					4 => 'comment_count',
+					5 => 'like_count',
+					6 => 'video_title'
+				);
+				$_sort_orders = array(
+					1 => 'DESC',
+					2 => 'ASC',
+					3 => 'DESC',
+					4 => 'DESC',
+					5 => 'DESC',
+					6 => 'ASC'
+				);
+				
+				$default_sort_mode = 1;
+				$sort_mode = $album['arrange'] ? $album['arrange'] : $default_sort_mode;
+				$sort_column = $_sort_columns[$sort_mode];
+				$sort_order = $_sort_orders[$sort_mode];
+				
+				$videos = $model_video->selectVideoByAlbumId($albumId, 5, 0, '', $sort_column, $sort_order);
+				
+				if(is_array($videos) && (count($videos) > 0)){
+					foreach($videos as &$video){
+						$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
+					}
+				}
+				
+				$this->assign('videos', $videos);
+				$this->assign('sort_modes', $_sort_modes);
+				$this->assign('sort_mode', $sort_mode);
+				$this->assign('album_id', $albumId);
+				$this->assign('hint', $this->loadMessages('album.arrange.hint'));
+				$this->assign('title', $this->loadMessages('album.arrange.title'));
+				$this->assign('album_title', $album['album_name']);
+				
+				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_arrange');
+			}elseif($_SERVER['REQUEST_METHOD'] == 'POST'){
+				if((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+					$albumId = $_POST['id'];
+
+					//validate album id here
+
+					$this->loadModel('model_album');
+					$model_album = $this->model_album;
+					$album = $model_album->selectAlbumById($albumId);
+
+					//validate album owner here
+
+					$this->loadModel('model_video');
+					$model_video = $this->model_video;
+					
+					$_sort_modes = array(
+						1 => 'Newest video first',
+						2 => 'Oldest video first',
+						3 => 'Most played',
+						4 => 'Most commented',
+						5 => 'Most liked',
+						6 => 'Alphabetical'
+					);
+					$_sort_columns = array(
+						1 => 'creation_date',
+						2 => 'creation_date',
+						3 => 'play_count',
+						4 => 'comment_count',
+						5 => 'like_count',
+						6 => 'video_title'
+					);
+					$_sort_orders = array(
+						1 => 'DESC',
+						2 => 'ASC',
+						3 => 'DESC',
+						4 => 'DESC',
+						5 => 'DESC',
+						6 => 'ASC'
+					);
+					
+					$default_sort_mode = 1;
+					$sort_mode = $_POST['sort'];
+					$sort_column = $_sort_columns[$sort_mode];
+					$sort_order = $_sort_orders[$sort_mode];
+					
+					$videos = $model_video->selectVideoByAlbumId($albumId, 5, 0, '', $sort_column, $sort_order);
+					
+					if(is_array($videos) && (count($videos) > 0)){
+						foreach($videos as &$video){
+							$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
+						}
+					}
+					
+					$this->assign('videos', $videos);
+					$this->assign('sort_modes', $_sort_modes);
+					$this->assign('sort_mode', $sort_mode);
+					$this->assign('album_id', $albumId);
+					
+					$return = '';
+					//$this->loadView('view_album_arrange_ajax');
+					foreach($videos as &$video){
+						$return .= "
+						<a href=\"{$ctx}/video/videopage/?videoId={$video['id']}\"><img width=\"100\" src=\"{$video['thumbnails_path']}\" /></a><br/>
+						title: {$video['video_title']}<br/>
+						<div class=\"creation_date\">uploaded: <span class=\"relative_time\">{$video['creation_date']}</span></div><br/>";
+					}
+					
+					$doc = new DOMDocument('1.0');
+					$doc->formatOutput = true;
+					
+					$root = $doc->createElement('result');
+					$root = $doc->appendChild($root);
+					
+					$error = $doc->createElement('error');
+					$error = $root->appendChild($error);
+					
+					$error_code = $doc->createTextNode('0');
+					$error_code = $error->appendChild($error_code);
+					
+					$message = $doc->createElement('message');
+					$message = $root->appendChild($message);
+					
+					$message_content = $doc->createCDATASection($return);
+					$message_content = $message->appendChild($message_content);
+					
+					header("Content-Type:text/xml");
+					echo $doc->saveXML();
+				}else{
+					/*print 'saving arrangement....';
+					$error_flat = false;
+					$albumId = $_POST['id'];
+					
+					
+					//validate album id here
+					
+					if((!$error_flag)){
+						$this->loadModel('model_album');
+						$model_album = $this->model_album;
+						$album = $model_album->selectAlbumById($albumId);
+					}
+					
+					//validate album owner here
+					
+					$this->loadModel('model_video');
+					$model_video = $this->model_video;
+					
+					$_sort_modes = array(
+						1 => 'Newest video first',
+						2 => 'Oldest video first',
+						3 => 'Most played',
+						4 => 'Most commented',
+						5 => 'Most liked',
+						6 => 'Alphabetical'
+					);
+					$_sort_columns = array(
+						1 => 'creation_date',
+						2 => 'creation_date',
+						3 => 'play_count',
+						4 => 'comment_count',
+						5 => 'like_count',
+						6 => 'video_title'
+					);
+					$_sort_orders = array(
+						1 => 'DESC',
+						2 => 'ASC',
+						3 => 'DESC',
+						4 => 'DESC',
+						5 => 'DESC',
+						6 => 'ASC'
+					);
+					
+					$sort_mode = $_POST['sort'];
+					
+					//validate sort mode
+					
+					//update database
+					
+					$default_sort_mode = 1;
+					$sort_mode = $album['sort_mode'] ? $album['sort_mode'] : $default_sort_mode;
+					$sort_column = $_sort_columns[$sort_mode];
+					$sort_order = $_sort_orders[$sort_mode];
+					
+					$videos = $model_video->selectVideoByAlbumId($albumId, 5, 0, '', $sort_column, $sort_order);
+					
+					if(is_array($videos) && (count($videos) > 0)){
+						foreach($videos as &$video){
+							$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
+						}
+					}
+					
+					$this->assign('videos', $videos);
+					$this->assign('sort_modes', $_sort_modes);
+					$this->assign('sort_mode', $sort_mode);
+					$this->assign('album_id', $albumId);
+					
+					$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_arrange');*/
+					$error_flag = false;
+					$albumId = $_GET['id'];
+					
+					//validate album id
+					//$integer_reg = "/^[0-9]+\$/";
+					if(!ctype_digit($albumId)){
+						//$this->assign('errorMessage', $this->loadErrorMessage('error.video.alias.invalidUrl'));
+						$error_flag = true;
+						$this->loadTemplate('view_404');
+						return;
+					}
+					
+					//if(!$error_flag){
+						$this->loadModel('model_album');
+						$model_album = $this->model_album;
+						$album = $model_album->selectAlbumById($albumId);
+						
+						//validate album owner
+						if(!$album){
+							$error_flag = true;
+							$this->loadTemplate('view_404');
+							return;
+						}
+	
+						if($album['user_id'] != $userId){
+							$error_flag = true;
+							$this->loadTemplate('view_access_denied');
+							return;
+						}
+					//}
+					
+					$this->loadModel('model_video');
+					$model_video = $this->model_video;
+					
+					$_sort_modes = array(
+						1 => 'Newest video first',
+						2 => 'Oldest video first',
+						3 => 'Most played',
+						4 => 'Most commented',
+						5 => 'Most liked',
+						6 => 'Alphabetical'
+					);
+					$_sort_columns = array(
+						1 => 'creation_date',
+						2 => 'creation_date',
+						3 => 'play_count',
+						4 => 'comment_count',
+						5 => 'like_count',
+						6 => 'video_title'
+					);
+					$_sort_orders = array(
+						1 => 'DESC',
+						2 => 'ASC',
+						3 => 'DESC',
+						4 => 'DESC',
+						5 => 'DESC',
+						6 => 'ASC'
+					);
+					
+					$default_sort_mode = 1;
+					$sort_mode = $_POST['sort'];
+					//krumo($model_album->updateAlbumArrangeByAlbumId(array($sort_mode, $albumId)));
+					if($sort_mode != $album['arrange']){
+						if(array_key_exists($sort_mode, $_sort_modes)){
+							if($model_album->updateAlbumArrangeByAlbumId(array($sort_mode, $albumId))){
+								$this->assign('successMessage', $this->loadMessages('album.arrange.success'));
+							}else{
+								$this->assign('errorMessage', 'a'.$this->loadErrorMessage('error.album.arrange'));
+								$error_flag = true;
+							}
+						}else{
+							$this->assign('errorMessage', $this->loadErrorMessage('error.album.arrange.invalid_sort_mode'));
+							$sort_mode = $album['arrange'] ? $album['arrange'] : $default_sort_mode;
+							$error_flag = true;
+						}
+					}else{
+						$this->assign('successMessage', $this->loadMessages('album.arrange.success'));
+					}
+					
+					$sort_column = $_sort_columns[$sort_mode];
+					$sort_order = $_sort_orders[$sort_mode];
+					
+					$videos = $model_video->selectVideoByAlbumId($albumId, 5, 0, '', $sort_column, $sort_order);
+					
+					if(is_array($videos) && (count($videos) > 0)){
+						foreach($videos as &$video){
+							$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
+						}
+					}
+					
+					$this->assign('videos', $videos);
+					$this->assign('sort_modes', $_sort_modes);
+					$this->assign('sort_mode', $sort_mode);
+					$this->assign('album_id', $albumId);
+					$this->assign('hint', $this->loadMessages('album.arrange.hint'));
+					$this->assign('title', $this->loadMessages('album.arrange.title'));
+					$this->assign('album_title', $album['album_name']);
+					
+					$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_arrange');
+				}
 			}
 		}
 	}

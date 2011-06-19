@@ -20,7 +20,7 @@
 			<a href="<:$ctx:>/album/albumthumbnail/?albumId=<:$albumId:>"><:$menuthumbnailAlbum:></a>
 		</li>
 		<li>
-			<a href="#"><:$menuarrangeAlbum:></a>
+			<a href="<:$ctx:>/album/arrange/?id=<:$albumId:>"><:$menuarrangeAlbum:></a>
 		</li>
 		<li>
 			<a href="<:$ctx:>/album/albumPassword/?albumId=<:$albumId:>"><:$menupasswordAlbum:></a>

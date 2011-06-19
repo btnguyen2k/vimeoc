@@ -143,6 +143,35 @@
 		 * get album by albumId and userId
 		 * @param params
 		 */
+		function selectAlbumById($albumId)
+		{
+			$sql = 'SELECT 
+						id as `album_id`, 
+						user_id as `user_id`, 
+						album_name as `album_name`, 
+						album_locked as `album_alias`, 
+						UNIX_TIMESTAMP(creation_date) as `creation_date`, 
+						description as `description`,
+						thumbnail as `thumbnail`, 
+						arrange as `arrange`, 
+						password as `password`  
+					FROM 
+						album 
+					WHERE 
+						id = ?';
+			$types = array('integer');
+			$params = array($albumId);
+			$res = $this->execute_query($sql,$params,$types);
+			
+			if(is_array($res) && count($res) > 0){
+				return $res[0] ;
+			}
+			return null;
+		}
+		/**
+		 * get album by albumId and userId
+		 * @param params
+		 */
 		function getAlbumbyAlbumIdAndUserId($params)
 		{
 			$sql = 'SELECT * FROM album WHERE id=? and user_id=?';
@@ -242,7 +271,17 @@
 			$types = array('integer');
 			$this->execute_command($sql, $params, $types);
 		}
-		
 
+		/**
+		 * update AlbumTitle by AlbumId
+		 * @param params
+		 */
+		function updateAlbumArrangeByAlbumId($params)
+		{
+			$sql = 'Update album Set arrange=? where id=? ';
+			$types= array('integer','integer');
+			$res = $this->execute_command($sql,$params,$types);
+			return $res;
+		}
 	}
 ?>

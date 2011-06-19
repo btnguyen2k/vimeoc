@@ -58,6 +58,7 @@
 				$this->loadModel('model_user');
 				$user = $this->model_user->getUserByUserId($userId);
 				$this->assign('userAvatar', $user['avatar']);
+				$this->assign('user_fullname', $user['full_name']);
 			}
 			
 			$this->assign("menuUploadVideo", $this->loadMessages('user.menu.link.uploadVideo'));
@@ -752,6 +753,8 @@
 		function albumMessagesSource()		
 		{
 			$this->defaultUserMessagesSource();
+			$this->assign('title', $this->loadMessages('user.album.title'));
+			$this->assign('hint', $this->loadMessages('user.album.hint'));
 		}
 		
 		/**
@@ -768,8 +771,8 @@
 			$_search_obj = unserialize($_SESSION['ALBUM_SEARCH']);
 			
 			$_sort_modes = array(
-				1 => 'Newest album first',
-				2 => 'Oldest album first',
+				1 => 'Newest',
+				2 => 'Oldest',
 				3 => 'Alphabetical'
 			);
 			$_sort_columns = array(
@@ -832,7 +835,6 @@
 			$sort_column = $_sort_columns[$_sort_mode];
 			$sort_order = $_sort_orders[$_sort_mode];
 			
-			$_search_obj->mode = $_display_mode;
 			$_search_obj->sort = $_sort_mode;
 			$_search_obj->psize = $_page_size;
 			$_search_obj->term = $_search_term;
