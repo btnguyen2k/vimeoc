@@ -618,12 +618,17 @@
 
 		
 		/**
-		 * Load defaul password page
+		 * Load defaul arrange page
 		 * 
 		 */
 		function arrangeMessagesSource(){
 			$this->defaultAlbumMessagesSource();
 		}
+		
+		/**
+		 * Load and action for arrange page
+		 * 
+		 */
 		
 		function arrange(){
 			$userId = $this->getLoggedUser();
@@ -970,6 +975,47 @@
 					$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_arrange');
 				}
 			}
+		}
+		/**
+		 * load default custom url page
+		 * @param params
+		 * 
+		 */
+		
+		function albumCustomUrlMessagesSource()
+		{
+			$this->defaultAlbumMessagesSource();
+			
+			$this->assign("title", $this->loadMessages('album.customURL.title'));
+			$this->assign("name", $this->loadMessages('album.customURL.name'));
+			$this->assign('preview', $this->loadMessages('album.customURL.preview'));
+			$this->assign('hint', $this->loadMessages('album.customURL.hint'));
+		}
+		
+		/**
+		 * load default and action for custom url page
+		 * @param params
+		 * 
+		 */
+		
+		function albumCustomUrl()
+		{
+			$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			$this->loadModel('model_album');
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
+			{
+				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_albumcustomurl');
+			}
+			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_albumcustomurl');
+			}
+			
 		}
 	}
 	
