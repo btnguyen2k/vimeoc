@@ -712,7 +712,7 @@
 						$video['thumbnails_path'] = $name;
 						if($old_thumbnail && file_exists(BASE_DIR . $this->loadResources('image.upload.path') . $old_thumbnail)){
 							unlink(BASE_DIR . $this->loadResources('image.upload.path') . $old_thumbnail);
-							file_put_contents('d:\log.txt', "delete " . $name . "\n", FILE_APPEND);
+							//file_put_contents('d:\log.txt', "delete " . $name . "\n", FILE_APPEND);
 						}
 						$ret = array('status' => 1, 'successMessage' => $this->loadMessages('video.thumbnail.success'), 'upId' => uniqid(), 'thumbnail' => ($this->ctx() . $this->loadResources('image.upload.path') . $name));
 						echo json_encode($ret);
