@@ -1049,14 +1049,12 @@
 					{
 						$fullName="user".$userId;	
 					}
-					
 				}	
 				else
 				{
 					$fullName=="album";
 					$albumCustomUrl= $albumId;
-				}
-					
+				}	
 				$this->assign('albumCustomUrl',$albumCustomUrl );
 				$this->assign('fullName', $fullName);
 				$this->assign("albumName",$album['album_name']);
