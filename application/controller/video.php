@@ -125,7 +125,7 @@
 						{
 							$this->model_video->addTagName(array($slipTag[$j]));			
 							$tagNewId=$this->model_video->getTagIdByName(array($slipTag[$j]));
-							$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],$videoid));
+							$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],"1",$videoid));
 						}
 						else 
 						{
@@ -135,7 +135,7 @@
 							if($res==0)
 							{
 								$this->assign('successMessage', $this->loadMessages('user.videosetting.updatesuccess'));
-								$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],$videoid));
+								$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],'1',$videoid));
 							}
 							else 
 							{

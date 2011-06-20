@@ -441,8 +441,8 @@
 		
 		function addTagIdAndComponentId($params)
 		{
-			$sql='INSERT INTO tag_component(tag_id,component_id) values(?,?)';
-			$types = array('integer', 'integer');
+			$sql='INSERT INTO tag_component(tag_id,component_type,component_id) values(?,?,?)';
+			$types = array('integer','integer','integer');
 			$this->execute_command($sql, $params, $types);
 		}
 		/**
