@@ -39,7 +39,11 @@
 			$model_video = $this->model_video;
 			$this->assign('video_count', $model_video->countVideoByUserId($userId));
 			
-			$videos = $model_video->selectVideoByUserId($userId, 2, 0, '', 'creation_date', 'DESC');
+			$videos = $model_video->selectVideoByUserId($userId, 5, 0, '', 'creation_date', 'DESC');
+			
+			foreach($videos as &$video){
+				$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
+			}
 			$this->assign('recent_videos', $videos);
 			
 			$this->userHomeMessagesSource();
