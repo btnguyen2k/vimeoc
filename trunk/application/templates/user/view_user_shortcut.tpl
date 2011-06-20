@@ -1,10 +1,23 @@
 <script type="text/javascript">
+	var reservedUrls = '<:$reservedUrl:>'.split(',');
 	function checkProfileAlias(form){
+		var allowReg = /^user[0-9]{1,12}$/;
+		var defaultAlias = '<:$defaultAlias:>';
 		var regex = /^[a-zA-Z0-9]{1,16}$/;
 		var alias = $(form).find("input[name=alias]").val();		
 
-		var flag = regex.test(alias) && alias.length <= 16;
+		var flag = true;
+		/*
+		flag = regex.test(alias) && alias.length <= 16;
 
+		if(allowReg.test(alias)){
+			flag = alias == defaultAlias;
+		}
+
+		if(flag){
+			flag = checkCustomUrl(alias, reservedUrls);
+		}
+		*/
 		if(!flag){
 			$(".top_error_msg").hide();					
 			$(".top_success_msg").hide();

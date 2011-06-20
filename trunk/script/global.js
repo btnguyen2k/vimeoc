@@ -18,6 +18,16 @@ function checkUrl(url){
 	}
 }
 
+function checkCustomUrl(userUrl, reservedArray){
+	for(var i=0; i<reservedArray.length; i++){
+		if($.trim(userUrl).toLowerCase() == reservedArray[i].toLowerCase()){
+			return false;
+		}
+	}
+	
+	return true;
+}
+
 function limitAttach(form, file, extArray) {
 	allowSubmit = false;
 	if (!file) return;
