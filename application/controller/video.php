@@ -142,8 +142,7 @@
 								$this->assign('successMessage', $this->loadMessages('user.videosetting.updatesuccess'));
 							}
 						}
-					}
-					
+					}	
 				}		
 				$updatetitle= $this->model_video->updateTitlebyId(array($videoTitle,$videoid));
 				$updatedescrition= $this->model_video->updateDescriptionbyId(array($description,$videoid));				
@@ -558,7 +557,7 @@
 			
 			$this->loadModel('model_user');
 			$this->loadModel('model_video');
-			$video=array();
+			//$video=array();
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$id=$_GET['videoId'];
@@ -569,6 +568,7 @@
 				$like=$this->model_video->getLikebyId($params);
 				$albums=$this->model_video->getAlbumByVideoIdAndUserId(array($id,$userId));
 				$tags=$this->model_video->getTagfromTagandTagcomponent(array($id));
+				$video=$this->model_video->getVideoByVideoId(array($id));
 				$this->assign("tags",$tags);
 				$this->assign("play",$play['play_count']);
 				$this->assign("comment",$comment['comment_count']);
@@ -577,7 +577,7 @@
 				$this->assign("fullname",$fullname['full_name']);
 				$this->assign("video",$video);
 				$this->assign("videoid",$id);
-				$video=$this->model_video->getVideoByVideoId(array($id));
+				
 				$start = $video['creation_date'];
 				$now =  mktime(date("H"), date("i"),date("s"), date("m"), date("d"), date("Y"));
 				$end   =date("Y-m-d H:i:s", $now);
@@ -596,6 +596,7 @@
 					else 
 						$strDate.= $diff['days']. 'days ' . $diff['hours'] . 'hours';					
 				}
+				$this->assign('videoThumbnail', $this->loadResources('image.upload.path') . $video['thumbnails_path']);
 				$this->assign("days",$strDate);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_videopage');
 			}
@@ -607,8 +608,10 @@
 				{
 					$this->model_video->dropVideoByVideoId(array($id));
 				}
+			
+				$videos=$this->model_video->getVideofromVideoId(array($id));
+				$this->assign("thumbnails",$videos['thumbnails_path']);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_videopage');
-				
 			}
 		}
 	

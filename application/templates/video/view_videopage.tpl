@@ -18,8 +18,8 @@ function confirmAction() {
 		<form action="<:$ctx:>/video/videopage/" id="form" method="post">
 			<div>
 				<div style="float: left">
-					<:if $video.thumbnails_path != '':>
-						<img src="<:$video.thumbnails_path:>" />
+					<:if $videoThumbnail != '':>
+						<img src="<:$ctx:><:$videoThumbnail:>" />
 					<:else:>
 						<img src="<:$ctx:>/images/icon-video.gif" width="100"/>
 					<:/if:>
