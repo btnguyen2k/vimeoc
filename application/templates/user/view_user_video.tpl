@@ -4,7 +4,7 @@
 	<:include file="<:$base_dir_templates:>/blocks/user_left_menu.tpl":>
 	<br/><br/>
 	<div id="user_video_body" class="user_page_body">
-		<form id="search_form" name="search_from" action="<:$smarty.const.BASE_PATH:><:$smarty.const.CONTEXT:>/user/video/">
+		<form id="search_form" name="search_from" action="<:$ctx:>/user/video/">
 		<select id="mode" name="mode">
 			<:foreach from=$display_modes key=k item=v:>
 				<option <:if $k == $display_mode:>selected="selected"<:/if:> value="<:$k:>"><:$v:></option>

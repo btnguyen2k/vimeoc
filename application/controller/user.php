@@ -425,6 +425,7 @@
 		function userVideoMessagesSource()		
 		{
 			$this->defaultUserMessagesSource();
+			$this->assign('title', 'Video list');
 		}
 		
 		/**

@@ -4,7 +4,7 @@
 	<:include file="<:$base_dir_templates:>/blocks/user_left_menu.tpl":>
 	<div id="user_home_body" class="user_page_body">
 		<div id="video_album_count">
-			<span><:$video_count:> Videos</span><span style="margin: 0 0 0 30px"><:$album_count:> Albums</span>
+			<span><a href="<:$ctx:>/user/video"><:$video_count:></a> Videos</span><span style="margin: 0 0 0 30px"><:$album_count:> Albums</span>
 		</div>
 		<div id="video_list">
 			<div style="float: left; margin: 0 0 0 30px">

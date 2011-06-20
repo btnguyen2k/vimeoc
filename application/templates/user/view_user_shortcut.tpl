@@ -6,7 +6,9 @@
 		var flag = regex.test(alias) && alias.length <= 16;
 
 		if(!flag){
-			$("#error_valid_alias").show();
+			$(".top_error_msg").hide();					
+			$(".top_success_msg").hide();
+			$("#error_valid_alias").show();			
 			return false;
 		}else{
 			$("#error_valid_alias").hide();
@@ -19,8 +21,8 @@
 	
 	<div id="user_shortcut_body" class="user_page_body">
 		<center><h1><:$title:></h1></center><br/>		
-		<span class="red"><:$errorMessage:></span>
-		<span class="green"><:$successMessage:></span>
+		<span class="top_error_msg red"><:$errorMessage:></span>
+		<span class="top_success_msg green"><:$successMessage:></span>
 		<form action="<:$ctx:>/user/profileShortcut/" method="post" onsubmit="return checkProfileAlias(this);">
 			<fieldset>
 				<ul>
