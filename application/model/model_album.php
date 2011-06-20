@@ -283,5 +283,17 @@
 			$res = $this->execute_command($sql,$params,$types);
 			return $res;
 		}
+		
+		/**
+		 * update albumAlias by AlbumId
+		 * @param params
+		 */
+		function updateAlbumAliasByAlbumId($params)
+		{
+			$sql = 'Update album Set album_alias=? where id=? ';
+			$types= array('text','integer');
+			$res = $this->execute_command($sql,$params,$types);
+			return $res;
+		}
 	}
 ?>

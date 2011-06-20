@@ -346,6 +346,7 @@
 			$this->assign("menubasicinfoAlbum", $this->loadMessages('album.menu.basicinfo.link'));
 			$this->assign("menuthumbnailAlbum", $this->loadMessages('album.menu.thumbnail.link'));
 			$this->assign("menuarrangeAlbum", $this->loadMessages('album.menu.arrange.link'));
+			$this->assign("menuCustomUrlAlbum", $this->loadMessages('album.menu.customUrl'));
 			$this->assign("menupasswordAlbum", $this->loadMessages('album.menu.password.link'));
 			$this->assign("menudeleteAlbum", $this->loadMessages('album.menu.delete.link'));
 			$this->assign("menubackAlbum", $this->loadMessages('album.menu.back.link'));
@@ -1007,12 +1008,59 @@
 				return;
 			}
 			$this->loadModel('model_album');
+			$this->loadModel('model_user');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
+				$albumId=$_GET['albumId'];
+				$user = $this->model_user->getUserByUserId($userId);
+				$album = $this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
+				$fullName = $user['full_name'];
+				$albumCustomUrl = $album['album_alias'];
+				if($albumCustomUrl!='')
+				{
+	 				if($fullName=='')
+					{
+						$fullName="user".$userId;	
+					}
+				}
+				else
+				{
+					$fullName="album";
+					$albumCustomUrl= $albumId;
+				}
+				$this->assign('albumCustomUrl',$album['album_alias']);
+				$this->assign('fullName', $fullName);
+				$this->assign("albumName",$album['album_name']);
+				$this->assign("albumId",$albumId);
 				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_albumcustomurl');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
+				$albumId=$_POST['albumId'];
+				$albumCustomUrl=$_POST['url'];
+				$user = $this->model_user->getUserByUserId($userId);
+				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));				
+				$this->model_album->updateAlbumAliasByAlbumId(array($albumCustomUrl,$albumId));
+				$this->assign('successMessage', $this->loadMessages('album.customURL.success'));
+				$fullName = $user['full_name'];
+				if($albumCustomUrl!='')
+				{
+	 				if($fullName=='')
+					{
+						$fullName="user".$userId;	
+					}
+					
+				}	
+				else
+				{
+					$fullName=="album";
+					$albumCustomUrl= $albumId;
+				}
+					
+				$this->assign('albumCustomUrl',$albumCustomUrl );
+				$this->assign('fullName', $fullName);
+				$this->assign("albumName",$album['album_name']);
+				$this->assign("albumId",$albumId);
 				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_albumcustomurl');
 			}
 			

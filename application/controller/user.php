@@ -116,7 +116,6 @@
 			else if($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
 				$user = $this->model_user->getUserByUserId($userId);
-				
 				$alias = $_POST['alias'];
 				// check alias format
 				
