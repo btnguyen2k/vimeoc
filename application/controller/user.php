@@ -90,6 +90,7 @@
 			$this->assign("profileShortcut", $this->loadMessages('user.shortcut.profileShortcut'));
 			$this->assign("hint", $this->loadMessages('user.shortcut.hint'));
 			$this->assign("domain", BASE_PATH . CONTEXT);
+			$this->assign("reservedUrl", $this->loadResources('shortcut.url.reserved.user'));
 		}
 		
 		/**
@@ -110,7 +111,13 @@
 			if($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$user = $this->model_user->getUserByUserId($userId);
-				$this->assign('alias', $user['profile_alias']);
+				$userAlias = $user['profile_alias'];
+				$defaultAlias = 'user'.$user['id'];
+				if($userAlias == null || $userAlias == ''){
+					$userAlias = $defaultAlias;
+				}
+				$this->assign('defaultAlias', $defaultAlias);
+				$this->assign('alias', $userAlias);
 				$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_shortcut');
 			}
 			else if($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -118,15 +125,43 @@
 				$user = $this->model_user->getUserByUserId($userId);
 				$alias = $_POST['alias'];
 				// check alias format
+				$regex = "/^[a-zA-Z0-9]{1,16}$/";
+				$defaultRegex = '/^user[0-9]{1,12}$/';
+				$defaultAlias = 'user'.$user['id'];
+				$userAlias = $user['profile_alias'];
 				
-				if($this->model_user->existsAlias(array($alias, $userId)))
-				{
-					$this->assign('errorMessage', $this->loadErrorMessage('error.user.shortcut.duplicated', array($alias)));
+				if(preg_match($regex, $alias)){
+					if(preg_match($defaultRegex, $alias) && ($alias != $defaultAlias)){
+						if($userAlias == null || $userAlias == ''){
+							$userAlias = $defaultAlias;
+						}
+						$this->assign('defaultAlias', $defaultAlias);
+						$this->assign('errorMessage', $this->loadErrorMessage('error.user.shortcut.invalid', array($alias)));
+						$this->assign('alias', $user['profile_alias']);
+						$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_shortcut');
+						return;	
+					}
+				}else{
+					if($userAlias == null || $userAlias == ''){
+						$userAlias = $defaultAlias;
+					}
+					$this->assign('defaultAlias', $defaultAlias);
+					$this->assign('errorMessage', $this->loadErrorMessage('error.user.shortcut.invalid', array($alias)));
 					$this->assign('alias', $user['profile_alias']);
 					$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_shortcut');
-				}
-				else 
-				{
+					return;
+				} 
+				
+				
+				if($this->model_user->existsAlias(array($alias, $userId))) {
+					if($userAlias == null || $userAlias == ''){
+						$userAlias = $defaultAlias;
+					}
+					$this->assign('defaultAlias', $defaultAlias);
+					$this->assign('errorMessage', $this->loadErrorMessage('error.user.shortcut.duplicated', array($alias)));
+					$this->assign('alias', $userAlias);
+					$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_shortcut');
+				} else {
 					$this->model_user->updateUserAlias(array($alias, $userId));
 					$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("profile shortcut's URL")));
 					$this->assign('alias', $alias);
