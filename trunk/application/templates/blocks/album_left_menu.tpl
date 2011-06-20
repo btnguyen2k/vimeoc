@@ -23,6 +23,9 @@
 			<a href="<:$ctx:>/album/arrange/?id=<:$albumId:>"><:$menuarrangeAlbum:></a>
 		</li>
 		<li>
+			<a href="<:$ctx:>/album/albumCustomUrl/?albumId=<:$albumId:>"><:$menuCustomUrlAlbum:></a>
+		</li>
+		<li>
 			<a href="<:$ctx:>/album/albumPassword/?albumId=<:$albumId:>"><:$menupasswordAlbum:></a>
 		</li>
 		<li>
