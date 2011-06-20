@@ -10,9 +10,10 @@
 			<div style="float: left; margin: 0 0 0 30px">
 				Your recent videos(<a href="<:$ctx:>/user/video">see all</a>)
 				<div>
-					<:section name=index loop=$recent_videos:>
-					  video: <:$recent_videos[index].id:> <img src="<:$videos[index].thumbnails_path:>"></img><br />
-					<:/section:><br/>
+					<:foreach from=$recent_videos key=k item=v:>
+						<a href="<:$ctx:>/video/videopage/?videoId=<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
+						<:$v['video_title']:><br/><br/>
+					<:/foreach:>
 				</div>
 			</div>
 		</div>
