@@ -434,7 +434,7 @@
 				}
 				else 
 				{
-					$this->loadTemplate(USER_TEMPLATE_DIR.'view_home');
+					$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_home');
 				}
 			} 
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST') 
