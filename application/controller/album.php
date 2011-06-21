@@ -345,6 +345,7 @@
 			$this->assign("menupasswordAlbum", $this->loadMessages('album.menu.password.link'));
 			$this->assign("menudeleteAlbum", $this->loadMessages('album.menu.delete.link'));
 			$this->assign("menubackAlbum", $this->loadMessages('album.menu.back.link'));
+			$this->assign("createNewAlbum", $this->loadMessages('album.menu.create.link'));
 			$this->assign("videoId", $_GET["videoId"]);
 			$this->assign("albumId", $_GET["albumId"]);
 		}
@@ -362,6 +363,7 @@
 			$this->assign('hint', $this->loadMessages('album.create.hint'));
 			
 			$this->assign('errorDescription', $this->loadErrorMessage('error.album.create.description'));
+			$this->assign('show_user_avatar', 1);
 		}
 		/**
 		 * Load and action create new album 
@@ -385,9 +387,8 @@
 			{
 				$albumName=$_POST['title'];
 				$description=$_POST['description'];
-				$this->model_album->addNewAlbum(array($userId,$albumName,$description));
-				$this->assign("successMessage",$this->loadMessages('album.create.successful'));
-				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_createnewalbum');
+				$albumId = $this->model_album->addNewAlbum(array($userId,$albumName,$description));
+				$this->redirect($this->ctx().'/album/?albumId='.$albumId);
 			}
 		}
 		/**

@@ -121,6 +121,21 @@
 		}
 		
 		/**
+		 * Get a controller
+		 * @param $controller
+		 */
+		function getController($controllerName, $tmpl){
+			$file = "application/controller/".$controllerName.".php";
+			if(!file_exists($file)) die();
+				
+			require_once($file);
+			
+			$newController = new $controllerName($tmpl);
+			
+			return $newController;
+		}
+		
+		/**
 		 * 
 		 * Load a view
 		 * @param $view
@@ -240,6 +255,17 @@
 		{
 			require_once('model/'.$model.'.php');
 			$this->$model = new $model;
+		}
+		
+		/**
+		 * 
+		 * Get a model
+		 * @param $model
+		 */
+		function getModel($model){
+			require_once('model/'.$model.'.php');
+			$newModel = new $model;
+			return $newModel;
 		}
 		
 		/**

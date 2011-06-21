@@ -25,6 +25,9 @@
 	<:/if:>
 	<ul>
 		<li>
+			<a href="<:$ctx:>/album/createNewAlbum/"><:$createNewAlbum:></a>
+		</li>
+		<li>
 			<a href="<:$ctx:>/album/albumsetting/?albumId=<:$albumId:>"><:$menubasicinfoAlbum:></a>
 		</li>
 		<li>
