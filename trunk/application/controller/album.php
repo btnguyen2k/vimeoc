@@ -939,37 +939,23 @@
 			}
 			$this->loadModel('model_album');
 			$this->loadModel('model_user');
-			
+			$this->loadModel('model_video');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$albumId=$_GET['albumId'];
 				$user = $this->model_user->getUserByUserId($userId);
 				$album = $this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
-				$fullName = $user['full_name'];
-				$albumCustomUrl = $album['album_alias'];
 				$domain=$this->loadResources('domain');
-				if($albumCustomUrl!='')
-				{
-	 				if($fullName=='')
-					{
-						$fullName="user".$userId;	
-					}
-				}
-				else
-				{
-					$fullName="album";
-					$albumCustomUrl= $albumId;
-				}
+				
 				if(!$album['album_alias']){
-					$previewLink = $domain . "/" . $album['album_id'];
+					$previewLink = BASE_PATH . CONTEXT . "/" . "album" . "/" . $album['id'];
 				}else{
-					$previewLink = $domain . "/" . ($user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']) .  "/" . $album['album_alias'];
+					$previewLink = BASE_PATH . CONTEXT . "/" . ($user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']) .  "/" . $album['album_alias'];
 				}
 
 				$this->assign("previewUrl", $previewLink);
 				
 				$this->assign('albumCustomUrl',$album['album_alias']);
-				$this->assign('fullName', $fullName);
 				$this->assign("albumName",$album['album_name']);
 				$this->assign("albumId",$albumId);
 				$this->assign("domain",$domain);
@@ -980,45 +966,59 @@
 			{
 				$albumId=$_POST['albumId'];
 				$albumCustomUrl=$_POST['url'];
-				
+				$album = $this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
 				//server side validate here
 				$urlReg = "/^[a-z0-9]{0,32}\$/";
 				if(!preg_match($urlReg, $albumCustomUrl)){
-					$this->assign('errorMessage', $this->loadErrorMessage('error.video.alias.invalidUrl'));
+					$this->assign('errorMessage', $this->loadErrorMessage('error.album.alias.invalidUrl'));
 					$errorFlag = true;
 				}
 				
-				if($albumCustomUrl!='')
-				{
-					$this->model_album->updateAlbumAliasByAlbumId(array($albumCustomUrl,$albumId));
+				//check owner id	
+				if((!$errorFlag) && ((!$album) || ($album['user_id'] != $userId))){
+					$this->assign('errorMessage', $this->loadErrorMessage('error.album.alias.invalidVideoId'));
+					//$this->assign('videoTitle', 'N/A');
+					$errorFlag = true;
 				}
-				else
-				{
-					$this->model_album->updateAlbumAliasByAlbumId(array("",$albumId));
-				}
-				$this->assign('successMessage', $this->loadMessages('album.customURL.success'));
-				$user = $this->model_user->getUserByUserId($userId);
-				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));				
 				
+				//check exist alias against album
+				if((!$errorFlag) && ($this->model_album->isAliasExist(array($albumCustomUrl, $userId)))){
+					$this->assign('errorMessage', $this->loadErrorMessage('error.album.alias.aliasExists', array($albumCustomUrl)));
+					$errorFlag = true;
+				}
+				//check exist alias against video
+				if((!$errorFlag) && ($this->model_video->isAliasExist(array($albumCustomUrl, $userId)))){
+					$this->assign('errorMessage', $this->loadErrorMessage('error.album.alias.aliasExists', array($albumCustomUrl)));
+					$errorFlag = true;
+				}
+				
+				if(!$errorFlag){
+					if(($album['album_alias'] == $albumCustomUrl) || $this->model_album->updateAlbumAliasByAlbumId(array($albumCustomUrl, $albumId))){
+						$this->assign('successMessage', $this->loadMessages('album.customURL.success'));
+					//	$this->assign('video_alias', $albumCustomUrl);
+						
+						if(!$album['album_alias']){
+							$previewLink = BASE_PATH . CONTEXT . "/" . "album" . "/" . $album['id'];
+						}else{
+							$previewLink = BASE_PATH . CONTEXT . "/" . ($user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']) .  "/" . $album['album_alias'];
+						}
+						$this->assign("previewUrl", $previewLink);
+					}else{
+						$this->assign('errorMessage', $this->loadErrorMessage('error.album.alias'));
+						$this->assign('video_alias', $video['video_alias']);
+						$errorFlag = true;
+					}
+				}
+
+				$user = $this->model_user->getUserByUserId($userId);
+				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));								
 				$domain=$this->loadResources('domain');
 				$fullName = $user['full_name'];
-				if($albumCustomUrl!='')
-				{
-	 				if($fullName=='')
-					{
-						$fullName="user".$userId;	
-					}
-				}	
-				else
-				{
-					$fullName=="album";
-					$albumCustomUrl= $albumId;
-				}	
-				
+								
 				if(!$album['album_alias']){
-					$previewLink = $domain . "/" . $album['album_id'];
+					$previewLink = BASE_PATH . CONTEXT . "/" . "album" . "/" . $album['id'];
 				}else{
-					$previewLink = $domain . "/" . ($user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']) .  "/" . $album['album_alias'];
+					$previewLink = BASE_PATH . CONTEXT . "/" . ($user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']) .  "/" . $album['album_alias'];
 				}
 				
 				$this->assign("previewUrl", $previewLink);
