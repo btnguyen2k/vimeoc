@@ -30,6 +30,9 @@
 		<:$message:>
 		<:$pagination:>
 	</div>
+	<p>
+		<a href="<:$ctx:>/album/createnewalbum/">Create new album</a>
+	</p>
 	<div id="user_info_help" class="">
 		Help?<div><:$hint:></div>
 	</div>
