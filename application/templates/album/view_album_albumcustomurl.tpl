@@ -34,6 +34,12 @@
 			<:else:>
    				<span class="green" align="center"><:$successMessage:></span>
 			<:/if:>
+			
+			<:if $errorMessage eq "":>
+  				 &nbsp;
+			<:else:>
+   				<span class="red" align="center"><:$errorMessage:></span>
+			<:/if:>
 		<form action="<:$ctx:>/album/albumCustomUrl/?albumId=<:$albumId:>" method="post" name="albumCustomUrl" onsubmit="return checkUrl(this);">
 			<fieldset>
 				<ul>
