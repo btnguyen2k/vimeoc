@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 20, 2011 at 12:47 PM
+-- Generation Time: Jun 21, 2011 at 12:54 PM
 -- Server version: 5.1.41
 -- PHP Version: 5.3.1
 
@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `album` (
   `password` varchar(225) DEFAULT NULL,
   `thumbnail` varchar(255) DEFAULT NULL,
   `arrange` tinyint(2) NOT NULL,
+  `thumbnails_path` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
@@ -146,7 +147,7 @@ CREATE TABLE IF NOT EXISTS `tag` (
   `tag_locked` bit(1) NOT NULL DEFAULT b'0',
   `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
