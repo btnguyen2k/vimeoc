@@ -5,7 +5,7 @@
 	<br/><br/>
 	<div id="user_album_body" class="user_page_body">
 		<center><h1><:$user_fullname:><:$title:></h1></center><br/>
-		<form id="search_form" name="search_from" action="<:$ctx:>/user/album/" method="post">
+		<form id="search_form" name="search_from" action="<:$ctx:>/user/album/" method="GET">
 			<select id="sort" name="sort">
 				<:foreach from=$sort_modes key=k item=v:>
 					<option <:if $k == $sort_mode:>selected="selected"<:/if:> value="<:$k:>"><:$v:></option>
