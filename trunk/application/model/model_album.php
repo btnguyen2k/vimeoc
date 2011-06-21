@@ -25,7 +25,7 @@
 						a.album_name as `album_name`, 
 						count(b.video_id) as 'video_count', 
 						UNIX_TIMESTAMP(a.creation_date) as 'create_date',
-						thumbnail as `thumbnail` 
+						thumbnails_path as `thumbnails_path` 
 					from 
 						album a 
 					left outer join 
@@ -152,7 +152,7 @@
 						album_locked as `album_alias`, 
 						UNIX_TIMESTAMP(creation_date) as `creation_date`, 
 						description as `description`,
-						thumbnail as `thumbnail`, 
+						thumbnails_path as `thumbnails_path`, 
 						arrange as `arrange`, 
 						password as `password`  
 					FROM 

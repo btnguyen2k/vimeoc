@@ -1,1 +1,1 @@
-ALTER TABLE `album` ADD `thumbnail` VARCHAR( 255 ) NULL;
+ALTER TABLE `album` ADD `thumbnails_path` VARCHAR( 255 ) NULL;

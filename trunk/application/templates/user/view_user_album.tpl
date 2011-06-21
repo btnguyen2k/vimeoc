@@ -5,7 +5,7 @@
 	<br/><br/>
 	<div id="user_album_body" class="user_page_body">
 		<center><h1><:$user_fullname:><:$title:></h1></center><br/>
-		<form id="search_form" name="search_from" action="<:$smarty.const.BASE_PATH:><:$smarty.const.CONTEXT:>/user/album/">
+		<form id="search_form" name="search_from" action="<:$ctx:>/user/album/" method="post">
 			<select id="sort" name="sort">
 				<:foreach from=$sort_modes key=k item=v:>
 					<option <:if $k == $sort_mode:>selected="selected"<:/if:> value="<:$k:>"><:$v:></option>
@@ -21,7 +21,7 @@
 			<input type="submit" value="Submit"></input>
 		</form>
 			<:foreach from=$albums key=k item=v:>
-				<a href="<:$ctx:>/album/?id=<:$v['album_id']:>"><img width="100" src="<:$v['thumbnail']:>" /></a><br/>
+				<a href="<:$ctx:>/album/?albumId=<:$v['album_id']:>"><img width="100" src="<:$v['thumbnail']:>" /></a><br/>
 				name: <:$v['album_name']:><br/>
 				created: <span class="relative_time"><:$v['create_date']:></span><br/>
 				<:$v['video_count']:> video(s)<br/>

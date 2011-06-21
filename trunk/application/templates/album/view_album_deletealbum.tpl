@@ -1,11 +1,4 @@
 <div id="album_delete" class="album_page">
-<div>
-	<:if $albumThumbnail != '':>
-		<img src="<:$ctx:><:$albumThumbnail:>" />
-	<:else:>
-		<img src="<:$ctx:>/images/icon-video.gif" width="100"/>
-	<:/if:>
-</div>
 	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
 	<div id="album_albumdelete_body" class="album_page_body">
 		<center><h1><:$albumName:>-<:$name:></h1></center>
