@@ -313,8 +313,19 @@
 		function getVideoByVideoIdAndUserId($params)
 		{
 			$sql= "select video_title from video where user_id=? and id=?";
-			$type= array('text','integer','integer');
+			$types= array('text','integer','integer');
 			$res = $this->execute_query($sql,$params,$types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
+		}
+		
+		function getUserByUserAlias($params){
+			$sql = "select * from user where profile_alias=?";
+			$types = array('text');
+			$res = $this->execute_query($sql, $params, $types);
 			if(sizeof($res) > 0)
 			{
 				return $res[0] ;

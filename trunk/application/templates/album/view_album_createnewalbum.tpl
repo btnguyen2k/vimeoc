@@ -14,10 +14,10 @@
 		}
 	}
 </script>
-<center><h1><:$name:></h1></center>
 <div id="album_createnewalbum" class="album_page">
 	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
 	<div id="album_createnewalbum_body" class="album_page_body">
+		<center><h1><:$name:></h1></center>
 		<div>
 			<br/>
 			<:if $successMessage eq "":>
@@ -26,7 +26,7 @@
    				<span class="green" align="center"><:$successMessage:></span>
 			<:/if:>
 		</div>
-		<form action="<:$ctx:>/album/createnewalbum" method="post" name="createnewalbum" onSubmit="return checkValidForm(this)">
+		<form action="<:$ctx:>/album/createnewalbum/" method="post" name="createnewalbum" onSubmit="return checkValidForm(this)">
 			<fieldset>
 				<ul>
 					<li>

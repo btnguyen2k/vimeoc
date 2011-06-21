@@ -615,6 +615,18 @@
 			
 		}
 		
+		function getVideoByVideoAlias($params)
+		{
+			$sql = "select * from video where video_alias=?";
+			$types = array('text');
+			$res = $this->execute_query($sql, $params, $types);
+			if(sizeof($res) > 0){
+				return $res[0];
+			}
+			
+			return null;
+		}
+		
 		/**
 		 * Update video video_title
 		 * @param $params

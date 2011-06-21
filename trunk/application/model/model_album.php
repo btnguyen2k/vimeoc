@@ -137,7 +137,7 @@
 			$sql = 'INSERT INTO album(user_id,album_name, description) VALUES (?, ?, ?)';
 			$types = array('integer' ,'text', 'text');
 			$this->execute_command($sql, $params, $types);
-			
+			return $this->getLatestInsertId('album');
 		}
 		/**
 		 * get album by albumId and userId
@@ -294,6 +294,16 @@
 			$types= array('text','integer');
 			$res = $this->execute_command($sql,$params,$types);
 			return $res;
+		}
+		
+		function getAlbumByAlbumAlias($params){
+			$sql = "Select * from album where album_alias=?";
+			$types = array('text');
+			$res = $this->execute_query($sql, $params, $types);
+			if(sizeof($res) > 0){
+				return $res[0];
+			}
+			return null;
 		}
 	}
 ?>
