@@ -5,7 +5,7 @@
 	<br/><br/>
 	<div id="user_video_body" class="album_page_body">
 		<center><h1><:$title:> <:$album_name:></h1></center><br/>
-		<form id="search_form" name="search_from" action="<:$ctx:>/album/" method="post">
+		<form id="search_form" name="search_from" action="<:$ctx:>/album/" method="GET">
 		<input type="hidden" id="id" name="id" value="<:$albumId:>"></input>
 		<select id="mode" name="mode">
 			<:foreach from=$display_modes key=k item=v:>
@@ -20,7 +20,7 @@
 		<input type="text" id="term" name="term" value="<:$search_term:>"></option>
 		<input type="hidden" name="page" value="<:$page:>"></input>
 		<input type="hidden" name="albumId" value="<:$albumId:>"></input>
-		<input type="submit" value="Submit"></input>
+		<input type="submit" name="search" value="Submit"></input>
 		</form>
 
 		<:if 2 == $display_mode:>

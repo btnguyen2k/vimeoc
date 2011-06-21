@@ -557,7 +557,7 @@
 			
 			$this->loadModel('model_user');
 			$this->loadModel('model_video');
-			//$video=array();
+
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$id=$_GET['videoId'];
@@ -682,7 +682,7 @@
 					$fileInfo = utils::getFileType($fileName);
 					
 					$extSupport = explode(',', $this->loadResources('image.upload.ext.support'));
-					//if((!$errorFlag) && ($type != 'image/jpeg' && $type != 'image/png' && $type != 'image/gif')){
+
 					if(!in_array('.' . $fileInfo[1], $extSupport)){
 						$ret = array('status' => 0, 'errorMessage' => $this->loadErrorMessage('error.video.thumbnail.notSupport'), 'upId' => uniqid());
 						echo json_encode($ret);
@@ -715,7 +715,6 @@
 						$video['thumbnails_path'] = $name;
 						if($old_thumbnail && file_exists(BASE_DIR . $this->loadResources('image.upload.path') . $old_thumbnail)){
 							unlink(BASE_DIR . $this->loadResources('image.upload.path') . $old_thumbnail);
-							//file_put_contents('d:\log.txt', "delete " . $name . "\n", FILE_APPEND);
 						}
 						$ret = array('status' => 1, 'successMessage' => $this->loadMessages('video.thumbnail.success'), 'upId' => uniqid(), 'thumbnail' => ($this->ctx() . $this->loadResources('image.upload.path') . $name));
 						echo json_encode($ret);

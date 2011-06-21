@@ -34,19 +34,15 @@
 		function index()
 		{
 			$userId = $this->getLoggedUser();
-			/*if($userId == 0){
-				$this->redirect($this->ctx().'/auth/login/');
-				return;
-			}*/
 			if($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$albumId = $_GET['albumId'];
 			}elseif($_SERVER['REQUEST_METHOD'] == 'POST'){
 				$albumId = $_POST['albumId'];
+				krumo($_POST);
 			}
 			
 			if(!ctype_digit($albumId)){
-				//$this->assign('errorMessage', $this->loadErrorMessage('error.video.alias.invalidUrl'));
 				$error_flag = true;
 				$this->loadTemplate('view_404');
 				return;
@@ -185,9 +181,6 @@
 						$this->redirect($this->ctx() . '/album/?id=' . $albumId);
 					}
 					$videos = $model_video->selectVideoByAlbumId($albumId, $limit, $offset, $_search_term, $sort_column, $sort_order);
-					//var_dump($videos);
-					//paging
-					//$video_count = 30;
 					$adjacents = 2;
 					$targetpage = $_SERVER['REDIRECT_URL'];
 					if(!($targetpage[strlen($targetpage) - 1] == '/')){
@@ -203,7 +196,6 @@
 					
 					/* 
 						Now we apply our rules and draw the pagination object. 
-						We're actually saving the code to a variable in case we want to draw it more than once.
 					*/
 					$pagination = "";
 					if($lastpage > 1)
@@ -298,11 +290,9 @@
 				$model_tag = $this->model_tag;
 				
 				foreach($videos as &$video){
-					//$video['creation_date'] = date_format(new DateTime($video['creation_date']), 'U');
 					$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
 					$video['album'] = $model_album->selectAlbumByVideoId($video['id']);
 					$video['tag'] = $model_tag->selectTagByVideoId($video['id']);
-					//krumo($video);
 				}
 			}
 			
@@ -322,9 +312,6 @@
 			$this->assign('album_name', $album['album_name']);
 			$this->assign('show_user_avatar', 1);
 			
-			//var_dump($_SERVER);
-			//$this->userVideoMessagesSource();
-			//krumo($videos);
 			$this->indexMessagesSource();
 			$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_index');
 		}
@@ -400,8 +387,6 @@
 				$description=$_POST['description'];
 				$this->model_album->addNewAlbum(array($userId,$albumName,$description));
 				$this->assign("successMessage",$this->loadMessages('album.create.successful'));
-//				$this->assign('title_',$albumName);
-//				$this->assign('description_',$description);
 				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_createnewalbum');
 			}
 		}
@@ -659,33 +644,30 @@
 				$error_flag = false;
 				$albumId = $_GET['albumId'];
 				
-				//validate album id
-				//$integer_reg = "/^[0-9]+\$/";
 				if(!ctype_digit($albumId)){
-					//$this->assign('errorMessage', $this->loadErrorMessage('error.video.alias.invalidUrl'));
 					$error_flag = true;
 					$this->loadTemplate('view_404');
 					return;
 				}
 				
-				//if(!$error_flag){
-					$this->loadModel('model_album');
-					$model_album = $this->model_album;
-					$album = $model_album->selectAlbumById($albumId);
-					
-					//validate album owner
-					if(!$album){
-						$error_flag = true;
-						$this->loadTemplate('view_404');
-						return;
-					}
 
-					if($album['user_id'] != $userId){
-						$error_flag = true;
-						$this->loadTemplate('view_access_denied');
-						return;
-					}
-				//}
+				$this->loadModel('model_album');
+				$model_album = $this->model_album;
+				$album = $model_album->selectAlbumById($albumId);
+				
+				//validate album owner
+				if(!$album){
+					$error_flag = true;
+					$this->loadTemplate('view_404');
+					return;
+				}
+
+				if($album['user_id'] != $userId){
+					$error_flag = true;
+					$this->loadTemplate('view_access_denied');
+					return;
+				}
+
 				
 				$this->loadModel('model_video');
 				$model_video = $this->model_video;
@@ -797,7 +779,7 @@
 					$this->assign('album_id', $albumId);
 					
 					$return = '';
-					//$this->loadView('view_album_arrange_ajax');
+
 					foreach($videos as &$video){
 						$return .= "
 						<a href=\"{$ctx}/video/videopage/?videoId={$video['id']}\"><img width=\"100\" src=\"{$video['thumbnails_path']}\" /></a><br/>
@@ -826,104 +808,32 @@
 					header("Content-Type:text/xml");
 					echo $doc->saveXML();
 				}else{
-					/*print 'saving arrangement....';
-					$error_flat = false;
-					$albumId = $_POST['id'];
-					
-					
-					//validate album id here
-					
-					if((!$error_flag)){
-						$this->loadModel('model_album');
-						$model_album = $this->model_album;
-						$album = $model_album->selectAlbumById($albumId);
-					}
-					
-					//validate album owner here
-					
-					$this->loadModel('model_video');
-					$model_video = $this->model_video;
-					
-					$_sort_modes = array(
-						1 => 'Newest video first',
-						2 => 'Oldest video first',
-						3 => 'Most played',
-						4 => 'Most commented',
-						5 => 'Most liked',
-						6 => 'Alphabetical'
-					);
-					$_sort_columns = array(
-						1 => 'creation_date',
-						2 => 'creation_date',
-						3 => 'play_count',
-						4 => 'comment_count',
-						5 => 'like_count',
-						6 => 'video_title'
-					);
-					$_sort_orders = array(
-						1 => 'DESC',
-						2 => 'ASC',
-						3 => 'DESC',
-						4 => 'DESC',
-						5 => 'DESC',
-						6 => 'ASC'
-					);
-					
-					$sort_mode = $_POST['sort'];
-					
-					//validate sort mode
-					
-					//update database
-					
-					$default_sort_mode = 1;
-					$sort_mode = $album['sort_mode'] ? $album['sort_mode'] : $default_sort_mode;
-					$sort_column = $_sort_columns[$sort_mode];
-					$sort_order = $_sort_orders[$sort_mode];
-					
-					$videos = $model_video->selectVideoByAlbumId($albumId, 5, 0, '', $sort_column, $sort_order);
-					
-					if(is_array($videos) && (count($videos) > 0)){
-						foreach($videos as &$video){
-							$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
-						}
-					}
-					
-					$this->assign('videos', $videos);
-					$this->assign('sort_modes', $_sort_modes);
-					$this->assign('sort_mode', $sort_mode);
-					$this->assign('album_id', $albumId);
-					
-					$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_arrange');*/
 					$error_flag = false;
 					$albumId = $_GET['id'];
 					
-					//validate album id
-					//$integer_reg = "/^[0-9]+\$/";
 					if(!ctype_digit($albumId)){
-						//$this->assign('errorMessage', $this->loadErrorMessage('error.video.alias.invalidUrl'));
 						$error_flag = true;
 						$this->loadTemplate('view_404');
 						return;
 					}
 					
-					//if(!$error_flag){
-						$this->loadModel('model_album');
-						$model_album = $this->model_album;
-						$album = $model_album->selectAlbumById($albumId);
-						
-						//validate album owner
-						if(!$album){
-							$error_flag = true;
-							$this->loadTemplate('view_404');
-							return;
-						}
-	
-						if($album['user_id'] != $userId){
-							$error_flag = true;
-							$this->loadTemplate('view_access_denied');
-							return;
-						}
-					//}
+
+					$this->loadModel('model_album');
+					$model_album = $this->model_album;
+					$album = $model_album->selectAlbumById($albumId);
+					
+					//validate album owner
+					if(!$album){
+						$error_flag = true;
+						$this->loadTemplate('view_404');
+						return;
+					}
+
+					if($album['user_id'] != $userId){
+						$error_flag = true;
+						$this->loadTemplate('view_access_denied');
+						return;
+					}
 					
 					$this->loadModel('model_video');
 					$model_video = $this->model_video;
@@ -955,7 +865,7 @@
 					
 					$default_sort_mode = 1;
 					$sort_mode = $_POST['sort'];
-					//krumo($model_album->updateAlbumArrangeByAlbumId(array($sort_mode, $albumId)));
+
 					if($sort_mode != $album['arrange']){
 						if(array_key_exists($sort_mode, $_sort_modes)){
 							if($model_album->updateAlbumArrangeByAlbumId(array($sort_mode, $albumId))){
