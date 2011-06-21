@@ -1,15 +1,15 @@
 <div id="video_menu">
-	<ul class="portrait">
-		<li>
-			<a href="<:$ctx:>/">
-			<:if $userAvatar != null:>
-			<img class="userAvatar" src="<:$ctx:>/images/upload/<:$userAvatar:>" width="50" height="50"/>
-			<:else:>
-			<img class="userAvatar" src="<:$ctx:>/images/icon-video.gif" width="50" height="50"/>
-			<:/if:>
-			</a>
-		</li>
-	</ul>
+	<:if $show_user_avatar != 1:>
+		<ul id="video_thumb">
+			<li>
+				<:if $videoThumbnail != '':>
+					<img src="<:$ctx:><:$videoThumbnail:>" width="100"/>
+				<:else:>
+					<img src="<:$ctx:>/images/icon-video.gif" width="100"/>
+				<:/if:>
+			</li>
+		</ul>
+	<:/if:>
 	<ul>
 		<li>
 			<a href="<:$ctx:>/video/videosetting/?videoId=<:$videoId:>"><:$videobasicinfo:></a>

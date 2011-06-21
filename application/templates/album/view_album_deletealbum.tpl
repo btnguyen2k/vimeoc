@@ -10,10 +10,9 @@
 					</li>
 					<li>
 						<center>
-							<input type="submit" value="Yes"  />
+							<input type="submit" value="Yes" />
 							<input type="button" value="No" onClick="window.location.href='<:$ctx:>/album/albumsetting/?albumId=<:$albumId:>'">
 						</center>
-						
 					</li>
 					<li>
 						<input type="hidden" id="albumId" name="albumId" value="<:$albumId:>" />
