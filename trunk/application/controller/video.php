@@ -596,7 +596,7 @@
 					else 
 						$strDate.= $diff['days']. 'days ' . $diff['hours'] . 'hours';					
 				}
-				$this->assign('videoThumbnail', $this->loadResources('image.upload.path') . $video['thumbnails_path']);
+				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->ctx(). $this->loadResources('image.upload.path') . $video['thumbnails_path']) : ($this->ctx() . '/images/icon-video.gif'));
 				$this->assign("days",$strDate);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_videopage');
 			}

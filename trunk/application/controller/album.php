@@ -939,6 +939,7 @@
 			}
 			$this->loadModel('model_album');
 			$this->loadModel('model_user');
+			
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$albumId=$_GET['albumId'];
@@ -946,6 +947,7 @@
 				$album = $this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
 				$fullName = $user['full_name'];
 				$albumCustomUrl = $album['album_alias'];
+				$domain=$this->loadResources('domain');
 				if($albumCustomUrl!='')
 				{
 	 				if($fullName=='')
@@ -958,10 +960,19 @@
 					$fullName="album";
 					$albumCustomUrl= $albumId;
 				}
+				if(!$album['album_alias']){
+					$previewLink = $domain . "/" . $album['album_id'];
+				}else{
+					$previewLink = $domain . "/" . ($user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']) .  "/" . $album['album_alias'];
+				}
+
+				$this->assign("previewUrl", $previewLink);
+				
 				$this->assign('albumCustomUrl',$album['album_alias']);
 				$this->assign('fullName', $fullName);
 				$this->assign("albumName",$album['album_name']);
 				$this->assign("albumId",$albumId);
+				$this->assign("domain",$domain);
 				$this->assignAlbumThumbnails($album);
 				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_albumcustomurl');
 			}
@@ -969,10 +980,27 @@
 			{
 				$albumId=$_POST['albumId'];
 				$albumCustomUrl=$_POST['url'];
+				
+				//server side validate here
+				$urlReg = "/^[a-z0-9]{0,32}\$/";
+				if(!preg_match($urlReg, $albumCustomUrl)){
+					$this->assign('errorMessage', $this->loadErrorMessage('error.video.alias.invalidUrl'));
+					$errorFlag = true;
+				}
+				
+				if($albumCustomUrl!='')
+				{
+					$this->model_album->updateAlbumAliasByAlbumId(array($albumCustomUrl,$albumId));
+				}
+				else
+				{
+					$this->model_album->updateAlbumAliasByAlbumId(array("",$albumId));
+				}
+				$this->assign('successMessage', $this->loadMessages('album.customURL.success'));
 				$user = $this->model_user->getUserByUserId($userId);
 				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));				
-				$this->model_album->updateAlbumAliasByAlbumId(array($albumCustomUrl,$albumId));
-				$this->assign('successMessage', $this->loadMessages('album.customURL.success'));
+				
+				$domain=$this->loadResources('domain');
 				$fullName = $user['full_name'];
 				if($albumCustomUrl!='')
 				{
@@ -986,14 +1014,22 @@
 					$fullName=="album";
 					$albumCustomUrl= $albumId;
 				}	
+				
+				if(!$album['album_alias']){
+					$previewLink = $domain . "/" . $album['album_id'];
+				}else{
+					$previewLink = $domain . "/" . ($user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']) .  "/" . $album['album_alias'];
+				}
+				
+				$this->assign("previewUrl", $previewLink);
 				$this->assign('albumCustomUrl',$albumCustomUrl );
 				$this->assign('fullName', $fullName);
 				$this->assign("albumName",$album['album_name']);
 				$this->assign("albumId",$albumId);
+				$this->assign("domain",$domain);
 				$this->assignAlbumThumbnails($album);
 				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_albumcustomurl');
 			}
-			
 		}
 	}
 	
