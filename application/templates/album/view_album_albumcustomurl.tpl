@@ -1,17 +1,26 @@
 <script type="text/javascript">
 	function checkUrl(form){
-	var regex = /^[a-zA-Z0-9]{1,32}$/;
+	var regex = /^[a-zA-Z0-9]{0,32}$/;
 	var url = $(form).find("input[name=url]").val();		
-
+	var link = "<:$domain:>/";
 	var flag = regex.test(url) && url.length <= 32;
+
+//	if(url=="")
+//	{
+//		link+="album/"+"videoId";
+//		//$("#link").val(link);
+//	}
+//	else {
+//
+//	}
+		if(!flag){
+			$("#error_valid_url").show();
+			return false;
+		}else{
+			$("#error_valid_url").hide();
+			return true;
+		}
 	
-	if(!flag){
-		$("#error_valid_url").show();
-		return false;
-	}else{
-		$("#error_valid_url").hide();
-		return true;
-	}
 }
 
 </script>
@@ -39,7 +48,7 @@
 						<span><:$preview:> </span>
 					</li>
 					<li>
-						<span><a href="#">http://domain.com/<:$fullName:>/<:$albumCustomUrl:></a></span>
+						<span><a id="link" href="#"><:$previewUrl:></a></span>
 					</li>
 					<li>
 						<input type="submit" value="Save"/>
