@@ -5,14 +5,7 @@
 	var link = "<:$domain:>/";
 	var flag = regex.test(url) && url.length <= 32;
 
-//	if(url=="")
-//	{
-//		link+="album/"+"videoId";
-//		//$("#link").val(link);
-//	}
-//	else {
-//
-//	}
+
 		if(!flag){
 			$("#error_valid_url").show();
 			return false;

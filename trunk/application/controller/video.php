@@ -51,6 +51,13 @@
 			$this->assign("videoId", $_GET["videoId"]);
 			$this->assign("requiredFields", $this->loadErrorMessage('error.field.required'));
 		}
+		
+		function assignVideoThumbnails($video){
+			if($video){
+				$videoThumbnail = empty($video['thumbnails_path']) ? '' : $this->loadResources('image.upload.path').$video['thumbnails_path'];
+				$this->assign("videoThumbnail", $videoThumbnail);
+			}
+		}
 		/**
 		 * Load messages source for videosetting page
 		 * 
@@ -105,6 +112,7 @@
 				$this->assign('tag_', $strTags);
 				$this->assign('tcid', $tcid);
 				$this->assign('hiddenvideo',$videoid);
+				$this->assignVideoThumbnails($video);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_videosetting');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -208,6 +216,7 @@
 				$this->assign("checkedAlbums",$str);
 				$this->assign("video",$video['video_title']);
 				$this->assign("albums",$albums);
+				$this->assignVideoThumbnails($video);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_addtopage');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -239,6 +248,7 @@
 				$this->assign("checkedAlbums",$albumid);
 				$this->assign("video",$video['video_title']);
 				$this->assign("albums",$albums);
+				$this->assignVideoThumbnails($video);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_addtopage');
 			}
 		}
@@ -282,6 +292,7 @@
 				$this->assign("getpostRoll",$video2[post_roll]);
 				$this->assign("videoid",$videoid);
 				$this->assign("video",$video[video_title]);
+				$this->assignVideoThumbnails($video2);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_preandpostroll');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -299,6 +310,7 @@
 				$this->assign("getpostRoll",$video2[post_roll]);
 				$this->assign("video",$video[video_title]);
 				$this->assign("videoid",$videoid);
+				$this->assignVideoThumbnails($video2);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_preandpostroll');
 			}
 		}
@@ -348,6 +360,7 @@
 				$user = $model_user->getUserByUserId(array($userId));
 				$this->assign('user_alias', $user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']);
 				$this->assign('video_alias', $video['video_alias']);
+				$this->assignVideoThumbnails($video);
 				$this->assign('videoId', $video['video_id']);
 				$this->assign('videoTitle', $video['video_title']);
 				$this->assign("domain", BASE_PATH . CONTEXT);
@@ -379,6 +392,7 @@
 				$this->assign('videoId', $videoId);
 				$this->assign("domain", BASE_PATH . CONTEXT);
 				$this->assign('video_alias', $video['video_alias']);
+				$this->assignVideoThumbnails($video);
 				$this->assign('videoTitle', $video['video_title']);
 				
 				if((!$errorFlag) && ((!$video) || ($video['user_id'] != $userId))){
@@ -460,12 +474,14 @@
 				}
 				
 				$video = $model_video->getVideoById($videoId);
+			
 				if((!$video) || ($video['user_id'] != $userId)){
 					$this->redirect($this->ctx() . '/user/video/');
 					return;
 				}
 				
 				$this->assign('videoTitle', $video['video_title']);
+				$this->assignVideoThumbnails($video);
 				$this->assign('upId', uniqid());
 				
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_file');
@@ -483,7 +499,7 @@
 					echo json_encode($ret);
 					return;
 				}
-				
+				$this->assignVideoThumbnails($video);
 				if($_FILES['video']['error'] > 0)
 				{
 					echo $_FILES['video']['error'];
@@ -577,6 +593,7 @@
 				$this->assign("fullname",$fullname['full_name']);
 				$this->assign("video",$video);
 				$this->assign("videoid",$id);
+				
 				
 				$start = $video['creation_date'];
 				$now =  mktime(date("H"), date("i"),date("s"), date("m"), date("d"), date("Y"));
