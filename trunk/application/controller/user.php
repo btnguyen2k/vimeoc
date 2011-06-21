@@ -575,9 +575,7 @@
 						$this->redirect($this->ctx().'/user/video/');
 					}
 					$videos = $model_video->selectVideoByUserId($userId, $limit, $offset, $_search_term, $sort_column, $sort_order);
-					//var_dump($videos);
-					//paging
-					//$video_count = 30;
+
 					$adjacents = 2;
 					$targetpage = $_SERVER['REDIRECT_URL'];
 					if(!($targetpage[strlen($targetpage) - 1] == '/')){
@@ -593,7 +591,6 @@
 					
 					/* 
 						Now we apply our rules and draw the pagination object. 
-						We're actually saving the code to a variable in case we want to draw it more than once.
 					*/
 					$pagination = "";
 					if($lastpage > 1)
@@ -692,7 +689,6 @@
 					$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
 					$video['album'] = $model_album->selectAlbumByVideoId($video['id']);
 					$video['tag'] = $model_tag->selectTagByVideoId($video['id']);
-					//krumo($video);
 				}
 			}
 			
@@ -707,8 +703,7 @@
 			$this->assign('page_size', $_page_size);
 			$this->assign('search_term', $_search_term);
 			$this->assign('page', $page);
-			
-			//var_dump($_SERVER);
+
 			$this->userVideoMessagesSource();
 			$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_video');
 		}
@@ -888,9 +883,7 @@
 						$this->redirect($this->ctx().'/user/album/');
 					}
 					$albums = $model_album->selectAlbumsByUserId($userId, $limit, $offset, $_search_term, $sort_column, $sort_order);
-					//var_dump($videos);
-					//paging
-					//$video_count = 30;
+
 					$adjacents = 2;
 					$targetpage = $_SERVER['REDIRECT_URL'];
 					if(!($targetpage[strlen($targetpage) - 1] == '/')){
@@ -906,7 +899,6 @@
 					
 					/* 
 						Now we apply our rules and draw the pagination object. 
-						We're actually saving the code to a variable in case we want to draw it more than once.
 					*/
 					$pagination = "";
 					if($lastpage > 1)
@@ -993,24 +985,11 @@
 				$this->assign('message', 'No album');
 			}
 			
-			/*if(is_array($albums) && (count($albums) > 0)){
-				$this->loadModel('model_album');
-				$model_album = $this->model_album;
-				
-				$this->loadModel('model_tag');
-				$model_tag = $this->model_tag;
-				
-				foreach($videos as &$video){
-					$video['creation_date'] = date_format(new DateTime($video['creation_date']), 'U');
-					$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
-					$video['album'] = $model_album->selectAlbumByVideoId($video['id']);
-					$video['tag'] = $model_tag->selectTagByVideoId($video['id']);
-				}
-			}*/
-			
-			foreach($albums as &$album){
+			if(is_array($albums) && (count($albums) > 0)){
+				foreach($albums as &$album){
 					$album['thumbnail'] = empty($album['thumbnails_path']) ? $this->ctx() . '/images/icon-album.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $album['thumbnails_path']);
 				}
+			}
 			
 			$this->assign('albums', $albums);
 			$this->assign('pagination', $pagination);
@@ -1022,8 +1001,6 @@
 			$this->assign('search_term', $_search_term);
 			$this->assign('page', $page);
 			
-			//var_dump($_SERVER);
-			//$this->userVideoMessagesSource();
 			$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_album');
 		}
 	}
