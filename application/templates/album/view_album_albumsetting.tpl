@@ -14,13 +14,6 @@ function checkValidForm()
 	}	
 }
 </script>
-<div>
-	<:if $albumThumbnail != '':>
-		<img src="<:$ctx:><:$albumThumbnail:>" />
-	<:else:>
-		<img src="<:$ctx:>/images/icon-video.gif" width="100"/>
-	<:/if:>
-</div>
 <div id="album_albumsetting" class="album_page">
 	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
 	<div id="album_albumsetting_body" class="album_page_body">

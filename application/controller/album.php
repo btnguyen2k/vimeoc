@@ -40,9 +40,9 @@
 			}*/
 			if($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
-				$albumId = $_GET['id'];
+				$albumId = $_GET['albumId'];
 			}elseif($_SERVER['REQUEST_METHOD'] == 'POST'){
-				$albumId = $_POST['id'];
+				$albumId = $_POST['albumId'];
 			}
 			
 			if(!ctype_digit($albumId)){
@@ -320,12 +320,20 @@
 			
 			$this->assign('albumId', $albumId);
 			$this->assign('album_name', $album['album_name']);
+			$this->assign('show_user_avatar', 1);
 			
 			//var_dump($_SERVER);
 			//$this->userVideoMessagesSource();
 			//krumo($videos);
 			$this->indexMessagesSource();
 			$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_index');
+		}
+		
+		function assignAlbumThumbnails($album){
+			if($album){
+				$albumThumbnail = empty($album['thumbnails_path']) ? '' : $this->loadResources('image.upload.path').$album['thumbnails_path'];
+				$this->assign("albumThumbnail", $albumThumbnail);
+			}
 		}
 		
 		/**
@@ -351,6 +359,7 @@
 			$this->assign("menudeleteAlbum", $this->loadMessages('album.menu.delete.link'));
 			$this->assign("menubackAlbum", $this->loadMessages('album.menu.back.link'));
 			$this->assign("videoId", $_GET["videoId"]);
+			$this->assign("albumId", $_GET["albumId"]);
 		}
 		/**
 		 * Load defaul create new album page
@@ -429,6 +438,7 @@
 			{
 				$albumId=$_GET['albumId'];
 				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
+				$this->assignAlbumThumbnails($album);
 				$this->assign("albumId",$albumId);
 				$this->assign("description_",$album['description']);
 				$this->assign("title_",$album['album_name']);
@@ -441,10 +451,13 @@
 				$albumId=$_POST['albumid'];
 				$this->model_album->updateAlbumTileByAlbumId(array($albumName,$albumId));
 				$this->model_album->updateAlbumDescriptionByAlbumId(array($albumDescription,$albumId));
+				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
+				$this->assignAlbumThumbnails($album);
 				$this->assign('successMessage',$this->loadMessages('album.albumsetting.successful'));
 				$this->assign('description_',$albumDescription);
 				$this->assign('title_',$albumName);
 				$this->assign('albumId',$albumId);
+				$this->assign("albumThumbnail", $albumThumbnail);
 				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_albumsetting');
 			}
 		}
@@ -493,6 +506,7 @@
 				$this->assign("albumName",$album['album_name']);
 				$this->assign("albumId",$albumId);
 				$this->assign("videoThumbnails",$videoThumbnails);
+				$this->assignAlbumThumbnails($album);
 				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_albumthumbnail');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -507,11 +521,11 @@
 				}
 				$this->model_album->updateVideoThumbnailToAlbumThumbnail(array($radioChecked,$albumId));
 				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
-				$this->assign("albumThumbnail",$album['thumbnails_path']);
 				$this->assign("albumName",$album['album_name']);
 				$this->assign('albumId',$albumId);
 				$this->assign('succeesMessage',$this->loadMessages('album.albumthumbnail.success'));
 				$this->assign("videoThumbnails",$videoThumbnails);
+				$this->assignAlbumThumbnails($album);
 				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_albumthumbnail');
 			}
 			
@@ -551,6 +565,7 @@
 			{
 				$albumId=$_GET['albumId'];
 				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
+				$this->assignAlbumThumbnails($album);
 				$this->assign("albumName",$album['album_name']);
 				$this->assign("albumId",$albumId);
 				$this->assign("albumPassword",$album['password']);
@@ -562,6 +577,7 @@
 				$albumPassword=$_POST['password'];
 				$this->model_album->updatePasswordByUserIdandAlbumId(array($albumPassword,$albumId,$userId));
 				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
+				$this->assignAlbumThumbnails($album);
 				$this->assign("successMessage",$this->loadMessages('album.password.success'));
 				$this->assign("albumName",$album['album_name']);
 				$this->assign("albumPassword",$album['password']);
@@ -601,6 +617,7 @@
 			{
 				$albumId=$_GET['albumId'];
 				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
+				$this->assignAlbumThumbnails($album);
 				$this->assign("albumName",$album['album_name']);
 				$this->assign("albumId",$albumId);
 				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_deletealbum');
@@ -609,6 +626,7 @@
 			{
 				$albumId=$_POST['albumId'];
 				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
+				$this->assignAlbumThumbnails($album);
 				$this->assign("albumName",$album['album_name']);
 				$this->assign("albumId",$albumId);
 				$this->model_album->dropAlbumByAlbumId(array($albumId));
@@ -639,7 +657,7 @@
 			}
 			if($_SERVER['REQUEST_METHOD'] == 'GET'){
 				$error_flag = false;
-				$albumId = $_GET['id'];
+				$albumId = $_GET['albumId'];
 				
 				//validate album id
 				//$integer_reg = "/^[0-9]+\$/";
@@ -710,6 +728,7 @@
 					}
 				}
 				
+				$this->assignAlbumThumbnails($album);
 				$this->assign('videos', $videos);
 				$this->assign('sort_modes', $_sort_modes);
 				$this->assign('sort_mode', $sort_mode);
@@ -972,7 +991,7 @@
 					$this->assign('hint', $this->loadMessages('album.arrange.hint'));
 					$this->assign('title', $this->loadMessages('album.arrange.title'));
 					$this->assign('album_title', $album['album_name']);
-					
+					$this->assignAlbumThumbnails($album);
 					$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_arrange');
 				}
 			}
@@ -1032,6 +1051,7 @@
 				$this->assign('fullName', $fullName);
 				$this->assign("albumName",$album['album_name']);
 				$this->assign("albumId",$albumId);
+				$this->assignAlbumThumbnails($album);
 				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_albumcustomurl');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -1059,6 +1079,7 @@
 				$this->assign('fullName', $fullName);
 				$this->assign("albumName",$album['album_name']);
 				$this->assign("albumId",$albumId);
+				$this->assignAlbumThumbnails($album);
 				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_albumcustomurl');
 			}
 			

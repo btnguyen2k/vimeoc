@@ -1009,7 +1009,7 @@
 			}*/
 			
 			foreach($albums as &$album){
-					$album['thumbnail'] = empty($album['thumbnail']) ? $this->ctx() . '/images/icon-album.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $album['thumbnail']);
+					$album['thumbnail'] = empty($album['thumbnails_path']) ? $this->ctx() . '/images/icon-album.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $album['thumbnails_path']);
 				}
 			
 			$this->assign('albums', $albums);
