@@ -38,7 +38,7 @@
 				$album = $albumModel->getAlbumByAlbumAlias(array($albumAlias));
 				if($album != null && ($user['id'] == $album['user_id'])){
 					$_GET['albumId'] = $album['id']; 	
-					$controller = $this->getController('Album', $this->tmpl);
+					$controller = $this->getController('album', $this->tmpl);
 					$controller->index();
 				}else{
 					$this->redirect($this->ctx());
@@ -46,7 +46,7 @@
 			}else{
 				if($video != null && ($user['id'] == $video['user_id'])){
 					$_GET['videoId'] = $video['id']; 	
-					$controller = $this->getController('Video', $this->tmpl);
+					$controller = $this->getController('video', $this->tmpl);
 					$controller->videopage();
 				}else{
 					$this->redirect($this->ctx());
