@@ -39,6 +39,7 @@
 				if($album != null && ($user['id'] == $album['user_id'])){
 					$_GET['albumId'] = $album['id']; 	
 					$controller = $this->getController('album', $this->tmpl);
+					$controller->indexMessagesSource();
 					$controller->index();
 				}else{
 					$this->redirect($this->ctx());
@@ -47,6 +48,7 @@
 				if($video != null && ($user['id'] == $video['user_id'])){
 					$_GET['videoId'] = $video['id']; 	
 					$controller = $this->getController('video', $this->tmpl);
+					$controller->videopageMessagesSource();
 					$controller->videopage();
 				}else{
 					$this->redirect($this->ctx());
