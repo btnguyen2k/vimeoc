@@ -1,9 +1,9 @@
 <link href="<:$ctx:>/css/album_arrange.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="<:$ctx:>/script/album_arrange.js"></script>
-<div id="user_info" class="album_page">
+<div id="user_info" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
 	<br/><br/>
-	<div id="album_page_body" class="album_page_body">
+	<div id="album_page_body" class="page_body">
 		<center><h1><:$album_title:> - <:$title:></h1></center><br/>
 		<span id="error_message" class="red"><:$errorMessage:></span>
 		<span id="info_message" class="green"><:$successMessage:></span>
@@ -25,7 +25,7 @@
 		<:/foreach:>
 		</div>
 	</div>
-	<div id="user_info_help" class="user_page_help">
+	<div id="user_info_help" class="page_help">
 		Help?<div><:$hint:></div>
 	</div>
 </div>

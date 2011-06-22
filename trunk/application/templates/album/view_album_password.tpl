@@ -52,9 +52,9 @@ $(document).ready(function() {
 	}
 	
 </script>
-<div id="album_password" class="album_page">
+<div id="album_password" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
-	<div id="album_albumpassword_body" class="album_page_body">
+	<div id="album_albumpassword_body" class="page_body">
 		<center><h1><:$albumName:>-<:$name:></h1></center>
 		<:if $successMessage eq "":>
   			&nbsp;
@@ -83,7 +83,7 @@ $(document).ready(function() {
 			</fieldset>
 		</form>
 	</div>
-	<div id="user_info_help" class="user_page_help">
+	<div id="user_info_help" class="page_help">
 		Help?<div><:$hint:></div>
 	</div>
 </div>

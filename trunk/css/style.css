@@ -11,6 +11,10 @@ div.user_page div#user_menu, div.user_page div#video_menu {float: left; width: 2
 div.user_page div.user_page_body {float: left; width: 500px;}
 div.user_page div.user_page_help {float: right; padding-top: 50px; width: 200px;}
 
+div.page div#menu {float: left; width: 200px;}
+div.page div.page_body {float: left; width: 500px;}
+div.page div.page_help {float: right; padding-top: 50px; width: 200px;}
+
 div.video_page {}
 
 div.video_page div#video_menu {float: left; width: 200px;}

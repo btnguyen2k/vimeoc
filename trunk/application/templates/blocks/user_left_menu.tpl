@@ -1,4 +1,4 @@
-<div id="user_menu">
+<div id="menu">
 	<ul class="portrait">
 		<li>
 			<a href="<:$ctx:>/">

@@ -1,4 +1,4 @@
-<div id="video_menu">
+<div id="menu">
 	<:if $show_user_avatar != 1:>
 		<ul id="video_thumb">
 			<li>

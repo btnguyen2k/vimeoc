@@ -1,6 +1,6 @@
-<div id="album_delete" class="album_page">
+<div id="album_delete" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
-	<div id="album_albumdelete_body" class="album_page_body">
+	<div id="album_albumdelete_body" class="page_body">
 		<center><h1><:$albumName:>-<:$name:></h1></center>
 		<form action="<:$ctx:>/album/albumDelete/?albumId=<:$albumId:>" method="post" name="albumDelete" >
 			<fieldset>
@@ -21,7 +21,7 @@
 			</fieldset>
 		</form>
 	</div>
-	<div id="user_info_help" class="user_page_help">
+	<div id="user_info_help" class="page_help">
 		Help?<div><:$hint:></div>
 	</div>
 </div>	

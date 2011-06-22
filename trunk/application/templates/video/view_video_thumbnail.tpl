@@ -1,8 +1,8 @@
 <link href="<:$ctx:>/css/video_thumbnail.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="<:$ctx:>/script/video_thumbnail.js"></script>
-<div id="video_custom_url">
+<div id="video_custom_url" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
-	<div id="video_thumbnail_body">
+	<div id="video_thumbnail_body" class="page_body">
 		<center><h1><:$videoTitle:> - <:$title:></h1></center><br/>		
 		<span id="error_message" class="red"><:$errorMessage:></span>
 		<span id="info_message" class="green"><:$successMessage:></span>
@@ -31,7 +31,7 @@
 		</form>
 	</div>
 	
-	<div id="user_info_help" class="user_page_help">
+	<div id="user_info_help" class="page_help">
 		Help?<div><:$hint:></div>
 	</div>
 </div>

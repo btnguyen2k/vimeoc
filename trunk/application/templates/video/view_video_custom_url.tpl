@@ -3,9 +3,9 @@
 	invalid_url_message = '<:$message_invalid_url:>';
 </script>
 <script type="text/javascript" src="<:$ctx:>/script/video_custom_url.js"></script>
-<div id="video_custom_url" class="user_page">
+<div id="video_custom_url" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
-	<div id="video_custom_url_body" class="user_page_body">
+	<div id="video_custom_url_body" class="page_body">
 		<center><h1><:$videoTitle:> - <:$message_title:></h1></center><br/>		
 		<span id="error_message" class="red"><:$errorMessage:></span>
 		<span id="info_message" class="green"><:$successMessage:></span>
@@ -28,7 +28,7 @@
 		</form>
 	</div>
 	
-	<div id="user_info_help" class="user_page_help">
+	<div id="user_info_help" class="page_help">
 		Help?<div><:$message_url_hint:></div>
 	</div>
 </div>

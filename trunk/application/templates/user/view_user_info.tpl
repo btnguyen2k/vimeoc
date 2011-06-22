@@ -29,10 +29,10 @@
 	}
 </script>
 
-<div id="user_info" class="user_page">
+<div id="user_info" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/user_left_menu.tpl":>
 	
-	<div id="user_info_body" class="user_page_body">
+	<div id="user_info_body" class="page_body">
 		<center><h1><:$title:></h1></center><br/>
 		<span class="red"><:$errorMessage:></span>
 		<span class="green"><:$successMessage:></span>
@@ -65,7 +65,7 @@
 		</form>
 	</div>
 	
-	<div id="user_info_help" class="user_page_help">
+	<div id="user_info_help" class="page_help">
 		Help?<div><:$hint:></div>
 	</div>
 </div>

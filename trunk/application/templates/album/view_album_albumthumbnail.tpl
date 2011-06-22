@@ -1,8 +1,6 @@
-
-
-<div id="album_albumthumbnail" class="album_page">
+<div id="album_albumthumbnail" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
-	<div id="album_albumthumbnail_body" class="album_page_body">
+	<div id="album_albumthumbnail_body" class="page_body">
 		<center><h1><:$albumName:><:$name:></h1></center>
 			<:if $succeesMessage eq "":>
   				 &nbsp;
@@ -56,7 +54,7 @@
 			</fieldset>
 		</form>
 	</div>
-	<div id="user_info_help" class="user_page_help">
+	<div id="user_info_help" class="page_help">
 		Help?<div><:$hint:></div>
 	</div>
 </div>
