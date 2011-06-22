@@ -50,7 +50,6 @@
 					<li>
 						<input type="hidden" id="albumId" name="albumId" value="<:$albumId:>"/>
 						<input type="hidden" id="radioCheck" name="radioCheck" value=""/>
-						<input type="hidden" id=albumThumbnail" name=""
 					</li>
 					
 				</ul>

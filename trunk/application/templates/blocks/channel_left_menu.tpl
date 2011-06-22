@@ -15,10 +15,10 @@
 			<a href="#"><:$menuChannel:></a>
 		</li>
 		<li>
-			<a href="<:$ctx:>/channel/createNewChannel/"><:$menuchannelcreate:></a>
+			<a href="<:$ctx:>/channel/createNewChannel/?channelId=<:$channelId:>"><:$menuchannelcreate:></a>
 		</li>
 		<li>
-			<a href="#"><:$menuchannelsetting:></a>
+			<a href="<:$ctx:>/channel/channelsetting/?channelId=<:$channelId:>"><:$menuchannelsetting:></a>
 		</li>
 		<li>
 			<a href="#"><:$menuchannelthumbnail:></a>
@@ -30,7 +30,7 @@
 			<a href="#"><:$menuchannelarrange:></a>
 		</li>
 		<li>
-			<a href="#"><:$menuchanneldelete:></a>
+			<a href="<:$ctx:>/channel/channeldelete/?channelId=<:$channelId:>"><:$menuchanneldelete:></a>
 		</li>
 		<li>
 			<a href="#"/><:$menuBackToChannel:></a>

@@ -137,7 +137,53 @@
 			}
 			
 		}
+		/**
+		 * Load defaul channel delete page
+		 * 
+		 */
+		function channelDeleteMessagesSource()
+		{
+			$this->defaultChannelMessagesSource();
+			
+			$this->assign("name", $this->loadMessages('channel.delete.name'));
+			$this->assign('question', $this->loadMessages('channel.delete.question'));
+			$this->assign('hint', $this->loadMessages('channel.delete.hint'));
+			
+			$this->assign('errorDescription', $this->loadErrorMessage('error.channel.create.description'));
+		}
 		
+		/**
+		 * Load defaul and action for channel delete page
+		 * 
+		 */
+		function channelDelete()
+		{
+			$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			$this->loadModel('model_channel');
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
+			{
+				$channelId=$_GET['channelId'];
+				$channel = $this->model_channel->getChannelbyChannelId(array($channelId));
+				$this->assign("channelId",$channelId);
+				$this->assign("title",$channel['channel_name']);
+				$this->loadTemplate(CHANNEL_TEMPLATE_DIR.'view_channel_channeldelete');
+			}
+			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$channelId=$_POST['channelId'];
+				$channel = $this->model_channel->getChannelbyChannelId(array($channelId));
+				$this->assign("channelId",$channelId);
+				$this->assign("title",$channel['channel_name']);
+				$this->model_channel->dropChannelByChannelId(array($channelId));
+				$this->model_channel->dropChannelVideoByChannelId(array($channelId));
+				$this->redirect($this->ctx().'/user/album/albumsetting');
+			}
+		}
 		
 	}
 

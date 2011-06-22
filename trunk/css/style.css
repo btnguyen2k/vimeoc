@@ -21,6 +21,11 @@ div.album_page {}
 div.album_page div#album_menu {float: left; width: 200px;}
 div.album_page div.album_page_body {float: left; width: 500px;}
 
+div.channel_page {}
+
+div.channel_page div#channel_menu {float: left; width: 200px;}
+div.channel_page div.channel_page_body {float: left; width: 500px;}
+
 /*iframe*/
 #upload_frame {border:0px; height:40px; width:400px; display:none;}
 
