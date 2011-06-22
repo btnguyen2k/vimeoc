@@ -1,9 +1,8 @@
 <link href="<:$ctx:>/css/user_album.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="<:$ctx:>/script/user_album.js"></script>
-<div id="user_info" class="user_page">
+<div id="user_info" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/user_left_menu.tpl":>
-	<br/><br/>
-	<div id="user_album_body" class="user_page_body">
+	<div id="user_album_body" class="page_body">
 		<center><h1><:$user_fullname:><:$title:></h1></center><br/>
 		<form id="search_form" name="search_from" action="<:$ctx:>/user/album/" method="GET">
 			<select id="sort" name="sort">
@@ -33,7 +32,7 @@
 			<a href="<:$ctx:>/album/createnewalbum/">Create new album</a>
 		</p>
 	</div>
-	<div id="user_info_help" class="">
+	<div id="user_info_help" class="page_help">
 		Help?<div><:$hint:></div>
 	</div>
 </div>

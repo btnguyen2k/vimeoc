@@ -1,9 +1,9 @@
 <link href="<:$ctx:>/css/user_video.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="<:$ctx:>/script/user_video.js"></script>
-<div id="user_info" class="user_page">
+<div id="user_info" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/user_left_menu.tpl":>
-	<br/><br/>
-	<div id="user_video_body" class="user_page_body">
+	<div id="user_video_body" class="page_body">
+		<center><h1><:$user_fullname:>'s <:$title:></h1></center><br/>
 		<form id="search_form" name="search_from" action="<:$ctx:>/user/video/">
 		<select id="mode" name="mode">
 			<:foreach from=$display_modes key=k item=v:>
@@ -45,5 +45,8 @@
 		<:/if:>
 		<:$message:>
 		<:$pagination:>
+	</div>
+	<div id="user_info_help" class="page_help">
+		Help?<div><:$hint:></div>
 	</div>
 </div>

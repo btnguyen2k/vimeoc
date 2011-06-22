@@ -1,7 +1,7 @@
-<div id="user_info" class="album_page">
+<div id="user_info" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
 	<br/><br/>
-	<div id="user_video_body" class="album_page_body">
+	<div id="user_video_body" class="page_body">
 		<center><h1><:$title:></h1></center><br/>
 		<form id="album_password_form" name="album_password_form" action="" method="POST">
 			<center>
@@ -12,7 +12,5 @@
 				<span id="info_message" class="green"><:$successMessage:></span>
 			</center>
 		</form>
-		
-	</div>
 	</div>
 </div>

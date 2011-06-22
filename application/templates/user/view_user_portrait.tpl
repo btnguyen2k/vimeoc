@@ -38,10 +38,10 @@
 		});
 	});
 </script>
-<div id="user_portrait" class="user_page">
+<div id="user_portrait" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/user_left_menu.tpl":>
 	
-	<div id="user_portrait_body" class="user_page_body">
+	<div id="user_portrait_body" class="page_body">
 		<center><h1><:$title:></h1></center><br/>		
 		<span class="red" id="top_error"><:$errorMessage:></span>
 		<span class="green" id="top_success"><:$successMessage:></span>
@@ -73,7 +73,7 @@
 		<iframe id="upload_frame" name="upload_frame" frameborder="0" border="0" src="" scrolling="no" scrollbar="no" style="display: none;"> </iframe>
 	</div>
 	
-	<div id="user_info_help" class="user_page_help">
+	<div id="user_info_help" class="page_help">
 		Help?<div><:$hint:></div>
 	</div>
 </div>

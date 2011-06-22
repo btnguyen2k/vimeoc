@@ -14,9 +14,9 @@
 		}
 	}
 </script>
-<div id="album_createnewalbum" class="album_page">
+<div id="album_createnewalbum" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
-	<div id="album_createnewalbum_body" class="album_page_body">
+	<div id="album_createnewalbum_body" class="page_body">
 		<center><h1><:$name:></h1></center>
 		<div>
 			<br/>
@@ -50,7 +50,7 @@
 			</fieldset>
 		</form>
 	</div>
-		<div id="user_info_help" class="user_page_help">
+		<div id="user_info_help" class="page_help">
 		Help?<div><:$hint:></div>
 	</div>
 </div>

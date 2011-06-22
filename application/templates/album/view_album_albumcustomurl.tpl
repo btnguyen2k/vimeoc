@@ -18,9 +18,9 @@
 
 </script>
 
-<div id="album_customURL" class="album_page">
+<div id="album_customURL" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
-	<div id="album_albumcustomURL_body" class="album_page_body">
+	<div id="album_albumcustomURL_body" class="page_body">
 		<center><h1><:$albumName:><:$title:></h1></center>
 			<:if $successMessage eq "":>
   				 &nbsp;
@@ -59,7 +59,7 @@
 			</fieldset>
 		</form>
 	</div>
-	<div id="user_info_help" class="user_page_help">
+	<div id="user_info_help" class="page_help">
 		Help?<div><:$hint:></div>
 	</div>
 </div>

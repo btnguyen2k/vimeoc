@@ -11,9 +11,9 @@ function confirmAction() {
     }
   }
 </script>
-<div id="video_page" class="user_page">
+<div id="video_page" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
-	<div id="video_page_body" class="user_page_body">
+	<div id="video_page_body" class="page_body">
 		<center><h1><:$title:></h1></center><br/>
 		<form action="<:$ctx:>/video/videopage/" id="form" method="post">
 			<div>
@@ -33,7 +33,7 @@ function confirmAction() {
 		</form>		
 	</div>
 	
-	<div id="user_info_help" class="user_page_help">
+	<div id="user_info_help" class="page_help">
 		Help?<div><:$message_url_hint:></div>
 	</div>
 </div>
