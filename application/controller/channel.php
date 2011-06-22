@@ -184,7 +184,68 @@
 				$this->redirect($this->ctx().'/user/album/albumsetting');
 			}
 		}
+		/**
+		 * Load defaul channel Thumbnail page
+		 * 
+		 */
 		
+		function channelThumbnailMessagesSource()
+		{
+			$this->defaultChannelMessagesSource();
+			
+			$this->assign("name", $this->loadMessages('channel.thumbnail.name'));
+			$this->assign("choose", $this->loadMessages('channel.thumbnail.choose'));
+			$this->assign('hint', $this->loadMessages('channel.thumbnail.hint'));
+			
+		}
+		/**
+		 * Load and action channel Thumbnail page
+		 */
+		
+		function channelThumbnail()
+		{
+			$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			$this->loadModel('model_channel');
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
+			{
+				$channelId=$_GET['channelId'];
+				$videoThumbnails=$this->model_channel->getVideoThumbnailsByChannelId(array($channelId,$userId));
+				$channel = $this->model_channel->getChannelbyChannelId(array($channelId));
+				$res=$this->model_channel->getVideoIdByChannelId(array($channelId));
+				if($res==0)
+				{
+					$this->assign('error', $this->loadErrorMessage('error.albumthumbnail.error'));
+				}
+				$this->assign("channelThumbnail",$channel['thumbnails_path']);
+				$this->assign("channelId",$channelId);
+				$this->assign("channelName",$channel['channel_name']);
+				$this->assign("videoThumbnails",$videoThumbnails);
+				$this->loadTemplate(CHANNEL_TEMPLATE_DIR.'view_channel_channelthumbnail');
+			}
+			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$channelId=$_POST['channelId'];
+				$radioChecked=$_POST['videoThumbnail'];
+				$videoThumbnails=$this->model_channel->getVideoThumbnailsByChannelId(array($channelId,$userId));
+				$res=$this->model_channel->getVideoIdByChannelId(array($channelId));
+				if($res==0)
+				{
+					$this->assign('error', $this->loadErrorMessage('error.albumthumbnail.error'));
+				}
+				$this->model_channel->updateVideoThumbnailToChannelThumbnail(array($radioChecked,$channelId));
+				$channel = $this->model_channel->getChannelbyChannelId(array($channelId));
+				$this->assign("channelId",$channelId);
+				$this->assign("channelName",$channel['channel_name']);
+				$this->assign('succeesMessage',$this->loadMessages('channel.thumbnail.success'));
+				$this->assign("videoThumbnails",$videoThumbnails);
+				$this->loadTemplate(CHANNEL_TEMPLATE_DIR.'view_channel_channelthumbnail');
+			}
+		}
 	}
 
 ?>

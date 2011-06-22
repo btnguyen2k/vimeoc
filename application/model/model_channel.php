@@ -83,5 +83,40 @@
 			$types = array('integer');
 			$this->execute_command($sql, $params, $types);
 		}
+		/**
+		 * get video id by channelId
+		 * @param params
+		 */
+		function getVideoIdByChannelId($params)
+		{
+			$sql= 'select id from video v inner join channel_video cv on v.id=cv.video_id
+			where cv.channel_id=?';
+			$types =  array('text','integer');
+			$res = $this->execute_query($sql,$params,$types);
+			return sizeof($res) > 0;
+		}
+		/**
+		 * get video thumbnails by channelid 
+		 */
+		
+		function getVideoThumbnailsByChannelId($params)
+		{					
+			$sql = 'select * from video v inner join channel_video cv on v.id=cv.video_id 
+			where cv.channel_id=? and v.user_id=?';
+			$types = array('integer','integer');
+			$res = $this->execute_query($sql,$params,$types);		
+			return $res;
+		}
+		/**
+		 * update video.thumbnail to album.thumbnail
+		 * @param params
+		 */
+		
+		function updateVideoThumbnailToChannelThumbnail($params)
+		{
+			$sql = 'Update channel Set thumbnails_path=? where id=? ';
+			$types= array('text','integer');
+			$res = $this->execute_command($sql,$params,$types);
+		}
 	}
 ?>
