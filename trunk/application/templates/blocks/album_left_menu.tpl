@@ -24,14 +24,14 @@
 	</ul>
 	<:/if:>
 	<ul>
-		<:if $show_user_avatar != 1:>
+		<:if $create_album != 1:>
 		<li>
 			<a href="<:$ctx:>/album/createNewAlbum/"><:$createNewAlbum:></a>
 		</li>
-		<:/if:>
 		<li>
 			<a href="<:$ctx:>/album/albumsetting/?albumId=<:$albumId:>"><:$menubasicinfoAlbum:></a>
 		</li>
+		<:/if:>
 		<:if $show_user_avatar != 1:>
 		<li>
 			<a href="<:$ctx:>/album/albumthumbnail/?albumId=<:$albumId:>"><:$menuthumbnailAlbum:></a>
@@ -49,9 +49,11 @@
 			<a href="<:$ctx:>/album/albumDelete/?albumId=<:$albumId:>"><:$menudeleteAlbum:></a>
 		</li>
 		<:/if:>
+		<:if $create_album != 1:>
 		<li>
 			<a href="<:$ctx:>/album/?albumId=<:$albumId:>"/><:$menubackAlbum:></a>
 		</li>
+		<:/if:>
 		<li>
 			<a href="<:$ctx:>/user/album/"><:$menuMyAlbum:></a>
 		</li>
