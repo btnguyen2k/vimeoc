@@ -613,7 +613,7 @@
 					else 
 						$strDate.= $diff['days']. 'days ' . $diff['hours'] . 'hours';					
 				}
-				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->ctx(). $this->loadResources('image.upload.path') . $video['thumbnails_path']) : ($this->ctx() . '/images/icon-video.gif'));
+				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->loadResources('image.upload.path') . $video['thumbnails_path']) : ($this->ctx() . '/images/icon-video.gif'));
 				$this->assign("days",$strDate);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_videopage');
 			}
@@ -624,6 +624,8 @@
 				if($res["user_id"]==$userId)
 				{
 					$this->model_video->dropVideoByVideoId(array($id));
+					$this->redirect($this->ctx().'/user/video/');
+					return;
 				}
 			
 				$videos=$this->model_video->getVideofromVideoId(array($id));
@@ -668,7 +670,7 @@
 				}
 				$this->assign('videoId', $video['video_id']);
 				$this->assign('videoTitle', $video['video_title']);
-				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->ctx(). $this->loadResources('image.upload.path') . $video['thumbnails_path']) : ($this->ctx() . '/images/icon-video.gif'));
+				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->loadResources('image.upload.path') . $video['thumbnails_path']) : ($this->ctx() . '/images/icon-video.gif'));
 				$this->assign('upId', uniqid());
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_thumbnail');
 			}elseif ($_SERVER['REQUEST_METHOD'] == 'POST'){
