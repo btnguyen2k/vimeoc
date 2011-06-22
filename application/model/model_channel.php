@@ -62,5 +62,26 @@
 			$types= array('text','integer');
 			$res = $this->execute_command($sql,$params,$types);
 		}
+		/**
+		 * delete  from channel by channelId
+		 * @param params
+		 */
+		function dropChannelByChannelId($params)
+		{
+			$sql = 'delete from channel where id=?';
+			$types = array('integer');
+			$this->execute_command($sql, $params, $types);
+		}
+		
+		/**
+		 * delete  from album by albumId
+		 * @param params
+		 */
+		function dropChannelVideoByChannelId($params)
+		{
+			$sql = 'delete from channel_video where channel_id=?';
+			$types = array('integer');
+			$this->execute_command($sql, $params, $types);
+		}
 	}
 ?>
