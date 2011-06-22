@@ -364,6 +364,7 @@
 			
 			$this->assign('errorDescription', $this->loadErrorMessage('error.album.create.description'));
 			$this->assign('show_user_avatar', 1);
+			$this->assign('create_album', 1);
 		}
 		/**
 		 * Load and action create new album 
