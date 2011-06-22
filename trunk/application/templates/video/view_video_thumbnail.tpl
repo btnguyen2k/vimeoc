@@ -11,7 +11,7 @@
 				<ul>
 					<li>
 						<span><:$currentThumbnail:></span><br/>
-						<img id="thumbnail" src="<:$videoThumbnail:>"></img>
+						<img id="thumbnail" src="<:$ctx:>/<:$videoThumbnail:>"></img>
 						<input type="hidden" id="videoId" name="videoId" value="<:$videoId:>"></input>
 					</li>
 					<li>

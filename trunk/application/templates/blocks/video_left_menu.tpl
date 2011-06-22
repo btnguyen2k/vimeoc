@@ -1,15 +1,13 @@
 <div id="menu">
-	<:if $show_user_avatar != 1:>
-		<ul id="video_thumb">
-			<li>
-				<:if $videoThumbnail != '':>
-					<img src="<:$ctx:><:$videoThumbnail:>" width="100"/>
-				<:else:>
-					<img src="<:$ctx:>/images/icon-video.gif" width="100"/>
-				<:/if:>
-			</li>
-		</ul>
-	<:/if:>
+	<ul id="video_thumb">
+		<li>
+			<:if $videoThumbnail != '':>
+				<img src="<:$ctx:><:$videoThumbnail:>" width="100"/>
+			<:else:>
+				<img src="<:$ctx:>/images/icon-video.gif" width="100"/>
+			<:/if:>
+		</li>
+	</ul>
 	<ul>
 		<li>
 			<a href="<:$ctx:>/video/videosetting/?videoId=<:$videoId:>"><:$videobasicinfo:></a>

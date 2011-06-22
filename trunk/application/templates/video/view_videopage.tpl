@@ -18,7 +18,7 @@ function confirmAction() {
 		<form action="<:$ctx:>/video/videopage/" id="form" method="post">
 			<div>
 				<div style="float: left">
-						<img src="<:$videoThumbnail:>" />
+						<img src="<:$ctx:>/<:$videoThumbnail:>" />
 				</div>
 				<div style="float: left">
 					<p><a href="<:$ctx:>/video/videosetting/?videoId=<:$videoid:>">[Setting]</a><a href="<:$ctx:>/auth/Delete" onclick="return confirmAction()">[Delete]</a></p>
