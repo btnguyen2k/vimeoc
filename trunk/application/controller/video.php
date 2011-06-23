@@ -232,20 +232,24 @@
 				$mAlbumId = split(',', $albumid);
 				$albumUncheck = $_POST["albumUncheck"];
 				$mAlbumUncheck = split(',', $albumUncheck);
+				
 				for($j=0;$j<sizeof($mAlbumUncheck);$j++)
 				{
-					$this->model_video->dropAlbumIdAndVideoId(array($mAlbumUncheck[$j],$videoid));
+					$this->model_video->dropAlbumIdAndVideoId(array($mAlbumUncheck[$j],$videoid));				
 				}
 				for($i=0;$i<sizeof($mAlbumId);$i++)
 				{
-					if ($this->model_video->isExist(array($mAlbumId[$i],$videoid)) == true)
+					if($mAlbumId[$i]!="")
 					{
-						$this->assign("errorMessage", $this->loadMessages('video.addtopage.error'));
-					}
-					else 
-					{
-						$this->model_video->addVideoToAlBum(array($mAlbumId[$i],$videoid));
-						$this->assign('successMessage', $this->loadMessages('video.addtopage.successful'));
+						if ($this->model_video->isExist(array($mAlbumId[$i],$videoid)) == true)
+						{
+							$this->assign("errorMessage", $this->loadMessages('video.addtopage.error'));
+						}
+						else 
+						{
+							$this->model_video->addVideoToAlBum(array($mAlbumId[$i],$videoid));
+							$this->assign('successMessage', $this->loadMessages('video.addtopage.successful'));
+						}
 					}
 				}
 				$albums= $this->model_video->getAlbumByUserId(array($userId));
