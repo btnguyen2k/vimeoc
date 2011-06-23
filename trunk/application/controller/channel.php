@@ -231,18 +231,19 @@
 			{
 				$channelId=$_POST['channelId'];
 				$radioChecked=$_POST['videoThumbnail'];
+				$this->model_channel->updateVideoThumbnailToChannelThumbnail(array($radioChecked,$channelId));
 				$videoThumbnails=$this->model_channel->getVideoThumbnailsByChannelId(array($channelId,$userId));
 				$res=$this->model_channel->getVideoIdByChannelId(array($channelId));
 				if($res==0)
 				{
 					$this->assign('error', $this->loadErrorMessage('error.albumthumbnail.error'));
 				}
-				$this->model_channel->updateVideoThumbnailToChannelThumbnail(array($radioChecked,$channelId));
 				$channel = $this->model_channel->getChannelbyChannelId(array($channelId));
 				$this->assign("channelId",$channelId);
 				$this->assign("channelName",$channel['channel_name']);
 				$this->assign('succeesMessage',$this->loadMessages('channel.thumbnail.success'));
 				$this->assign("videoThumbnails",$videoThumbnails);
+				$this->assign("channelThumbnail",$channel['thumbnails_path']);
 				$this->loadTemplate(CHANNEL_TEMPLATE_DIR.'view_channel_channelthumbnail');
 			}
 		}

@@ -3,7 +3,7 @@
 		<ul id="channel_thumb">
 			<li>
 				<:if $channelThumbnail != '':>
-					<img src="<:$ctx:><:$channelThumbnail:>" width="100"/>
+					<img src="<:$ctx:>/images/upload/<:$channelThumbnail:>" width="100"/>
 				<:else:>
 					<img src="<:$ctx:>/images/icon-video.gif" width="100"/>
 				<:/if:>
