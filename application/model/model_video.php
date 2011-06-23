@@ -446,6 +446,28 @@
 			$this->execute_command($sql, $params, $types);
 		}
 		/**
+		 * delete tag
+		 * @param $params
+		 */
+		function deleteTagIdAndComponentId($params)
+		{
+			$sql = 'delete from tag_component where tag_id=? and component_id=?';
+			$types = array('integer', 'integer');
+			$this->execute_command($sql, $params, $types);
+		}
+		/**
+		 * delete all tags by videoid
+		 * @param params
+		 * 
+		 */
+		function deleteAllTagComponentsByVideoId($params)
+		{
+			$sql = 'delete from tag_component where component_type=1 and component_id=?';
+			$types = array('integer');
+			$this->execute_command($sql, $params, $types);
+		}
+		
+		/**
 		 * get tagname
 		 */
 		function getTagName($params)

@@ -124,6 +124,9 @@
 				$videoid=$_POST['videoid'];
 				$tagid=$_POST['tagid'];
 				$tcid=$_POST['tcid'];
+				
+				$this->model_video->deleteAllTagComponentsByVideoId(array($videoid));
+				
 				for($j=0;$j<sizeof($slipTag);$j++)
 				{				
 					if($slipTag[$j]!="")
@@ -133,16 +136,17 @@
 						{
 							$this->model_video->addTagName(array($slipTag[$j]));			
 							$tagNewId=$this->model_video->getTagIdByName(array($slipTag[$j]));
+							//$this->model_video->deleteTagIdAndComponentId(array($tagNewId[0]["id"],$videoid));
 							$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],"1",$videoid));
 						}
 						else 
 						{
-	
 							$tagNewId=$this->model_video->getTagIdByName(array($slipTag[$j]));
 							$res=$this->model_video->checkIdAndComponentId(array($tagNewId[0]["id"],$videoid));
 							if($res==0)
 							{
 								$this->assign('successMessage', $this->loadMessages('user.videosetting.updatesuccess'));
+								//$this->model_video->deleteTagIdAndComponentId(array($tagNewId[0]["id"],$videoid));
 								$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],'1',$videoid));
 							}
 							else 
@@ -151,7 +155,7 @@
 							}
 						}
 					}	
-				}		
+				}	
 				$updatetitle= $this->model_video->updateTitlebyId(array($videoTitle,$videoid));
 				$updatedescrition= $this->model_video->updateDescriptionbyId(array($description,$videoid));				
 				$tags=$this->model_video->getTagfromTagandTagcomponent(array($tcid));
@@ -167,6 +171,7 @@
 				$this->assign('title_', $video['video_title']);
 				$this->assign('description_', $video['description']);
 				$this->assign('tag_', $strTags);
+				$this->assignVideoThumbnails($video);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_videosetting');
 			}
 		}
