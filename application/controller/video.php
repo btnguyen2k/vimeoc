@@ -127,6 +127,7 @@
 				
 				$this->model_video->deleteAllTagComponentsByVideoId(array($videoid));
 				
+				
 				for($j=0;$j<sizeof($slipTag);$j++)
 				{				
 					if($slipTag[$j]!="")
@@ -590,6 +591,21 @@
 				$albums=$this->model_video->getAlbumByVideoIdAndUserId(array($id,$userId));
 				$tags=$this->model_video->getTagfromTagandTagcomponent(array($id));
 				$video=$this->model_video->getVideoByVideoId(array($id));
+				
+				$strTags="";
+				for($i=0;$i<sizeof($tags);$i++)
+				{
+					$strTags .= $tags[$i]['name'] . ',' ; 
+				}
+				$strTags = substr($strTags, 0, -1); 
+				
+				$strAlbums="";
+				for($i=0;$i<sizeof($albums);$i++)
+				{
+					$strAlbums .= $albums[$i]['album_name'] . ',' ; 
+				}
+				$strAlbums = substr($strAlbums, 0, -1); 
+				
 				$this->assign("tags",$tags);
 				$this->assign("play",$play['play_count']);
 				$this->assign("comment",$comment['comment_count']);
@@ -598,7 +614,8 @@
 				$this->assign("fullname",$fullname['full_name']);
 				$this->assign("video",$video);
 				$this->assign("videoid",$id);
-				
+				$this->assign("strTags",$strTags);
+				$this->assign("strAlbums",$strAlbums);
 				
 				$start = $video['creation_date'];
 				$now =  mktime(date("H"), date("i"),date("s"), date("m"), date("d"), date("Y"));
@@ -610,13 +627,13 @@
 					if($diff['days']==0)
 						if ($diff['hours']==0)
 							if ($diff['minutes']==0)
-								$strDate.= $diff['seconds'] . 'seconds';
+								$strDate.= $diff['seconds'] . ' seconds';
 							else 
-								$strDate.= $diff['minutes'] . 'minutes';
+								$strDate.= $diff['minutes'] . ' minutes';
 						else 
-							$strDate.= $diff['hours']. 'hours ' . $diff['minutes'] . 'minutes';
+							$strDate.= $diff['hours']. ' hours ' . $diff['minutes'] . ' minutes';
 					else 
-						$strDate.= $diff['days']. 'days ' . $diff['hours'] . 'hours';					
+						$strDate.= $diff['days']. ' days ' . $diff['hours'] . ' hours';					
 				}
 				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->loadResources('image.upload.path') . $video['thumbnails_path']) : ($this->ctx() . '/images/icon-video.gif'));
 				$this->assign("days",$strDate);

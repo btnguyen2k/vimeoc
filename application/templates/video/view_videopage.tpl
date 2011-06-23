@@ -24,8 +24,8 @@ function confirmAction() {
 					<p><a href="<:$ctx:>/video/videosetting/?videoId=<:$videoid:>">[Setting]</a><a href="<:$ctx:>/auth/Delete" onclick="return confirmAction()">[Delete]</a></p>
 					<p><:$days:> ago<:$by:>:<span class=blue><:$fullname:></span></p>
 					<p><:$play:><:$plays:>,<:$comment:><:$comments:>,<:$like:><:$likes:></p>
-					<p><:$tag:><:section name=a loop=$tags:><:$tags[a].name:>,<:/section:></p>
-					<p><:$albums:> <:section name=a loop=$album:><span class="blue"><:$album[a].album_name:>,</span><:/section:> </p>
+					<p><:$tag:><:$strTags:></p>
+					<p><:$albums:><:$strAlbums:> </p>
 					<input type="hidden" id="videoid" name="videoid" value="<:$videoid:>"/>
 					<input type="hidden" id="confirm" name="confirm" value=""/>
 				</div>
