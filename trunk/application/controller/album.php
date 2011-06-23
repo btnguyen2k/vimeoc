@@ -462,7 +462,6 @@
 			$this->assign("choose", $this->loadMessages('album.albumthumbnail.choose'));
 			$this->assign('hint', $this->loadMessages('album.albumthumbnail.hint'));
 			
-			
 		}
 		
 		/**

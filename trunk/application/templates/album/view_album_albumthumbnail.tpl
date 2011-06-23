@@ -1,14 +1,12 @@
-<div id="album_albumthumbnail" class="page">
+<div id="album_albumthumbnail" class="album_page">
 	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
-	<div id="album_albumthumbnail_body" class="page_body">
+	<div id="album_albumthumbnail_body" class="album_page_body">
 		<center><h1><:$albumName:><:$name:></h1></center>
 			<:if $succeesMessage eq "":>
   				 &nbsp;
 			<:else:>
    				<span class="green" align="center"><:$succeesMessage:></span>
-			<:/if:>
-			
-			
+			<:/if:>		
 		<form action="<:$ctx:>/album/albumThumbnail/?albumId=<:$albumId:>" method="post" name="albumThumbnail" >
 			<fieldset>
 				<ul>
@@ -25,7 +23,6 @@
   							 &nbsp;
   							 <input type="submit" value="Save" />
 						<:/if:>
-						
 					</li>
 					<li>
 						<:section name=a loop=$videoThumbnails:>
