@@ -1,31 +1,7 @@
 <link href="<:$ctx:>/css/user_video.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="<:$ctx:>/script/user_video.js"></script>
-<script type="text/javascript">
-	function addVideoToAlbum(params)
-	{
-		var videoId = params.name;
-		var albumId = params.id;
-		var videoChecked = params.checked;
-		$.ajax({
-			url : '<:$ctx:>/user/addVideoToAlbum/',
-			data: 'videoId='+videoId+'&albumId='+albumId+'&videoChecked='+videoChecked,
-			type: 'POST',
-			success: function(data){
-//				if(data == 1){
-//					
-//				}else{
-//					
-//				}
-			},
-			error: function(exp){
-				alert ("can't connected");
-				}
-		});
-	}	
-</script>
-
 <div id="user_info" class="page">
-	<:include file="<:$base_dir_templates:>/blocks/user_left_menu.tpl":>
+	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
 	<div id="user_video_body" class="page_body">
 		<center><h1><:$user_fullname:>'s <:$title:></h1></center><br/>
 		<form id="search_form" name="search_from" action="<:$ctx:>/user/video/">
@@ -46,8 +22,6 @@
 		</select>
 		<input type="text" id="term" name="term" value="<:$search_term:>"></option>
 		<input type="hidden" name="page" value="<:$page:>"></input>
-		<input type="hidden" name="albumid" value=""/>
-		<input type="hidden" name="videoid" value="" />
 		<input type="submit" value="Submit"></input>
 		</form>
 
@@ -62,9 +36,6 @@
 				like count: <:$v['like_count']:><br/>
 				album: <:foreach from=$v['album'] key=k1 item=v1:><a href="<:$ctx:>/album/?id=<:$v1['album_id']:>"><:$v1['album_name']:></a>, <:/foreach:><br/>
 				tag: <:foreach from=$v['tag'] key=k1 item=v1:><a href="<:$ctx:>/tag/<:$v1['tag_id']:>"><:$v1['tag_name']:></a>, <:/foreach:><br/><br/>
-				<:foreach from=$albums key=l item=a:>					
-					<input type="checkbox" id="<:$a['id']:>" name ="<:$v['id']:>" onclick="addVideoToAlbum(this)" <:foreach from=$v['album'] key=l1 item=va:><:if $va['album_id'] eq $a['id']:>checked='true'<:/if:><:/foreach:>><:$a['album_name']:></input><br/>
-				<:/foreach:>
 			<:/foreach:>
 		<:else:>
 			<:foreach from=$videos key=k item=v:>

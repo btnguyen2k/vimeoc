@@ -322,5 +322,20 @@
 			$res = $this->execute_query($sql,$params,$types);
 			return $res[0]['count'];
 		}
+		/**
+		 * check album bu userId
+		 * @param params
+		 */
+		function checkUserId($params)
+		{
+			$sql='select user_id from album where id=?';
+			$types =  array('integer','integer');
+			$res = $this->execute_query($sql,$params,$types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
+		}
 	}
 ?>
