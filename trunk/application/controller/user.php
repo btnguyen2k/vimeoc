@@ -692,6 +692,9 @@
 				}
 			}
 			
+			$albums= $this->model_video->getAlbumByUserId(array($userId));
+			
+			$this->assign('albums', $albums);
 			$this->assign('videos', $videos);
 			$this->assign('pagination', $pagination);
 			$this->assign('display_modes', $_display_modes);
@@ -703,10 +706,11 @@
 			$this->assign('page_size', $_page_size);
 			$this->assign('search_term', $_search_term);
 			$this->assign('page', $page);
-
+			
 			$this->userVideoMessagesSource();
 			$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_video');
 		}
+		
 		
 		/**
 		 * Default message sourse for upload video pages
@@ -991,6 +995,7 @@
 				}
 			}
 			
+			
 			$this->assign('albums', $albums);
 			$this->assign('pagination', $pagination);
 			$this->assign('sort_modes', $_sort_modes);
@@ -1002,6 +1007,45 @@
 			$this->assign('page', $page);
 			
 			$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_album');
+		}
+		/**
+		 *  ajax add video to album
+		 *  
+		 */
+		function addVideoToAlbum()
+		{
+			$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			$this->loadModel('model_video');
+			$this->loadModel('model_album');
+			if($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$albumId=$_POST['albumId'];
+				$videoId=$_POST['videoId'];
+				$checked=$_POST['videoChecked'];
+				$res=$this->model_video->checkUserId(array($videoId));
+				$res1=$this->model_album->checkUserId(array($albumId));
+				if($res['user_id']!=$userId || $res1['user_id']!=$userId)
+				{
+					echo false;
+				}
+				else 
+				{
+					if($checked == "true")
+					{
+						$this->model_video->addVideoToAlBum(array($albumId,$videoId));
+					}
+					else 
+					{
+						$this->model_video->dropAlbumIdAndVideoId(array($albumId,$videoId));
+					}
+					echo true;
+				}
+			}
 		}
 	}
 ?>
