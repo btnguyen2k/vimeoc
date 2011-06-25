@@ -514,6 +514,301 @@
 				$this->loadTemplate(CHANNEL_TEMPLATE_DIR.'view_channel_channelthumbnail');
 			}
 		}
+		
+		function assignChannelThumbnails($channel){
+			if($channel){
+				$channelThumbnail = empty($channel['thumbnails_path']) ? '' : $this->loadResources('image.upload.path').$channel['thumbnails_path'];
+				$this->assign("channelThumbnail", $channelThumbnail);
+			}
+		}
+		
+		/**
+		 * Load defaul arrange page
+		 * 
+		 */
+		function arrangeMessagesSource(){
+			$this->defaultChannelMessagesSource();
+		}
+		
+		/**
+		 * Load and action for arrange page
+		 * 
+		 */
+		
+		function arrange(){
+			$userId = $this->getLoggedUser();
+			if($userId == 0){
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			if($_SERVER['REQUEST_METHOD'] == 'GET'){
+				$error_flag = false;
+				$channelId = $_GET['channelId'];
+				
+				if(!ctype_digit($channelId)){
+					$error_flag = true;
+					$this->loadTemplate('view_404');
+					return;
+				}
+				
+
+				$this->loadModel('model_channel');
+				$model_channel = $this->model_channel;
+				$channel = $model_channel->getChannelbyChannelId(array($channelId));
+				
+				//validate channel owner
+				if(!$channel){
+					$error_flag = true;
+					$this->loadTemplate('view_404');
+					return;
+				}
+
+				if($channel['user_id'] != $userId){
+					$error_flag = true;
+					$this->loadTemplate('view_access_denied');
+					return;
+				}
+
+				
+				$this->loadModel('model_video');
+				$model_video = $this->model_video;
+				
+				$_sort_modes = array(
+					1 => 'Newest video first',
+					2 => 'Oldest video first',
+					3 => 'Most played',
+					4 => 'Most commented',
+					5 => 'Most liked',
+					6 => 'Alphabetical'
+				);
+				$_sort_columns = array(
+					1 => 'creation_date',
+					2 => 'creation_date',
+					3 => 'play_count',
+					4 => 'comment_count',
+					5 => 'like_count',
+					6 => 'video_title'
+				);
+				$_sort_orders = array(
+					1 => 'DESC',
+					2 => 'ASC',
+					3 => 'DESC',
+					4 => 'DESC',
+					5 => 'DESC',
+					6 => 'ASC'
+				);
+				
+				$default_sort_mode = 1;
+				$sort_mode = $channel['arrange'] ? $channel['arrange'] : $default_sort_mode;
+				$sort_column = $_sort_columns[$sort_mode];
+				$sort_order = $_sort_orders[$sort_mode];
+				
+				$videos = $model_video->selectVideoByChannelId($channelId, 5, 0, '', $sort_column, $sort_order);
+				
+				if(is_array($videos) && (count($videos) > 0)){
+					foreach($videos as &$video){
+						$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
+					}
+				}
+				
+				$this->assignChannelThumbnails($channel);
+				$this->assign('videos', $videos);
+				$this->assign('sort_modes', $_sort_modes);
+				$this->assign('sort_mode', $sort_mode);
+				$this->assign('channelId', $channelId);
+				$this->assign('hint', $this->loadMessages('channel.arrange.hint'));
+				$this->assign('title', $this->loadMessages('channel.arrange.title'));
+				$this->assign('channel_title', $channel['channel_name']);
+				
+				$this->loadTemplate(CHANNEL_TEMPLATE_DIR.'view_channel_arrange');
+			}elseif($_SERVER['REQUEST_METHOD'] == 'POST'){
+				if((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+					$channelId = $_POST['channelId'];
+
+					//validate channel id here
+
+					$this->loadModel('model_channel');
+					$model_channel = $this->model_channel;
+					$channel = $model_channel->getChannelbyChannelId(array($channelId));
+
+					//validate channel owner here
+
+					$this->loadModel('model_video');
+					$model_video = $this->model_video;
+					
+					$_sort_modes = array(
+						1 => 'Newest video first',
+						2 => 'Oldest video first',
+						3 => 'Most played',
+						4 => 'Most commented',
+						5 => 'Most liked',
+						6 => 'Alphabetical'
+					);
+					$_sort_columns = array(
+						1 => 'creation_date',
+						2 => 'creation_date',
+						3 => 'play_count',
+						4 => 'comment_count',
+						5 => 'like_count',
+						6 => 'video_title'
+					);
+					$_sort_orders = array(
+						1 => 'DESC',
+						2 => 'ASC',
+						3 => 'DESC',
+						4 => 'DESC',
+						5 => 'DESC',
+						6 => 'ASC'
+					);
+					
+					$default_sort_mode = 1;
+					$sort_mode = $_POST['sort'];
+					$sort_column = $_sort_columns[$sort_mode];
+					$sort_order = $_sort_orders[$sort_mode];
+					
+					$videos = $model_video->selectVideoByChannelId($channelId, 5, 0, '', $sort_column, $sort_order);
+					
+					if(is_array($videos) && (count($videos) > 0)){
+						foreach($videos as &$video){
+							$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
+						}
+					}
+					
+					$this->assign('videos', $videos);
+					$this->assign('sort_modes', $_sort_modes);
+					$this->assign('sort_mode', $sort_mode);
+					$this->assign('channel_id', $channelId);
+					
+					$return = '';
+
+					if(is_array($videos) && (count($videos) > 0)){
+						foreach($videos as &$video){
+							$return .= "
+							<a href=\"{$ctx}/video/videopage/?videoId={$video['id']}\"><img width=\"100\" src=\"{$video['thumbnails_path']}\" /></a><br/>
+							title: {$video['video_title']}<br/>
+							<div class=\"creation_date\">uploaded: <span class=\"relative_time\">{$video['creation_date']}</span></div><br/>";
+						}
+					}
+					
+					$doc = new DOMDocument('1.0');
+					$doc->formatOutput = true;
+					
+					$root = $doc->createElement('result');
+					$root = $doc->appendChild($root);
+					
+					$error = $doc->createElement('error');
+					$error = $root->appendChild($error);
+					
+					$error_code = $doc->createTextNode('0');
+					$error_code = $error->appendChild($error_code);
+					
+					$message = $doc->createElement('message');
+					$message = $root->appendChild($message);
+					
+					$message_content = $doc->createCDATASection($return);
+					$message_content = $message->appendChild($message_content);
+					
+					header("Content-Type:text/xml");
+					echo $doc->saveXML();
+				}else{
+					$error_flag = false;
+					$channelId = $_GET['channelId'];
+					
+					if(!ctype_digit($channelId)){
+						$error_flag = true;
+						$this->loadTemplate('view_404');
+						return;
+					}
+					
+
+					$this->loadModel('model_channel');
+					$model_channel = $this->model_channel;
+					$channel = $model_channel->getChannelbyChannelId(array($channelId));
+					
+					//validate channel owner
+					if(!$channel){
+						$error_flag = true;
+						$this->loadTemplate('view_404');
+						return;
+					}
+
+					if($channel['user_id'] != $userId){
+						$error_flag = true;
+						$this->loadTemplate('view_access_denied');
+						return;
+					}
+					
+					$this->loadModel('model_video');
+					$model_video = $this->model_video;
+					
+					$_sort_modes = array(
+						1 => 'Newest video first',
+						2 => 'Oldest video first',
+						3 => 'Most played',
+						4 => 'Most commented',
+						5 => 'Most liked',
+						6 => 'Alphabetical'
+					);
+					$_sort_columns = array(
+						1 => 'creation_date',
+						2 => 'creation_date',
+						3 => 'play_count',
+						4 => 'comment_count',
+						5 => 'like_count',
+						6 => 'video_title'
+					);
+					$_sort_orders = array(
+						1 => 'DESC',
+						2 => 'ASC',
+						3 => 'DESC',
+						4 => 'DESC',
+						5 => 'DESC',
+						6 => 'ASC'
+					);
+					
+					$default_sort_mode = 1;
+					$sort_mode = $_POST['sort'];
+
+					if($sort_mode != $channel['arrange']){
+						if(array_key_exists($sort_mode, $_sort_modes)){
+							if($model_channel->updateChannelArrangeByChannelId(array($sort_mode, $channelId))){
+								$this->assign('successMessage', $this->loadMessages('channel.arrange.success'));
+							}else{
+								$this->assign('errorMessage', 'a'.$this->loadErrorMessage('error.channel.arrange'));
+								$error_flag = true;
+							}
+						}else{
+							$this->assign('errorMessage', $this->loadErrorMessage('error.channel.arrange.invalid_sort_mode'));
+							$sort_mode = $channel['arrange'] ? $channel['arrange'] : $default_sort_mode;
+							$error_flag = true;
+						}
+					}else{
+						$this->assign('successMessage', $this->loadMessages('channel.arrange.success'));
+					}
+					
+					$sort_column = $_sort_columns[$sort_mode];
+					$sort_order = $_sort_orders[$sort_mode];
+					
+					$videos = $model_video->selectVideoByChannelId($channelId, 5, 0, '', $sort_column, $sort_order);
+					
+					if(is_array($videos) && (count($videos) > 0)){
+						foreach($videos as &$video){
+							$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
+						}
+					}
+					
+					$this->assign('videos', $videos);
+					$this->assign('sort_modes', $_sort_modes);
+					$this->assign('sort_mode', $sort_mode);
+					$this->assign('channel_id', $channelId);
+					$this->assign('hint', $this->loadMessages('channel.arrange.hint'));
+					$this->assign('title', $this->loadMessages('channel.arrange.title'));
+					$this->assign('channel_title', $channel['channel_name']);
+					$this->assignChannelThumbnails($channel);
+					$this->loadTemplate(CHANNEL_TEMPLATE_DIR.'view_channel_arrange');
+				}
+			}
+		}
 	}
 
 ?>

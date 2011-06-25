@@ -1,1 +1,1 @@
-ALTER TABLE `album` ADD `arrange` tinyint(2) NOT NULL;
+ALTER TABLE `album` ADD `arrange` tinyint(2) NULL;
