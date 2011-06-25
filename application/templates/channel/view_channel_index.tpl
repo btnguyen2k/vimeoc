@@ -1,11 +1,11 @@
-<link href="<:$ctx:>/css/album_index.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="<:$ctx:>/script/album_index.js"></script>
+<link href="<:$ctx:>/css/channel_index.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="<:$ctx:>/script/channel_index.js"></script>
 <div id="user_info" class="page">
-	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
+	<:include file="<:$base_dir_templates:>/blocks/channel_left_menu.tpl":>	
 	<br/><br/>
 	<div id="user_video_body" class="page_body">
-		<center><h1><:$title:> <:$album_name:></h1></center><br/>
-		<form id="search_form" name="search_from" action="<:$ctx:>/album/" method="GET">
+		<center><h1><:$title:> <:$channel_name:></h1></center><br/>
+		<form id="search_form" name="search_from" action="<:$ctx:>/channel/" method="GET">
 		<select id="mode" name="mode">
 			<:foreach from=$display_modes key=k item=v:>
 				<option <:if $k == $display_mode:>selected="selected"<:/if:> value="<:$k:>"><:$v:></option>
@@ -18,7 +18,7 @@
 		</select>
 		<input type="text" id="term" name="term" value="<:$search_term:>"></option>
 		<input type="hidden" name="page" value="<:$page:>"></input>
-		<input type="hidden" id="albumId" name="albumId" value="<:$albumId:>"></input>
+		<input type="hidden" id="channelId" name="channelId" value="<:$channelId:>"></input>
 		<input type="submit" name="search" value="Submit"></input>
 		</form>
 

@@ -153,8 +153,8 @@
 					$_search_term = $_search_obj->term ? $_search_obj->term : $_default_search_term;
 				}
 			}
-			$page = $_GET['page'] ? $_GET['page'] : 1;			
-			if(!is_numeric($page)){
+			$page = $_GET['page'] ? $_GET['page'] : '1';			
+			if(!ctype_digit($page)){
 				$this->redirect($this->ctx() . '/album/?id=' . $albumId);
 			}else{
 				$page = intval($page);
@@ -202,7 +202,7 @@
 						$pagination .= "<div class=\"pagination\">";
 						//previous button
 						if ($page > 1) 
-							$pagination.= "<a href=\"$targetpage?id=$albumId&page=$prev\">« Previous</a>";
+							$pagination.= "<a href=\"$targetpage?albumId=$albumId&page=$prev\">« Previous</a>";
 						else
 							$pagination.= "<span class=\"disabled\">« Previous</span>";	
 						
@@ -214,7 +214,7 @@
 								if ($counter == $page)
 									$pagination.= "<span class=\"current\">$counter</span>";
 								else
-									$pagination.= "<a href=\"$targetpage?id=$albumId&page=$counter\">$counter</a>";					
+									$pagination.= "<a href=\"$targetpage?albumId=$albumId&page=$counter\">$counter</a>";					
 							}
 						}
 						elseif($lastpage > 5 + ($adjacents * 2))	//enough pages to hide some
@@ -227,48 +227,48 @@
 									if ($counter == $page)
 										$pagination.= "<span class=\"current\">$counter</span>";
 									else
-										$pagination.= "<a href=\"$targetpage?id=$albumId&page=$counter\">$counter</a>";					
+										$pagination.= "<a href=\"$targetpage?albumId=$albumId&page=$counter\">$counter</a>";					
 								}
 								$pagination.= "...";
-								$pagination.= "<a href=\"$targetpage?id=$albumId&page=$lpm1\">$lpm1</a>";
-								$pagination.= "<a href=\"$targetpage?id=$albumId&page=$lastpage\">$lastpage</a>";		
+								$pagination.= "<a href=\"$targetpage?albumId=$albumId&page=$lpm1\">$lpm1</a>";
+								$pagination.= "<a href=\"$targetpage?albumId=$albumId&page=$lastpage\">$lastpage</a>";		
 							}
 							//in middle; hide some front and some back
 							elseif($lastpage - ($adjacents * 2) > $page && $page > ($adjacents * 2))
 							{
-								$pagination.= "<a href=\"$targetpage?id=$albumId&page=1\">1</a>";
-								$pagination.= "<a href=\"$targetpage?id=$albumId&page=2\">2</a>";
+								$pagination.= "<a href=\"$targetpage?albumId=$albumId&page=1\">1</a>";
+								$pagination.= "<a href=\"$targetpage?albumId=$albumId&page=2\">2</a>";
 								$pagination.= "...";
 								for ($counter = $page - $adjacents; $counter <= $page + $adjacents; $counter++)
 								{
 									if ($counter == $page)
 										$pagination.= "<span class=\"current\">$counter</span>";
 									else
-										$pagination.= "<a href=\"$targetpage?id=$albumId&page=$counter\">$counter</a>";					
+										$pagination.= "<a href=\"$targetpage?albumId=$albumId&page=$counter\">$counter</a>";					
 								}
 								$pagination.= "...";
-								$pagination.= "<a href=\"$targetpage?id=$albumId&page=$lpm1\">$lpm1</a>";
-								$pagination.= "<a href=\"$targetpage?id=$albumId&page=$lastpage\">$lastpage</a>";		
+								$pagination.= "<a href=\"$targetpage?albumId=$albumId&page=$lpm1\">$lpm1</a>";
+								$pagination.= "<a href=\"$targetpage?albumId=$albumId&page=$lastpage\">$lastpage</a>";		
 							}
 							//close to end; only hide early pages
 							else
 							{
-								$pagination.= "<a href=\"$targetpage?id=$albumId&page=1\">1</a>";
-								$pagination.= "<a href=\"$targetpage?id=$albumId&page=2\">2</a>";
+								$pagination.= "<a href=\"$targetpage?albumId=$albumId&page=1\">1</a>";
+								$pagination.= "<a href=\"$targetpage?albumId=$albumId&page=2\">2</a>";
 								$pagination.= "...";
 								for ($counter = $lastpage - (2 + ($adjacents * 2)); $counter <= $lastpage; $counter++)
 								{
 									if ($counter == $page)
 										$pagination.= "<span class=\"current\">$counter</span>";
 									else
-										$pagination.= "<a href=\"$targetpage?id=$albumId&page=$counter\">$counter</a>";					
+										$pagination.= "<a href=\"$targetpage?albumId=$albumId&page=$counter\">$counter</a>";					
 								}
 							}
 						}
 						
 						//next button
 						if ($page < $counter - 1){
-							$pagination.= "<a href=\"$targetpage?id=$albumId&page=$next\">Next »</a>";
+							$pagination.= "<a href=\"$targetpage?albumId=$albumId&page=$next\">Next »</a>";
 						}else{
 							$pagination.= "<span class=\"disabled\">Next »</span>";
 						}
@@ -722,7 +722,7 @@
 				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_arrange');
 			}elseif($_SERVER['REQUEST_METHOD'] == 'POST'){
 				if((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
-					$albumId = $_POST['id'];
+					$albumId = $_POST['albumId'];
 
 					//validate album id here
 
@@ -809,7 +809,7 @@
 					echo $doc->saveXML();
 				}else{
 					$error_flag = false;
-					$albumId = $_GET['id'];
+					$albumId = $_GET['albumId'];
 					
 					if(!ctype_digit($albumId)){
 						$error_flag = true;

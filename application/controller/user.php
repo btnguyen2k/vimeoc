@@ -68,6 +68,7 @@
 			$this->assign("menuUploadVideo", $this->loadMessages('user.menu.link.uploadVideo'));
 			$this->assign("menuVideos", $this->loadMessages('user.menu.link.videos'));
 			$this->assign("menuAlbums", $this->loadMessages('user.menu.link.albums'));
+			$this->assign("menuChannels", $this->loadMessages('user.menu.link.channels'));
 			$this->assign("menuPersonalInfo", $this->loadMessages('user.menu.link.personalInfo'));
 			$this->assign("menuPortrait", $this->loadMessages('user.menu.link.portrait'));
 			$this->assign("menuPassword", $this->loadMessages('user.menu.link.password'));
@@ -548,8 +549,8 @@
 					$_search_term = $_search_obj->term ? $_search_obj->term : $_default_search_term;
 				}
 			}
-			$page = $_GET['page'] ? $_GET['page'] : 1;			
-			if(!is_numeric($page)){
+			$page = $_GET['page'] ? $_GET['page'] : '1';			
+			if(!ctype_digit($page)){
 				$this->redirect($this->ctx().'/user/video/');
 			}else{
 				$page = intval($page);
@@ -861,8 +862,8 @@
 					$_search_term = $_search_obj->term ? $_search_obj->term : $_default_search_term;
 				}
 			}
-			$page = $_GET['page'] ? $_GET['page'] : 1;			
-			if(!is_numeric($page)){
+			$page = $_GET['page'] ? $_GET['page'] : '1';			
+			if(!ctype_digit($page)){
 				$this->redirect($this->ctx().'/user/album/');
 			}else{
 				$page = intval($page);
@@ -1116,8 +1117,8 @@
 					$_search_term = $_search_obj->term ? $_search_obj->term : $_default_search_term;
 				}
 			}
-			$page = $_GET['page'] ? $_GET['page'] : 1;			
-			if(!is_numeric($page)){
+			$page = $_GET['page'] ? $_GET['page'] : '1';			
+			if(!ctype_digit($page)){
 				$this->redirect($this->ctx().'/user/channel/');
 			}else{
 				$page = intval($page);

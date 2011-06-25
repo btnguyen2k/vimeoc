@@ -20,6 +20,9 @@
 		<li>
 			<a href="<:$ctx:>/user/album"><:$menuAlbums:></a>
 		</li>
+		<li>
+			<a href="<:$ctx:>/user/channel"><:$menuChannels:></a>
+		</li>
 	</ul>
 	<ul>
 		<li>

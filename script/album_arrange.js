@@ -21,7 +21,7 @@ $(document).ready(function(){
 		$.ajax({ 
 			type: "POST", 
 			url: $('#album_arrange_form').attr('action'), 
-			data: 'id=' + $('#id').val() + '&sort=' + $('#sort').val(), 
+			data: 'albumId=' + $('#albumId').val() + '&sort=' + $('#sort').val(), 
 			dataType: 'xml',
 			success: function(msg){
 				error = $(msg).find('result error').text();
