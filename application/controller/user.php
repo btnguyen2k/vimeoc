@@ -514,7 +514,7 @@
 			
 			$videos = array();
 			$pagination = '';
-			$_reset = $_GET['reset'];// reset all value for display
+			//$_reset = $_GET['reset'];// reset all value for display
 			if($_reset){
 				
 			}else{
@@ -833,9 +833,9 @@
 			$_default_page_size = 2;
 			$_default_search_term = '';
 			
-			$$albums = array();
+			$albums = array();
 			$pagination = '';
-			$_reset = $_GET['reset'];// reset all value for display
+			//$_reset = $_GET['reset'];// reset all value for display
 			if($_reset){
 				
 			}else{
@@ -1046,6 +1046,221 @@
 					echo true;
 				}
 			}
+		}
+		
+		function channelMessagesSource(){
+			$this->defaultUserMessagesSource();
+			$this->assign('title', $this->loadMessages('user.channel.title'));
+			$this->assign('hint', $this->loadMessages('user.channel.hint'));
+		}
+		
+		function channel(){
+			$userId = $this->getLoggedUser();
+			if($userId == 0){
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			
+			$_search_obj = unserialize($_SESSION['CHANNEL_SEARCH']);
+			
+			$_sort_modes = array(
+				1 => 'Newest',
+				2 => 'Oldest',
+				3 => 'Alphabetical'
+			);
+			$_sort_columns = array(
+				1 => 'creation_date',
+				2 => 'creation_date',
+				3 => 'channel_name'
+			);
+			$_sort_orders = array(
+				1 => 'DESC',
+				2 => 'ASC',
+				3 => 'ASC'
+			);
+			$_page_sizes = array(
+				1 => 'All',//all videos
+				2 => 2,
+				3 => 3,
+				4 => 50
+			);
+			$_default_sort_mode = 1;
+			$_default_page_size = 2;
+			$_default_search_term = '';
+			
+			$channels = array();
+			$pagination = '';
+			//$_reset = $_GET['reset'];// reset all value for display
+			if($_reset){
+				
+			}else{
+				if($_GET['sort']){
+					$_sort_mode = $_GET['sort'];
+					if(!in_array($_sort_mode, array_keys($_sort_modes), false)){
+						$_sort_mode = $_default_sort_mode;
+					}
+				}else{
+					$_sort_mode = $_search_obj->sort ? $_search_obj->sort : $_default_sort_mode;
+				}
+				if($_GET['psize']){
+					$_page_size = $_GET['psize'];
+					if(!in_array($_page_size, array_keys($_page_sizes), false)){
+						$_page_size = $_default_page_size;
+					}
+				}else{
+					$_page_size = $_search_obj->psize ? $_search_obj->psize : $_default_page_size;
+				}
+				if(in_array('term', array_keys($_GET))){
+					$_search_term = trim($_GET['term']);
+				}else{
+					$_search_term = $_search_obj->term ? $_search_obj->term : $_default_search_term;
+				}
+			}
+			$page = $_GET['page'] ? $_GET['page'] : 1;			
+			if(!is_numeric($page)){
+				$this->redirect($this->ctx().'/user/channel/');
+			}else{
+				$page = intval($page);
+			}
+			
+			$limit = is_int($_page_sizes[$_page_size]) ? $_page_sizes[$_page_size] : 0;
+			$offset = ($page - 1) * $limit;
+			$sort_column = $_sort_columns[$_sort_mode];
+			$sort_order = $_sort_orders[$_sort_mode];
+			
+			$_search_obj->sort = $_sort_mode;
+			$_search_obj->psize = $_page_size;
+			$_search_obj->term = $_search_term;
+			$_SESSION['CHANNEL_SEARCH'] = serialize($_search_obj);
+			
+			$this->loadModel('model_channel');
+			$model_channel = $this->model_channel;
+			$channel_count = $model_channel->countChannelByUserId($userId, $limit, $offset, $_search_term, $sort_column, $sort_order);
+			if($channel_count > 0){
+				if($limit > 0){
+					if($limit && ($page > ceil($channel_count / $limit))){
+						$this->redirect($this->ctx().'/user/channel/');
+					}
+					$channels = $model_channel->selectChannelsByUserId($userId, $limit, $offset, $_search_term, $sort_column, $sort_order);
+
+					$adjacents = 2;
+					$targetpage = $_SERVER['REDIRECT_URL'];
+					if(!($targetpage[strlen($targetpage) - 1] == '/')){
+						$targetpage .= '/';
+					}
+					if ($page == 0){
+						$page = 1;					//if no page var is given, default to 1.
+					}
+					$prev = $page - 1;							//previous page is page - 1
+					$next = $page + 1;							//next page is page + 1
+					$lastpage = ceil($channel_count / $limit);		//lastpage is = total pages / items per page, rounded up.
+					$lpm1 = $lastpage - 1;						//last page minus 1
+					
+					/* 
+						Now we apply our rules and draw the pagination object. 
+					*/
+					$pagination = "";
+					if($lastpage > 1)
+					{
+						$pagination .= "<div class=\"pagination\">";
+						//previous button
+						if ($page > 1) 
+							$pagination.= "<a href=\"$targetpage?page=$prev\">« Previous</a>";
+						else
+							$pagination.= "<span class=\"disabled\">« Previous</span>";	
+						
+						//pages	
+						if ($lastpage < 7 + ($adjacents * 2))	//not enough pages to bother breaking it up
+						{	
+							for ($counter = 1; $counter <= $lastpage; $counter++)
+							{
+								if ($counter == $page)
+									$pagination.= "<span class=\"current\">$counter</span>";
+								else
+									$pagination.= "<a href=\"$targetpage?page=$counter\">$counter</a>";					
+							}
+						}
+						elseif($lastpage > 5 + ($adjacents * 2))	//enough pages to hide some
+						{
+							//close to beginning; only hide later pages
+							if($page < 1 + ($adjacents * 2))		
+							{
+								for ($counter = 1; $counter < 4 + ($adjacents * 2); $counter++)
+								{
+									if ($counter == $page)
+										$pagination.= "<span class=\"current\">$counter</span>";
+									else
+										$pagination.= "<a href=\"$targetpage?page=$counter\">$counter</a>";					
+								}
+								$pagination.= "...";
+								$pagination.= "<a href=\"$targetpage?page=$lpm1\">$lpm1</a>";
+								$pagination.= "<a href=\"$targetpage?page=$lastpage\">$lastpage</a>";		
+							}
+							//in middle; hide some front and some back
+							elseif($lastpage - ($adjacents * 2) > $page && $page > ($adjacents * 2))
+							{
+								$pagination.= "<a href=\"$targetpage?page=1\">1</a>";
+								$pagination.= "<a href=\"$targetpage?page=2\">2</a>";
+								$pagination.= "...";
+								for ($counter = $page - $adjacents; $counter <= $page + $adjacents; $counter++)
+								{
+									if ($counter == $page)
+										$pagination.= "<span class=\"current\">$counter</span>";
+									else
+										$pagination.= "<a href=\"$targetpage?page=$counter\">$counter</a>";					
+								}
+								$pagination.= "...";
+								$pagination.= "<a href=\"$targetpage?page=$lpm1\">$lpm1</a>";
+								$pagination.= "<a href=\"$targetpage?page=$lastpage\">$lastpage</a>";		
+							}
+							//close to end; only hide early pages
+							else
+							{
+								$pagination.= "<a href=\"$targetpage?page=1\">1</a>";
+								$pagination.= "<a href=\"$targetpage?page=2\">2</a>";
+								$pagination.= "...";
+								for ($counter = $lastpage - (2 + ($adjacents * 2)); $counter <= $lastpage; $counter++)
+								{
+									if ($counter == $page)
+										$pagination.= "<span class=\"current\">$counter</span>";
+									else
+										$pagination.= "<a href=\"$targetpage?page=$counter\">$counter</a>";					
+								}
+							}
+						}
+						
+						//next button
+						if ($page < $counter - 1){
+							$pagination.= "<a href=\"$targetpage?page=$next\">Next »</a>";
+						}else{
+							$pagination.= "<span class=\"disabled\">Next »</span>";
+						}
+						$pagination.= "</div>\n";		
+					}
+				}else{
+					$channels = $model_channel->selectChannelsByUserId($userId, $limit, $offset, $_search_term, $sort_column, $sort_order);
+				}
+			}else{
+				$this->assign('message', 'No channel');
+			}
+			
+			if(is_array($channels) && (count($channels) > 0)){
+				foreach($channels as &$channel){
+					$channel['thumbnail'] = empty($channel['thumbnails_path']) ? $this->ctx() . '/images/channel.jpg' : ($this->ctx() . $this->loadResources('image.upload.path') . $channel['thumbnails_path']);
+				}
+			}
+			
+			$this->assign('channels', $channels);
+			$this->assign('pagination', $pagination);
+			$this->assign('sort_modes', $_sort_modes);
+			$this->assign('page_sizes', $_page_sizes);
+			
+			$this->assign('sort_mode', $_sort_mode);
+			$this->assign('page_size', $_page_size);
+			$this->assign('search_term', $_search_term);
+			$this->assign('page', $page);
+			
+			$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_channel');
 		}
 	}
 ?>

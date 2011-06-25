@@ -39,7 +39,6 @@
 				$albumId = $_GET['albumId'];
 			}elseif($_SERVER['REQUEST_METHOD'] == 'POST'){
 				$albumId = $_POST['albumId'];
-				krumo($_POST);
 			}
 			
 			if(!ctype_digit($albumId)){
@@ -125,7 +124,7 @@
 			
 			$videos = array();
 			$pagination = '';
-			$_reset = $_GET['reset'];// reset all value for display
+			//$_reset = $_GET['reset'];// reset all value for display
 			if($_reset){
 				
 			}else{

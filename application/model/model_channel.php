@@ -118,5 +118,75 @@
 			$types= array('text','integer');
 			$res = $this->execute_command($sql,$params,$types);
 		}
+		
+		function selectChannelsByUserId($id, $limit = 0, $offset = 0, $term = '', $sort_column = 'creation_date', $sort_order = 'ASC'){
+			$types = array();
+			$params = array(); 
+			$sql = "select 
+						a.id as `channel_id`, 
+						a.channel_name as `channel_name`, 
+						count(b.video_id) as 'video_count', 
+						UNIX_TIMESTAMP(a.creation_date) as 'create_date' 
+					from 
+						channel a 
+					left outer join 
+						channel_video b 
+					on 
+						b.channel_id = a.id 
+					where
+						a.user_id = ? ";
+			
+			$types[] = 'integer';
+			$params[] = $id;
+			
+			if(!empty($term)){
+				$term = str_replace('%', '\%', $term);
+				$sql .= " and (a.channel_name like ? or a.description like ?) ";
+				$types[] = 'text';
+				$types[] = 'text';
+				$params[] = '%' . $term . '%';
+				$params[] = '%' . $term . '%';
+			}
+			
+			$sql .= "group by a.id order by a.{$sort_column} {$sort_order} ";
+			
+			if($limit > 0){
+				$sql .= ' limit ? offset ?';
+				$types[] = 'integer';
+				$types[] = 'integer';
+				$params[] = $limit;
+				$params[] = $offset;
+			}
+			$res = $this->execute_query($sql,$params,$types);
+			
+			return $res;
+		}
+		
+		function countChannelByUserId($id, $limit = 0, $offset = 0, $term = '')
+		{
+			$types = array();
+			$params = array(); 
+			$sql = "select 
+						count(a.id) as `count` 
+					from 
+						channel a 
+					where
+						a.user_id = ? ";
+			
+			$types[] = 'integer';
+			$params[] = $id;
+			
+			if(!empty($term)){
+				$term = str_replace('%', '\%', $term);
+				$sql .= " and (a.channel_name like ? or a.description like ?) ";
+				$types[] = 'text';
+				$types[] = 'text';
+				$params[] = '%' . $term . '%';
+				$params[] = '%' . $term . '%';
+			}
+			$res = $this->execute_query($sql,$params,$types);
+			
+			return ($res[0] && $res[0]['count']) ? $res[0]['count'] : 0;
+		}
 	}
 ?>

@@ -39,6 +39,7 @@
 			$params[] = $id;
 			
 			if(!empty($term)){
+				$term = str_replace('%', '\%', $term);
 				$sql .= " and (a.album_name like ? or a.description like ?) ";
 				$types[] = 'text';
 				$types[] = 'text';
@@ -59,23 +60,6 @@
 			
 			return $res;
 		}
-		/**
-		 * 
-		 * Select album by user id
-		 *
-		function selectAlbumByUserId($params)
-		{					
-			$sql = 'select 
-						album_name 
-					from 
-						album 
-					where 
-						user_id=?';
-			$types = array('integer');
-			$res = $this->execute_query($sql,$params,$types);
-			
-			return $res;
-		}*/
 		
 		/**
 		 * 
@@ -118,6 +102,7 @@
 			$params[] = $id;
 			
 			if(!empty($term)){
+				$term = str_replace('%', '\%', $term);
 				$sql .= " and (a.album_name like ? or a.description like ?) ";
 				$types[] = 'text';
 				$types[] = 'text';

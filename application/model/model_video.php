@@ -41,6 +41,7 @@
 			$params[] = $id;
 			
 			if(!empty($term)){
+				$term = str_replace('%', '\%', $term);
 				$sql .= " and (video_title like ? or description like ?) ";
 				$types[] = 'text';
 				$types[] = 'text';
@@ -89,6 +90,7 @@
 			$params[] = $id;
 			
 			if(!empty($term)){
+				$term = str_replace('%', '\%', $term);
 				$sql .= " and (v.video_title like ? or v.description like ?) ";
 				$types[] = 'text';
 				$types[] = 'text';
@@ -155,6 +157,7 @@
 			$params[] = $id;
 			
 			if(!empty($term)){
+				$term = str_replace('%', '\%', $term);
 				$sql .= " and (v.video_title like ? or v.description like ?) ";
 				$types[] = 'text';
 				$types[] = 'text';
@@ -184,6 +187,7 @@
 			$params[] = $id;
 			
 			if(!empty($term)){
+				$term = str_replace('%', '\%', $term);
 				$sql .= " and (video_title like ? or description like ?) ";
 				$types[] = 'text';
 				$types[] = 'text';
