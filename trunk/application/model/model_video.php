@@ -458,7 +458,7 @@
 		
 		function getTagfromTagandTagcomponent($params)
 		{
-			$sql = "select name from tag t inner join tag_component tc on t.id=tc.tag_id
+			$sql = "select name, id from tag t inner join tag_component tc on t.id=tc.tag_id
 			where tc.component_type=1 and tc.component_id=? ";
 			$types= array('integer');
 			$res = $this->execute_query($sql,$params,$types);

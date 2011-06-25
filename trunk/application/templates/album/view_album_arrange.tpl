@@ -14,7 +14,6 @@
 					<option <:if $k == $sort_mode:>selected="selected"<:/if:> value="<:$k:>"><:$v:></option>
 				<:/foreach:>
 			</select>
-			<input type="hidden" id="id" name="id" value="<:$album_id:>"></input>
 			<input type="submit" value="Save"></input>
 		</form>
 		<div id="video_list">
@@ -24,6 +23,7 @@
 			<div class="creation_date">uploaded: <span class="relative_time"><:$v['creation_date']:></span></div><br/>
 		<:/foreach:>
 		</div>
+		<div><:$message:></div>
 	</div>
 	<div id="user_info_help" class="page_help">
 		Help?<div><:$hint:></div>
