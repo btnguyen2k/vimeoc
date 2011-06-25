@@ -335,6 +335,7 @@
 				$user = $this->model_user->getUserByUserId($userId);
 				$this->assign('userAvatar', $user['avatar']);
 				$this->assign('user_fullname', $user['full_name']);
+				$this->assign('show_user_avatar', 1);
 			}		
 			$this->assign("menuMyAlbum", $this->loadMessages('album.menu.myalbum.link'));
 			$this->assign("menubasicinfoAlbum", $this->loadMessages('album.menu.basicinfo.link'));
@@ -708,6 +709,8 @@
 					foreach($videos as &$video){
 						$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
 					}
+				}else{
+					$this->assign('message', $this->loadMessages('album.arrange.no_video'));
 				}
 				
 				$this->assignAlbumThumbnails($album);
@@ -893,6 +896,8 @@
 						foreach($videos as &$video){
 							$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
 						}
+					}else{
+						$this->assign('message', $this->loadMessages('album.arrange.no_video'));
 					}
 					
 					$this->assign('videos', $videos);

@@ -38,6 +38,7 @@
 				$this->loadModel('model_user');
 				$user = $this->model_user->getUserByUserId($userId);
 				$this->assign('userAvatar', $user['avatar']);
+				$this->assign('show_user_avatar', 1);
 			}
 			
 			$this->assign("videobasicinfo", $this->loadMessages('user.video.link.basicinfo'));
@@ -599,9 +600,9 @@
 				$strTags="";
 				for($i=0;$i<sizeof($tags);$i++)
 				{
-					$strTags .= $tags[$i]['name'] . ',' ; 
+					$strTags .= "<a href=\"{$this->ctx()}\\tag\\{$tags[$i]['id']}\">".$tags[$i]['name'] . '</a>, ' ; 
 				}
-				$strTags = substr($strTags, 0, -1); 
+				$strTags = substr(trim($strTags), 0, -1); 
 				
 				$strAlbums="";
 				for($i=0;$i<sizeof($albums);$i++)
@@ -639,7 +640,7 @@
 					else 
 						$strDate.= $diff['days']. ' days ' . $diff['hours'] . ' hours';					
 				}
-				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->loadResources('image.upload.path') . $video['thumbnails_path']) : ($this->ctx() . '/images/icon-video.gif'));
+				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->loadResources('image.upload.path') . $video['thumbnails_path']) : ('/images/icon-video.gif'));
 				$this->assign("days",$strDate);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_videopage');
 			}
@@ -696,7 +697,7 @@
 				}
 				$this->assign('videoId', $video['video_id']);
 				$this->assign('videoTitle', $video['video_title']);
-				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->loadResources('image.upload.path') . $video['thumbnails_path']) : ($this->ctx() . '/images/icon-video.gif'));
+				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->loadResources('image.upload.path') . $video['thumbnails_path']) : ('/images/icon-video.gif'));
 				$this->assign('upId', uniqid());
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_thumbnail');
 			}elseif ($_SERVER['REQUEST_METHOD'] == 'POST'){

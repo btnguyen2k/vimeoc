@@ -6,7 +6,7 @@
 			<:if $userAvatar != null:>
 			<img class="userAvatar" src="<:$ctx:>/images/upload/<:$userAvatar:>" width="50" height="50"/>
 			<:else:>
-			<img class="userAvatar" src="<:$ctx:>/images/icon-video.gif" width="50" height="50"/>
+			<img class="userAvatar" src="<:$ctx:>/images/avatar.png" width="50" height="50"/>
 			<:/if:>
 			</a>
 		</li>
@@ -18,7 +18,7 @@
 		<:if $albumThumbnail != '':>
 			<img src="<:$ctx:><:$albumThumbnail:>" width="100"/>
 		<:else:>
-			<img src="<:$ctx:>/images/icon-video.gif" width="100"/>
+			<img src="<:$ctx:>/images/icon-album.gif" width="100"/>
 		<:/if:>
 		</li>
 	</ul>

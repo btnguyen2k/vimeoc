@@ -63,6 +63,7 @@
 				$user = $this->model_user->getUserByUserId($userId);
 				$this->assign('userAvatar', $user['avatar']);
 				$this->assign('user_fullname', $user['full_name']);
+				$this->assign('show_user_avatar', 1);
 			}
 			
 			$this->assign("menuUploadVideo", $this->loadMessages('user.menu.link.uploadVideo'));

@@ -297,6 +297,7 @@
 				$user = $this->model_user->getUserByUserId($userId);
 				$this->assign('userAvatar', $user['avatar']);
 				$this->assign('user_fullname', $user['full_name']);
+				$this->assign('show_user_avatar', 1);
 			}		
 			$this->assign("menuChannel", $this->loadMessages('channel.menu.channelpage.link'));
 			$this->assign("menuBackToChannel", $this->loadMessages('channel.menu.channelback.link'));
@@ -609,6 +610,8 @@
 					foreach($videos as &$video){
 						$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
 					}
+				}else{
+					$this->assign('message', $this->loadMessages('channel.arrange.no_video'));
 				}
 				
 				$this->assignChannelThumbnails($channel);
@@ -795,12 +798,14 @@
 						foreach($videos as &$video){
 							$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
 						}
+					}else{
+						$this->assign('message', $this->loadMessages('channel.arrange.no_video'));
 					}
 					
 					$this->assign('videos', $videos);
 					$this->assign('sort_modes', $_sort_modes);
 					$this->assign('sort_mode', $sort_mode);
-					$this->assign('channel_id', $channelId);
+					$this->assign('channelId', $channelId);
 					$this->assign('hint', $this->loadMessages('channel.arrange.hint'));
 					$this->assign('title', $this->loadMessages('channel.arrange.title'));
 					$this->assign('channel_title', $channel['channel_name']);

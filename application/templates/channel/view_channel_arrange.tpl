@@ -24,7 +24,9 @@
 			<div class="creation_date">uploaded: <span class="relative_time"><:$v['creation_date']:></span></div><br/>
 		<:/foreach:>
 		</div>
+		<div><:$message:></div>
 	</div>
+	
 	<div id="user_info_help" class="page_help">
 		Help?<div><:$hint:></div>
 	</div>
