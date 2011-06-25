@@ -34,7 +34,7 @@
 				play count: <:$v['play_count']:><br/>
 				comment count: <:$v['comment_count']:><br/>
 				like count: <:$v['like_count']:><br/>
-				album: <:foreach from=$v['album'] key=k1 item=v1:><a href="<:$ctx:>/album/?id=<:$v1['album_id']:>"><:$v1['album_name']:></a>, <:/foreach:><br/>
+				album: <:foreach from=$v['album'] key=k1 item=v1:><a href="<:$ctx:>/album/?albumId=<:$v1['album_id']:>"><:$v1['album_name']:></a>, <:/foreach:><br/>
 				tag: <:foreach from=$v['tag'] key=k1 item=v1:><a href="<:$ctx:>/tag/<:$v1['tag_id']:>"><:$v1['tag_name']:></a>, <:/foreach:><br/><br/>
 			<:/foreach:>
 		<:else:>
