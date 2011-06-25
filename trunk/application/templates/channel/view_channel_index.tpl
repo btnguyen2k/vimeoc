@@ -6,6 +6,7 @@
 	<div id="user_video_body" class="page_body">
 		<center><h1><:$title:> <:$channel_name:></h1></center><br/>
 		<form id="search_form" name="search_from" action="<:$ctx:>/channel/" method="GET">
+		<input type="hidden" id="channelId" name="channelId" value="<:$channelId:>"></input>
 		<select id="mode" name="mode">
 			<:foreach from=$display_modes key=k item=v:>
 				<option <:if $k == $display_mode:>selected="selected"<:/if:> value="<:$k:>"><:$v:></option>
@@ -18,7 +19,6 @@
 		</select>
 		<input type="text" id="term" name="term" value="<:$search_term:>"></option>
 		<input type="hidden" name="page" value="<:$page:>"></input>
-		<input type="hidden" id="channelId" name="channelId" value="<:$channelId:>"></input>
 		<input type="submit" name="search" value="Submit"></input>
 		</form>
 
@@ -31,7 +31,7 @@
 				play count: <:$v['play_count']:><br/>
 				comment count: <:$v['comment_count']:><br/>
 				like count: <:$v['like_count']:><br/>
-				album: <:foreach from=$v['album'] key=k1 item=v1:><a href="<:$ctx:>/album/?id=<:$v1['album_id']:>"><:$v1['album_name']:></a>, <:/foreach:><br/>
+				album: <:foreach from=$v['album'] key=k1 item=v1:><a href="<:$ctx:>/album/?albumId=<:$v1['album_id']:>"><:$v1['album_name']:></a>, <:/foreach:><br/>
 				tag: <:foreach from=$v['tag'] key=k1 item=v1:><a href="<:$ctx:>/tag/<:$v1['tag_id']:>"><:$v1['tag_name']:></a>, <:/foreach:><br/><br/>
 			<:/foreach:>
 		<:else:>

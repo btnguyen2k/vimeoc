@@ -125,7 +125,7 @@
 			}
 			$page = $_GET['page'] ? $_GET['page'] : '1';			
 			if(!ctype_digit($page)){
-				$this->redirect($this->ctx() . '/channel/?id=' . $channelId);
+				$this->redirect($this->ctx() . '/channel/?channelId=' . $channelId);
 			}else{
 				$page = intval($page);
 			}
@@ -147,7 +147,7 @@
 			if($video_count > 0){
 				if($limit > 0){
 					if($limit && ($page > ceil($video_count / $limit))){
-						$this->redirect($this->ctx() . '/channel/?id=' . $channelId);
+						$this->redirect($this->ctx() . '/channel/?channelId=' . $channelId);
 					}
 					$videos = $model_video->selectVideoByChannelId($channelId, $limit, $offset, $_search_term, $sort_column, $sort_order);
 					$adjacents = 2;
