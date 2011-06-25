@@ -8,7 +8,7 @@
 		<span id="error_message" class="red"><:$errorMessage:></span>
 		<span id="info_message" class="green"><:$successMessage:></span>
 		<form id="album_arrange_form" name="album_arrange_form" method="post" action="">
-			<input type="hidden" id="id" name="id" value="<:$album_id:>"></input>
+			<input type="hidden" id="albumId" name="albumId" value="<:$album_id:>"></input>
 			<select id="sort" name="sort">
 				<:foreach from=$sort_modes key=k item=v:>
 					<option <:if $k == $sort_mode:>selected="selected"<:/if:> value="<:$k:>"><:$v:></option>

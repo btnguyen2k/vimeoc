@@ -17,6 +17,273 @@
 		{				
 			$this->tmpl = &$tmpl;		
 		}
+	/**
+		 * 
+		 * Default messages source for album index page
+		 */
+		function indexMessagesSource(){
+			$this->defaultChannelMessagesSource();
+			$this->assign('title', $this->loadMessages('channel.index.title'));
+		}
+		/**
+		 * 
+		 * Default action
+		 */
+		function index()
+		{
+			$userId = $this->getLoggedUser();
+			if($_SERVER['REQUEST_METHOD'] == 'GET')
+			{
+				$channelId = $_GET['channelId'];
+			}
+			
+			if(!ctype_digit($channelId)){
+				$error_flag = true;
+				$this->loadTemplate('view_404');
+				return;
+			}
+		
+			$this->loadModel('model_channel');
+			$model_channel = $this->model_channel;
+			$channel = $model_channel->getChannelbyChannelId(array($channelId));
+			
+			if(!$channel){
+				$error_flag = true;
+				$this->loadTemplate('view_404');
+				return;
+			}
+			
+			$_search_obj = unserialize($_SESSION['CHANNEL_SEARCH']);
+			
+			$_display_modes = array(1 => 'Thumnail mode', 2 => 'Detail mode');
+			
+			$_sort_modes = array(
+				1 => 'Newest video first',
+				2 => 'Oldest video first',
+				3 => 'Most played',
+				4 => 'Most commented',
+				5 => 'Most liked',
+				6 => 'Alphabetical'
+			);
+			$_sort_columns = array(
+				1 => 'creation_date',
+				2 => 'creation_date',
+				3 => 'play_count',
+				4 => 'comment_count',
+				5 => 'like_count',
+				6 => 'video_title'
+			);
+			$_sort_orders = array(
+				1 => 'DESC',
+				2 => 'ASC',
+				3 => 'DESC',
+				4 => 'DESC',
+				5 => 'DESC',
+				6 => 'ASC'
+			);
+			$_page_sizes = array(
+				1 => 'All',//all videos
+				2 => 2,
+				3 => 3,
+				4 => 50
+			);
+			$_default_display_mode = 1;
+			$_default_sort_mode = 1;
+			$_default_page_size = 2;
+			$_default_search_term = '';
+			
+			$videos = array();
+			$pagination = '';
+			//$_reset = $_GET['reset'];// reset all value for display
+			if($_reset){
+				
+			}else{
+				if($_GET['mode']){
+					$_display_mode = $_GET['mode'];
+					if(!in_array($_display_mode, array_keys($_display_modes), false)){
+						$_display_mode = $_default_display_mode;
+					}
+				}else{
+					$_display_mode = $_search_obj->mode ? $_search_obj->mode : $_default_display_mode;
+				}
+				
+				$_sort_mode = $channel['arrange'] ? $channel['arrange'] : $_default_sort_mode;
+
+				if($_GET['psize']){
+					$_page_size = $_GET['psize'];
+					if(!in_array($_page_size, array_keys($_page_sizes), false)){
+						$_page_size = $_default_page_size;
+					}
+				}else{
+					$_page_size = $_search_obj->psize ? $_search_obj->psize : $_default_page_size;
+				}
+				if(in_array('term', array_keys($_GET))){
+					$_search_term = trim($_GET['term']);
+				}else{
+					$_search_term = $_search_obj->term ? $_search_obj->term : $_default_search_term;
+				}
+			}
+			$page = $_GET['page'] ? $_GET['page'] : '1';			
+			if(!ctype_digit($page)){
+				$this->redirect($this->ctx() . '/channel/?id=' . $channelId);
+			}else{
+				$page = intval($page);
+			}
+			
+			$limit = is_int($_page_sizes[$_page_size]) ? $_page_sizes[$_page_size] : 0;
+			$offset = ($page - 1) * $limit;
+			$sort_column = $_sort_columns[$_sort_mode];
+			$sort_order = $_sort_orders[$_sort_mode];
+			
+			$_search_obj->mode = $_display_mode;
+			$_search_obj->sort = $_sort_mode;
+			$_search_obj->psize = $_page_size;
+			$_search_obj->term = $_search_term;
+			$_SESSION['CHANNEL_SEARCH'] = serialize($_search_obj);
+			
+			$this->loadModel('model_video');
+			$model_video = $this->model_video;
+			$video_count = $model_video->countVideoByChannelId($channelId, $limit, $offset, $_search_term, $sort_column, $sort_order);
+			if($video_count > 0){
+				if($limit > 0){
+					if($limit && ($page > ceil($video_count / $limit))){
+						$this->redirect($this->ctx() . '/channel/?id=' . $channelId);
+					}
+					$videos = $model_video->selectVideoByChannelId($channelId, $limit, $offset, $_search_term, $sort_column, $sort_order);
+					$adjacents = 2;
+					$targetpage = $_SERVER['REDIRECT_URL'];
+					if(!($targetpage[strlen($targetpage) - 1] == '/')){
+						$targetpage .= '/';
+					}
+					if ($page == 0){
+						$page = 1;					//if no page var is given, default to 1.
+					}
+					$prev = $page - 1;							//previous page is page - 1
+					$next = $page + 1;							//next page is page + 1
+					$lastpage = ceil($video_count / $limit);		//lastpage is = total pages / items per page, rounded up.
+					$lpm1 = $lastpage - 1;						//last page minus 1
+					
+					/* 
+						Now we apply our rules and draw the pagination object. 
+					*/
+					$pagination = "";
+					if($lastpage > 1)
+					{
+						$pagination .= "<div class=\"pagination\">";
+						//previous button
+						if ($page > 1) 
+							$pagination.= "<a href=\"$targetpage?channelId=$channelId&page=$prev\">« Previous</a>";
+						else
+							$pagination.= "<span class=\"disabled\">« Previous</span>";	
+						
+						//pages	
+						if ($lastpage < 7 + ($adjacents * 2))	//not enough pages to bother breaking it up
+						{	
+							for ($counter = 1; $counter <= $lastpage; $counter++)
+							{
+								if ($counter == $page)
+									$pagination.= "<span class=\"current\">$counter</span>";
+								else
+									$pagination.= "<a href=\"$targetpage?channelId=$channelId&page=$counter\">$counter</a>";					
+							}
+						}
+						elseif($lastpage > 5 + ($adjacents * 2))	//enough pages to hide some
+						{
+							//close to beginning; only hide later pages
+							if($page < 1 + ($adjacents * 2))		
+							{
+								for ($counter = 1; $counter < 4 + ($adjacents * 2); $counter++)
+								{
+									if ($counter == $page)
+										$pagination.= "<span class=\"current\">$counter</span>";
+									else
+										$pagination.= "<a href=\"$targetpage?channelId=$channelId&page=$counter\">$counter</a>";					
+								}
+								$pagination.= "...";
+								$pagination.= "<a href=\"$targetpage?channelId=$channelId&page=$lpm1\">$lpm1</a>";
+								$pagination.= "<a href=\"$targetpage?channelId=$channelId&page=$lastpage\">$lastpage</a>";		
+							}
+							//in middle; hide some front and some back
+							elseif($lastpage - ($adjacents * 2) > $page && $page > ($adjacents * 2))
+							{
+								$pagination.= "<a href=\"$targetpage?channelId=$channelId&page=1\">1</a>";
+								$pagination.= "<a href=\"$targetpage?channelId=$channelId&page=2\">2</a>";
+								$pagination.= "...";
+								for ($counter = $page - $adjacents; $counter <= $page + $adjacents; $counter++)
+								{
+									if ($counter == $page)
+										$pagination.= "<span class=\"current\">$counter</span>";
+									else
+										$pagination.= "<a href=\"$targetpage?channelId=$channelId&page=$counter\">$counter</a>";					
+								}
+								$pagination.= "...";
+								$pagination.= "<a href=\"$targetpage?channelId=$channelId&page=$lpm1\">$lpm1</a>";
+								$pagination.= "<a href=\"$targetpage?channelId=$channelId&page=$lastpage\">$lastpage</a>";		
+							}
+							//close to end; only hide early pages
+							else
+							{
+								$pagination.= "<a href=\"$targetpage?channelId=$channelId&page=1\">1</a>";
+								$pagination.= "<a href=\"$targetpage?channelId=$channelId&page=2\">2</a>";
+								$pagination.= "...";
+								for ($counter = $lastpage - (2 + ($adjacents * 2)); $counter <= $lastpage; $counter++)
+								{
+									if ($counter == $page)
+										$pagination.= "<span class=\"current\">$counter</span>";
+									else
+										$pagination.= "<a href=\"$targetpage?channelId=$channelId&page=$counter\">$counter</a>";					
+								}
+							}
+						}
+						
+						//next button
+						if ($page < $counter - 1){
+							$pagination.= "<a href=\"$targetpage?channelId=$channelId&page=$next\">Next »</a>";
+						}else{
+							$pagination.= "<span class=\"disabled\">Next »</span>";
+						}
+						$pagination.= "</div>\n";		
+					}
+				}else{
+					$videos = $model_video->selectVideoByChannelId($channelId, $limit, $offset, $_search_term, $sort_column, $sort_order);
+				}
+			}else{
+				$this->assign('message', 'No video');
+			}
+			
+			if(is_array($videos) && (count($videos) > 0)){
+				$this->loadModel('model_album');
+				$model_album = $this->model_album;
+				
+				$this->loadModel('model_tag');
+				$model_tag = $this->model_tag;
+				
+				foreach($videos as &$video){
+					$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
+					$video['album'] = $model_album->selectAlbumByVideoId($video['id']);
+					$video['tag'] = $model_tag->selectTagByVideoId($video['id']);
+				}
+			}
+			
+			$this->assign('videos', $videos);
+			$this->assign('pagination', $pagination);
+			$this->assign('display_modes', $_display_modes);
+			//$this->assign('sort_modes', $_sort_modes);
+			$this->assign('page_sizes', $_page_sizes);
+			
+			$this->assign('display_mode', $_display_mode);
+			$this->assign('sort_mode', $_sort_mode);
+			$this->assign('page_size', $_page_size);
+			$this->assign('search_term', $_search_term);
+			$this->assign('page', $page);
+			
+			$this->assign('channelId', $channelId);
+			$this->assign('channel_name', $channel['channel_name']);
+			$this->assign('show_user_avatar', 1);
+			
+			$this->indexMessagesSource();
+			$this->loadTemplate(CHANNEL_TEMPLATE_DIR.'view_channel_index');
+		}
 		/** 
 		 * Load messages source for all Channel features
 		 * 

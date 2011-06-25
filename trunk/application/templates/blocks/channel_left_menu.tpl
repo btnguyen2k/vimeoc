@@ -1,4 +1,4 @@
-<div id="channel_menu">
+<div id="channel_menu"><br/><br/>
 	<:if $show_user_avatar != 1:>
 		<ul id="channel_thumb">
 			<li>
