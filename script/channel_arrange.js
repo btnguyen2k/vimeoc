@@ -1,9 +1,9 @@
 $(document).ready(function(){
-	$('#album_arrange_form select').change(function(){
+	$('#channel_arrange_form select').change(function(){
 		$.ajax({ 
 			type: "POST", 
-			url: $('#album_arrange_form').attr('action'), 
-			data: 'albumId=' + $('#albumId').val() + '&sort=' + $('#sort').val(), 
+			url: $('#channel_arrange_form').attr('action'), 
+			data: 'channelId=' + $('#channelId').val() + '&sort=' + $('#sort').val(), 
 			dataType: 'xml',
 			success: function(msg){
 				error = $(msg).find('result error').text();

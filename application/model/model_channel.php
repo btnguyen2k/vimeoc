@@ -188,5 +188,13 @@
 			
 			return ($res[0] && $res[0]['count']) ? $res[0]['count'] : 0;
 		}
+		
+		function updateChannelArrangeByChannelId($params)
+		{
+			$sql = 'Update channel Set arrange=? where id=? ';
+			$types= array('integer','integer');
+			$res = $this->execute_command($sql,$params,$types);
+			return $res;
+		}
 	}
 ?>
