@@ -21,7 +21,7 @@ function confirmAction() {
 						<img src="<:$ctx:>/<:$videoThumbnail:>" />
 				</div>
 				<div style="float: left">
-					<p><a href="<:$ctx:>/video/videosetting/?videoId=<:$videoid:>">[Setting]</a><a href="<:$ctx:>/auth/Delete" onclick="return confirmAction()">[Delete]</a></p>
+					<p><a href="<:$ctx:>/video/videosetting/?videoId=<:$videoid:>">[Setting]</a><a href="#" onclick="return confirmAction()">[Delete]</a></p>
 					<p><:$days:> ago<:$by:>:<span class=blue><:$fullname:></span></p>
 					<p><:$play:><:$plays:>,<:$comment:><:$comments:>,<:$like:><:$likes:></p>
 					<p><:$tag:><:$strTags:></p>
