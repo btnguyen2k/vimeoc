@@ -9,6 +9,7 @@
 		<span id="info_message" class="green"><:$successMessage:></span>
 		<form id="channel_arrange_form" name="channel_arrange_form" method="post" action="">
 			<input type="hidden" id="channelId" name="channelId" value="<:$channelId:>"></input>
+			<:if $video_count > 0:>
 			<select id="sort" name="sort">
 				<:foreach from=$sort_modes key=k item=v:>
 					<option <:if $k == $sort_mode:>selected="selected"<:/if:> value="<:$k:>"><:$v:></option>
@@ -16,6 +17,7 @@
 			</select>
 			<input type="hidden" id="id" name="id" value="<:$channelId:>"></input>
 			<input type="submit" value="Save"></input>
+			<:/if:>
 		</form>
 		<div id="video_list">
 		<:foreach from=$videos key=k item=v:>
