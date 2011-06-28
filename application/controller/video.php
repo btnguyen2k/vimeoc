@@ -567,6 +567,7 @@
 			$this->assign("likes", $this->loadMessages('user.videopage.likes'));
 			$this->assign("tag", $this->loadMessages('user.videopage.tag'));
 			$this->assign("albums", $this->loadMessages('user.videopage.albums'));
+			
 		}
 		
 		/**
@@ -668,7 +669,6 @@
 			$this->assign("hint", $this->loadMessages('video.thumbnail.hint'));
 			$this->assign("currentThumbnail", $this->loadMessages('video.thumbnail.currentThumbnail'));
 			$this->assign("uploadNewThumbnail", $this->loadMessages('video.thumbnail.uploadNewThumbnail'));
-
 		}
 		
 		function thumbnail(){

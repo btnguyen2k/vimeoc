@@ -477,6 +477,7 @@
 				$this->redirect($this->ctx().'/auth/login/');
 				return;
 			}
+			
 			$this->loadModel('model_album');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
@@ -484,9 +485,17 @@
 				$videoThumbnails=$this->model_album->getVideoThumbnailsByAlbumId(array($albumId,$userId));
 				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
 				$res=$this->model_album->getVideoIdByAlbumId(array($albumId));
+				$a=$this->model_album->getVideoThumbnailsByAlbumId(array($albumId,$userId));
 				if($res==0)
 				{
 					$this->assign('error', $this->loadErrorMessage('error.albumthumbnail.error'));
+				}
+				else
+				{
+					if($album['thumbnails_path']=="")
+					{
+						$this->model_album->updateVideoThumbnailToAlbumThumbnail(array($a[0]['thumbnails_path'],$albumId));
+					}
 				}
 				$this->assign("albumThumbnail",$album['thumbnails_path']);
 				$this->assign("albumName",$album['album_name']);
