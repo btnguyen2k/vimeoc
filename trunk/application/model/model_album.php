@@ -219,11 +219,10 @@
 		{
 			$sql= 'select id from video v inner join album_video av on v.id=av.video_id
 			where av.album_id=?';
-			$types =  array('text','integer');
+			$types =  array('integer','integer');
 			$res = $this->execute_query($sql,$params,$types);
 			return sizeof($res) > 0;
 		}
-		
 		/**
 		 *  update password by userid and album id
 		 *  @param params

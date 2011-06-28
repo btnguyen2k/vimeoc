@@ -780,6 +780,7 @@
 			$types = array('integer');
 			$this->execute_command($sql, $params, $types);
 		}
+		
 		/**
 		 * get creation date by VideoId
 		 * @param params
