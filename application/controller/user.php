@@ -1,6 +1,6 @@
 <?php 
 	define("USER_TEMPLATE_DIR", "user/");
-	
+	//include ('valums_upload.php');
 	/**
 	 * 
 	 * User controller
@@ -742,6 +742,79 @@
 			{				
 				$this->assign('upId', uniqid());
 				$this->loadTemplate(USER_TEMPLATE_DIR."view_user_uploadvideo");
+			}
+			else if($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				if($_FILES['video']['error'] > 0)
+				{
+					echo $_FILES['video']['error'];
+				}
+				else 
+				{
+					$type = $_FILES['video']['type'];
+					$size = $_FILES['video']['size'] / (1024*1024);
+					$tmpName = $_FILES['video']['tmp_name'];
+					$fileName = $_FILES['video']['name'];
+					$maxsize = $this->loadResources('video.upload.maxsize');
+					if($size > $maxsize)
+					{
+						$ret = array('status'=>0, 'errorMessage'=>$this->loadErrorMessage('error.user.upload.maximum.file.size', array($maxsize.'MB')), 'upId'=>uniqid());
+						echo json_encode($ret);	
+					}else if($size == 0){
+						$ret = array('status'=>0, 'errorMessage'=>$this->loadErrorMessage('error.field.required'), 'upId'=>uniqid());
+						echo json_encode($ret);	
+					}else{
+						$fileInfo = utils::getFileType($fileName);
+						$name = utils::genRandomString(32) . '.' . $fileInfo[1];
+						$target = BASE_DIR . $this->loadResources('video.upload.path') . $name;
+						move_uploaded_file($tmpName, $target);
+						
+					    $ret = $this->model_video->addNewVideo(array($userId, $name));
+				
+						if($ret == 0)
+						{
+							$ret = array('status'=>0, 'errorMessage'=>'Error', 'upId'=>uniqid());
+							echo json_encode($ret);	
+						}
+						else 
+						{
+							$ret = array('status'=>1, 'successMessage'=>$this->loadMessages('user.information.update.success', array("video")), 'upId'=>uniqid());
+							echo json_encode($ret);	
+						}
+					}
+				}
+			}
+		}
+		
+		
+		/**
+		 * Default message sourse for upload video pages
+		 */
+		function addvideouploadxMessagesSource()
+		{
+			$this->defaultUserMessagesSource();	
+			$this->assign("title", $this->loadMessages('user.uploadvideo.title'));
+			$this->assign("choose", $this->loadMessages('user.uploadvideo.chooseavideotoupload'));
+			$this->assign('videoExtSupport', $this->loadResources('video.upload.ext.support'));
+			$this->assign("hint", $this->loadMessages('user.uploadvideo.hint'));
+		}
+		
+		/**
+		 * action upload video using valums library
+		 */
+		function addvideouploadx()
+		{
+			$this->loadModel('model_video');
+			$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
+			{				
+				$this->assign('upId', uniqid());
+				$this->loadTemplate(USER_TEMPLATE_DIR."view_user_uploadvideox");
 			}
 			else if($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
