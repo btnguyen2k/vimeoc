@@ -797,11 +797,13 @@
 					$videos = $model_video->selectVideoByChannelId($channelId, 5, 0, '', $sort_column, $sort_order);
 					
 					if(is_array($videos) && (count($videos) > 0)){
+						$this->assign('video_count', count($videos));
 						foreach($videos as &$video){
 							$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
 						}
 					}else{
 						$this->assign('message', $this->loadMessages('channel.arrange.no_video'));
+						$this->assign('video_count', 0);
 					}
 					
 					$this->assign('videos', $videos);
