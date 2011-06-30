@@ -126,7 +126,7 @@ class qqFileUploader {
         
         $pathinfo = pathinfo($this->file->getName());
         $filename = $pathinfo['filename'];
-        //$filename = md5(uniqid());
+        $filename = md5(uniqid());
         $ext = $pathinfo['extension'];
 
         if($this->allowedExtensions && !in_array(strtolower($ext), $this->allowedExtensions)){
@@ -142,7 +142,7 @@ class qqFileUploader {
         }
         
         if ($this->file->save($uploadDirectory . $filename . '.' . $ext)){
-            return array('success'=>true);
+            return array('success'=>true,'filename'=>$filename. '.' . $ext);
         } else {
             return array('error'=> 'Could not save uploaded file.' .
                 'The upload was cancelled, or server error encountered');
@@ -151,12 +151,12 @@ class qqFileUploader {
     }    
 }
 
-// list of valid extensions, ex. array("jpeg", "xml", "bmp")
-$allowedExtensions = array("wmv","mov","flv","avi","mp4");
-// max file size in bytes
-$sizeLimit = 100 * 1024 * 1024;
-
-$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
-$result = $uploader->handleUpload('video/upload/');
-// to pass data through iframe you will need to encode all html tags
-echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+//// list of valid extensions, ex. array("jpeg", "xml", "bmp")
+//$allowedExtensions = array("wmv","mov","flv","avi","mp4");
+//// max file size in bytes
+//$sizeLimit = 100 * 1024 * 1024;
+//
+//$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+//$result = $uploader->handleUpload('video/upload/');
+//// to pass data through iframe you will need to encode all html tags
+//echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);

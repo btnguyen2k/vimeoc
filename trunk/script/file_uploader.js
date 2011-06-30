@@ -277,7 +277,7 @@ qq.FileUploaderBasic = function(o){
         },
         showMessage: function(message){
             alert(message);
-        }               
+        }
     };
     qq.extend(this._options, o);
         
