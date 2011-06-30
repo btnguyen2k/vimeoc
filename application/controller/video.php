@@ -579,11 +579,11 @@
 		function videopage()
 		{
 			$userId = $this->getLoggedUser();
-			if($userId == 0)
-			{
-				$this->redirect($this->ctx().'/auth/login/');
-				return;
-			}
+//			if($userId == 0)
+//			{
+//				$this->redirect($this->ctx().'/auth/login/');
+//				return;
+//			}
 			
 			$this->loadModel('model_user');
 			$this->loadModel('model_video');
@@ -592,13 +592,13 @@
 			{
 				$id=$_GET['videoId'];
 				$params=array($id);
-				$fullname=$this->model_user->getFullNamebyUserId(array($userId));
-				$play=$this->model_video->getPlaybyUserId(array($userId));
+				$video=$this->model_video->getVideoByVideoId(array($id));
+				$fullname=$this->model_user->getFullNamebyUserId(array($video['user_id']));
+				$play=$this->model_video->getPlaybyVideoId(array($id));
 				$comment=$this->model_video->getCommentbyId($params);
 				$like=$this->model_video->getLikebyId($params);
-				$albums=$this->model_video->getAlbumByVideoIdAndUserId(array($id,$userId));
+				$albums=$this->model_video->getAlbumByVideoIdAndUserId(array($id,$video['user_id']));
 				$tags=$this->model_video->getTagfromTagandTagcomponent(array($id));
-				$video=$this->model_video->getVideoByVideoId(array($id));
 				
 				$strTags="";
 				for($i=0;$i<sizeof($tags);$i++)
@@ -624,25 +624,27 @@
 				$this->assign("videoid",$id);
 				$this->assign("strTags",$strTags);
 				$this->assign("strAlbums",$strAlbums);
+				$this->assign("videoOwner", $userId == $video['user_id']);
 				
-				$start = $video['creation_date'];
-				$now =  mktime(date("H"), date("i"),date("s"), date("m"), date("d"), date("Y"));
-				$end   =date("Y-m-d H:i:s", $now);
+				$start = $video['creation_date'];				
+				$now = mktime(date("H"), date("i"),date("s"), date("m"), date("d"), date("Y"));
+				$end = date("Y-m-d H:i:s", time());
 				$diff=$this->get_time_difference($start, $end);
 				$strDate="";
-				if( true )
-				{
-					if($diff['days']==0)
-						if ($diff['hours']==0)
-							if ($diff['minutes']==0)
-								$strDate.= $diff['seconds'] . ' seconds';
-							else 
-								$strDate.= $diff['minutes'] . ' minutes';
+				if($diff['days']==0){
+					if ($diff['hours']==0){
+						if ($diff['minutes']==0)
+							$strDate.= $diff['seconds'] . ' seconds';
 						else 
-							$strDate.= $diff['hours']. ' hours ' . $diff['minutes'] . ' minutes';
-					else 
-						$strDate.= $diff['days']. ' days ' . $diff['hours'] . ' hours';					
+							$strDate.= $diff['minutes'] . ' minutes';
+					}
+					else{ 
+						$strDate.= $diff['hours']. ' hours ' . $diff['minutes'] . ' minutes';
+					}
 				}
+				else{
+					$strDate.= $diff['days']. ' days ' . $diff['hours'] . ' hours';
+				}		
 				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->loadResources('image.upload.path') . $video['thumbnails_path']) : ('/images/icon-video.gif'));
 				$this->assign("days",$strDate);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_videopage');

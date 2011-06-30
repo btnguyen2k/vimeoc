@@ -3,25 +3,24 @@ RewriteBase /vimeoc/
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !(home|user|auth|video|channel|upload_frame)
+RewriteCond %{REQUEST_URI} !(home|user|auth|video|channel)
 RewriteRule ^album/([a-zA-Z0-9]+)$ index1.php?controller=album&method=index&albumId=$1 [L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !(home|user|auth|album|channel|upload_frame)
+RewriteCond %{REQUEST_URI} !(home|user|auth|album|channel)
 RewriteRule ^video/([a-zA-Z0-9]+)$ index1.php?controller=video&method=videopage&videoId=$1 [L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !(home|user|auth|video|album|channel|upload_frame)
+RewriteCond %{REQUEST_URI} !(home|user|auth|video|album|channel)
 RewriteRule ^([a-zA-Z0-9]+)/([a-zA-Z0-9]+)$ index1.php?controller=route&method=routing&userAlias=$1&videoAlias=$2&albumAlias=$2 [L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !(home|user|auth|video|album|channel|upload_frame)
+RewriteCond %{REQUEST_URI} !(home|user|auth|video|album|channel)
 RewriteRule ^(.*)$ index1.php?controller=user&method=userprofile&profileAlias=$1 [L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !(upload_frame)
 RewriteRule ^(.*)$ index.php/$1 [L]

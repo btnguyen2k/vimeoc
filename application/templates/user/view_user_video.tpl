@@ -11,15 +11,27 @@
 			data: 'videoId='+videoId+'&albumId='+albumId+'&videoChecked='+videoChecked,
 			type: 'POST',
 			success: function(data){
-//				if(data == 1){
-//					
-//				}else{
-//					
-//				}
 			},
 			error: function(exp){
 				alert ("can't connected");
-				}
+			}
+		});
+	}	
+
+	function addVideoToChannel(params)
+	{
+		var videoId = params.name;
+		var channelId = params.id;
+		var videoChecked = params.checked;
+		$.ajax({
+			url : '<:$ctx:>/user/addVideoToChannel/',
+			data: 'videoId='+videoId+'&channelId='+channelId+'&videoChecked='+videoChecked,
+			type: 'POST',
+			success: function(data){
+			},
+			error: function(exp){
+				alert ("can't connected");
+			}
 		});
 	}	
 </script>
@@ -57,14 +69,21 @@
 				id: <:$v['id']:><br/>
 				title: <:$v['video_title']:><br/>
 				<div class="creation_date">uploaded: <span class="relative_time"><:$v['creation_date']:></span></div>
-				play count: <:$v['play_count']:><br/>
-				comment count: <:$v['comment_count']:><br/>
-				like count: <:$v['like_count']:><br/>
-				album: <:foreach from=$v['album'] key=k1 item=v1:><a href="<:$ctx:>/album/?albumId=<:$v1['album_id']:>"><:$v1['album_name']:></a>, <:/foreach:><br/>
-				tag: <:foreach from=$v['tag'] key=k1 item=v1 name=tags:><a href="<:$ctx:>/tag/<:$v1['tag_id']:>"><:$v1['tag_name']:></a><:if $smarty.foreach.tags.last:> <:else:>, <:/if:><:/foreach:><br/><br/>
+				Play count: <:$v['play_count']:><br/>
+				Comment count: <:$v['comment_count']:><br/>
+				Like count: <:$v['like_count']:><br/>
+				Albums: <:foreach from=$v['album'] key=k1 item=v1:><a href="<:$ctx:>/album/?albumId=<:$v1['album_id']:>"><:$v1['album_name']:></a>, <:/foreach:><br/>
+				Tags: <:foreach from=$v['tag'] key=k1 item=v1 name=tags:><a href="<:$ctx:>/tag/<:$v1['tag_id']:>"><:$v1['tag_name']:></a><:if $smarty.foreach.tags.last:> <:else:>, <:/if:><:/foreach:><br/>
+				Choose albums:
 				<:foreach from=$albums key=l item=a:>					
-					<input type="checkbox" id="<:$a['id']:>" name ="<:$v['id']:>" onclick="addVideoToAlbum(this)" <:foreach from=$v['album'] key=l1 item=va:><:if $va['album_id'] eq $a['id']:>checked='true'<:/if:><:/foreach:>><:$a['album_name']:></input><br/>
-				<:/foreach:>
+					<input type="checkbox" id="<:$a['id']:>" name ="<:$v['id']:>" onclick="addVideoToAlbum(this)" <:foreach from=$v['album'] key=l1 item=va:><:if $va['album_id'] eq $a['id']:>checked='true'<:/if:><:/foreach:>><:$a['album_name']:></input>
+				<:/foreach:><br/>
+				Choose channels:
+				<:foreach from=$channels key=l item=a:>					
+					<input type="checkbox" id="<:$a['id']:>" name ="<:$v['id']:>" onclick="addVideoToChannel(this)" <:foreach from=$v['channel'] key=l1 item=va:><:if $va['channel_id'] eq $a['id']:>checked='true'<:/if:><:/foreach:>><:$a['channel_name']:></input>
+				<:/foreach:><br/>
+				<br/>
+				<br/>
 			<:/foreach:>
 		<:else:>
 			<:foreach from=$videos key=k item=v:>

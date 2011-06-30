@@ -1,4 +1,4 @@
-<div id="channel_menu"><br/><br/>
+<div id="channel_menu">
 	<:if $show_user_avatar == 1:>
 	<ul class="portrait">
 		<li>			
@@ -25,19 +25,14 @@
 	<:/if:>
 	<ul>
 		<li>
-			<a href="#"><:$menuChannel:></a>
-		</li>
-		<li>
 			<a href="<:$ctx:>/channel/createNewChannel/?channelId=<:$channelId:>"><:$menuchannelcreate:></a>
 		</li>
+		<:if $authorized == true:>
 		<li>
 			<a href="<:$ctx:>/channel/channelsetting/?channelId=<:$channelId:>"><:$menuchannelsetting:></a>
 		</li>
 		<li>
-			<a href="#"><:$menuchannelthumbnail:></a>
-		</li>
-		<li>
-			<a href="#"><:$menuchanneladdto:></a>
+			<a href="<:$ctx:>/channel/channelThumbnail/?channelId=<:$channelId:>"><:$menuchannelthumbnail:></a>
 		</li>
 		<li>
 			<a href="<:$ctx:>/channel/arrange/?channelId=<:$channelId:>"><:$menuchannelarrange:></a>
@@ -45,8 +40,12 @@
 		<li>
 			<a href="<:$ctx:>/channel/channeldelete/?channelId=<:$channelId:>"><:$menuchanneldelete:></a>
 		</li>
+		<:/if:>
 		<li>
 			<a href="<:$ctx:>/channel/?channelId=<:$channelId:>"/><:$menuBackToChannel:></a>
+		</li>
+		<li>
+			<a href="<:$ctx:>/user/channel/"/><:$menumychannel:></a>
 		</li>
 	</ul>
 </div>

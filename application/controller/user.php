@@ -643,6 +643,8 @@
 				$this->assign('message', 'No video');
 			}
 			
+			$model_channel = $this->getModel('model_channel');
+			
 			if(is_array($videos) && (count($videos) > 0)){
 				$this->loadModel('model_album');
 				$model_album = $this->model_album;
@@ -655,11 +657,14 @@
 					$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
 					$video['album'] = $model_album->selectAlbumByVideoId($video['id']);
 					$video['tag'] = $model_tag->selectTagByVideoId($video['id']);
+					$video['channel'] = $model_channel->getChannelByVideoId(array($video['id']));
 				}
 			}
 			
 			$albums= $this->model_video->getAlbumByUserId(array($userId));
+			$channles = $model_channel->getChannelByUserId(array($userId));
 			
+			$this->assign('channels', $channles);
 			$this->assign('albums', $albums);
 			$this->assign('videos', $videos);
 			$this->assign('pagination', $pagination);
@@ -984,6 +989,41 @@
 					else 
 					{
 						$this->model_video->dropAlbumIdAndVideoId(array($albumId,$videoId));
+					}
+					echo true;
+				}
+			}
+		}
+		
+		function addVideoToChannel()
+		{
+			$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			$this->loadModel('model_video');
+			$this->loadModel('model_album');
+			if($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$channelId=$_POST['channelId'];
+				$videoId=$_POST['videoId'];
+				$checked=$_POST['videoChecked'];
+				$res=$this->model_video->checkUserId(array($videoId));
+				if($res['user_id']!=$userId)
+				{
+					echo false;
+				}
+				else 
+				{
+					if($checked == "true")
+					{
+						$this->model_video->addVideoToChannel(array($channelId,$videoId));
+					}
+					else 
+					{
+						$this->model_video->dropChannelIdAndVideoId(array($channelId,$videoId));
 					}
 					echo true;
 				}

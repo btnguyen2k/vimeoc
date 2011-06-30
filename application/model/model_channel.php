@@ -125,6 +125,7 @@
 			$sql = "select 
 						a.id as `channel_id`, 
 						a.channel_name as `channel_name`, 
+						a.thumbnails_path as `thumbnails_path`,
 						count(b.video_id) as 'video_count', 
 						UNIX_TIMESTAMP(a.creation_date) as 'create_date' 
 					from 
@@ -194,6 +195,20 @@
 			$sql = 'Update channel Set arrange=? where id=? ';
 			$types= array('integer','integer');
 			$res = $this->execute_command($sql,$params,$types);
+			return $res;
+		}
+		
+		function getChannelByUserId($params){
+			$sql = "select * from channel where user_id=?";
+			$types= array('integer');
+			$res = $this->execute_query($sql,$params,$types);
+			return $res;
+		}
+		
+		function getChannelByVideoId($params){
+			$sql = "Select channel_id from channel_video where video_id=?";
+			$types= array('integer');
+			$res = $this->execute_query($sql,$params,$types);
 			return $res;
 		}
 	}
