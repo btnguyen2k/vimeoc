@@ -30,7 +30,8 @@
 							<input type="radio" name="videoThumbnail" value="<:$videoThumbnails[a].thumbnails_path:>"/>
 							<img src="<:$ctx:>/images/icon-video.gif" width="100"/>
 						<:else:>
-							<:if $albumThumbnail eq $videoThumbnails[a].thumbnails_path:>
+							<:if $albumThumbnail1 eq $videoThumbnails[a].thumbnails_path:>
+							
 								<input checked="true" type="radio" name="videoThumbnail" value="<:$videoThumbnails[a].thumbnails_path:>" />
 								<img src="<:$ctx:>/images/upload/<:$videoThumbnails[a].thumbnails_path:>" />
 							<:else:>
