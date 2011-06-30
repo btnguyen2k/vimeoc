@@ -705,7 +705,7 @@
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{				
 				$this->assign('upId', uniqid());
-				$this->loadTemplate(USER_TEMPLATE_DIR."view_user_uploadvideox");
+				$this->loadTemplate(USER_TEMPLATE_DIR."view_user_uploadvideo");
 			}
 			else if($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
