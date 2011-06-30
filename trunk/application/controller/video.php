@@ -378,7 +378,8 @@
 				$this->assign("domain", BASE_PATH . CONTEXT);
 				
 				if(!$video['video_alias']){
-					$previewLink = BASE_PATH . CONTEXT . "/" . $video['video_id'];
+					$userAlias = empty($user['profile_alias']) ? 'user'.$user['id'] : $user['profile_alias'];
+					$previewLink = BASE_PATH . CONTEXT . "/" . $userAlias . '/' . $video['video_id'];
 				}else{
 					$previewLink = BASE_PATH . CONTEXT . "/" . ($user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']) .  "/" . $video['video_alias'];
 				}
