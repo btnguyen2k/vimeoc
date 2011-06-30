@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 21, 2011 at 04:32 PM
+-- Generation Time: Jun 30, 2011 at 02:59 PM
 -- Server version: 5.1.41
 -- PHP Version: 5.3.1
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `album` (
   `description` tinytext,
   `password` varchar(225) DEFAULT NULL,
   `thumbnail` varchar(255) DEFAULT NULL,
-  `arrange` tinyint(2) NULL,
+  `arrange` tinyint(2) NOT NULL,
   `thumbnails_path` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
@@ -69,9 +69,9 @@ CREATE TABLE IF NOT EXISTS `channel` (
   `channel_alias` varchar(255) DEFAULT NULL,
   `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `description` tinytext,
-  `arrange` tinyint(2) NULL,
+  `thumbnails_path` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -225,7 +225,7 @@ CREATE TABLE IF NOT EXISTS `video` (
   `description` tinytext,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=25 ;
 
 --
 -- Constraints for dumped tables
