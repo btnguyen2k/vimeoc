@@ -498,6 +498,7 @@
 					}
 				}
 				$this->assign("albumThumbnail",$album['thumbnails_path']);
+				$this->assign("albumThumbnail1",$album['thumbnails_path']);
 				$this->assign("albumName",$album['album_name']);
 				$this->assign("albumId",$albumId);
 				$this->assign("videoThumbnails",$videoThumbnails);
@@ -519,6 +520,7 @@
 				$this->assign("albumName",$album['album_name']);
 				$this->assign('albumId',$albumId);
 				$this->assign('succeesMessage',$this->loadMessages('album.albumthumbnail.success'));
+				$this->assign("albumThumbnail1",$album['thumbnails_path']);
 				$this->assign("videoThumbnails",$videoThumbnails);
 				$this->assignAlbumThumbnails($album);
 				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_albumthumbnail');
