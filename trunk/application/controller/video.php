@@ -507,58 +507,35 @@
 				
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_file');
 			}else if($_SERVER["REQUEST_METHOD"] == "POST"){
-				$videoId = $_POST['videoId'];
+				$videoId = $_GET['videoId'];
 				if(!$videoId){
-					$ret=array('status'=>0,'errorMessage'=>'Invalid data');
+					$ret=array('error'=>'Invalid video id');
 					echo json_encode($ret);
 					return;
 				}
 				
 				$video = $model_video->getVideoById($videoId);
 				if((!$video) || ($video['user_id'] != $userId)){
-					$ret=array('status'=>0,'errorMessage'=>'Invalid data');
+					$ret=array('error'=>'Invalid video id');
 					echo json_encode($ret);
 					return;
 				}
 				$this->assignVideoThumbnails($video);
-				if($_FILES['video']['error'] > 0)
-				{
-					echo $_FILES['video']['error'];
-				}
-				else 
-				{
-					$type = $_FILES['video']['type'];
-					$size = $_FILES['video']['size'] / (1024*1024);
-					$tmpName = $_FILES['video']['tmp_name'];
-					$fileName = $_FILES['video']['name'];
-					$maxsize = $this->loadResources('video.upload.maxsize');
-					if($size > $maxsize)
-					{
-						$ret = array('status'=>0, 'errorMessage'=>$this->loadErrorMessage('error.user.upload.maximum.file.size', array($maxsize.'MB')), 'upId'=>uniqid());
-						echo json_encode($ret);	
-					}else if($size == 0){
-						$ret = array('status'=>0, 'errorMessage'=>$this->loadErrorMessage('error.field.required'), 'upId'=>uniqid());
-						echo json_encode($ret);	
-					}else{
-						$fileInfo = utils::getFileType($fileName);
-						$name = utils::genRandomString(32) . '.' . $fileInfo[1];
-						$target = BASE_DIR . $this->loadResources('video.upload.path') . $name;
-						move_uploaded_file($tmpName, $target);
-						
-					    $ret = $this->model_video->updateVideoFile(array($name, $videoId));
 				
-						if($ret == 0)
-						{
-							$ret = array('status'=>0, 'errorMessage'=>'Error', 'upId'=>uniqid());
-							echo json_encode($ret);	
-						}
-						else 
-						{
-							$ret = array('status'=>1, 'successMessage'=>$this->loadMessages('user.information.update.success', array("video")), 'upId'=>uniqid());
-							echo json_encode($ret);	
-						}
-					}
+				$maxsize = $this->loadResources('video.upload.maxsize');
+				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
+				$allowedExtensions = explode(',', $this->loadResources('video.upload.ext.support'));
+				// max file size in bytes
+				$sizeLimit = $maxsize*1024*1024;
+				
+				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+				$result = $uploader->handleUpload(BASE_DIR . $this->loadResources('video.upload.path'));						
+				if($result['success']===true){
+					$filename = $result['filename'];
+					$ret = $this->model_video->updateVideoFile(array($filename, $videoId));
 				}
+				// to pass data through iframe you will need to encode all html tags
+				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);							
 			}
 		}
 		

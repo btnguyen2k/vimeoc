@@ -39,7 +39,7 @@
 <div id="video_videosetting" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
 	<div id="video_videosetting_body" class="page_body">
-		<center><h1><:$title_:><:$name:></h1></center>
+		<center><h1><:$title:></h1></center>
 			<:if $errorMessage eq "":>
 		  		 &nbsp;
 			<:else:>
@@ -56,7 +56,7 @@
 			<fieldset>
 				<ul>
 					<li>
-						<span><:$title:> </span><br/>						
+						<span><:$name:> </span><br/>						
 						<input type="text" name="title" id="title" value="<:$title_:>"/>
 						<span class="red" id="error_valid_title" style="display: none;"><:$titleiInvalid:></span>
 					</li>					

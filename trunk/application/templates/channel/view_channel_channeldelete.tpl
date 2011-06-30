@@ -12,7 +12,7 @@
 					<li>
 						<center>
 							<input type="submit" value="Yes" />
-							<input type="button" value="No" />
+							<input type="button" value="No" onclick="window.location.href='<:$ctx:>/channel/?channelId=<:$channelId:>'"/>
 						</center>
 					</li>
 					<li>

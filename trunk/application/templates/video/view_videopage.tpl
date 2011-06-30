@@ -26,8 +26,12 @@ function confirmAction() {
 					<:/if:>
 					<p><:$days:> ago<:$by:>:<span class=blue><:$fullname:></span></p>
 					<p><:$play:><:$plays:>,<:$comment:><:$comments:>,<:$like:><:$likes:></p>
+					<:if $strTags != '':>
 					<p><:$tag:><:$strTags:></p>
+					<:/if:>
+					<:if $strAlbums != '':>
 					<p><:$albums:><:$strAlbums:> </p>
+					<:/if:>
 					<input type="hidden" id="videoid" name="videoid" value="<:$videoid:>"/>
 					<input type="hidden" id="confirm" name="confirm" value=""/>
 				</div>
