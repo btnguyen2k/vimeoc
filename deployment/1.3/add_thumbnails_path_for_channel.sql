@@ -1,1 +1,0 @@
-ALTER TABLE `channel` ADD `thumbnails_path` VARCHAR( 255 ) NULL;

@@ -33,18 +33,8 @@
 				}
 			}
 			
-			$video = $videoModel->getVideoByVideoAlias(array($videoAlias));
-			if($video == null){
-				$album = $albumModel->getAlbumByAlbumAlias(array($albumAlias));
-				if($album != null && ($user['id'] == $album['user_id'])){
-					$_GET['albumId'] = $album['id']; 	
-					$controller = $this->getController('album', $this->tmpl);
-					$controller->indexMessagesSource();
-					$controller->index();
-				}else{
-					$this->redirect($this->ctx());
-				}
-			}else{
+			if(is_numeric($videoAlias)){
+				$video = $videoModel->getVideoByVideoId(array($videoAlias));
 				if($video != null && ($user['id'] == $video['user_id'])){
 					$_GET['videoId'] = $video['id']; 	
 					$controller = $this->getController('video', $this->tmpl);
@@ -53,9 +43,29 @@
 				}else{
 					$this->redirect($this->ctx());
 				}
+			}else{
+				$video = $videoModel->getVideoByVideoAlias(array($videoAlias));
+				if($video == null){
+					$album = $albumModel->getAlbumByAlbumAlias(array($albumAlias));
+					if($album != null && ($user['id'] == $album['user_id'])){
+						$_GET['albumId'] = $album['id']; 	
+						$controller = $this->getController('album', $this->tmpl);
+						$controller->indexMessagesSource();
+						$controller->index();
+					}else{
+						$this->redirect($this->ctx());
+					}
+				}else{
+					if($video != null && ($user['id'] == $video['user_id'])){
+						$_GET['videoId'] = $video['id']; 	
+						$controller = $this->getController('video', $this->tmpl);
+						$controller->videopageMessagesSource();
+						$controller->videopage();
+					}else{
+						$this->redirect($this->ctx());
+					}
+				}
 			}
-			
-			echo $video != null;
 		}		
 	}
 ?>

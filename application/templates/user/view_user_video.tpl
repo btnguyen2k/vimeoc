@@ -66,29 +66,38 @@
 		<:if 2 == $display_mode:>
 			<:foreach from=$videos key=k item=v:>
 				<a href="<:$ctx:>/video/videopage/?videoId=<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
-				id: <:$v['id']:><br/>
-				title: <:$v['video_title']:><br/>
-				<div class="creation_date">uploaded: <span class="relative_time"><:$v['creation_date']:></span></div>
+				Id: <:$v['id']:><br/>
+				<:if $v['video_title'] != '':>
+				Title: <:$v['video_title']:><br/>
+				<:/if:>
+				<div class="creation_date">Uploaded: <span class="relative_time"><:$v['creation_date']:></span></div>
 				Play count: <:$v['play_count']:><br/>
 				Comment count: <:$v['comment_count']:><br/>
 				Like count: <:$v['like_count']:><br/>
-				Albums: <:foreach from=$v['album'] key=k1 item=v1:><a href="<:$ctx:>/album/?albumId=<:$v1['album_id']:>"><:$v1['album_name']:></a>, <:/foreach:><br/>
+				Albums: <:foreach from=$v['album'] key=k1 item=v1 name=albums:><a href="<:$ctx:>/album/?albumId=<:$v1['album_id']:>"><:$v1['album_name']:></a><:if $smarty.foreach.albums.last:><:else:>, <:/if:><:/foreach:><br/>
+				<:if $v['tag']|@count gt 0:>
 				Tags: <:foreach from=$v['tag'] key=k1 item=v1 name=tags:><a href="<:$ctx:>/tag/<:$v1['tag_id']:>"><:$v1['tag_name']:></a><:if $smarty.foreach.tags.last:> <:else:>, <:/if:><:/foreach:><br/>
+				<:/if:>
+				<:if $albums|@count gt 0:>
 				Choose albums:
 				<:foreach from=$albums key=l item=a:>					
 					<input type="checkbox" id="<:$a['id']:>" name ="<:$v['id']:>" onclick="addVideoToAlbum(this)" <:foreach from=$v['album'] key=l1 item=va:><:if $va['album_id'] eq $a['id']:>checked='true'<:/if:><:/foreach:>><:$a['album_name']:></input>
 				<:/foreach:><br/>
+				<:/if:>
+				<:if $channels|@count gt 0:>
 				Choose channels:
 				<:foreach from=$channels key=l item=a:>					
 					<input type="checkbox" id="<:$a['id']:>" name ="<:$v['id']:>" onclick="addVideoToChannel(this)" <:foreach from=$v['channel'] key=l1 item=va:><:if $va['channel_id'] eq $a['id']:>checked='true'<:/if:><:/foreach:>><:$a['channel_name']:></input>
 				<:/foreach:><br/>
-				<br/>
+				<:/if:>
 				<br/>
 			<:/foreach:>
 		<:else:>
 			<:foreach from=$videos key=k item=v:>
 				<a href="<:$ctx:>/video/videopage/?videoId=<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
-				title: <:$v['video_title']:><br/><br/>
+				<:if $v['video_title'] != '':>
+				Title: <:$v['video_title']:><br/>
+				<:/if:><br/><br/>
 			<:/foreach:>
 		<:/if:>
 		<:$message:>

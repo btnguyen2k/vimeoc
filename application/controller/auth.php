@@ -186,7 +186,9 @@
 				{
 					$password2=$_POST['password'];
 					$params = array($fullName, $username, $this->encodePassword($password), $username);
-					$userId = $this->model_user->addNewUser($params);					
+					$userId = $this->model_user->addNewUser($params);
+					$userAlias = 'user'.$userId;
+					$this->model_user->updateUserAlias(array($userAlias));					
 					// sending welcome mail
 					$params = array($userId);
 					$user = $this->model_user->getUserByUserId($params);

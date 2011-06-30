@@ -24,19 +24,27 @@
 		<:if 2 == $display_mode:>
 			<:foreach from=$videos key=k item=v:>
 				<a href="<:$ctx:>/video/videopage/?videoId=<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
-				id: <:$v['id']:><br/>
-				title: <:$v['video_title']:><br/>
-				<div class="creation_date">uploaded: <span class="relative_time"><:$v['creation_date']:></span></div>
-				play count: <:$v['play_count']:><br/>
-				comment count: <:$v['comment_count']:><br/>
-				like count: <:$v['like_count']:><br/>
-				album: <:foreach from=$v['album'] key=k1 item=v1 name=albums:><a href="<:$ctx:>/album/?albumId=<:$v1['album_id']:>"><:$v1['album_name']:></a><:if $smarty.foreach.albums.last:> <:else:>, <:/if:><:/foreach:><br/>
-				tag: <:foreach from=$v['tag'] key=k1 item=v1 name=tags:><a href="<:$ctx:>/tag/<:$v1['tag_id']:>"><:$v1['tag_name']:></a><:if $smarty.foreach.tags.last:> <:else:>, <:/if:><:/foreach:><br/><br/>
+				Id: <:$v['id']:><br/>
+				<:if $v['video_title'] != '':>
+				Title: <:$v['video_title']:><br/>
+				<:/if:>
+				<div class="creation_date">Uploaded: <span class="relative_time"><:$v['creation_date']:></span></div>
+				Play count: <:$v['play_count']:><br/>
+				Comment count: <:$v['comment_count']:><br/>
+				Like count: <:$v['like_count']:><br/>
+				<:if $v['album']|@count gt 0:>
+				Albums: <:foreach from=$v['album'] key=k1 item=v1 name=albums:><a href="<:$ctx:>/album/?albumId=<:$v1['album_id']:>"><:$v1['album_name']:></a><:if $smarty.foreach.albums.last:> <:else:>, <:/if:><:/foreach:><br/>
+				<:/if:>
+				<:if $v['tag']|@count gt 0:>
+				Tags: <:foreach from=$v['tag'] key=k1 item=v1 name=tags:><a href="<:$ctx:>/tag/<:$v1['tag_id']:>"><:$v1['tag_name']:></a><:if $smarty.foreach.tags.last:> <:else:>, <:/if:><:/foreach:><br/><br/>
+				<:/if:>
 			<:/foreach:>
 		<:else:>
 			<:foreach from=$videos key=k item=v:>
 				<a href="<:$ctx:>/video/videopage/?videoId=<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
-				title: <:$v['video_title']:><br/><br/>
+				<:if $v['video_title'] != '':>
+				Title: <:$v['video_title']:>
+				<:/if:><br/><br/>
 			<:/foreach:>
 		<:/if:>
 		<:$message:>
