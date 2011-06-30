@@ -2,7 +2,7 @@
 $(document).ready(function() {
 		checkPasswordNull();
 	});
-
+	
 	function checkPasswordNull()
 	{
 		if($("#password").val()!="")
@@ -11,6 +11,7 @@ $(document).ready(function() {
 			$("#password").removeAttr('disabled');
 		}
 	}
+	
 	function checkChange()
 	{
 		var check=$("#passwordCheck").attr("checked");
@@ -22,10 +23,9 @@ $(document).ready(function() {
 		else
 		{
 			$("#password").removeAttr('disabled');
-			
 		}
 	}
-
+	
 	function checkPassword()
 	{
 		var check=$("#passwordCheck").attr("checked");
@@ -33,24 +33,20 @@ $(document).ready(function() {
 		if(!check)
 		{
 			$("#password").val("");
-			$("#error_valid_password").show();
 			$("#success_message").hide();
 			$("#invalid_password").hide();
-			return false;
 		}
 		else if(password=="")
 		{
-			$("#invalid_password").show();
 			$("#error_valid_password").hide();
 			$("#success_message").hide();
-			return false;
 		}
 		else
 		{
 			$("#invalid_password").hide();
 		}
 	}
-	
+
 </script>
 <div id="album_password" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
