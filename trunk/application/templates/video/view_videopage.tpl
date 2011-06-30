@@ -21,7 +21,9 @@ function confirmAction() {
 						<img src="<:$ctx:>/<:$videoThumbnail:>" />
 				</div>
 				<div style="float: left">
+					<:if $videoOwner:>
 					<p><a href="<:$ctx:>/video/videosetting/?videoId=<:$videoid:>">[Setting]</a><a href="#" onclick="return confirmAction()">[Delete]</a></p>
+					<:/if:>
 					<p><:$days:> ago<:$by:>:<span class=blue><:$fullname:></span></p>
 					<p><:$play:><:$plays:>,<:$comment:><:$comments:>,<:$like:><:$likes:></p>
 					<p><:$tag:><:$strTags:></p>

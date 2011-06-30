@@ -1,8 +1,7 @@
 <link href="<:$ctx:>/css/channel_index.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="<:$ctx:>/script/channel_index.js"></script>
 <div id="user_info" class="page">
-	<:include file="<:$base_dir_templates:>/blocks/channel_left_menu.tpl":>	
-	<br/><br/>
+	<:include file="<:$base_dir_templates:>/blocks/channel_left_menu.tpl":>		
 	<div id="user_video_body" class="page_body">
 		<center><h1><:$title:> <:$channel_name:></h1></center><br/>
 		<form id="search_form" name="search_from" action="<:$ctx:>/channel/" method="GET">

@@ -23,6 +23,7 @@
 			</li>
 		</ul>
 	<:/if:>
+	<:if $authorized == true:>
 	<ul>
 		<li>
 			<a href="<:$ctx:>/video/videosetting/?videoId=<:$videoId:>"><:$videobasicinfo:></a>
@@ -50,4 +51,10 @@
 			<a href="<:$ctx:>/user/video/"><:$videobacktovideo:></a>
 		</li>
 	</ul>
+	<:/if:>
+	<:if $authorized == false:>
+	<ul>
+		<li><a href="<:$ctx:>">Back to homepage</a>
+	</ul>
+	<:/if:>
 </div>

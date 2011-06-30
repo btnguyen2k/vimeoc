@@ -1,6 +1,6 @@
-<div id="channel_albumthumbnail" class="channel_page">
+<div id="channel_albumthumbnail" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/channel_left_menu.tpl":>	
-	<div id="channel_channelthumbnail_body" class="channel_page_body">
+	<div id="channel_channelthumbnail_body" class="page_body">
 		<center><h1><:$channelName:><:$name:></h1></center>
 			<:if $succeesMessage eq "":>
   				 &nbsp;
@@ -49,7 +49,7 @@
 			</fieldset>
 		</form>
 	</div>
-	<div id="user_info_help" class="user_page_help">
+	<div id="user_info_help" class="page_help">
 		Help?<div><:$hint:></div>
 	</div>
 </div>

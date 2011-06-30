@@ -309,9 +309,9 @@
 		 *Get play by user Id ...
 		 * @param $params
 		 */
-		function getPlaybyUserId($params)
+		function getPlaybyVideoId($params)
 		{
-			$sql= 'select play_count from video where user_id=?';
+			$sql= 'select play_count from video where id=?';
 			$types =  array('text','integer');
 			$res = $this->execute_query($sql,$params,$types);
 			if(sizeof($res) > 0)
@@ -637,6 +637,13 @@
 			$this->execute_command($sql, $params, $types);
 		}
 		
+		function addVideoToChannel($params)
+		{
+			$sql = 'INSERT INTO channel_video(channel_id, video_id) VALUES (?, ?)';
+			$types = array('integer', 'integer');
+			$this->execute_command($sql, $params, $types);
+		}
+		
 		/**
 		 * select album_id by album_name
 		 * @param $params
@@ -670,6 +677,13 @@
 		function dropAlbumIdAndVideoId($params)
 		{
 			$sql = 'delete from album_video where album_id=? and video_id=?';
+			$types = array('integer', 'integer');
+			$this->execute_command($sql, $params, $types);
+		}
+		
+		function dropChannelIdAndVideoId($params)
+		{
+			$sql = 'delete from channel_video where channel_id=? and video_id=?';
 			$types = array('integer', 'integer');
 			$this->execute_command($sql, $params, $types);
 		}

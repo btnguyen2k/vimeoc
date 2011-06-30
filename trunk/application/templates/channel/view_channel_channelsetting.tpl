@@ -14,9 +14,9 @@ function checkValidForm()
 	}	
 }
 </script>
-<div id="channel_create" class="channel_page">
+<div id="channel_create" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/channel_left_menu.tpl":>	
-	<div id="channel_channelcreate_body" class="channel_page_body">
+	<div id="channel_channelcreate_body" class="page_body">
 		<center><h1><:$title_:>-<:$name:></h1></center>
 		<span class="green" align="center"><:$successMessage:></span>
 		<form action="<:$ctx:>/channel/channelSetting/?channelId=<:$channelId:>" method="post" name="channelcreate" onSubmit="return checkValidForm(this)" >
@@ -43,7 +43,7 @@ function checkValidForm()
 			</fieldset>
 		</form>
 	</div>
-	<div id="user_info_help" class="user_page_help">
+	<div id="user_info_help" class="page_help">
 		Help?<div><:$hint:></div>
 	</div>
 </div>		

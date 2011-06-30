@@ -307,6 +307,7 @@
 			$this->assign("menuchannelarrange", $this->loadMessages('channel.menu.channelarrange.link'));
 			$this->assign("menuchanneldelete", $this->loadMessages('channel.menu.channeldelete.link'));
 			$this->assign("menuchannelcreate", $this->loadMessages('channel.menu.channelcreate.link'));
+			$this->assign("menumychannel", $this->loadMessages('channel.menu.mychannel.link'));
 			$this->assign("videoId", $_GET["videoId"]);
 			$this->assign("albumId", $_GET["albumId"]);
 		}
@@ -349,7 +350,7 @@
 				$channelName=$_POST['title'];
 				$description=$_POST['description'];
 				$channelId = $this->model_channel->addNewChannel(array($userId,$channelName,$description));
-				$this->redirect($this->ctx().'/channel/?channelId='.$channelId);
+				$this->redirect($this->ctx().'/user/channel/');
 			}
 		}
 		/**
@@ -449,9 +450,10 @@
 				$this->assign("title",$channel['channel_name']);
 				$this->model_channel->dropChannelByChannelId(array($channelId));
 				$this->model_channel->dropChannelVideoByChannelId(array($channelId));
-				$this->redirect($this->ctx().'/user/album/albumsetting');
+				$this->redirect($this->ctx().'/user/channel/');
 			}
 		}
+		
 		/**
 		 * Load defaul channel Thumbnail page
 		 * 

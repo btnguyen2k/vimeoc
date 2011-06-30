@@ -45,7 +45,7 @@
 		function get_time_difference( $start, $end )
 		{
 		    $uts['start']      =    strtotime( $start );
-		    $uts['end']        =    strtotime( $end );
+		    $uts['end']        =    strtotime( $end );	
 		    if( $uts['start']!==-1 && $uts['end']!==-1 )
 		    {
 		        if( $uts['end'] >= $uts['start'] )
@@ -159,6 +159,7 @@
 			$this->tmpl->assign("base_dir_templates", APP_DIR . '/templates/');
 			$this->tmpl->assign('body_code', $template.'.tpl');
 			$this->tmpl->assign('ctx', $this->ctx());
+			$this->tmpl->assign('authorized', $this->getLoggedUser() > 0);
 			$this->tmpl->display('decorator/default.tpl');
 		}
 		

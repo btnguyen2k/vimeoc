@@ -2,7 +2,6 @@
 <script type="text/javascript" src="<:$ctx:>/script/album_index.js"></script>
 <div id="user_info" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
-	<br/><br/>
 	<div id="user_video_body" class="page_body">
 		<center><h1><:$title:> <:$album_name:></h1></center><br/>
 		<form id="search_form" name="search_from" action="<:$ctx:>/album/" method="GET">

@@ -2,7 +2,6 @@
 <script type="text/javascript" src="<:$ctx:>/script/channel_arrange.js"></script>
 <div id="user_info" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/channel_left_menu.tpl":>	
-	<br/><br/>
 	<div id="album_page_body" class="page_body">
 		<center><h1><:$channel_title:> - <:$title:></h1></center><br/>
 		<span id="error_message" class="red"><:$errorMessage:></span>
