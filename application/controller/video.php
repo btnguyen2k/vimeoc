@@ -1,6 +1,7 @@
 <?php 
 	define("VIDEO_TEMPLATE_DIR", "video/");
-	
+	include (BASE_DIR . '/application/uploader.php');
+		
 	/**
 	 * 
 	 * Video controller
@@ -667,8 +668,10 @@
 			$this->defaultVideoMessagesSource();
 			$this->assign("title", $this->loadMessages('video.thumbnail.title'));
 			$this->assign("hint", $this->loadMessages('video.thumbnail.hint'));
+			$this->assign('imageExtSupport', $this->loadResources('image.upload.ext.support'));
 			$this->assign("currentThumbnail", $this->loadMessages('video.thumbnail.currentThumbnail'));
 			$this->assign("uploadNewThumbnail", $this->loadMessages('video.thumbnail.uploadNewThumbnail'));
+			$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("video thumbnail")));
 		}
 		
 		function thumbnail(){
@@ -701,72 +704,38 @@
 				$this->assign('upId', uniqid());
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_thumbnail');
 			}elseif ($_SERVER['REQUEST_METHOD'] == 'POST'){
-				if($_FILES['portrait']['error'] > 0)
-				{
-					$ret = array('status' => 0, 'errorMessage' => $this->loadErrorMessage('error.video.thumbnail'), 'upId' => uniqid());
+				$videoId = $_GET['videoId'];
+				$video = $model_video->getVideoById($videoId);
+				//check video owner
+				if(!$video || ($video['user_id'] != $userId)){
+					$ret = array('error' => $this->loadErrorMessage('error.video.thumbnail.invalidVideoId'));
 					echo json_encode($ret);
 					return;
+				}else{
+					$old_thumbnail = $video['thumbnails_path'];
 				}
-				else{
-					$error_flag = false;
-					$videoId = $_POST['videoId'];
-					$video = $model_video->getVideoById($videoId);
-					//check video owner
-					if(!$video || ($video['user_id'] != $userId)){
-						$ret = array('status' => 0, 'errorMessage' => $this->loadErrorMessage('error.video.thumbnail.invalidVideoId'), 'upId' => uniqid());
-						echo json_encode($ret);
-						return;
-					}else{
-						$old_thumbnail = $video['thumbnails_path'];
+					
+				$maxsize = $this->loadResources('image.upload.maxsize');
+				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
+				$allowedExtensions = explode(',', $this->loadResources('image.upload.ext.support'));
+				// max file size in bytes
+				$sizeLimit = $maxsize*1024*1024;
+				
+				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+				$result = $uploader->handleUpload(BASE_DIR . $this->loadResources('image.upload.path'));						
+				if($result['success']===true){
+					$filename = $result['filename'];
+					$ret = $model_video->updateThumbnailById(array($filename, $videoId));
+					if($old_thumbnail && file_exists(BASE_DIR . $this->loadResources('image.upload.path') . $old_thumbnail)){
+						unlink(BASE_DIR . $this->loadResources('image.upload.path') . $old_thumbnail);
 					}
-					
-					//check upload error
-					$type = $_FILES['thumbnail_image']['type'];
-					$size = $_FILES['thumbnail_image']['size'] / (1024*1024);
-					$tmpName = $_FILES['thumbnail_image']['tmp_name'];
-					$fileName = $_FILES['thumbnail_image']['name'];
-					$fileInfo = utils::getFileType($fileName);
-					
-					$extSupport = explode(',', $this->loadResources('image.upload.ext.support'));
-
-					if(!in_array('.' . $fileInfo[1], $extSupport)){
-						$ret = array('status' => 0, 'errorMessage' => $this->loadErrorMessage('error.video.thumbnail.notSupport'), 'upId' => uniqid());
-						echo json_encode($ret);
-						return;
-					}
-					
-					$maxsize = $this->loadResources('image.upload.maxsize');
-					if($size > $maxsize){
-						$ret = array('status' => 0, 'errorMessage' => $this->loadErrorMessage('error.video.thumbnail.fileSizeLimit'), 'upId' => uniqid());
-						echo json_encode($ret);
-						return;
-					}
-					
-					do{
-						$name = utils::genRandomString(32) . '.' . $fileInfo[1];
-						$target = BASE_DIR . $this->loadResources('image.upload.path') . $name;
-					}while(file_exists($target));
-					
-					$rimg = new RESIZEIMAGE($tmpName);
+					$target = BASE_DIR . $this->loadResources('image.upload.path') . $filename;
+					$rimg = new RESIZEIMAGE($target);
 				    $rimg->resize_limitwh(300, 300, $target);				    
 				    $rimg->close();
-				    
-				    $result = $model_video->updateThumbnailById(array($name, $videoId));
-				    
-					if($result == 0){
-						$ret = array('status' => 0, 'errorMessage' => $this->loadErrorMessage('error.video.thumbnail'), 'upId' => uniqid());
-						echo json_encode($ret);
-						return;
-					}else{
-						$video['thumbnails_path'] = $name;
-						if($old_thumbnail && file_exists(BASE_DIR . $this->loadResources('image.upload.path') . $old_thumbnail)){
-							unlink(BASE_DIR . $this->loadResources('image.upload.path') . $old_thumbnail);
-						}
-						$ret = array('status' => 1, 'successMessage' => $this->loadMessages('video.thumbnail.success'), 'upId' => uniqid(), 'thumbnail' => ($this->ctx() . $this->loadResources('image.upload.path') . $name));
-						echo json_encode($ret);
-						return;
-					}
 				}
+				// to pass data through iframe you will need to encode all html tags
+				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 			}
 		}
 		

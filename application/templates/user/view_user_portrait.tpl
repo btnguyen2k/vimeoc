@@ -1,41 +1,34 @@
+<script src="/vimeoc/script/file_uploader.js" type="text/javascript"></script>
+<link href="/vimeoc/css/file_uploader.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
+	var imageExtArray = '<:$imageExtSupport:>'.split(",");
+	var imageContext = '<:$ctx:>/images/upload/';
 	$(document).ready(function(){
-		var imageExtArray = '<:$imageExtSupport:>'.split(",");
-		var upId = '<:$upId:>';
-		var imageContext = '<:$ctx:>/images/upload/';
-		$("#portraitForm").submit(function(){
-			var form = this;
-			if($(form.portrait).val() == ''){
-				$("#error_file").show();
-			}else{
-				if(limitAttach(form, form.portrait.value, imageExtArray)){
-					$("#error_file").hide();
-					function set() {
-						$('#upload_frame').attr('src','<:$ctx:>/upload_frame.php?upId='+upId);						
-					}
-					setTimeout(set);
-					$('#upload_frame').show();
-					$("#portraitForm").ajaxSubmit(function(json){
-						var data = eval('('+json+')');
-						$("#progress_key").val(data.upId);
-						upId = data.upId;
-						form.portrait.value = '';
-						
-						if(data.status == 1){
-							$("#top_error").hide();
-							$("#top_success").html(data.successMessage).show();
-							$(".userAvatar").attr("src", imageContext+data.avatar);
-							$('#upload_frame').hide('slow');
-						}else{
-							$("#top_success").hide();
-							$("#top_error").html(data.errorMessage).show();
-							$('#upload_frame').hide();
-						}
-					});
-				}
-			}
-			return false;
-		});
+		var uploader = new qq.FileUploader({
+            element: document.getElementById('file-uploader'),
+            action: '<:$ctx:>/user/portrait/',
+            allowedExtensions: imageExtArray,
+        	// you can return false to abort submit
+            onSubmit: function(id, fileName){},
+            onProgress: function(id, fileName, loaded, total){
+                var percent = Math.round(loaded / total * 100);
+				$("#upload-processing").css("width", percent +"%");
+            },
+            onComplete: function(id, fileName, responseJSON){
+            	$("#upload-processing").css("width", "100%");
+            	$("#top_success").show();
+            	setTimeout('$("#top_success").slideUp()',2000);
+            	setTimeout('$("#upload-processing").css("width","0%")',2000);
+            	$(".userAvatar").attr("src", imageContext+responseJSON.filename);
+            },
+            onCancel: function(id, fileName){
+            	$("#upload-processing").css("width", "0%");
+            },
+            showErrorMessage: function(message){
+            	$("#top_error").html(message).show();
+            	setTimeout('$("#top_error").slideUp()',2000);
+            }
+        });
 	});
 </script>
 <div id="user_portrait" class="page">
@@ -43,34 +36,29 @@
 	
 	<div id="user_portrait_body" class="page_body">
 		<center><h1><:$title:></h1></center><br/>		
-		<span class="red" id="top_error"><:$errorMessage:></span>
-		<span class="green" id="top_success"><:$successMessage:></span>
-		<form action="<:$ctx:>/user/portrait/" id="portraitForm" method="post" enctype="multipart/form-data">
-			<fieldset>
-				<ul>
-					<li>
-						<span><:$currentPortrait:></span><br/>
-						<:if $avatar != '':>
-						<img class="userAvatar" src="<:$ctx:>/images/upload/<:$avatar:>" width="50" height="50"/>
-						<:else:>
-						<img class="userAvatar" src="<:$ctx:>/images/avatar.png" width="50" height="50"/>
-						<:/if:>
-					</li>
-					<li>
-						<span><:$uploadNew:></span>*<br/>
-						<!--APC hidden field-->
-    					<input type="hidden" name="APC_UPLOAD_PROGRESS" id="progress_key" value="<:$upId:>"/>
-						<input type="file" name="portrait"/><br/>
-						<span style="display: none" class="red" id="error_file"><:$requiredFields:></span>
-						<span style="display: none" class="red" id="notSupportExt"><:$requiredFields:></span>
-					</li> 
-					<li>
-						<input type="submit" value="Upload" />
-					</li>
-				</ul>				
-			</fieldset>
-		</form>
-		<iframe id="upload_frame" name="upload_frame" frameborder="0" border="0" src="" scrolling="no" scrollbar="no" style="display: none;"> </iframe>
+		<span class="red" id="top_error" style="display: none"><:$errorMessage:></span>
+		<span class="green" id="top_success" style="display: none"><:$successMessage:></span>
+		<fieldset>
+			<ul>
+				<li>
+					<span><:$currentPortrait:></span><br/>
+					<:if $avatar != '':>
+					<img class="userAvatar" src="<:$ctx:>/images/upload/<:$avatar:>" width="50" height="50"/>
+					<:else:>
+					<img class="userAvatar" src="<:$ctx:>/images/avatar.png" width="50" height="50"/>
+					<:/if:>
+				</li>
+				<li id="file-uploader">
+					 <noscript>			
+						<p>Please enable JavaScript to use file uploader.</p>
+						<!-- or put a simple form for upload here -->
+					</noscript>	  
+				</li>
+				<li style="width: 200px;">
+					<div id="upload-processing" style="width: 0%; background: green;">&nbsp;</div>
+				</li>					
+			</ul>				
+		</fieldset>
 	</div>
 	
 	<div id="user_info_help" class="page_help">
