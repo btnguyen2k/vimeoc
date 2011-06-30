@@ -356,6 +356,9 @@
 			$this->loadModel('model_user');
 			$model_user = $this->model_user;
 			
+			$this->loadModel('model_album');
+			$model_album = $this->model_album;
+			
 			if ($_SERVER['REQUEST_METHOD'] == 'GET'){
 				$videoId = $_GET['videoId'];
 				if(!$videoId){
@@ -419,6 +422,11 @@
 					$this->assign('errorMessage', $this->loadErrorMessage('error.video.alias.aliasExists', array($url_alias)));
 					$errorFlag = true;
 				}
+				if((!$errorFlag) && ($model_album->isAliasExist(array($url_alias, $userId)))){
+					$this->assign('errorMessage', $this->loadErrorMessage('error.album.alias.aliasExists', array($albumCustomUrl)));
+					$errorFlag = true;
+				}
+				
 				//save video alias
 				if(!$errorFlag){
 					if(($video['video_alias'] == $url_alias) ||$model_video->updateAliasById(array($url_alias, $videoId))){
