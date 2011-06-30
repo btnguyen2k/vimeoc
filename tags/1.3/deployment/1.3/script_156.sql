@@ -1,0 +1,1 @@
+ALTER TABLE `channel` ADD `arrange` tinyint(2) NULL;
