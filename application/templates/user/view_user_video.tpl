@@ -74,7 +74,9 @@
 				Play count: <:$v['play_count']:><br/>
 				Comment count: <:$v['comment_count']:><br/>
 				Like count: <:$v['like_count']:><br/>
+				<:if $v['album']|@count gt 0:>
 				Albums: <:foreach from=$v['album'] key=k1 item=v1 name=albums:><a href="<:$ctx:>/album/?albumId=<:$v1['album_id']:>"><:$v1['album_name']:></a><:if $smarty.foreach.albums.last:><:else:>, <:/if:><:/foreach:><br/>
+				<:/if:>
 				<:if $v['tag']|@count gt 0:>
 				Tags: <:foreach from=$v['tag'] key=k1 item=v1 name=tags:><a href="<:$ctx:>/tag/<:$v1['tag_id']:>"><:$v1['tag_name']:></a><:if $smarty.foreach.tags.last:> <:else:>, <:/if:><:/foreach:><br/>
 				<:/if:>
