@@ -14,7 +14,7 @@
 	}
 </script>
 <div id="channel_create" class="page">
-	<:include file="<:$base_dir_templates:>/blocks/channel_left_menu.tpl":>	
+	<:include file="<:$base_dir_templates:>/blocks/channel_create_left_menu.tpl":>	
 	<div id="channel_channelcreate_body" class="page_body">
 		<center><h1><:$name:></h1></center>
 		<div>
