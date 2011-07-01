@@ -188,7 +188,7 @@
 					$params = array($fullName, $username, $this->encodePassword($password), $username);
 					$userId = $this->model_user->addNewUser($params);
 					$userAlias = 'user'.$userId;
-					$this->model_user->updateUserAlias(array($userAlias));					
+					$this->model_user->updateUserAlias(array($userAlias, $userId));					
 					// sending welcome mail
 					$params = array($userId);
 					$user = $this->model_user->getUserByUserId($params);

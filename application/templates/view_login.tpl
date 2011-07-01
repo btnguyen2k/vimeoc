@@ -42,5 +42,6 @@ function checkEmail()
 	</div>
 	<div>
 		<input type="submit" value="<:$submit:>"/><a href="<:$ctx:>/auth/forgotPassword">[Forgot your password ?]</a>
+		<a href="<:$ctx:>/auth/signup">[Sign up ?]</a>
 	</div>
 </form>

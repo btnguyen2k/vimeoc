@@ -34,6 +34,7 @@
 		</li>
 		<:/if:>
 		<:/if:>
+		<:if $authorized == true:>
 		<li>
 			<a href="<:$ctx:>/album/albumthumbnail/?albumId=<:$albumId:>"><:$menuthumbnailAlbum:></a>
 		</li>
@@ -49,6 +50,7 @@
 		<li>
 			<a href="<:$ctx:>/album/albumDelete/?albumId=<:$albumId:>"><:$menudeleteAlbum:></a>
 		</li>
+		<:/if:>
 		<:if $authorized == true:>
 		<:if $create_album != 1:>
 		<li>
