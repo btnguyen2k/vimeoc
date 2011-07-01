@@ -8,6 +8,7 @@
 
 		if(!flag){
 			$("#error_valid_url").show();
+			$("#error_valid_alias").hide();
 			return false;
 		}else{
 			$("#error_valid_url").hide();
@@ -31,7 +32,7 @@
 			<:if $errorMessage eq "":>
   				 &nbsp;
 			<:else:>
-   				<span class="red" align="center"><:$errorMessage:></span>
+   				<span class="red" id="error_valid_alias" align="center"><:$errorMessage:></span>
 			<:/if:>
 		<form action="<:$ctx:>/album/albumCustomUrl/?albumId=<:$albumId:>" method="post" name="albumCustomUrl" onsubmit="return checkUrl(this);">
 			<fieldset>
