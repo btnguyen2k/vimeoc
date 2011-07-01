@@ -47,6 +47,7 @@
 			$this->assign("videovideofile", $this->loadMessages('user.video.link.videofile'));
 			$this->assign("videocustomurl", $this->loadMessages('user.video.link.customurl'));
 			$this->assign("videoaddto", $this->loadMessages('user.video.link.addto'));
+			$this->assign("videoaddtochannel", $this->loadMessages('user.video.link.addtochannel'));
 			$this->assign("videodelete", $this->loadMessages('user.video.link.delete'));
 			$this->assign("videobacktovideo", $this->loadMessages('user.video.link.backtovideo'));
 			$this->assign("videopreandpost", $this->loadMessages('user.video.link.preandpostroll'));
@@ -265,6 +266,92 @@
 			}
 		}
 		
+		/**
+		 * Load messages sourse for Addtochannel
+		 * 
+		 */
+		function addToChannelMessagesSource()
+		{
+			$this->defaultVideoMessagesSource();
+			
+			$this->assign("add", $this->loadMessages('video.addtochannel.add'));
+			$this->assign("title", $this->loadMessages('video.addtochannel.title'));
+			$this->assign("hint", $this->loadMessages('video.addtochannel.hint'));
+			
+		}
+		/**
+		 *  view and action for video_addtopage
+		 */
+		function addToChannel()
+		{
+		$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			$this->loadModel('model_video');
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
+			{
+				$videoId=$_GET['videoId'];
+				if(!$videoId){
+					$this->redirect($this->ctx().'/user/home');
+					return;
+				}
+				$channel= $this->model_video->getChannelByUserId(array($userId));
+				$video=$this->model_video->getVideoByVideoId(array($videoId));
+				$channelIds=$this->model_video->getChannelIdByVideoIdWithoutJoin(array($videoId));
+				$str="";
+				for($i=0;$i<sizeof($channelIds);$i++)
+				{
+					$str .= $channelIds[$i]['channel_id'] . ',';
+				}
+				$this->assign("videoId",$videoId);
+				$this->assign("checkedChannels",$str);
+				$this->assign("video",$video['video_title']);
+				$this->assign("channel",$channel);
+				$this->assignVideoThumbnails($video);
+				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_addtochannel');
+			}
+			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$videoId=$_POST['videoId'];
+				$channelId=$_POST["channelId"];
+				$mChannelId = split(',', $channelId);
+				$channelUncheck = $_POST["channelUncheck"];
+				$mChannelUncheck = split(',', $channelUncheck);
+				
+				for($j=0;$j<sizeof($mChannelUncheck);$j++)
+				{
+					$this->model_video->dropChannelIdAndVideoId(array($mChannelUncheck[$j],$videoId));				
+				}
+				for($i=0;$i<sizeof($mChannelId);$i++)
+				{
+					if($mChannelId[$i]!="")
+					{
+						if ($this->model_video->isChannelExist(array($mChannelId[$i],$videoId)) == true)
+						{
+							$this->assign("errorMessage", $this->loadMessages('video.addtopage.error'));
+						}
+						else 
+						{
+							$this->model_video->addVideoToChannel(array($mChannelId[$i],$videoId));
+							$this->assign('successMessage', $this->loadMessages('video.addtopage.successful'));
+						}
+					}
+				}
+				$channel= $this->model_video->getChannelByUserId(array($userId));
+				$video=$this->model_video->getVideoByVideoId(array($videoId));
+				$this->assign("videoId",$videoId);
+				$this->assign("checkedChannels",$channelId);
+				$this->assign("video",$video['video_title']);
+				$this->assign("channel",$channel);
+				$this->assignVideoThumbnails($video);
+				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_addtochannel');
+			}
+			
+		}
+
 		/**
 		 * Load messages source for preAndPostRoll
 		 * 

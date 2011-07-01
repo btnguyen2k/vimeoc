@@ -378,6 +378,19 @@
 			return $res;
 			 
 		}
+		/**
+		 * get channelId byVideoId
+		 * @param params
+		 */
+		
+		function getChannelIdByVideoIdWithoutJoin($params)
+		{
+			$sql= 'select channel_id from channel_video where video_id=?';
+			$types= array('integer');
+			$res = $this->execute_query($sql,$params,$types);
+			return $res;
+			 
+		}
 		
 		
 		/**
@@ -597,6 +610,19 @@
 			return $res;
 		}
 		/**
+		 * select channel by channel id
+		 * @param $params
+		 */
+		
+		function getChannelByUserId($params)
+		{
+			$sql = "select * from channel where user_id=?";
+			$types= array('integer');
+			$res = $this->execute_query($sql,$params,$types);
+			return $res;
+		}
+		
+		/**
 		 * select video by video id and UserId
 		 * @param $params
 		 */
@@ -637,6 +663,11 @@
 			$this->execute_command($sql, $params, $types);
 		}
 		
+		/**
+		 * 
+		 * insert video to channel_video by channel_name
+		 * @param $params
+		 */
 		function addVideoToChannel($params)
 		{
 			$sql = 'INSERT INTO channel_video(channel_id, video_id) VALUES (?, ?)';
@@ -670,6 +701,19 @@
 			$res = $this->execute_query($sql,$params,$types);	
 			return sizeof($res) > 0;
 		}
+		
+		/**
+		 * check channelid and videoid
+		 * @param $params
+		 */
+		function isChannelExist($params)
+		{
+			$sql = 'select channel_id,video_id from channel_video where channel_id=? and video_id=?';
+			$types =  array('integer', 'integer','integer','integer');
+			$res = $this->execute_query($sql,$params,$types);	
+			return sizeof($res) > 0;
+		}
+		
 		/**
 		 * drop albumid and videoid
 		 * @param $params
@@ -680,7 +724,10 @@
 			$types = array('integer', 'integer');
 			$this->execute_command($sql, $params, $types);
 		}
-		
+		/**
+		 * drop channelid and videoid
+		 * @param $params
+		 */
 		function dropChannelIdAndVideoId($params)
 		{
 			$sql = 'delete from channel_video where channel_id=? and video_id=?';
