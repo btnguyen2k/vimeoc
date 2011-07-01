@@ -45,6 +45,9 @@
 		<li>
 			<a href="<:$ctx:>/video/addtopage/?videoId=<:$videoId:>"><:$videoaddto:></a>
 		</li>
+		<li>
+			<a href="<:$ctx:>/video/addtochannel/?videoId=<:$videoId:>"><:$videoaddtochannel:></a>
+		</li>
 	</ul>
 	<ul>
 		<li>
