@@ -5,7 +5,6 @@
 	var link = "<:$domain:>/";
 	var flag = regex.test(url) && url.length <= 32;
 
-
 		if(!flag){
 			$("#error_valid_url").show();
 			$("#error_valid_alias").hide();
@@ -14,7 +13,6 @@
 			$("#error_valid_url").hide();
 			return true;
 		}
-	
 }
 
 </script>
@@ -41,7 +39,7 @@
 						<span ><:$name:></span>
 					</li>
 					<li>
-						<input type="text" id="url" name="url" value="<:$albumCustomUrl:>"/>
+						<input type="text" id="url" name="url" value="<:$albumCustomUrl:>" maxlength="32"/>
 						<span class="red" id="error_valid_url" style="display: none;">Invalid shortcut</span>
 					</li>
 					<li>

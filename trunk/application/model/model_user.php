@@ -339,6 +339,63 @@
 			$result = $user_model->execute_query($sql, $params);
 			return sizeof($resuls) > 0;
 		}
-		
+		/**
+		 * update enable user
+		 * @param $params
+		 */
+		function updateEnableAccount($params){
+			$sql = 'UPDATE user SET account_enabled =1 WHERE id=?';
+			$types = array('integer');
+			return $this->execute_command($sql, $params, $types);
+		}
+		/**
+		 * update disable user
+		 * @param $params
+		 */
+		function updateDisableAccount($params){
+			$sql = 'UPDATE user SET account_enabled =0 WHERE id=?';
+			$types = array('integer');
+			return $this->execute_command($sql, $params, $types);
+		}
+		/**
+		 * delete video by user
+		 * @param $params
+		 */
+		function dropVideoByUserId($params)
+		{
+			$sql = 'delete from video where user_id=?';
+			$types = array('integer');
+			$this->execute_command($sql, $params, $types);
+		}
+		/**
+		 * delete album by user
+		 * @param $params
+		 */
+		function dropAlbumByUserId($params)
+		{
+			$sql = 'delete from album where user_id=?';
+			$types = array('integer');
+			$this->execute_command($sql, $params, $types);
+		}
+		/**
+		 * delete channel by user
+		 * @param $param
+		 */
+		function dropChannelByUserId($params)
+		{
+			$sql = 'delete from channel where user_id=?';
+			$types = array('integer');
+			$this->execute_command($sql, $params, $types);
+		}
+		/**
+		 * delete role by user
+		 * @param $param
+		 */
+		function dropRoleByUserId($params)
+		{
+			$sql = 'delete from user_role where user_id=?';
+			$types = array('integer');
+			$this->execute_command($sql, $params, $types);
+		}
 	}
 ?>
