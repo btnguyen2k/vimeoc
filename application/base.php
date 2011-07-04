@@ -394,10 +394,10 @@
 				$params = array();
 				$params[0] = $loggedUser;
 				$params[1] = ROLE_ADMIN;
-				$sql = "Select count(1) From user_role ur, role r where ur.role_id = r.id and ur.user_id = ? and r.name = ?";
-				$result = $this->model->execute_query($sql, $params);
+				$user_model = $this->getModel('model_user');				
+				$result = $user_model->isAdmin($params);
 				
-				return sizeof($resuls) > 0;
+				return $result;
 			}
 		}
 		
