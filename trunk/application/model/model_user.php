@@ -333,5 +333,12 @@
 			return null;
 		}
 		
+		function isAdmin($params){
+			$sql = "Select count(1) From user_role ur, role r where ur.role_id = r.id and ur.user_id = ? and r.name = ?";
+			$types = array('integer','integer','text');
+			$result = $user_model->execute_query($sql, $params);
+			return sizeof($resuls) > 0;
+		}
+		
 	}
 ?>
