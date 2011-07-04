@@ -397,5 +397,15 @@
 			$types = array('integer');
 			$this->execute_command($sql, $params, $types);
 		}
+		/**
+		 * delete user by user
+		 * @param $param
+		 */
+		function dropUserByUserId($params)
+		{
+			$sql = 'delete from user where id=?';
+			$types = array('integer');
+			$this->execute_command($sql, $params, $types);
+		}
 	}
 ?>

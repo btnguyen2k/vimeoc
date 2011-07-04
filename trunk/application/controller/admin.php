@@ -70,6 +70,7 @@
 //			if(!$this->isAdminLogged()){
 //				$this->redirect($this->ctx().'/auth/login');
 //			}
+			$this->loadModel('model_user');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$userId=$_GET['userId'];
@@ -77,6 +78,7 @@
 				$this->model_user->dropAlbumByUserId(array($userId));
 				$this->model_user->dropChannelByUserId(array($userId));
 				$this->model_user->dropRoleByUserId(array($userId));
+				$this->model_user->dropUserByUserId(array($userId));
 				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_deleteaccount');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
