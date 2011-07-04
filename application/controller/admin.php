@@ -30,10 +30,10 @@
 		
 		function disableAccount()
 		{
-			if(!$this->isAdminLogged()){
-				$this->redirect($this->ctx().'/auth/login');
-				return;
-			}	
+//			if(!$this->isAdminLogged()){
+//				$this->redirect($this->ctx().'/auth/login');
+//				return;
+//			}	
 			$this->loadModel('model_user');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
@@ -49,15 +49,14 @@
 		
 		function enableAccount()
 		{
-			if(!$this->isAdminLogged()){
-				$this->redirect($this->ctx().'/auth/login');
-			}
+//			if(!$this->isAdminLogged()){
+//				$this->redirect($this->ctx().'/auth/login');
+//			}
 			$this->loadModel('model_user');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$userId=$_GET['userId'];
 				$this->model_user->updateEnableAccount(array($userId));
-				echo $userId;
 				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_enableaccount');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -68,12 +67,16 @@
 		
 		function deleteAccount()
 		{
-			if(!$this->isAdminLogged()){
-				$this->redirect($this->ctx().'/auth/login');
-			}
+//			if(!$this->isAdminLogged()){
+//				$this->redirect($this->ctx().'/auth/login');
+//			}
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$userId=$_GET['userId'];
+				$this->model_user->dropVideoByUserId(array($userId));
+				$this->model_user->dropAlbumByUserId(array($userId));
+				$this->model_user->dropChannelByUserId(array($userId));
+				$this->model_user->dropRoleByUserId(array($userId));
 				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_deleteaccount');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -93,10 +96,10 @@
 		
 		function createNewAccount()
 		{
-			/*
-			if(!$this->isAdminLogged()){
-				$this->redirect($this->ctx().'/auth/login');
-			}*/
+			
+//			if(!$this->isAdminLogged()){
+//				$this->redirect($this->ctx().'/auth/login');
+//			}
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
 			{
 				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_signup');
