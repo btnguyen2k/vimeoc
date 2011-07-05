@@ -117,8 +117,11 @@
 //			if(!$this->isAdminLogged()){
 //				$this->redirect($this->ctx().'/auth/login');
 //			}
+			$this->loadModel('model_user');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
 			{
+				$getrole=$this->model_user->getRole(array());
+				$this->assign("getrole",$getrole);
 				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_signup');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -127,7 +130,6 @@
 				$username = $_POST['email'];
 				$password = $_POST['password'];
 				$role = $_POST['role'];
-				$this->loadModel('model_user');
 				if ($this->model_user->isExists(array($username)) == true)
 				{
 					$this->assign("username",$username);
@@ -142,14 +144,13 @@
 					$params = array($fullName, $username, $this->encodePassword($password), $username);
 					$userId = $this->model_user->addNewUser($params);
 					$userAlias = 'user'.$userId;
+					$getrole=$this->model_user->getRole(array());
 					$this->model_user->updateUserAlias(array($userAlias, $userId));					
 					$params = array($userId);
 					$user = $this->model_user->getUserByUserId($params);
 					$user['password']=$password2;
-					if($role=='Admin')
-					{
-						$this->model_user->updateUserRole(array($userId));
-					}
+					$this->model_user->updateUserRole(array($role,$userId));
+					$this->assign("getrole",$getrole);
 					$this->sendingEmailWithSmarty('mail_welcome', 'user', $user, null, $user['email']);
 					$this->assign("success",$this->loadMessages('auth.thankyou.success'));
 					$this->assign("login",$this->loadMessages('auth.thankyou.login'));

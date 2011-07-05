@@ -413,9 +413,20 @@
 		 */
 		function updateUserRole($params)
 		{
-			$sql = 'UPDATE user_role SET role_id =-9 WHERE user_id=?';
-			$types = array('integer');
+			$sql = 'UPDATE user_role SET role_id =? WHERE user_id=?';
+			$types = array('integer','integer');
 			return $this->execute_command($sql, $params, $types);
+		}
+		/**
+		 * get role 
+		 * @param $param
+		 */
+		function getRole($params)
+		{
+			$sql = "select * from role";
+			$types= array('integer');
+			$res = $this->execute_query($sql,$params,$types);
+			return $res;
 		}
 	}
 ?>
