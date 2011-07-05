@@ -407,5 +407,15 @@
 			$types = array('integer');
 			$this->execute_command($sql, $params, $types);
 		}
+		/**
+		 * update admin role
+		 * @param $param
+		 */
+		function updateUserRole($params)
+		{
+			$sql = 'UPDATE user_role SET role_id =-9 WHERE user_id=?';
+			$types = array('integer');
+			return $this->execute_command($sql, $params, $types);
+		}
 	}
 ?>
