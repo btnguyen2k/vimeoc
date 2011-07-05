@@ -16,6 +16,36 @@
 			parent::__construct();
 		}
 	
+		function selectUser($limit = 0, $offset = 0, $term = '', $sort_column = 'creation_date', $sort_order = 'ASC')
+		{
+			$types = array();
+			$params = array(); 
+			$sql = "select id, username, full_name, account_enabled, UNIX_TIMESTAMP(creation_date)
+			,avatar from user u ";			
+			$types[] = 'integer';
+			
+			if(!empty($term)){
+				$term = str_replace('%', '\%', $term);
+				$sql .= " and (u.username like ? or u.fullname like ?) ";
+				$types[] = 'text';
+				$types[] = 'text';
+				$params[] = '%' . $term . '%';
+				$params[] = '%' . $term . '%';
+			}
+			
+			$sql .= "group by u.id order by u.{$sort_column} {$sort_order} ";
+			
+			if($limit > 0){
+				$sql .= ' limit ? offset ?';
+				$types[] = 'integer';
+				$types[] = 'integer';
+				$params[] = $limit;
+				$params[] = $offset;
+			}
+			$res = $this->execute_query($sql,$params,$types);
+			
+			return $res;
+		}
 		/**
 		 * 
 		 * Select data
