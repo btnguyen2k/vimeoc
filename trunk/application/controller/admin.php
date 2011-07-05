@@ -114,7 +114,6 @@
 		
 		function createNewAccount()
 		{
-			
 //			if(!$this->isAdminLogged()){
 //				$this->redirect($this->ctx().'/auth/login');
 //			}
@@ -147,7 +146,7 @@
 					$params = array($userId);
 					$user = $this->model_user->getUserByUserId($params);
 					$user['password']=$password2;
-					if($role="Admin")
+					if($role=='Admin')
 					{
 						$this->model_user->updateUserRole(array($userId));
 					}
