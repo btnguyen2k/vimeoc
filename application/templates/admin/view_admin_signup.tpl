@@ -95,7 +95,7 @@
 					<li>
 					<:$role:>
 						<select id="role" name="role">
-						  <option value="admin">Admin</option>
+						  <option value="Admin">Admin</option>
 						  <option value="user">User</option>
   						</select>
 					</li>
