@@ -386,17 +386,13 @@
 		{
 			$loggedUser = $this->getLoggedUser();
 			if($loggedUser == 0)
-			{
+			{			
 				return false;
 			}
 			else
 			{
-				$params = array();
-				$params[0] = $loggedUser;
-				$params[1] = ROLE_ADMIN;
 				$user_model = $this->getModel('model_user');				
-				$result = $user_model->isAdmin($params);
-				
+				$result = $user_model->isAdmin(array($loggedUser, ROLE_ADMIN));	
 				return $result;
 			}
 		}
