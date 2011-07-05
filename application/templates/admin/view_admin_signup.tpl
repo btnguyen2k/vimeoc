@@ -95,8 +95,9 @@
 					<li>
 					<:$role:>
 						<select id="role" name="role">
-						  <option value="Admin">Admin</option>
-						  <option value="user">User</option>
+						<:section name=a loop=$getrole:>
+						  <option value="<:$getrole[a].id:>"><:$getrole[a].name:></option>
+						<:/section:>
   						</select>
 					</li>
 					<li>
