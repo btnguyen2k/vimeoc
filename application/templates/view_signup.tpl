@@ -1,5 +1,5 @@
 <title>Ongsoft</title>
-<script  type="text/javascript">
+<script type="text/javascript">
 	function checkEmail(){	
 		var x = document.getElementById("password").value;
 		var y = document.getElementById("rpassword").value;
