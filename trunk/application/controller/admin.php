@@ -31,9 +31,10 @@
 			
 		function userList()
 		{
-//			if(!$this->isAdminLogged()){
-//				$this->redirect($this->ctx().'/auth/login');
-//			}	
+			if(!$this->isAdminLogged()){
+				$this->redirect($this->ctx().'/auth/login');
+				return;
+			}	
 			$_search_obj = unserialize($_SESSION['USER_SEARCH']);
 			
 			$_sort_modes = array(
@@ -44,7 +45,7 @@
 			$_sort_columns = array(
 				1 => 'creation_date',
 				2 => 'creation_date',
-				3 => 'album_name'
+				3 => 'username'
 			);
 			$_sort_orders = array(
 				1 => 'DESC',
@@ -52,7 +53,7 @@
 				3 => 'ASC'
 			);
 			$_page_sizes = array(
-				1 => 'All',//all videos
+				1 => 'All',//all users
 				2 => 2,
 				3 => 3,
 				4 => 50
@@ -63,7 +64,7 @@
 			
 			$users = array();
 			$pagination = '';
-			//$_reset = $_GET['reset'];// reset all value for display
+			$_reset = $_GET['reset'];// reset all value for display
 			if($_reset){
 				
 			}else{
@@ -91,7 +92,7 @@
 			}
 			$page = $_GET['page'] ? $_GET['page'] : '1';			
 			if(!ctype_digit($page)){
-				$this->redirect($this->ctx().'/user/album/');
+				$this->redirect($this->ctx().'/admin/userlist/');
 			}else{
 				$page = intval($page);
 			}
@@ -104,29 +105,29 @@
 			$_search_obj->sort = $_sort_mode;
 			$_search_obj->psize = $_page_size;
 			$_search_obj->term = $_search_term;
-			$_SESSION['ALBUM_SEARCH'] = serialize($_search_obj);
+			$_SESSION['USER_SEARCH'] = serialize($_search_obj);
 			
-			$this->loadModel('model_album');
-			$model_album = $this->model_album;
-			$album_count = $model_album->countAlbumByUserId($userId, $limit, $offset, $_search_term, $sort_column, $sort_order);
-			if($album_count > 0){
-				if($limit > 0){
-					if($limit && ($page > ceil($album_count / $limit))){
-						$this->redirect($this->ctx().'/user/album/');
-					}
-					$albums = $model_album->selectAlbumsByUserId($userId, $limit, $offset, $_search_term, $sort_column, $sort_order);
-
+			$this->loadModel('model_user');
+			$model_user=$this->model_user;
+				if($limit > 0)
+				{
+//					if($limit && ($page > ceil($user_count / $limit)))
+//					{
+//						$this->redirect($this->ctx().'/admin/userlist/');
+//					}
+					$users = $model_user->selectUser($limit, $offset, $_search_term, $sort_column, $sort_order);
+			
 					$adjacents = 2;
 					$targetpage = $_SERVER['REDIRECT_URL'];
 					if(!($targetpage[strlen($targetpage) - 1] == '/')){
 						$targetpage .= '/';
 					}
 					if ($page == 0){
-						$page = 1;					//if no page var is given, default to 1.
+						$page = 1;								//if no page var is given, default to 1.
 					}
 					$prev = $page - 1;							//previous page is page - 1
 					$next = $page + 1;							//next page is page + 1
-					$lastpage = ceil($album_count / $limit);		//lastpage is = total pages / items per page, rounded up.
+					$lastpage = ceil($user_count / $limit);		//lastpage is = total pages / items per page, rounded up.
 					$lpm1 = $lastpage - 1;						//last page minus 1
 					
 					/* 
@@ -211,20 +212,18 @@
 						$pagination.= "</div>\n";		
 					}
 				}else{
-					$albums = $model_album->selectAlbumsByUserId($userId, $limit, $offset, $_search_term, $sort_column, $sort_order);
+					$users = $model_user->selectUser($limit, $offset, $_search_term, $sort_column, $sort_order);
 				}
-			}else{
-				$this->assign('message', 'No album');
-			}
+
 			
-			if(is_array($albums) && (count($albums) > 0)){
-				foreach($albums as &$album){
-					$album['thumbnail'] = empty($album['thumbnails_path']) ? $this->ctx() . '/images/icon-album.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $album['thumbnails_path']);
+			if(is_array($users) && (count($users) > 0)){
+				foreach($users as &$user){
+					$user['thumbnail'] = empty($user['avatar']) ? $this->ctx() . '/images/icon-album.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $user['avatar']);
 				}
 			}
 			
 			
-			$this->assign('albums', $albums);
+			$this->assign('users', $users);
 			$this->assign('pagination', $pagination);
 			$this->assign('sort_modes', $_sort_modes);
 			$this->assign('page_sizes', $_page_sizes);
@@ -234,14 +233,15 @@
 			$this->assign('search_term', $_search_term);
 			$this->assign('page', $page);
 			
-			$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_album');
+			$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_user_list');
 		}
 		
 		function disableAccount()
 		{
-//			if(!$this->isAdminLogged()){
-//				$this->redirect($this->ctx().'/auth/login');
-//			}	
+			if(!$this->isAdminLogged()){
+				$this->redirect($this->ctx().'/auth/login');
+				return;
+			}	
 			$this->loadModel('model_user');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
@@ -257,9 +257,10 @@
 		
 		function enableAccount()
 		{
-//			if(!$this->isAdminLogged()){
-//				$this->redirect($this->ctx().'/auth/login');
-//			}
+			if(!$this->isAdminLogged()){
+				$this->redirect($this->ctx().'/auth/login');
+				return;
+			}
 			$this->loadModel('model_user');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
@@ -275,9 +276,10 @@
 		
 		function deleteAccount()
 		{
-//			if(!$this->isAdminLogged()){
-//				$this->redirect($this->ctx().'/auth/login');
-//			}
+			if(!$this->isAdminLogged()){
+				$this->redirect($this->ctx().'/auth/login');
+				return;
+			}
 			$this->loadModel('model_user');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
@@ -294,7 +296,10 @@
 				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_deleteaccount');
 			}
 		}
-		
+		/**
+		 * 
+		 *function create new account
+		 */
 		function createNewAccountMessagesSource()
 		{
 			$this->assign("fullname",$this->loadMessages('admin.createnewaccount.fullname'));
@@ -322,9 +327,10 @@
 		
 		function createNewAccount()
 		{
-//			if(!$this->isAdminLogged()){
-//				$this->redirect($this->ctx().'/auth/login');
-//			}
+			if(!$this->isAdminLogged()){
+				$this->redirect($this->ctx().'/auth/login');
+				return;
+			}
 			$this->loadModel('model_user');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
 			{
@@ -410,4 +416,3 @@
 		}
 	}
 ?>
-
