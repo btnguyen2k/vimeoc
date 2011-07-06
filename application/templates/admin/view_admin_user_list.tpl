@@ -26,7 +26,9 @@
 					<th>Username</th>
 					<th>Fullname</th>
 					<th>Enable/Disable</th>
-					<th>Creation date</td>
+					<th>Creation date</th>
+					<th>Change status</th>
+					<th>Delete</th>
 				</tr>
 			<:foreach from=$users key=k item=v:>
 				<tr>
@@ -35,12 +37,20 @@
 					<td><:$v['full_name']:></td>
 					<td>
 						<:if $v['enabled'] eq 0:>
-							Not Enabled
+						Disabled
 						<:else:>
-							enabled					
+						Enabled
 						<:/if:>
 					</td>
-					<td><:$v['creation_date']:></td>
+					<td><:$v['creation_date']:></td>					
+					<td>
+						<:if $v['enabled'] eq 0:>
+							<a href="<:$ctx:>/admin/enableAccount/?userId=<:$v['id']:>"> Enabled</a>
+						<:else:>
+							<a href="<:$ctx:>/admin/disableAccount/?userId=<:$v['id']:>"> Disabled</a></td>			
+						<:/if:>
+					</td>
+					<td><a href="<:$ctx:>/admin/deleteAccount/?userId=<:$v['id']:>">delete</a></td>
 				</tr>
 			<:/foreach:>
 				
