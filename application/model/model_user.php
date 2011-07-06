@@ -20,8 +20,7 @@
 		{
 			$types = array();
 			$params = array(); 
-			$sql = "select id, username, full_name, account_enabled, creation_date
-			,avatar from user u ";			
+			$sql = "select id, username, full_name, CAST(account_enabled as unsigned integer) `enabled`, creation_date ,avatar from user u ";			
 			
 			if(!empty($term)){
 				$term = str_replace('%', '\%', $term);
