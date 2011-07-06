@@ -1,3 +1,5 @@
+<link href="<:$ctx:>/css/userlist.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="<:$ctx:>/script/userlist.js"></script>
 <div id="admin_user_list" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/admin_left_menu.tpl":>
 	<div id="admin_user_list_body" class="page_body">
@@ -16,6 +18,7 @@
 		<input type="text" id="term" name="term" value="<:$search_term:>"></option>
 		<input type="hidden" name="page" value="<:$page:>"></input>
 		<input type="submit" value="Submit"></input>
+
 	</form>
 			<table>
 				<tr>
@@ -24,13 +27,16 @@
 					<th>Fullname</th>
 					<th>Enable/Disable</th>
 				</tr>
-				<:foreach from=$albums key=k item=v:>
-					<a href="<:$ctx:>/admin/?albumId=<:$v['album_id']:>"><img width="100" src="<:$v['thumbnail']:>" /></a><br/>
-						name: <:$v['username']:><br/>
-						<br/>
-				<:/foreach:>
+			<:foreach from=$users key=k item=v:>
+				<tr>
+					<td><:$v['id']:></td>
+					<td><:$v['username']:></td>
+					<td><:$v['full_name']:></td>
+					<td><:$v['account_enabled']:></td>
+				</tr>
+			<:/foreach:>
+				
 			</table>
-			
 		<:$message:>
 		<:$pagination:>
 	</div>	

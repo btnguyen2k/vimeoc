@@ -34,7 +34,12 @@
 			if(!$this->isAdminLogged()){
 				$this->redirect($this->ctx().'/auth/login');
 				return;
-			}	
+			}
+			if($_SERVER['REQUEST_METHOD'] == 'GET')
+			{
+				$userId = $_GET['userId'];
+			}
+			
 			$_search_obj = unserialize($_SESSION['USER_SEARCH']);
 			
 			$_sort_modes = array(
@@ -54,8 +59,8 @@
 			);
 			$_page_sizes = array(
 				1 => 'All',//all users
-				2 => 2,
-				3 => 3,
+				2 => 5,
+				3 => 10,
 				4 => 50
 			);
 			$_default_sort_mode = 1;
@@ -102,19 +107,23 @@
 			$sort_column = $_sort_columns[$_sort_mode];
 			$sort_order = $_sort_orders[$_sort_mode];
 			
-			$_search_obj->sort = $_sort_mode;
-			$_search_obj->psize = $_page_size;
-			$_search_obj->term = $_search_term;
-			$_SESSION['USER_SEARCH'] = serialize($_search_obj);
+//			$_search_obj->sort = $_sort_mode;
+//			$_search_obj->psize = $_page_size;
+//			$_search_obj->term = $_search_term;
+//			$_SESSION['USER_SEARCH'] = serialize($_search_obj);
 			
 			$this->loadModel('model_user');
+			
 			$model_user=$this->model_user;
+			$user_count=$model_user->countUsers();
+			if($user_count > 0)
+			{
 				if($limit > 0)
 				{
-//					if($limit && ($page > ceil($user_count / $limit)))
-//					{
-//						$this->redirect($this->ctx().'/admin/userlist/');
-//					}
+					if($limit && ($page > ceil($user_count / $limit)))
+					{
+						$this->redirect($this->ctx().'/admin/userlist/');
+					}
 					$users = $model_user->selectUser($limit, $offset, $_search_term, $sort_column, $sort_order);
 			
 					$adjacents = 2;
@@ -214,11 +223,11 @@
 				}else{
 					$users = $model_user->selectUser($limit, $offset, $_search_term, $sort_column, $sort_order);
 				}
-
+			}
 			
 			if(is_array($users) && (count($users) > 0)){
 				foreach($users as &$user){
-					$user['thumbnail'] = empty($user['avatar']) ? $this->ctx() . '/images/icon-album.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $user['avatar']);
+					$user['avatar'] = empty($user['avatar']) ? $this->ctx() . '/images/icon-album.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $user['avatar']);
 				}
 			}
 			
