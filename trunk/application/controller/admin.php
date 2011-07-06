@@ -226,7 +226,6 @@
 				}
 			}
 			
-			
 			$this->assign('users', $users);
 			$this->assign('pagination', $pagination);
 			$this->assign('sort_modes', $_sort_modes);
