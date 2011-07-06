@@ -60,7 +60,7 @@
 			$_page_sizes = array(
 				1 => 'All',//all users
 				2 => 5,
-				3 => 10,
+				3 => 20,
 				4 => 50
 			);
 			$_default_sort_mode = 1;
@@ -106,12 +106,7 @@
 			$offset = ($page - 1) * $limit;
 			$sort_column = $_sort_columns[$_sort_mode];
 			$sort_order = $_sort_orders[$_sort_mode];
-			
-//			$_search_obj->sort = $_sort_mode;
-//			$_search_obj->psize = $_page_size;
-//			$_search_obj->term = $_search_term;
-//			$_SESSION['USER_SEARCH'] = serialize($_search_obj);
-			
+						
 			$this->loadModel('model_user');
 			
 			$model_user=$this->model_user;

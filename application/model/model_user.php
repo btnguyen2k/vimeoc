@@ -20,7 +20,7 @@
 		{
 			$types = array();
 			$params = array(); 
-			$sql = "select id, username, full_name, account_enabled, UNIX_TIMESTAMP(creation_date)
+			$sql = "select id, username, full_name, account_enabled, creation_date
 			,avatar from user u ";			
 			
 			if(!empty($term)){

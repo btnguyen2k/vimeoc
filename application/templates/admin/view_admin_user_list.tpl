@@ -26,6 +26,7 @@
 					<th>Username</th>
 					<th>Fullname</th>
 					<th>Enable/Disable</th>
+					<th>Creation date</td>
 				</tr>
 			<:foreach from=$users key=k item=v:>
 				<tr>
@@ -33,6 +34,7 @@
 					<td><:$v['username']:></td>
 					<td><:$v['full_name']:></td>
 					<td><:$v['account_enabled']:></td>
+					<td><:$v['creation_date']:></td>
 				</tr>
 			<:/foreach:>
 				
