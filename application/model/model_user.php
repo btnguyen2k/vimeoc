@@ -42,7 +42,6 @@
 				$params[] = $offset;
 			}
 			$res = $this->execute_query($sql,$params,$types);
-			
 			return $res;
 		}
 		
