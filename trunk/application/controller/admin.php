@@ -27,6 +27,8 @@
 		function userListMessagesSource()
 		{
 			$this->assign("title",$this->loadMessages('admin.userlist.title'));
+			$this->assign("not",$this->loadMessages('admin.userlist.not'));
+			 
 		}
 			
 		function userList()

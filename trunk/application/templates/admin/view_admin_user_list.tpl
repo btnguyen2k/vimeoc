@@ -20,7 +20,7 @@
 		<input type="submit" value="Submit"></input>
 
 	</form>
-			<table>
+			<table border="1">
 				<tr>
 					<th>User Id</th>
 					<th>Username</th>
@@ -33,7 +33,13 @@
 					<td><:$v['id']:></td>
 					<td><:$v['username']:></td>
 					<td><:$v['full_name']:></td>
-					<td><:$v['account_enabled']:></td>
+					<td>
+						<:if $v['enabled'] eq 0:>
+							Not Enabled
+						<:else:>
+							enabled					
+						<:/if:>
+					</td>
 					<td><:$v['creation_date']:></td>
 				</tr>
 			<:/foreach:>
