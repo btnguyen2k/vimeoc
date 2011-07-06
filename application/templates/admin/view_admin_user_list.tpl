@@ -37,17 +37,17 @@
 					<td><:$v['full_name']:></td>
 					<td>
 						<:if $v['enabled'] eq 0:>
-						Disabled
+							disabled
 						<:else:>
-						Enabled
+							enabled
 						<:/if:>
 					</td>
 					<td><:$v['creation_date']:></td>					
 					<td>
 						<:if $v['enabled'] eq 0:>
-							<a href="<:$ctx:>/admin/enableAccount/?userId=<:$v['id']:>"> Enabled</a>
+							<a href="<:$ctx:>/admin/enableAccount/?userId=<:$v['id']:>"> enable</a>
 						<:else:>
-							<a href="<:$ctx:>/admin/disableAccount/?userId=<:$v['id']:>"> Disabled</a></td>			
+							<a href="<:$ctx:>/admin/disableAccount/?userId=<:$v['id']:>"> disable</a></td>			
 						<:/if:>
 					</td>
 					<td><a href="<:$ctx:>/admin/deleteAccount/?userId=<:$v['id']:>">delete</a></td>

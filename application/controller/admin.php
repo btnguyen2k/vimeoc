@@ -26,9 +26,7 @@
 		 */
 		function userListMessagesSource()
 		{
-			$this->assign("title",$this->loadMessages('admin.userlist.title'));
-			$this->assign("not",$this->loadMessages('admin.userlist.not'));
-			 
+			$this->assign("title",$this->loadMessages('admin.userlist.title'));			 
 		}
 			
 		function userList()
@@ -253,7 +251,8 @@
 			{
 				$userId=$_GET['userId'];
 				$this->model_user->updateDisableAccount(array($userId));
-				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_disableaccount');
+				$this->redirect('/vimeoc/admin/userlist');
+				
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
@@ -272,7 +271,7 @@
 			{
 				$userId=$_GET['userId'];
 				$this->model_user->updateEnableAccount(array($userId));
-				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_enableaccount');
+				$this->redirect('/vimeoc/admin/userlist');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
@@ -295,7 +294,7 @@
 				$this->model_user->dropChannelByUserId(array($userId));
 				$this->model_user->dropRoleByUserId(array($userId));
 				$this->model_user->dropUserByUserId(array($userId));
-				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_deleteaccount');
+				$this->redirect('/vimeoc/admin/userlist');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
