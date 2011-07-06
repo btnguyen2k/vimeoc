@@ -22,11 +22,10 @@
 			$params = array(); 
 			$sql = "select id, username, full_name, account_enabled, UNIX_TIMESTAMP(creation_date)
 			,avatar from user u ";			
-			$types[] = 'integer';
 			
 			if(!empty($term)){
 				$term = str_replace('%', '\%', $term);
-				$sql .= " and (u.username like ? or u.fullname like ?) ";
+				$sql .= " where (u.username like ? or u.full_name like ?) ";
 				$types[] = 'text';
 				$types[] = 'text';
 				$params[] = '%' . $term . '%';
@@ -45,6 +44,30 @@
 			$res = $this->execute_query($sql,$params,$types);
 			
 			return $res;
+		}
+		
+		/**
+		 * 
+		 * Count users
+		 */
+		function countUsers($term = '')
+		{
+			$types = array();
+			$params = array();					
+			$sql = 'select count(id) as `count` from user u';			
+			
+			if(!empty($term)){
+				$term = str_replace('%', '\%', $term);
+				$sql .= " where (u.username like ? or u.full_name like ?) ";
+				$types[] = 'text';
+				$types[] = 'text';
+				$params[] = '%' . $term . '%';
+				$params[] = '%' . $term . '%';
+			}
+			
+			$res = $this->execute_query($sql,$params,$types);
+			
+			return ($res[0] && $res[0]['count']) ? $res[0]['count'] : 0;
 		}
 		/**
 		 * 
@@ -219,6 +242,16 @@
 			}
 			
 			return null;
+		}
+		/**
+		 * 
+		 * get all user
+		 */
+		function getAllUsers()
+		{
+			$sql = 'select * from user ';
+			$res = $this->execute_query($sql);
+			return $res;
 		}
 		
 		/**
