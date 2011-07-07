@@ -1,6 +1,6 @@
 <link href="<:$ctx:>/css/video_thumbnail.css" rel="stylesheet" type="text/css">
-<script src="/vimeoc/script/file_uploader.js" type="text/javascript"></script>
-<link href="/vimeoc/css/file_uploader.css" rel="stylesheet" type="text/css">
+<script src="<:$ctx:>/script/file_uploader.js" type="text/javascript"></script>
+<link href="<:$ctx:>/css/file_uploader.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="<:$ctx:>/script/video_thumbnail.js"></script>
 <script type="text/javascript">
 	var imageExtArray = '<:$imageExtSupport:>'.split(",");

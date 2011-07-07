@@ -1,5 +1,5 @@
-<script src="/vimeoc/script/file_uploader.js" type="text/javascript"></script>
-<link href="/vimeoc/css/file_uploader.css" rel="stylesheet" type="text/css">
+<script src="<:$ctx:>/script/file_uploader.js" type="text/javascript"></script>
+<link href="<:$ctx:>/css/file_uploader.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 	var imageExtArray = '<:$imageExtSupport:>'.split(",");
 	var imageContext = '<:$ctx:>/images/upload/';

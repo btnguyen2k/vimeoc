@@ -250,7 +250,7 @@
 			{
 				$userId=$_GET['userId'];
 				$this->model_user->updateDisableAccount(array($userId));
-				$this->redirect('/vimeoc/admin/userlist');
+				$this->redirect($this->ctx().'/admin/userlist');
 				
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -270,7 +270,7 @@
 			{
 				$userId=$_GET['userId'];
 				$this->model_user->updateEnableAccount(array($userId));
-				$this->redirect('/vimeoc/admin/userlist');
+				$this->redirect($this->ctx().'/admin/userlist');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
@@ -293,7 +293,7 @@
 				$this->model_user->dropChannelByUserId(array($userId));
 				$this->model_user->dropRoleByUserId(array($userId));
 				$this->model_user->dropUserByUserId(array($userId));
-				$this->redirect('/vimeoc/admin/userlist');
+				$this->redirect($this->ctx().'/admin/userlist');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
