@@ -24,7 +24,7 @@
 		 */
 		function index()
 		{
-			$this->redirect("/vimeoc/home");
+			$this->redirect($this->ctx()."/home");
 		}
 		
 		/**

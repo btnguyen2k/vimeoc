@@ -20,7 +20,7 @@
 		 */
 		function index()
 		{
-			$this->redirect("/vimeoc/home");
+			$this->redirect($this->ctx()."/home");
 		}
 		
 		/**
@@ -341,7 +341,7 @@
 			{
 				if(true)
 					{
-						$this->redirect('/vimeoc/user');
+						$this->redirect($this->ctx().'/user');
 					}
 					else 
 					{
@@ -367,7 +367,7 @@
 			{
 				if(true)
 				{
-					$this->redirect('/vimeoc/user');
+					$this->redirect($this->ctx().'/user');
 				}
 				else 
 				{
