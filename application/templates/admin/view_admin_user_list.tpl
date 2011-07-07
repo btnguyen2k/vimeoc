@@ -20,7 +20,7 @@
 		<input type="submit" value="Submit"></input>
 
 	</form>
-			<table border="1">
+		<table border="1">
 				<tr>
 					<th>User Id</th>
 					<th>Username</th>
@@ -52,9 +52,8 @@
 					</td>
 					<td><a href="<:$ctx:>/admin/deleteAccount/?userId=<:$v['id']:>">delete</a></td>
 				</tr>
-			<:/foreach:>
-				
-			</table>
+			<:/foreach:>				
+		</table>
 		<:$message:>
 		<:$pagination:>
 	</div>	
