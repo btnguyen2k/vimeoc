@@ -25,6 +25,12 @@ function validate()
 }
 </script>
 <h1 align="center"><:$title:></h1>
+<:if $errorMessageGranted eq "":>
+   &nbsp;
+<:else:>
+   <span class="red"><:$errorMessageGranted:></span>
+<:/if:>
+
 <:if $errorMessage eq "":>
    &nbsp;
 <:else:>

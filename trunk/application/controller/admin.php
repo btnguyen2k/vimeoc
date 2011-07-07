@@ -477,13 +477,12 @@
 					else 
 					{	
 						$this->assign("errorMessage", $this->loadMessages('auth.login.error'));
-						$this->assign("username", $username);
 						$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_login');
 					}
 				}
 				else 
 				{
-					$this->assign("errorMessage", $this->loadMessages('auth.login.error'));
+					$this->assign("errorMessageGranted", $this->loadMessages('admin.login.error'));
 					$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_login');
 				}	
 			}
