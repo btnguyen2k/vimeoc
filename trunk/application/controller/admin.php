@@ -18,7 +18,7 @@
 		}
 		
 		function index(){
-			$this->redirect($this->ctx().'/auth/login');
+			$this->redirect($this->ctx().'/admin/login');
 		}
 		/**
 		 * load message source for user list
@@ -32,7 +32,7 @@
 		function userList()
 		{
 			if(!$this->isAdminLogged()){
-				$this->redirect($this->ctx().'/auth/login');
+				$this->redirect($this->ctx().'/admin/login');
 				return;
 			}
 			if($_SERVER['REQUEST_METHOD'] == 'GET')
@@ -242,7 +242,7 @@
 		function disableAccount()
 		{
 			if(!$this->isAdminLogged()){
-				$this->redirect($this->ctx().'/auth/login');
+				$this->redirect($this->ctx().'/admin/login');
 				return;
 			}	
 			$this->loadModel('model_user');
@@ -262,7 +262,7 @@
 		function enableAccount()
 		{
 			if(!$this->isAdminLogged()){
-				$this->redirect($this->ctx().'/auth/login');
+				$this->redirect($this->ctx().'/admin/login');
 				return;
 			}
 			$this->loadModel('model_user');
@@ -281,7 +281,7 @@
 		function deleteAccount()
 		{
 			if(!$this->isAdminLogged()){
-				$this->redirect($this->ctx().'/auth/login');
+				$this->redirect($this->ctx().'/admin/login');
 				return;
 			}
 			$this->loadModel('model_user');
@@ -332,7 +332,7 @@
 		function createNewAccount()
 		{
 			if(!$this->isAdminLogged()){
-				$this->redirect($this->ctx().'/auth/login');
+				$this->redirect($this->ctx().'/admin/login');
 				return;
 			}
 			$this->loadModel('model_user');
@@ -379,7 +379,7 @@
 		function editAccount()
 		{
 			if(!$this->isAdminLogged()){
-				$this->redirect($this->ctx().'/auth/login');
+				$this->redirect($this->ctx().'/admin/login');
 			}
 		}
 		/**
@@ -398,6 +398,11 @@
 		 */
 		function Configuration()
 		{
+			{
+				if(!$this->isAdminLogged()){
+					$this->redirect($this->ctx().'/admin/login');
+				}
+			}
 			$this->loadModel('model_user');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
 			{
@@ -491,28 +496,28 @@
 		function disableLoginForm()
 		{
 			if(!$this->isAdminLogged()){
-				$this->redirect($this->ctx().'/auth/login');
+				$this->redirect($this->ctx().'/admin/login');
 			}
 		}
 		
 		function enableLoginForm()
 		{
 			if(!$this->isAdminLogged()){
-				$this->redirect($this->ctx().'/auth/login');
+				$this->redirect($this->ctx().'/admin/login');
 			}
 		}
 		
 		function disableRegistrationForm()
 		{
 			if(!$this->isAdminLogged()){
-				$this->redirect($this->ctx().'/auth/login');
+				$this->redirect($this->ctx().'/admin/login');
 			}
 		}
 		
 		function enableRegistrationForm()
 		{
 			if(!$this->isAdminLogged()){
-				$this->redirect($this->ctx().'/auth/login');
+				$this->redirect($this->ctx().'/admin/login');
 			}
 		}
 	}
