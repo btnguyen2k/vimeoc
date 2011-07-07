@@ -1,4 +1,4 @@
-<?php 
+<?php
 	require_once 'MDB2.php';
 	/**
 	 * 
@@ -488,6 +488,47 @@
 			$types= array('integer');
 			$res = $this->execute_query($sql,$params,$types);
 			return $res;
+		}
+		/**
+		 * update value configuration login form
+		 */
+		function updateConfigurationLoginForm($params){
+			$sql = "UPDATE configuration SET value=? WHERE name='SHOW_LOGIN_FORM'";
+			$types = array('integer');
+			return $this->execute_command($sql, $params, $types);
+		}
+		/**
+		 * update value configuration sign up form
+		 */
+		function updateConfigurationSignUpForm($params){
+			$sql = "UPDATE configuration SET value=? WHERE name='SHOW_SIGNUP_FORM'";
+			$types = array('integer');
+			return $this->execute_command($sql, $params, $types);
+		}
+		/**
+		 * get value configuration 
+		 * 
+		 */
+		function getValueConfigurationLogin()
+		{
+			$sql = 'select * from configuration';
+			$res = $this->execute_query($sql);
+			return $res;
+		}
+		/**
+		 * select role user
+		 * @param param
+		 */
+		function getRoleUserByUserId($param)
+		{
+			$sql = "select * from user_role where user_id=?";
+			$types = array('integer');
+			$res = $this->execute_query($sql, $params, $types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
 		}
 	}
 ?>
