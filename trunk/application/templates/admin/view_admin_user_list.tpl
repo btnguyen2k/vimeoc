@@ -18,7 +18,6 @@
 		<input type="text" id="term" name="term" value="<:$search_term:>"></option>
 		<input type="hidden" name="page" value="<:$page:>"></input>
 		<input type="submit" value="Submit"></input>
-
 	</form>
 		<table border="1">
 				<tr>

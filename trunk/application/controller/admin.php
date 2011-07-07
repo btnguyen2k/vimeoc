@@ -382,19 +382,117 @@
 				$this->redirect($this->ctx().'/auth/login');
 			}
 		}
+		/**
+		 * function update value message source
+		 * 
+		 */
+		function ConfigurationMessagesSource()
+		{
+			$this->assign("title",$this->loadMessages('admin.setting.Title'));
+			$this->assign("signupTitle",$this->loadMessages('admin.setting.signupform'));
+			$this->assign("loginTitle",$this->loadMessages('admin.setting.loginform'));
+		}
+		/**
+		 * function update value
+		 * 
+		 */
+		function Configuration()
+		{
+			$this->loadModel('model_user');
+			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
+			{
+				$value=$this->model_user->getValueConfigurationLogin();			
+				$login=$value[0]['value'];
+				$signup=$value[1]['value'];
+				$this->assign("login",$login);
+				$this->assign("signup",$signup);
+				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_setting');
+			}
+			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$login=$_POST['login'];
+				$signup=$_POST['signup'];
+				$this->model_user->updateConfigurationLoginForm(array($login));	
+				$this->model_user->updateConfigurationSignUpForm(array($signup));
+				$value=$this->model_user->getValueConfigurationLogin();			
+				$login=$value[0]['value'];
+				$signup=$value[1]['value'];
+				$this->assign("login",$login);
+				$this->assign("signup",$signup);
+				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_setting');
+			}
+		}
+		/**
+		 * Admin Login form messagessourse
+		 * 
+		 */
+		function loginMessagesSource()
+		{
+			$this->assign("title",$this->loadMessages('admin.login.Title'));
+			$this->assign("Id",$this->loadMessages('admin.login.Id'));
+			$this->assign("Password",$this->loadMessages('admin.login.Password'));
+			
+			$this->assign('passwordInvalid', $this->loadErrorMessage('error.password.invalid'));
+			$this->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
+		}
+		/**
+		 * action Admin Login form
+		 * 
+		 */
+		function login()
+		{
+			$this->loadModel('model_user');
+			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
+			{
+				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_login');
+			}
+			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$this->loadModel('model_user');				
+				$username = $_POST['email'];
+				$password = $_POST['password'];
+				$params = array($username, $this->encodePassword($password));
+				$user=$this->model_user->getUserByUsername(array($username));
+				$valid = $this->model_user->checkUsernameAndPassword($params);
+				$isAdmin= $this->model_user->isAdmin(array($user['id'],"ROLE_ADMIN"));
+				if($isAdmin==1)
+				{
+					if($valid)
+					{
+						$user = $this->model_user->getUserByUsername(array($username));
+						if($user != null)
+						{
+							$this->setSessionValue("uid", $user['id']);
+							$this->setSessionValue("username", $user['username']);
+							$this->setSessionValue("logged", true);
+							$this->setSessionValue("cookie", 0);
+							$this->setSessionValue("remember", false);
+							$this->redirect($this->ctx().'/user');
+						}
+						else 
+						{
+							die ('Fail to login');
+						}
+					}				
+					else 
+					{	
+						$this->assign("errorMessage", $this->loadMessages('auth.login.error'));
+						$this->assign("username", $username);
+						$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_login');
+					}
+				}
+				else 
+				{
+					$this->assign("errorMessage", $this->loadMessages('auth.login.error'));
+					$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_login');
+				}	
+			}
+		}
 		
 		function disableLoginForm()
 		{
 			if(!$this->isAdminLogged()){
 				$this->redirect($this->ctx().'/auth/login');
-			}
-			if ($_SERVER['REQUEST_METHOD'] == 'GET')
-			{
-			
-			}
-			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
-			{
-				
 			}
 		}
 		
