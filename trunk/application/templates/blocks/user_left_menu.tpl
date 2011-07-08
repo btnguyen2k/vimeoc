@@ -40,13 +40,20 @@
 		<li>
 			<a href="<:$ctx:>/user/profileShortcut"><:$menuShortcutURL:></a>
 		</li>
-		<li>
-			<a href="<:$ctx:>/auth/logout"><:$menuLogout:></a>
-		</li>
+		
 	</ul>
 	<:if $proxy eq true:>
 	<ul>
 		<li><a href="<:$ctx:>/admin/switchBackToAdmin">Switch back to admin</a>
 	</ul>
+	<:elseif $smarty.session.admin:>
+	<ul>
+		<li><a href="<:$ctx:>/admin">Administer Page</a>
+	</ul>
 	<:/if:>
+	<ul>
+	<li>
+		<a href="<:$ctx:>/auth/logout"><:$menuLogout:></a>
+	</li>
+	</ul>
 </div>

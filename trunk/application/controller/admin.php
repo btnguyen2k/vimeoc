@@ -373,9 +373,7 @@
 					$this->model_user->updateUserRole(array($role,$userId));
 					$this->assign("getrole",$roles);
 					$this->sendingEmailWithSmarty('mail_welcome', 'user', $user, null, $user['email']);
-					$this->assign("success",$this->loadMessages('auth.thankyou.success'));
-					$this->assign("login",$this->loadMessages('auth.thankyou.login'));
-					$this->loadTemplate('view_thankyou');
+					$this->redirect($this->ctx().'/admin/userList');
 				}
 			}
 		}
@@ -463,14 +461,14 @@
 				$this->loadModel('model_user');				
 				$username = $_POST['email'];
 				$password = $_POST['password'];
-				$params = array($username, $this->encodePassword($password));
-				$user=$this->model_user->getEnabledUserByUsername(array($username));
-				$valid = $this->model_user->checkUsernameAndPassword($params);
-				$isAdmin= $this->model_user->isAdmin(array($user['id'],"ROLE_ADMIN"));
+				$params = array($username, $this->encodePassword($password));				
+				$valid = $this->model_user->checkUsernameAndPassword($params);				
 				if($valid)
 				{
+					$user=$this->model_user->getEnabledUserByUsername(array($username));
 					if($user != null)
 					{
+						$isAdmin= $this->model_user->isAdmin(array($user['id'],"ROLE_ADMIN"));
 						if($isAdmin==1)
 						{
 							$this->setSessionValue("uid", $user['id']);
@@ -478,6 +476,7 @@
 							$this->setSessionValue("logged", true);
 							$this->setSessionValue("cookie", 0);
 							$this->setSessionValue("remember", false);
+							$this->setSessionValue("admin", true);
 							$this->redirect($this->ctx().'/admin/configuration');
 						}
 						else 
@@ -549,7 +548,7 @@
 					$this->setSessionValue("logged", true);
 					$this->setSessionValue("cookie", 0);
 					$this->setSessionValue("remember", false);
-					$this->setSessionValue("proxy", true);
+					$this->setSessionValue("proxy", true);					
 					$this->redirect($this->ctx().'/user/');
 					return;
 				}

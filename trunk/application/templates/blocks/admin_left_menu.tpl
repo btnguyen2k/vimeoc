@@ -7,6 +7,9 @@
 			<a href="<:$ctx:>/admin/userList">User List</a>
 		</li>
 		<li>
+			<a href="<:$ctx:>/admin/createNewAccount">Create new user</a>
+		</li>
+		<li>
 			<a href="<:$ctx:>/auth/logout">Logout</a>
 		</li>
 	</ul>

@@ -184,7 +184,7 @@
 			$this->assign('currentPortrait', $this->loadMessages('user.portrait.current'));
 			$this->assign('uploadNew', $this->loadMessages('user.portrait.upload'));	
 			$this->assign('imageExtSupport', $this->loadResources('image.upload.ext.support'));		
-			$this->assign('hint', $this->loadMessages('user.portrait.hint'));
+			$this->assign('hint', $this->loadMessages('user.portrait.hint', array($this->loadResources('application.name'))));
 			$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("portrait")));
 		}
 		
