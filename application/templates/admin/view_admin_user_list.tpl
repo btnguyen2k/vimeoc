@@ -1,5 +1,42 @@
 <link href="<:$ctx:>/css/userlist.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="<:$ctx:>/script/userlist.js"></script>
+
+<script type="text/javascript">
+function confirmActionDisable() {
+    if (confirm("Are you sure you want to disable the following user?"))
+    {
+    	$("form").submit();
+    }
+    else
+    {
+    	return false;
+    }
+  }
+
+function confirmActionEnable() {
+    if (confirm("Are you sure you want to enable the following user?"))
+    {
+    	$("form").submit();
+    }
+    else
+    {
+    	return false;
+    }
+  }
+
+function confirmActionDelete() {
+    if (confirm("Are you sure you want to delete the following user?"))
+    {
+    	$("form").submit();
+    }
+    else
+    {
+    	return false;
+    }
+  }
+
+</script>
+
 <div id="admin_user_list" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/admin_left_menu.tpl":>
 	<div id="admin_user_list_body" class="page_body">
@@ -44,12 +81,12 @@
 					<td><:$v['creation_date']:></td>					
 					<td>
 						<:if $v['enabled'] eq 0:>
-							<a href="<:$ctx:>/admin/enableAccount/?userId=<:$v['id']:>"> enable</a>
+							<a href="<:$ctx:>/admin/enableAccount/?userId=<:$v['id']:>" onclick="return confirmActionEnable()"> enable</a>
 						<:else:>
-							<a href="<:$ctx:>/admin/disableAccount/?userId=<:$v['id']:>"> disable</a></td>			
+							<a href="<:$ctx:>/admin/disableAccount/?userId=<:$v['id']:>" onclick="return confirmActionDisable()"> disable</a></td>			
 						<:/if:>
 					</td>
-					<td><a href="<:$ctx:>/admin/deleteAccount/?userId=<:$v['id']:>">delete</a></td>
+					<td><a href="<:$ctx:>/admin/deleteAccount/?userId=<:$v['id']:>" onclick="return confirmActionDelete()">delete</a></td>
 				</tr>
 			<:/foreach:>				
 		</table>
