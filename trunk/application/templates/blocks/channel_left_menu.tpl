@@ -48,4 +48,9 @@
 			<a href="<:$ctx:>/user/channel/"/><:$menumychannel:></a>
 		</li>
 	</ul>
+	<:if $proxy eq true:>
+	<ul>
+		<li><a href="<:$ctx:>/admin/switchBackToAdmin">Switch back to admin</a>
+	</ul>
+	<:/if:>
 </div>
