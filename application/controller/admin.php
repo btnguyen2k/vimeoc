@@ -18,7 +18,11 @@
 		}
 		
 		function index(){
-			$this->redirect($this->ctx().'/admin/userList');
+			if(!$this->isAdminLogged()){
+				$this->redirect($this->ctx().'/admin/login');
+				return;
+			}
+			$this->redirect($this->ctx().'/admin/userList');			
 		}
 		/**
 		 * load message source for user list
@@ -443,9 +447,10 @@
 		 * 
 		 */
 		function login()
-		{	
+		{
 			if($this->isAdminLogged()){
 				$this->redirect($this->ctx().'/admin/userList');
+				return;
 			}
 			
 			$this->loadModel('model_user');
@@ -474,7 +479,7 @@
 							$this->setSessionValue("logged", true);
 							$this->setSessionValue("cookie", 0);
 							$this->setSessionValue("remember", false);
-							$this->redirect($this->ctx().'/user');
+							$this->redirect($this->ctx().'/admin/configuration');
 						}
 						else 
 						{
@@ -521,6 +526,65 @@
 			if(!$this->isAdminLogged()){
 				$this->redirect($this->ctx().'/admin/login');
 			}
+		}
+		
+		/**
+		 * 
+		 * Login as User from Admin
+		 */
+		function loginAsUser(){
+			if(!$this->isAdminLogged()){
+				$this->redirect($this->ctx().'/admin/login');
+			}
+			$userId = $_GET["userId"];
+			if(!empty($userId)){
+				$model_user = $this->getModel('model_user');
+				$user = $model_user->getUserByUserId(array($userId));
+				if($user != null){
+					$adminId = $this->getLoggedUser();
+					$this->setSessionValue('adminId', $adminId);
+					$this->setSessionValue("uid", $user['id']);
+					$this->setSessionValue("username", $user['username']);
+					$this->setSessionValue("logged", true);
+					$this->setSessionValue("cookie", 0);
+					$this->setSessionValue("remember", false);
+					$this->setSessionValue("proxy", true);
+					$this->redirect($this->ctx().'/user/');
+					return;
+				}
+			}
+			
+			$this->redirect($this->ctx().'/admin/userList');
+		}
+		
+		/**
+		 * 
+		 * Switch back to admin account
+		 */
+		function switchBackToAdmin(){
+			if($this->getLoggedUser() > 0){
+				if (isset($_SESSION['proxy']) && $_SESSION['proxy'] == true) {
+					$adminId = $_SESSION['adminId'];
+					if($adminId > 0){
+						$model_user = $this->getModel('model_user');
+						$user = $model_user->getUserByUserId(array($adminId));
+						if($user != null){
+							$adminId = $this->getLoggedUser();
+							unset($_SESSION['adminId']);
+							unset($_SESSION['proxy']); 							
+							$this->setSessionValue("uid", $user['id']);
+							$this->setSessionValue("username", $user['username']);
+							$this->setSessionValue("logged", true);
+							$this->setSessionValue("cookie", 0);
+							$this->setSessionValue("remember", false);
+							$this->redirect($this->ctx().'/admin');
+							return;
+						}
+					}
+				}	
+			}
+			
+			$this->redirect($this->ctx().'/user/');
 		}
 	}
 ?>

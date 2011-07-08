@@ -4,5 +4,5 @@ CREATE TABLE configuration (
        );
        
        
-INSERT INTO configuration(name) VALUES ('SHOW_LOGIN_FORM')
-INSERT INTO configuration(name) VALUES ('SHOW_SIGNUP_FORM')
+INSERT INTO configuration(name, value) VALUES ('SHOW_LOGIN_FORM', 1);
+INSERT INTO configuration(name, value) VALUES ('SHOW_SIGNUP_FORM', 1);

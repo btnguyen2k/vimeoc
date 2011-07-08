@@ -160,6 +160,11 @@
 			$this->tmpl->assign('body_code', $template.'.tpl');
 			$this->tmpl->assign('ctx', $this->ctx());
 			$this->tmpl->assign('authorized', $this->getLoggedUser() > 0);
+			if(isset($_SESSION['proxy']) && $_SESSION['proxy'] == true){
+				$this->tmpl->assign('proxy', true);
+			}else{
+				$this->tmpl->assign('proxy', false);
+			}
 			$this->tmpl->display('decorator/default.tpl');
 		}
 		
