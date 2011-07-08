@@ -91,6 +91,7 @@
 				$this->loadModel('model_user');				
 				$username = $_POST['email'];
 				$password = $_POST['password'];
+				$user=$this->model_user->getEnabledUserByUsername(array($username));
 				$params = array($username, $this->encodePassword($password));		
 				$valid = $this->model_user->checkUsernameAndPassword($params);			
 				if($valid)
