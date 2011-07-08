@@ -91,11 +91,11 @@
 				$this->loadModel('model_user');				
 				$username = $_POST['email'];
 				$password = $_POST['password'];
-				$user=$this->model_user->getEnabledUserByUsername(array($username));
 				$params = array($username, $this->encodePassword($password));		
 				$valid = $this->model_user->checkUsernameAndPassword($params);			
 				if($valid)
 				{
+					$user=$this->model_user->getEnabledUserByUsername(array($username));
 					if($user != null)
 					{
 						$this->setSessionValue("uid", $user['id']);
@@ -103,6 +103,7 @@
 						$this->setSessionValue("logged", true);
 						$this->setSessionValue("cookie", 0);
 						$this->setSessionValue("remember", false);
+						$this->setSessionValue("admin", true);
 						$this->redirect($this->ctx().'/user');
 					}
 					else 
