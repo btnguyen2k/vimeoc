@@ -62,7 +62,7 @@
 		{
 			$this->loadModel('model_user');
 			$value=$this->model_user->getValueConfigurationLogin();			
-			$login=$value[0]['value'];
+			$login=$value['value'];
 			if($login==0)
 			{
 				$this->loadTemplate('view_site_maintain');
@@ -158,8 +158,8 @@
 		function signup()
 		{
 			$this->loadModel('model_user');
-			$value=$this->model_user->getValueConfigurationLogin();			
-			$signup=$value[0]['value'];
+			$value=$this->model_user->getValueConfigurationSignup();			
+			$signup=$value['value'];
 			if($signup==0)
 			{
 				$this->loadTemplate('view_site_maintain');

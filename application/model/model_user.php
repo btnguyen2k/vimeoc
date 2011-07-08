@@ -506,15 +506,36 @@
 			return $this->execute_command($sql, $params, $types);
 		}
 		/**
-		 * get value configuration 
-		 * 
+		 * get value configuration login form
+		 * @param param
 		 */
 		function getValueConfigurationLogin()
 		{
-			$sql = 'select * from configuration';
-			$res = $this->execute_query($sql);
-			return $res;
+			$sql = "select * from configuration where name='SHOW_LOGIN_FORM'";
+			$types = array('integer');
+			$res = $this->execute_query($sql, $params, $types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
 		}
+		/**
+		 *get value configuration sign up form
+		 *@param param
+		 */
+		function getValueConfigurationSignup()
+		{
+			$sql = "select * from configuration where name='SHOW_SIGNUP_FORM'";
+			$types = array('integer');
+			$res = $this->execute_query($sql, $params, $types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
+		}
+		
 		/**
 		 * select role user
 		 * @param param
