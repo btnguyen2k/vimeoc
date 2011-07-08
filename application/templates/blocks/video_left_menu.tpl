@@ -60,4 +60,9 @@
 		<li><a href="<:$ctx:>">Back to homepage</a>
 	</ul>
 	<:/if:>
+	<:if $proxy eq true:>
+	<ul>
+		<li><a href="<:$ctx:>/admin/switchBackToAdmin">Switch back to admin</a>
+	</ul>
+	<:/if:>
 </div>
