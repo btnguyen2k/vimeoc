@@ -91,13 +91,10 @@
 				$this->loadModel('model_user');				
 				$username = $_POST['email'];
 				$password = $_POST['password'];
-				$params = array($username, $this->encodePassword($password));
-								
-				$valid = $this->model_user->checkUsernameAndPassword($params);
-				
+				$params = array($username, $this->encodePassword($password));		
+				$valid = $this->model_user->checkUsernameAndPassword($params);			
 				if($valid)
 				{
-					$user = $this->model_user->getEnabledUserByUsername(array($username));
 					if($user != null)
 					{
 						$this->setSessionValue("uid", $user['id']);
@@ -109,7 +106,8 @@
 					}
 					else 
 					{
-						die ('Fail to login');
+						$this->assign("errorDisable", $this->loadMessages('admin.login.errorenable'));
+						$this->loadTemplate('view_login');
 					}
 				}				
 				else 

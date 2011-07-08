@@ -30,6 +30,12 @@ function checkEmail()
 <:else:>
    <span class="red"><:$errorMessage:></span>
 <:/if:>
+
+<:if $errorDisable eq "":>
+   &nbsp;
+<:else:>
+   <span class="red"><:$errorDisable:></span>
+<:/if:>
 <form onSubmit="return checkEmail()" action="<:$ctx:>/auth/login/" name="loginform" method="post">
 	<div>
 		<:$email:><input name="email" type="text" value="<:$username:>" class="inputs" id="email_address" size="35" maxlength="255">

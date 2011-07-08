@@ -36,11 +36,17 @@ function validate()
 <:else:>
    <span class="red"><:$errorMessage:></span>
 <:/if:>
+
+<:if $errorDisable eq "":>
+   &nbsp;
+<:else:>
+   <span class="red"><:$errorDisable:></span>
+<:/if:>
 <form onSubmit="return validate()" name="signupform" action="<:$ctx:>/admin/login/" method="post">
 	<div>
 		<ul>
 			<li>
-				<:$Id:><input name="email" type="text" value="<:$username:>" class="inputs" id="email_address" size="35" maxlength="255">
+				<:$Id:><input name="email" type="text" value="<:$username:>" class="inputs" id="email_address" size="35" maxlength="255" >
 				<span class="red" id="error_valid_email" style="display: none;"><:$emailInvalid:></span>
 			</li>
 			<li>
