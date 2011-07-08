@@ -386,7 +386,7 @@
 		 * function update value message source
 		 * 
 		 */
-		function ConfigurationMessagesSource()
+		function configurationMessagesSource()
 		{
 			$this->assign("title",$this->loadMessages('admin.setting.Title'));
 			$this->assign("signupTitle",$this->loadMessages('admin.setting.signupform'));
@@ -396,7 +396,7 @@
 		 * function update value
 		 * 
 		 */
-		function Configuration()
+		function configuration()
 		{
 			{
 				if(!$this->isAdminLogged()){
@@ -406,11 +406,10 @@
 			$this->loadModel('model_user');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
 			{
-				$value=$this->model_user->getValueConfigurationLogin();			
-				$login=$value[0]['value'];
-				$signup=$value[1]['value'];
-				$this->assign("login",$login);
-				$this->assign("signup",$signup);
+				$login=$this->model_user->getValueConfigurationLogin();
+				$signup=$this->model_user->getValueConfigurationSignup();
+				$this->assign("login",$login['value']);
+				$this->assign("signup",$signup['value']);
 				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_setting');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -418,12 +417,11 @@
 				$login=$_POST['login'];
 				$signup=$_POST['signup'];
 				$this->model_user->updateConfigurationLoginForm(array($login));	
-				$this->model_user->updateConfigurationSignUpForm(array($signup));
-				$value=$this->model_user->getValueConfigurationLogin();			
-				$login=$value[0]['value'];
-				$signup=$value[1]['value'];
-				$this->assign("login",$login);
-				$this->assign("signup",$signup);
+				$this->model_user->updateConfigurationSignUpForm(array($signup));		
+				$login=$this->model_user->getValueConfigurationLogin();
+				$signup=$this->model_user->getValueConfigurationSignup();
+				$this->assign("login",$login['value']);
+				$this->assign("signup",$signup['value']);
 				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_setting');
 			}
 		}
@@ -445,11 +443,7 @@
 		 * 
 		 */
 		function login()
-		{
-			if(!$this->isAdminLogged()){
-				$this->redirect($this->ctx().'/admin/login');
-			}
-			
+		{	
 			if($this->isAdminLogged()){
 				$this->redirect($this->ctx().'/admin/userList');
 			}
