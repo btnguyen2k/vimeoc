@@ -386,13 +386,17 @@
 		{
 			$loggedUser = $this->getLoggedUser();
 			if($loggedUser == 0)
-			{			
+			{
 				return false;
 			}
 			else
 			{
-				$user_model = $this->getModel('model_user');				
-				$result = $user_model->isAdmin(array($loggedUser, ROLE_ADMIN));	
+				$params = array();
+				$params[0] = $loggedUser;
+				$params[1] = ROLE_ADMIN;
+				$molde_user = $this->getModel('model_user');
+				$result = $molde_user->isAdmin($params);
+				
 				return $result;
 			}
 		}
@@ -522,6 +526,11 @@
 		    $results = array();
 		    if(sizeof($values) > 0) {
 		        $statement = $con->prepare($sql, $types, MDB2_PREPARE_RESULT);
+			    if(PEAR::isError($statement)) {
+			         die('DB Error... ' . $statement->getDebugInfo(). 
+			        	'<BR/>' . $statement->getMessage(). 
+			        	'<BR/>' . $statement->getUserInfo());
+			    }
 		        $resultset = $statement->execute($values);
 		        $statement->free();
 		    }

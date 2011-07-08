@@ -18,7 +18,7 @@
 		}
 		
 		function index(){
-			$this->redirect($this->ctx().'/admin/login');
+			$this->redirect($this->ctx().'/admin/userList');
 		}
 		/**
 		 * load message source for user list
@@ -446,6 +446,14 @@
 		 */
 		function login()
 		{
+			if(!$this->isAdminLogged()){
+				$this->redirect($this->ctx().'/admin/login');
+			}
+			
+			if($this->isAdminLogged()){
+				$this->redirect($this->ctx().'/admin/userList');
+			}
+			
 			$this->loadModel('model_user');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
 			{
