@@ -97,7 +97,7 @@
 				
 				if($valid)
 				{
-					$user = $this->model_user->getUserByUsername(array($username));
+					$user = $this->model_user->getEnabledUserByUsername(array($username));
 					if($user != null)
 					{
 						$this->setSessionValue("uid", $user['id']);

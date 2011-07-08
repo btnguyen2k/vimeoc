@@ -8,6 +8,9 @@
 			<img class="userAvatar" src="<:$ctx:>/images/avatar.png" width="50" height="50"/>
 			<:/if:>
 			</a>
+			<p>
+			<:$smarty.session.username:>
+			</p>
 		</li>
 	</ul>
 	<ul>
