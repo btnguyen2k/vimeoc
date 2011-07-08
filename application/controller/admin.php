@@ -467,12 +467,11 @@
 				$user=$this->model_user->getEnabledUserByUsername(array($username));
 				$valid = $this->model_user->checkUsernameAndPassword($params);
 				$isAdmin= $this->model_user->isAdmin(array($user['id'],"ROLE_ADMIN"));
-				if($isAdmin==1)
+				if($valid)
 				{
-					if($valid)
+					if($user != null)
 					{
-						$user = $this->model_user->getEnabledUserByUsername(array($username));
-						if($user != null)
+						if($isAdmin==1)
 						{
 							$this->setSessionValue("uid", $user['id']);
 							$this->setSessionValue("username", $user['username']);
@@ -483,20 +482,21 @@
 						}
 						else 
 						{
-							die ('Fail to login');
-						}
-					}				
+							$this->assign("errorMessageGranted", $this->loadMessages('admin.login.error'));
+							$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_login');
+						}	
+					}
 					else 
-					{	
-						$this->assign("errorMessage", $this->loadMessages('auth.login.error'));
+					{
+						$this->assign("errorDisable", $this->loadMessages('admin.login.errorenable'));
 						$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_login');
 					}
-				}
+				}				
 				else 
-				{
-					$this->assign("errorMessageGranted", $this->loadMessages('admin.login.error'));
+				{	
+					$this->assign("errorMessage", $this->loadMessages('auth.login.error'));
 					$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_login');
-				}	
+				}
 			}
 		}
 		
