@@ -241,6 +241,20 @@
 			
 			return null;
 		}
+		
+		function getEnabledUserByUsername($params){
+			$sql = 'select * from user where username=? and account_enabled=1';
+			$types = array('text');
+			$res = $this->execute_query($sql,$params,$types);
+			
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			
+			return null;
+		}
+		
 		/**
 		 * 
 		 * get all user

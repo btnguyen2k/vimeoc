@@ -65,6 +65,7 @@ function confirmActionDelete() {
 					<th>Creation date</th>
 					<th>Change status</th>
 					<th>Delete</th>
+					<th>Login as user</th>
 				</tr>
 			<:foreach from=$users key=k item=v:>
 				<tr>
@@ -87,6 +88,9 @@ function confirmActionDelete() {
 						<:/if:>
 					</td>
 					<td><a href="<:$ctx:>/admin/deleteAccount/?userId=<:$v['id']:>" onclick="return confirmActionDelete()">delete</a></td>
+					<td>
+						<a href="<:$ctx:>/admin/loginAsUser/?userId=<:$v['id']:>">Login</a>
+					</td>
 				</tr>
 			<:/foreach:>				
 		</table>

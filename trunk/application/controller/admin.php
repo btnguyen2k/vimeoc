@@ -464,14 +464,14 @@
 				$username = $_POST['email'];
 				$password = $_POST['password'];
 				$params = array($username, $this->encodePassword($password));
-				$user=$this->model_user->getUserByUsername(array($username));
+				$user=$this->model_user->getEnabledUserByUsername(array($username));
 				$valid = $this->model_user->checkUsernameAndPassword($params);
 				$isAdmin= $this->model_user->isAdmin(array($user['id'],"ROLE_ADMIN"));
 				if($isAdmin==1)
 				{
 					if($valid)
 					{
-						$user = $this->model_user->getUserByUsername(array($username));
+						$user = $this->model_user->getEnabledUserByUsername(array($username));
 						if($user != null)
 						{
 							$this->setSessionValue("uid", $user['id']);
@@ -535,6 +535,7 @@
 		function loginAsUser(){
 			if(!$this->isAdminLogged()){
 				$this->redirect($this->ctx().'/admin/login');
+				return;
 			}
 			$userId = $_GET["userId"];
 			if(!empty($userId)){
