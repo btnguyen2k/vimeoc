@@ -1,0 +1,1 @@
+ALTER TABLE `album` ADD `password` varchar(225) after description
