@@ -2,38 +2,38 @@
 <script type="text/javascript" src="<:$ctx:>/script/userlist.js"></script>
 
 <script type="text/javascript">
-function confirmActionDisable() {
-    if (confirm("Are you sure you want to disable the following user?"))
-    {
-    	$("form").submit();
-    }
-    else
-    {
-    	return false;
-    }
-  }
-
-function confirmActionEnable() {
-    if (confirm("Are you sure you want to enable the following user?"))
-    {
-    	$("form").submit();
-    }
-    else
-    {
-    	return false;
-    }
-  }
-
-function confirmActionDelete() {
-    if (confirm("Are you sure you want to delete the following user?"))
-    {
-    	$("form").submit();
-    }
-    else
-    {
-    	return false;
-    }
-  }
+	function confirmActionDisable() {
+	    if (confirm("Are you sure you want to disable the following user?"))
+	    {
+	    	$("form").submit();
+	    }
+	    else
+	    {
+	    	return false;
+	    }
+	  }
+	
+	function confirmActionEnable() {
+	    if (confirm("Are you sure you want to enable the following user?"))
+	    {
+	    	$("form").submit();
+	    }
+	    else
+	    {
+	    	return false;
+	    }
+	  }
+	
+	function confirmActionDelete() {
+	    if (confirm("Are you sure you want to delete the following user?"))
+	    {
+	    	$("form").submit();
+	    }
+	    else
+	    {
+	    	return false;
+	    }
+	  }
 
 </script>
 
