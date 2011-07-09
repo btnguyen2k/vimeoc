@@ -1,2 +1,0 @@
-create table content(id bigint(20),
-                     title varchar(255),alias varchar(255),body longtext, keywords varchar(255), create_date timestamp,modify_date timestamp, creator_id bigint(20), modifier_id bigint(20), publish int(1) );

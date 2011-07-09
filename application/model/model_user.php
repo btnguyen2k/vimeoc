@@ -43,38 +43,6 @@
 			$res = $this->execute_query($sql,$params,$types);
 			return $res;
 		}
-		/**
-		 * select contents
-		 * 
-		 */
-		function selectContent($limit = 0, $offset = 0, $term = '', $sort_column = 'create_date', $sort_order = 'ASC')
-		{
-			$types = array();
-			$params = array(); 
-			$sql = "select id, title, create_date, modify_date, creator_id, modifier_id, publish from content c ";			
-			
-			if(!empty($term)){
-				$term = str_replace('%', '\%', $term);
-				$sql .= " where (c.title like ? or c.keywords like ?) ";
-				$types[] = 'text';
-				$types[] = 'text';
-				$params[] = '%' . $term . '%';
-				$params[] = '%' . $term . '%';
-			}
-			
-			$sql .= "group by c.id order by c.{$sort_column} {$sort_order} ";
-			
-			if($limit > 0){
-				$sql .= ' limit ? offset ?';
-				$types[] = 'integer';
-				$types[] = 'integer';
-				$params[] = $limit;
-				$params[] = $offset;
-			}
-			$res = $this->execute_query($sql,$params,$types);
-			return $res;
-		}
-		
 		
 		/**
 		 * 
@@ -89,30 +57,6 @@
 			if(!empty($term)){
 				$term = str_replace('%', '\%', $term);
 				$sql .= " where (u.username like ? or u.full_name like ?) ";
-				$types[] = 'text';
-				$types[] = 'text';
-				$params[] = '%' . $term . '%';
-				$params[] = '%' . $term . '%';
-			}
-			
-			$res = $this->execute_query($sql,$params,$types);
-			
-			return ($res[0] && $res[0]['count']) ? $res[0]['count'] : 0;
-		}
-		
-		/**
-		 * 
-		 * Count content
-		 */
-		function countContents($term = '')
-		{
-			$types = array();
-			$params = array();					
-			$sql = 'select count(id) as `count` from content c';			
-			
-			if(!empty($term)){
-				$term = str_replace('%', '\%', $term);
-				$sql .= " where (c.title like ? or c.keywords like ?) ";
 				$types[] = 'text';
 				$types[] = 'text';
 				$params[] = '%' . $term . '%';
@@ -620,34 +564,6 @@
 				return $res[0] ;
 			}
 			return null;
-		}
-		/**
-		 * publish content
-		 * @param params
-		 */
-		function publishContent($params)
-		{
-			$sql = 'UPDATE content SET publish=1 WHERE id=?';
-			$types = array('integer');
-			return $this->execute_command($sql, $params, $types);
-		}
-		/**
-		 * unpublish
-		 * @param params
-		 */
-		function unpublishContent($params){
-			$sql = 'UPDATE content SET publish=0 WHERE id=?';
-			$types = array('integer');
-			return $this->execute_command($sql, $params, $types);
-		}
-		/**
-		 * delete
-		 * @param params
-		 */
-		function dropContentById($params){
-			$sql = 'delete from content where id=?';
-			$types = array('integer');
-			$this->execute_command($sql, $params, $types);
 		}
 	}
 ?>
