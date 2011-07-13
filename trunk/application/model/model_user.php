@@ -649,5 +649,105 @@
 			$types = array('integer');
 			$this->execute_command($sql, $params, $types);
 		}
+		/**
+		 * insert content
+		 * @param params
+		 */
+		function addNewContent($params)
+		{
+			$sql = 'INSERT INTO content(title, alias, body, keywords, publish, creator_id, modifier_id ) VALUES (?, ?, ?, ? ,? ,?, ?)';
+			$types = array('text', 'text', 'text', 'text' , 'integer', 'integer', 'integer');
+			$this->execute_command($sql, $params, $types);
+		}
+		/**
+		 * update creator_id and modifier_id
+		 * @param params
+		 */
+		function updateCreatorAndModifierId($params)
+		{
+			$sql = 'UPDATE content SET creator_id = ? and modifier_id=? where id=?';
+			$types = array('integer');
+			return $this->execute_command($sql, $params, $types);
+		}
+		/**
+		 * getContent
+		 * @param params
+		 */
+		function getContent($params)
+		{
+			$sql = "select * from content where id=?";
+			$types = array('integer');
+			$res = $this->execute_query($sql, $params, $types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
+		}
+		/**
+		 * 
+		 *check duplicated alias
+		 * @param $params
+		 */
+		function isAliasExist($params)
+		{					
+			$sql = 'select 
+						count(id) as `count` 
+					from 
+						content 
+					where 
+						alias=?';
+			$types = array('text');
+			$res = $this->execute_query($sql,$params,$types);
+			return $res[0]['count'];
+		}
+		/**
+		 * function update title
+		 * @param param
+		 */
+		function updateTitle($params){
+			$sql = "UPDATE content SET title=? WHERE id=?";
+			$types = array('integer');
+			return $this->execute_command($sql, $params, $types);
+		}
+		
+		/**
+		 * function update alias
+		 * @param param
+		 */
+		function updateAlias($params){
+			$sql = "UPDATE content SET alias=? WHERE id=?";
+			$types = array('integer');
+			return $this->execute_command($sql, $params, $types);
+		}
+		
+		/**
+		 * function update publish
+		 * @param param
+		 */
+		function updatePublish($params){
+			$sql = "UPDATE content SET publish=? WHERE id=?";
+			$types = array('integer');
+			return $this->execute_command($sql, $params, $types);
+		}
+		
+		/**
+		 * function update body
+		 * @param param
+		 */
+		function updateBody($params){
+			$sql = "UPDATE content SET body=? WHERE id=?";
+			$types = array('integer');
+			return $this->execute_command($sql, $params, $types);
+		}
+		/**
+		 * function update keyword
+		 * @param param
+		 */
+		function updateKeyword($params){
+			$sql = "UPDATE content SET keywords=? WHERE id=?";
+			$types = array('integer');
+			return $this->execute_command($sql, $params, $types);
+		}
 	}
 ?>
