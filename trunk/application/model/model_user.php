@@ -655,7 +655,7 @@
 		 */
 		function addNewContent($params)
 		{
-			$sql = 'INSERT INTO content(title, alias, body, keywords, publish, creator_id, modifier_id ) VALUES (?, ?, ?, ? ,? ,?, ?)';
+			$sql = 'INSERT INTO content(title, alias, body, keywords, publish, creator_id, modifier_id, modify_date ) VALUES (?, ?, ?, ? ,? ,?, ?,  CURRENT_TIMESTAMP)';
 			$types = array('text', 'text', 'text', 'text' , 'integer', 'integer', 'integer');
 			$this->execute_command($sql, $params, $types);
 		}
