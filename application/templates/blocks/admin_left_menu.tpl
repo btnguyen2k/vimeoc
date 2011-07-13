@@ -10,6 +10,15 @@
 			<a href="<:$ctx:>/admin/createNewAccount">Create new user</a>
 		</li>
 		<li>
+			<a href="<:$ctx:>/admin/contentlist">Content List</a>
+		</li>
+		<li>
+			<a href="<:$ctx:>/admin/createNewContent/">Create new content</a>
+		</li>
+		<li>
+			<a href="<:$ctx:>/admin/updateContent">Edit Content</a>
+		</li>
+		<li>
 			<a href="<:$ctx:>/auth/logout">Logout</a>
 		</li>
 	</ul>

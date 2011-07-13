@@ -59,8 +59,8 @@
 			);
 			$_page_sizes = array(
 				1 => 'All',//all users
-				2 => 2,
-				3 => 20,
+				2 => 10,
+				3 => 25,
 				4 => 50
 			);
 			$_default_sort_mode = 1;
@@ -271,8 +271,8 @@
 			);
 			$_page_sizes = array(
 				1 => 'All',//all users
-				2 => 5,
-				3 => 20,
+				2 => 10,
+				3 => 25,
 				4 => 50
 			);
 			$_default_sort_mode = 1;
@@ -866,5 +866,103 @@
 			
 			$this->redirect($this->ctx().'/user/');
 		}
+		/**
+		 * function create new content messeage source
+		 * 
+		 */
+		function createNewContentMessagesSource()
+		{
+			$this->assign("title",$this->loadMessages('admin.content.title'));
+			$this->assign("alias", $this->loadMessages('admin.content.alias'));
+			$this->assign("body",$this->loadMessages('admin.content.body'));
+			$this->assign("keyword", $this->loadMessages('admin.content.keyword'));
+			$this->assign("publish",$this->loadMessages('admin.content.publish'));
+			$this->assign("name",$this->loadMessages('admin.content.name'));
+			
+			$this->assign('titleInvalid', $this->loadErrorMessage('error.title.invalid'));
+			$this->assign('aliasInvalid', $this->loadErrorMessage('error.alias.invalid'));
+			$this->assign('bodyInvalid', $this->loadErrorMessage('error.body.invalid'));
+			$this->assign('keywordInvalid', $this->loadErrorMessage('error.keyword.invalid'));
+		}
+		/**
+		 * function create new content
+		 * 
+		 */
+		function createNewContent()
+		{
+			if(!$this->isAdminLogged()){
+				$this->redirect($this->ctx().'/admin/login');
+				return;
+			}
+			$userId = $this->getLoggedUser();
+			$this->loadModel('model_user');
+			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
+			{
+				
+				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_createnewcontent');
+			}
+			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$title=$_POST['title'];
+				$alias=$_POST['alias'];
+				$body=$_POST['body'];
+				$keywords=$_POST['keywords'];
+				$publish=$_POST['publish'];
+				if($this->model_user->isAliasExist(array($alias)))
+				{
+					$this->assign('errorMessage', $this->loadErrorMessage('error.album.alias.aliasExists'));
+				}
+				else 
+				{
+					$this->model_user->addNewContent(array($title,$alias,$body,$keywords,$publish,$userId,$userId));
+					$this->assign("messageSuccessful",$this->loadMessages('admin.content.successful'));
+				}
+				
+				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_createnewcontent');
+			}
+		}
+		/**
+		 * function update content messeage source
+		 * 
+		 */
+		function updateContentMessagesSource()
+		{
+			$this->assign("title",$this->loadMessages('admin.contentupdate.title'));
+			$this->assign("alias", $this->loadMessages('admin.content.alias'));
+			$this->assign("body",$this->loadMessages('admin.content.body'));
+			$this->assign("keyword", $this->loadMessages('admin.content.keyword'));
+			$this->assign("publish",$this->loadMessages('admin.content.publish'));
+			$this->assign("name",$this->loadMessages('admin.content.name'));
+			
+			$this->assign('titleInvalid', $this->loadErrorMessage('error.title.invalid'));
+			$this->assign('aliasInvalid', $this->loadErrorMessage('error.alias.invalid'));
+			$this->assign('bodyInvalid', $this->loadErrorMessage('error.body.invalid'));
+			$this->assign('keywordInvalid', $this->loadErrorMessage('error.keyword.invalid'));
+		}
+		/**
+		 * function update content
+		 */
+		function updateContent()
+		{
+			$this->loadModel('model_user');
+			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
+			{
+				$contentId=$_GET['id'];
+				$content=$this->model_user->getContent(array($contentId));
+				$this->assign('content',$content);
+				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_updatecontent');
+			}
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') 
+			{
+				$contentId=$_POST['contentId'];
+				$this->model_user->updateTitle(array($contentId));
+				$this->model_user->updateAlias(array($contentId));
+				$this->model_user->updatePublish(array($contentId));
+				$this->model_user->updateBody(array($contentId));
+				$this->model_user->updateKeyword(array($contentId));
+				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_updatecontent');
+			}
+		}
 	}
+	
 ?>
