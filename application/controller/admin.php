@@ -917,7 +917,10 @@
 					$this->model_user->addNewContent(array($title,$alias,$body,$keywords,$publish,$userId,$userId));
 					$this->assign("messageSuccessful",$this->loadMessages('admin.content.successful'));
 				}
-				
+				$this->assign('title_',$title);
+				$this->assign('body_',$body);
+				$this->assign('keywords_',$keywords);
+				$this->assign('publish_',$publish);
 				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_createnewcontent');
 			}
 		}
