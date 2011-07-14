@@ -15,7 +15,11 @@
 					<option <:if $k == $page_size:>selected="selected"<:/if:> value="<:$k:>"><:$v:></option>
 				<:/foreach:>
 			</select>
-			<input type="text" id="term" name="term" value="<:$search_term:>"></option>
+			<:if $search_term != "":>
+				<input type="text" id="term" name="term" value="<:$search_term:>"></option>
+			<:else:>
+				<input type="text" id="term" name="term" value="Search Album" onClick="this.value='';"></option>
+			<:/if:>
 			<input type="hidden" name="page" value="<:$page:>"></input>
 			<input type="submit" value="Submit"></input>
 		</form>
