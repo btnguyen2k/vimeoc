@@ -9,7 +9,7 @@
 		var pattern=/^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.([a-zA-Z])+([a-zA-Z])+/;
 		var flag=true;
 	
-		if(password.length>8||password.length<6){
+		if(password.length<5){
 			$("#error_less_password").show();
 			flag=false;
 		}else{
