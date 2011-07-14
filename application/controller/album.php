@@ -348,6 +348,7 @@
 			$this->assign("createNewAlbum", $this->loadMessages('album.menu.create.link'));
 			$this->assign("videoId", $_GET["videoId"]);
 			$this->assign("albumId", $_GET["albumId"]);
+			$this->assign("videobacktovideo", $this->loadMessages('user.video.link.backtovideo'));
 		}
 		/**
 		 * Load defaul create new album page
