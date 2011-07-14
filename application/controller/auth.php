@@ -104,7 +104,11 @@
 						$this->setSessionValue("logged", true);
 						$this->setSessionValue("cookie", 0);
 						$this->setSessionValue("remember", false);
-						$this->setSessionValue("admin", true);
+						$isAdmin= $this->model_user->isAdmin(array($user['id'],"ROLE_ADMIN"));
+						if($isAdmin==1)
+							$this->setSessionValue("admin", true);
+						else
+							$this->setSessionValue("admin", false);
 						$this->redirect($this->ctx().'/user');
 					}
 					else 
