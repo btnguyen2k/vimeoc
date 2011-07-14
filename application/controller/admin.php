@@ -915,6 +915,7 @@
 				{
 					$this->model_user->addNewContent(array($title,$alias,$body,$keywords,$publish,$userId,$userId));
 					$this->assign("messageSuccessful",$this->loadMessages('admin.content.successful'));
+					$this->redirect($this->ctx().'/admin/contentlist');
 				}
 				$this->assign('title_',$title);
 				$this->assign('body_',$body);
@@ -966,15 +967,22 @@
 				$publish=$_POST['publish'];
 				$body=$_POST['body'];
 				$keywords=$_POST['keywords'];
-				$this->model_user->updateTitle(array($title,$contentId));
-				$this->model_user->updateAlias(array($alias,$contentId));
-				$this->model_user->updatePublish(array($publish,$contentId));
-				$this->model_user->updateBody(array($body,$contentId));
-				$this->model_user->updateKeyword(array($keywords,$contentId));
-				$this->model_user->updateModifyDate(array($contentId));
+				if($this->model_user->isAliasExist(array($alias)))
+				{
+					$this->assign('errorMessage', $this->loadErrorMessage('error.content.alias.aliasExists'));
+				}
+				else 
+				{
+					$this->model_user->updateTitle(array($title,$contentId));
+					$this->model_user->updateAlias(array($alias,$contentId));
+					$this->model_user->updatePublish(array($publish,$contentId));
+					$this->model_user->updateBody(array($body,$contentId));
+					$this->model_user->updateKeyword(array($keywords,$contentId));
+					$this->model_user->updateModifyDate(array($contentId));
+					$this->model_user->updateModifer(array($userId,$contentId));
+					$this->assign("successfullMessage",$this->loadMessages('admin.contentupdate.successful'));
+				}
 				$this->assign('contentId',$contentId);
-				$this->model_user->updateModifer(array($userId,$contentId));
-				$this->assign("successfullMessage",$this->loadMessages('admin.contentupdate.successful'));
 				$content=$this->model_user->getContent(array($contentId));
 				$this->assign('content',$content);
 				$publish_=$content['publish'];
