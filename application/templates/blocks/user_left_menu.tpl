@@ -9,7 +9,7 @@
 			<:/if:>
 			</a>
 			<p>
-			<:$smarty.session.username:>
+			<:$smarty.session.fullname:>
 			</p>
 		</li>
 	</ul>
