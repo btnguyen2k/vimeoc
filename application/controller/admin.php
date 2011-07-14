@@ -910,7 +910,7 @@
 				$publish=$_POST['publish'];
 				if($this->model_user->isAliasExist(array($alias)))
 				{
-					$this->assign('errorMessage', $this->loadErrorMessage('error.album.alias.aliasExists'));
+					$this->assign('errorMessage', $this->loadErrorMessage('error.content.alias.aliasExists'));
 				}
 				else 
 				{
@@ -950,16 +950,31 @@
 				$contentId=$_GET['id'];
 				$content=$this->model_user->getContent(array($contentId));
 				$this->assign('content',$content);
+				$this->assign('contentId',$contentId);
+				$publish_=$content['publish'];
+				$this->assign('publish_',$publish_);
 				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_updatecontent');
 			}
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 			{
 				$contentId=$_POST['contentId'];
-				$this->model_user->updateTitle(array($contentId));
-				$this->model_user->updateAlias(array($contentId));
-				$this->model_user->updatePublish(array($contentId));
-				$this->model_user->updateBody(array($contentId));
-				$this->model_user->updateKeyword(array($contentId));
+				$title=$_POST['title'];
+				$alias=$_POST['alias'];
+				$publish=$_POST['publish'];
+				$body=$_POST['body'];
+				$keywords=$_POST['keywords'];
+				$this->model_user->updateTitle(array($title,$contentId));
+				$this->model_user->updateAlias(array($alias,$contentId));
+				$this->model_user->updatePublish(array($publish,$contentId));
+				$this->model_user->updateBody(array($body,$contentId));
+				$this->model_user->updateKeyword(array($keywords,$contentId));
+				$this->model_user->updateModifyDate(array($contentId));
+				$this->assign('contentId',$contentId);
+				$this->assign("successfullMessage",$this->loadMessages('admin.contentupdate.successful'));
+				$content=$this->model_user->getContent(array($contentId));
+				$this->assign('content',$content);
+				$publish_=$content['publish'];
+				$this->assign('publish_',$publish_);
 				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_updatecontent');
 			}
 		}
