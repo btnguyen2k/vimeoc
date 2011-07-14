@@ -25,41 +25,37 @@
 	<:/if:>
 	<ul>
 		<:if $create_album != 1:>
-		<li>
-			<a href="<:$ctx:>/album/createNewAlbum/"><:$createNewAlbum:></a>
-		</li>
-		<:if $authorized == true:>
-		<li>
-			<a href="<:$ctx:>/album/albumsetting/?albumId=<:$albumId:>"><:$menubasicinfoAlbum:></a>
-		</li>
+			<li>
+				<a href="<:$ctx:>/album/createNewAlbum/"><:$createNewAlbum:></a>
+			</li>
 		<:/if:>
-		<:/if:>
-		<:if $authorized == true:>
-		<li>
-			<a href="<:$ctx:>/album/albumthumbnail/?albumId=<:$albumId:>"><:$menuthumbnailAlbum:></a>
-		</li>
-		<li>
-			<a href="<:$ctx:>/album/arrange/?albumId=<:$albumId:>"><:$menuarrangeAlbum:></a>
-		</li>
-		<li>
-			<a href="<:$ctx:>/album/albumCustomUrl/?albumId=<:$albumId:>"><:$menuCustomUrlAlbum:></a>
-		</li>
-		<li>
-			<a href="<:$ctx:>/album/albumPassword/?albumId=<:$albumId:>"><:$menupasswordAlbum:></a>
-		</li>
-		<li>
-			<a href="<:$ctx:>/album/albumDelete/?albumId=<:$albumId:>"><:$menudeleteAlbum:></a>
-		</li>
-		<:/if:>
-		<:if $authorized == true:>
-		<:if $create_album != 1:>
-		<li>
-			<a href="<:$ctx:>/album/?albumId=<:$albumId:>"/><:$menubackAlbum:></a>
-		</li>
-		<:/if:>
-		<li>
-			<a href="<:$ctx:>/user/album/"><:$menuMyAlbum:></a>
-		</li>
+		<:if $authorized == true:>	
+			<:if $create_album != 1:>
+				<li>
+					<a href="<:$ctx:>/album/albumsetting/?albumId=<:$albumId:>"><:$menubasicinfoAlbum:></a>
+				</li>
+				<li>
+					<a href="<:$ctx:>/album/albumthumbnail/?albumId=<:$albumId:>"><:$menuthumbnailAlbum:></a>
+				</li>
+				<li>
+					<a href="<:$ctx:>/album/arrange/?albumId=<:$albumId:>"><:$menuarrangeAlbum:></a>
+				</li>
+				<li>
+					<a href="<:$ctx:>/album/albumCustomUrl/?albumId=<:$albumId:>"><:$menuCustomUrlAlbum:></a>
+				</li>
+				<li>
+					<a href="<:$ctx:>/album/albumPassword/?albumId=<:$albumId:>"><:$menupasswordAlbum:></a>
+				</li>
+				<li>
+					<a href="<:$ctx:>/album/albumDelete/?albumId=<:$albumId:>"><:$menudeleteAlbum:></a>
+				</li>
+				<li>
+					<a href="<:$ctx:>/album/?albumId=<:$albumId:>"/><:$menubackAlbum:></a>
+				</li>
+			<:/if:>
+			<li>
+				<a href="<:$ctx:>/user/album/"><:$menuMyAlbum:></a>
+			</li>
 		<:/if:>
 		<li>
 			<a href="<:$ctx:>/user/video/"><:$videobacktovideo:></a>
