@@ -61,6 +61,9 @@
 			<a href="<:$ctx:>/user/album/"><:$menuMyAlbum:></a>
 		</li>
 		<:/if:>
+		<li>
+			<a href="<:$ctx:>/user/video/"><:$videobacktovideo:></a>
+		</li>
 	</ul>
 	<:if $proxy eq true:>
 	<ul>
