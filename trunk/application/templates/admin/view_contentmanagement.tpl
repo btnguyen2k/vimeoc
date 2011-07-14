@@ -82,7 +82,7 @@
 							publish
 						<:/if:>
 					</td>
-					<td><a href="<:$ctx:>/admin/editContent/?contentId=<:$v['id']:>">Edit</a></td>
+					<td><a href="<:$ctx:>/admin/updatecontent/?id=<:$v['id']:>">Edit</a></td>
 					<td>
 						<:if $v['publish'] eq 0:>
 							<a href="<:$ctx:>/admin/publishContent/?contentId=<:$v['id']:>" onclick="return confirmActionPublish()">Publish</a>

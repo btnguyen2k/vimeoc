@@ -655,7 +655,7 @@
 		 */
 		function addNewContent($params)
 		{
-			$sql = 'INSERT INTO content(title, alias, body, keywords, publish, creator_id, modifier_id, modify_date ) VALUES (?, ?, ?, ? ,? ,?, ?,  CURRENT_TIMESTAMP)';
+			$sql = 'INSERT INTO content(title, alias, body, keywords, publish, creator_id, modifier_id, create_date ) VALUES (?, ?, ?, ? ,? ,?, ?, CURRENT_TIMESTAMP)';
 			$types = array('text', 'text', 'text', 'text' , 'integer', 'integer', 'integer');
 			$this->execute_command($sql, $params, $types);
 		}
@@ -707,7 +707,7 @@
 		 */
 		function updateTitle($params){
 			$sql = "UPDATE content SET title=? WHERE id=?";
-			$types = array('integer');
+			$types = array('text','integer');
 			return $this->execute_command($sql, $params, $types);
 		}
 		
@@ -717,7 +717,7 @@
 		 */
 		function updateAlias($params){
 			$sql = "UPDATE content SET alias=? WHERE id=?";
-			$types = array('integer');
+			$types = array('text','integer');
 			return $this->execute_command($sql, $params, $types);
 		}
 		
@@ -727,7 +727,7 @@
 		 */
 		function updatePublish($params){
 			$sql = "UPDATE content SET publish=? WHERE id=?";
-			$types = array('integer');
+			$types = array('text','integer');
 			return $this->execute_command($sql, $params, $types);
 		}
 		
@@ -737,7 +737,7 @@
 		 */
 		function updateBody($params){
 			$sql = "UPDATE content SET body=? WHERE id=?";
-			$types = array('integer');
+			$types = array('text','integer');
 			return $this->execute_command($sql, $params, $types);
 		}
 		/**
@@ -746,6 +746,15 @@
 		 */
 		function updateKeyword($params){
 			$sql = "UPDATE content SET keywords=? WHERE id=?";
+			$types = array('text','integer');
+			return $this->execute_command($sql, $params, $types);
+		}
+		/**
+		 * function update modifer
+		 * @param param
+		 */
+		function updateModifyDate($params){
+			$sql = "UPDATE content SET modify_date=CURRENT_TIMESTAMP WHERE id=?";
 			$types = array('integer');
 			return $this->execute_command($sql, $params, $types);
 		}

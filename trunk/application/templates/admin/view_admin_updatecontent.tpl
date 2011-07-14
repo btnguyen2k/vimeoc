@@ -1,4 +1,7 @@
 <script type="text/javascript">
+$(document).ready(function() {
+	   checked();
+	});
 	function validate()
 	{
 		var title=$("#title").val();
@@ -37,18 +40,32 @@
 
 		return flag;
 	}
+
+	function checked()
+	{
+		if($("#publish_").val()==1)
+			$("#publish").attr('checked',true);
+		else
+			$("#unpublish").attr('checked',true);
+	}
 </script>
 
 <div id="admin_updatecontent" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/admin_left_menu.tpl":>
 	<div id="admin_updatecontent_body" class="page_body">
 		<h1 align="center"><:$title:></h1>
-<form onSubmit="return validate()" name="contentform" action="<:$ctx:>/admin/updatecontent/" method="post">
+<form onSubmit="return validate()" name="contentform" action="<:$ctx:>/admin/updatecontent/?id=<:$contentId:>" method="post">
 	<div>
 	<:if $errorMessage eq "":>
   		 &nbsp;
 	<:else:>
  		 <span class="red"><:$errorMessage:></span>
+	<:/if:>
+	
+	<:if $successfullMessage eq "":>
+  		 &nbsp;
+	<:else:>
+ 		 <span class="green"><:$successfullMessage:></span>
 	<:/if:>
 		<fieldset>
 			<ul>
@@ -70,15 +87,16 @@
 				</li>
 				<li>
 					<li>
-						<input type="radio" id="publish" name="publish" value="1" checked="checked"/>Publish
+						<input type="radio" id="publish" name="publish" value="1"/>Publish
 					</li>
 					<li>
 						<input type="radio" id="unpublish" name="publish" value="0"/>Unpublish
 					</li>
-				</li>			
+				</li>
 				<li>
 					<input type="submit" value= "Save"/>
 					<input type="hidden" name="contentId" id="contentId" value="<:$contentId:>"/>
+					<input type="hidden" name="publish_" id="publish_" value="<:$publish_:>" />
 				</li>
 			</ul>
 		</fieldset>

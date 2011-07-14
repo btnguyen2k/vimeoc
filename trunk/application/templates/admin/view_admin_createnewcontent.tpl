@@ -55,7 +55,7 @@
 	<:if $messageSuccessful eq "":>
   		 &nbsp;
 	<:else:>
- 		 <span class="GREEN"><:$messageSuccessful:></span>
+ 		 <span class="green"><:$messageSuccessful:></span>
 	<:/if:>
 		<fieldset>
 			<ul>
