@@ -703,6 +703,7 @@
 				$signup=$this->model_user->getValueConfigurationSignup();
 				$this->assign("login",$login['value']);
 				$this->assign("signup",$signup['value']);
+				$this->assign("messageSuccess",$this->loadMessages('admin.configuration.successful'));
 				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_setting');
 			}
 		}
