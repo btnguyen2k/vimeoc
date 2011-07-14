@@ -441,7 +441,7 @@
 			
 			$_search_obj = unserialize($_SESSION['SEARCH']);
 			
-			$_display_modes = array(1 => 'Thumnail mode', 2 => 'Detail mode');
+			$_display_modes = array(1 => 'Thumbnail mode', 2 => 'Detail mode');
 			
 			$_sort_modes = array(
 				1 => 'Newest video first',
@@ -467,15 +467,15 @@
 				5 => 'DESC',
 				6 => 'ASC'
 			);
-			$_page_sizes = array(
-				1 => 'All',//all videos
-				2 => 2,
-				3 => 3,
-				4 => 50
+			$_page_sizes = array(				
+				1 => 10,
+				2 => 25,
+				3 => 50,
+				4 => 'All'
 			);
 			$_default_display_mode = 1;
 			$_default_sort_mode = 1;
-			$_default_page_size = 2;
+			$_default_page_size = 1;
 			$_default_search_term = '';
 			
 			$videos = array();
