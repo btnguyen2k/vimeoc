@@ -100,6 +100,7 @@
 					{
 						$this->setSessionValue("uid", $user['id']);
 						$this->setSessionValue("username", $user['username']);
+						$this->setSessionValue("fullname", $user['full_name']);
 						$this->setSessionValue("logged", true);
 						$this->setSessionValue("cookie", 0);
 						$this->setSessionValue("remember", false);
