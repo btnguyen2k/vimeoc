@@ -1,4 +1,7 @@
 <script type="text/javascript">
+$(document).ready(function() {
+	   checked();
+	});
 	function validate()
 	{
 		var title=$("#title").val();
@@ -37,7 +40,13 @@
 
 		return flag;
 	}
-
+	function checked()
+	{
+		if($("#publish_").val()==1)
+			$("#publish").attr('checked',true);
+		else
+			$("#unpublish").attr('checked',true);
+	}
 
 </script>
 <div id="admin_createcontent" class="page">
@@ -60,19 +69,19 @@
 		<fieldset>
 			<ul>
 				<li>
-					<:$name:><input name="title" type="text" value="" class="inputs" id="title"  maxlength="255" />
+					<:$name:><input name="title" type="text" value="<:$title_:>" class="inputs" id="title"  maxlength="255" />
 					<span class="red" id="error_valid_title" style="display: none;"><:$titleInvalid:></span>
 				</li>
 				<li>
-					<:$alias:><input id="alias" name="alias" type="text"s/>
+					<:$alias:><input id="alias" name="alias" type="text" value=""/>
 					<span class="red" id="error_valid_alias" style="display: none;"><:$aliasInvalid:></span>
 				</li>
 				<li>
-					<:$body:><textarea name="body" id="body" size="40"></textarea>
+					<:$body:><textarea name="body" id="body" size="40"><:$body_:></textarea>
 					<span class="red" id="error_valid_body" style="display: none;"><:$bodyInvalid:></span>
 				</li>
 				<li>
-					<:$keyword:><textarea  id="keywords" name="keywords" ></textarea>
+					<:$keyword:><textarea  id="keywords" name="keywords" ><:$keywords_:></textarea>
 					<span class="red" id="error_valid_keyword" style="display: none;"><:$keywordInvalid:></span>
 				</li>
 				<li>
@@ -85,6 +94,7 @@
 				</li>			
 				<li>
 					<input type="submit" value= "Save"/>
+					<input type="hidden" id="publish_" name="publish_" value="<:$publish_:>"/>
 				</li>
 			</ul>
 		</fieldset>
