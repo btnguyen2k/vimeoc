@@ -47,6 +47,9 @@
 		<li>
 			<a href="<:$ctx:>/user/channel/"/><:$menumychannel:></a>
 		</li>
+		<li>
+			<a href="<:$ctx:>/user/video/"><:$videobacktovideo:></a>
+		</li>
 	</ul>
 	<:if $proxy eq true:>
 	<ul>
