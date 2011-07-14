@@ -1061,10 +1061,10 @@
 				3 => 'ASC'
 			);
 			$_page_sizes = array(
-				1 => 'All',//all videos
-				2 => 2,
-				3 => 3,
-				4 => 50
+				1 => 10,
+				2 => 25,
+				3 => 50,
+				4 => 'All'
 			);
 			$_default_sort_mode = 1;
 			$_default_page_size = 2;
