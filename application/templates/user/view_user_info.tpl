@@ -44,7 +44,7 @@
 						<input type="text" name="fullName" value="<:$fullName:>" maxlength="150"/>
 					</li>					
 					<li>
-						<span><:$emailTitle:> *</span><br/>
+						<span><:$emailTitle:></span><br/>
 						<input type="text" name="email" value="<:$email:>" readonly="readonly"/>
 						<span class="red" id="error_valid_email" style="display: none;"><:$emailInvalid:></span>
 					</li>
