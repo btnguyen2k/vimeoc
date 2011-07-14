@@ -944,6 +944,7 @@
 		 */
 		function updateContent()
 		{
+			$userId = $this->getLoggedUser();
 			$this->loadModel('model_user');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
 			{
@@ -970,6 +971,7 @@
 				$this->model_user->updateKeyword(array($keywords,$contentId));
 				$this->model_user->updateModifyDate(array($contentId));
 				$this->assign('contentId',$contentId);
+				$this->model_user->updateModifer(array($userId,$contentId));
 				$this->assign("successfullMessage",$this->loadMessages('admin.contentupdate.successful'));
 				$content=$this->model_user->getContent(array($contentId));
 				$this->assign('content',$content);

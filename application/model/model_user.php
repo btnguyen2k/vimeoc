@@ -758,5 +758,14 @@
 			$types = array('integer');
 			return $this->execute_command($sql, $params, $types);
 		}
+		/**
+		 * function update modifername
+		 * @param param
+		 */
+		function updateModifer($params){
+			$sql = "UPDATE content SET modifier_id=? WHERE id=?";
+			$types = array('integer','integer');
+			return $this->execute_command($sql, $params, $types);
+		}
 	}
 ?>
