@@ -8,29 +8,36 @@
 		var term=$("#agree").attr("checked");
 		var pattern=/^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.([a-zA-Z])+([a-zA-Z])+/;
 		var flag=true;
-
-		if(x.length>8){
-			$("#error_length_password").show();
+		
+		if(x==""){
+			$("#error_valid_password").show();
 			flag=false;
 		}else{
-			$("#error_length_password").hide();
-		}
+			$("#error_valid_password").hide();
+		}	 
 
-		if(y.length>8){
-			$("#error_length_rpassword").show();
+		if(y==""){
+			$("#error_valid_rpassword").show();
 			flag=false;
 		}else{
-			$("#error_length_rpassword").hide();
-		}
+			$("#error_valid_rpassword").hide();
+		}	 
 
-		if(x.length>8||x.length<6){
+		if(z==""){
+			$("#error_valid_fullname").show();
+			flag=false;
+		}else{
+			$("#error_valid_fullname").hide();
+		}
+		
+		if(x.length<5){
 			$("#error_less_password").show();
 			flag=false;
 		}else{
 			$("#error_less_password").hide();
 		}
 
-		if(y.length>8||y.length<6){
+		if(y.length<5){
 			$("#error_less_rpassword").show();
 			flag=false;
 		}else{
@@ -56,26 +63,7 @@
 			flag=false;
 		}
 		
-		if(x==""){
-			$("#error_valid_password").show();
-			flag=false;
-		}else{
-			$("#error_valid_password").hide();
-		}	 
-
-		if(y==""){
-			$("#error_valid_rpassword").show();
-			flag=false;
-		}else{
-			$("#error_valid_rpassword").hide();
-		}	 
-
-		if(z==""){
-			$("#error_valid_fullname").show();
-			flag=false;
-		}else{
-			$("#error_valid_fullname").hide();
-		}	 
+	 
 			
 		if(x!=y){
 			$("#error_valid_mpassword").show();
@@ -123,7 +111,6 @@
 	<div>
 		<:$password:><input id="password" type="password" name="password" />
 		<span class="red" id="error_valid_password" style="display: none;"><:$passwordInvalid:></span>
-		<span class="red" id="error_length_password" style="display: none;"><:$passwordlength:></span>
 		
 	</div>
 	<div>
@@ -137,7 +124,6 @@
 		<span class="red" id="error_valid_mpassword" style="display: none;"><:$mathpasswordInvalid:></span>
 	</div>
 	<div>
-		<span class="red" id="error_length_rpassword" style="display: none;"><:$repasswordlength:></span>
 		<span class="red" id="error_less_rpassword" style="display: none;"><:$repasswordless:></span>
 	</div>
 	<div>	

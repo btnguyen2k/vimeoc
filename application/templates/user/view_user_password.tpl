@@ -14,7 +14,7 @@
 		}
 
 		
-		if(npass.length<6||npass.length>8){
+		if(npass.length<5){
 			$("#error_less_npassword").show();
 			flag=false;	
 		}else{
@@ -22,7 +22,7 @@
 		}
 
 			
-		if(rpass.length<6||rpass.length>8){
+		if(rpass.length<5){
 			$("#error_less_rpassword").show();
 			flag=false;
 		}else{

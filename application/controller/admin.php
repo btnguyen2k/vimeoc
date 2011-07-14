@@ -605,7 +605,6 @@
 			$this->assign('retypepasswordInvalid', $this->loadErrorMessage('error.retypepassword.invalid'));
 			$this->assign('fullnameInvalid', $this->loadErrorMessage('error.fullname.invalid'));
 			$this->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
-			$this->assign('passwordlength', $this->loadErrorMessage('error.password.length'));
 			$this->assign('repasswordlength', $this->loadErrorMessage('error.retypepassword.length'));
 			$this->assign('fullnamelength', $this->loadErrorMessage('error.fullname.length'));
 			$this->assign('emaillength', $this->loadErrorMessage('error.email.length'));
