@@ -56,7 +56,11 @@
 				<option <:if $k == $page_size:>selected="selected"<:/if:> value="<:$k:>"><:$v:></option>
 			<:/foreach:>
 		</select>
-		<input type="text" id="term" name="term" value="<:$search_term:>"></option>
+		<:if $search_term != "":>
+			<input type="text" id="term" name="term" value="<:$search_term:>"></option>
+		<:else:>
+			<input type="text" id="term" name="term" value="Search Video" onClick="this.value='';"></option>
+		<:/if:>
 		<input type="hidden" name="page" value="<:$page:>"></input>
 		<!--input type="hidden" name="albumid" value=""/>
 		<input type="hidden" name="videoid" value="" /-->
@@ -66,7 +70,6 @@
 		<:if 2 == $display_mode:>
 			<:foreach from=$videos key=k item=v:>
 				<a href="<:$ctx:>/video/videopage/?videoId=<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
-				Id: <:$v['id']:><br/>
 				<:if $v['video_title'] != '':>
 				Title: <:$v['video_title']:><br/>
 				<:/if:>
@@ -95,15 +98,33 @@
 				<br/>
 			<:/foreach:>
 		<:else:>
-			<:foreach from=$videos key=k item=v:>
-				<a href="<:$ctx:>/video/videopage/?videoId=<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
-				<:if $v['video_title'] != '':>
-				Title: <:$v['video_title']:><br/>
-				<:/if:><br/><br/>
-			<:/foreach:>
+			<div>
+				<ul id="thumbnail">
+					<:foreach from=$videos key=k item=v:>
+						<li>
+							<span>
+								<table>
+									<tr>
+										<td>
+											<a href="<:$ctx:>/video/videopage/?videoId=<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>"/></a>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<:if $v['video_title'] != '':>
+												Title: <:$v['video_title']:>
+											<:/if:>
+										</td>
+									</tr>
+								</table>
+							</span>
+						</li>
+					<:/foreach:>
+					<li style="width:100%"><:$pagination:></li>
+				</ul>
+			</div>
 		<:/if:>
-		<:$message:>
-		<:$pagination:>
+		<:$message:>	
 	</div>
 	<div id="user_info_help" class="page_help">
 		Help?<div><:$hint:></div>
