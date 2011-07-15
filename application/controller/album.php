@@ -1004,14 +1004,12 @@
 				}
 				
 				//check exist alias against album
-				if((!$errorFlag) && ($this->model_album->isAliasExist(array($albumCustomUrl, $userId)))){
+				if((!$errorFlag) && ($this->model_album->isAliasExist(array($albumCustomUrl)))){
 					$this->assign('errorMessage', $this->loadErrorMessage('error.album.alias.aliasExists', array($albumCustomUrl)));
 					$errorFlag = true;
 				}
 				//check exist alias against video
-				if((!$errorFlag) && ($this->model_video->isAliasExist(array($albumCustomUrl, $userId)))){
-					echo b;
-					return;
+				if((!$errorFlag) && ($this->model_video->isAliasExist(array($albumCustomUrl)))){
 					$this->assign('errorMessage', $this->loadErrorMessage('error.album.alias.aliasExists', array($albumCustomUrl)));
 					$errorFlag = true;
 				}
