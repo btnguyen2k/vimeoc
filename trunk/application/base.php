@@ -1,7 +1,7 @@
 <?php if (!defined('BASE_PATH')) exit('Not allowed.');
 	define("ROLE_ADMIN", "ROLE_ADMIN");
 	define("ROLE_USER", "ROLE_USER");
-	define("APP_DIR", dirname($_SERVER['SCRIPT_FILENAME']) . '/application');
+	if (!defined("APP_DIR")) define("APP_DIR", dirname($_SERVER['SCRIPT_FILENAME']) . '/application');
 	
 	require_once 'utils.php';
 	
