@@ -53,6 +53,9 @@
 			<fieldset>
 				<ul>
 					<li>
+						<center><span>Username: <:$username:></span></center>
+					</li>
+					<li>
 						<span><:$fullNameTitle:> *</span><br/>						
 						<input type="text" id="fullname" name="fullname" value="<:$fullname:>" maxlength="150"/>
 						<input type="hidden" name="id" value="<:$id:>"/>
