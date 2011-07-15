@@ -111,24 +111,24 @@
 							$this->setSessionValue("admin", false);
 						if($this->model_user->userSettingExist(array($user['id'],'VIDEO_LIST_MODE')))
 						{
-							$_search_obj->video_mode=$this->model_user->getUserSetting(array($user['id'],'VIDEO_LIST_MODE'));
+							$_video_search_obj->mode=$this->model_user->getUserSetting(array($user['id'],'VIDEO_LIST_MODE'));
 						}
 						
 						if ($this->model_user->userSettingExist(array($user['id'],'VIDEO_LIST_SORT')))
 						{
-							$_search_obj->video_sort=$this->model_user->getUserSetting(array($user['id'],'VIDEO_LIST_SORT'));
+							$_video_search_obj->sort=$this->model_user->getUserSetting(array($user['id'],'VIDEO_LIST_SORT'));
 						}
 						
 						if ($this->model_user->userSettingExist(array($user['id'],'VIDEO_LIST_PSIZE')))
 						{
-							$_search_obj->video_psize=$this->model_user->getUserSetting(array($user['id'],'VIDEO_LIST_PSIZE'));
+							$_video_search_obj->psize=$this->model_user->getUserSetting(array($user['id'],'VIDEO_LIST_PSIZE'));
 						}
 						
 						if ($this->model_user->userSettingExist(array($user['id'],'VIDEO_LIST_TERM')))
 						{
-							$_search_obj->video_term = $this->model_user->getUserSetting(array($user['id'],'VIDEO_LIST_TERM'));
+							$_video_search_obj->term = $this->model_user->getUserSetting(array($user['id'],'VIDEO_LIST_TERM'));
 						}						
-						$_SESSION['SEARCH'] = serialize($_search_obj);
+						$_SESSION['VIDEO_SEARCH'] = serialize($_video_search_obj);
 						
 						
 						$this->redirect($this->ctx().'/user');

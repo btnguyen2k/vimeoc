@@ -440,7 +440,7 @@
 				return;
 			}
 			
-			$_search_obj = unserialize($_SESSION['SEARCH']);
+			$_search_obj = unserialize($_SESSION['VIDEO_SEARCH']);
 			
 			$_display_modes = array(1 => 'Thumbnail mode', 2 => 'Detail mode');
 			
@@ -551,11 +551,11 @@
 				$this->model_user->updateUserSetting(array($_search_term,$userId,'VIDEO_LIST_TERM'));
 			}
 			
-			$_search_obj->video_mode = $this->model_user->getUserSetting(array($userId,'VIDEO_LIST_MODE'));
-			$_search_obj->video_sort = $this->model_user->getUserSetting(array($userId,'VIDEO_LIST_SORT'));
-			$_search_obj->video_psize = $this->model_user->getUserSetting(array($userId,'VIDEO_LIST_PSIZE'));
-			$_search_obj->video_term = $this->model_user->getUserSetting(array($userId,'VIDEO_LIST_TERM'));
-			$_SESSION['SEARCH'] = serialize($_search_obj);
+			$_search_obj->mode = $this->model_user->getUserSetting(array($userId,'VIDEO_LIST_MODE'));
+			$_search_obj->sort = $this->model_user->getUserSetting(array($userId,'VIDEO_LIST_SORT'));
+			$_search_obj->psize = $this->model_user->getUserSetting(array($userId,'VIDEO_LIST_PSIZE'));
+			$_search_obj->term = $this->model_user->getUserSetting(array($userId,'VIDEO_LIST_TERM'));
+			$_SESSION['VIDEO_SEARCH'] = serialize($_search_obj);
 				
 			
 			$this->loadModel('model_video');
