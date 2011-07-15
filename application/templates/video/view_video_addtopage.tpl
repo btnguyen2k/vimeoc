@@ -39,7 +39,7 @@
 		<span class="green" align="center"><:$successMessage:></span>
 		<span class="red" align="center"><:$errorMessage:></span>		
 		<:if $albums|@count == 0:>
-		Cannot find any albums. Please <a href="#">add</a> some.
+		Cannot find any albums. Please <a href="<:$ctx:>/album/createNewAlbum/">add</a> some.
 		<:else:>
 		<form action="<:$ctx:>/video/addtopage/?videoId=<:$videoid:>" method="post" name="addtopageform">
 			<fieldset>
