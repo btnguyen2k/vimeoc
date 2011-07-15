@@ -510,7 +510,7 @@
 					$errorFlag = true;
 				}
 				if((!$errorFlag) && ($model_album->isAliasExist(array($url_alias, $userId)))){
-					$this->assign('errorMessage', $this->loadErrorMessage('error.album.alias.aliasExists', array($albumCustomUrl)));
+					$this->assign('errorMessage', $this->loadErrorMessage('error.album.alias.aliasExists', array($url_alias)));
 					$errorFlag = true;
 				}
 				

@@ -961,6 +961,7 @@
 			$this->loadModel('model_album');
 			$this->loadModel('model_user');
 			$this->loadModel('model_video');
+			$this->loadModel('model_channel');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$albumId=$_GET['albumId'];
@@ -1009,6 +1010,8 @@
 				}
 				//check exist alias against video
 				if((!$errorFlag) && ($this->model_video->isAliasExist(array($albumCustomUrl, $userId)))){
+					echo b;
+					return;
 					$this->assign('errorMessage', $this->loadErrorMessage('error.album.alias.aliasExists', array($albumCustomUrl)));
 					$errorFlag = true;
 				}
