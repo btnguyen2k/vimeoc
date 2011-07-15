@@ -232,7 +232,8 @@
 			
 			$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_contentmanagement');
 		}
-			/**
+		
+		/**
 		 * load message source for user list
 		 * 
 		 */
@@ -995,6 +996,113 @@
 				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_updatecontent');
 			}
 		}
+		
+		/**
+		 * function edit user's profile messages source
+		 */
+		function editUserProfileMessagesSource(){
+			$this->assign("title", $this->loadMessages('admin.edit.user.profile.title'));
+			$this->assign("fullNameTitle", $this->loadMessages('user.personalInfo.fullName'));
+			$this->assign("emailTitle", $this->loadMessages('user.personalInfo.email'));
+			
+			$this->assign("newPasswordTitle", $this->loadMessages('admin.edit.user.profile.new.password.title'));
+			$this->assign("roleTitle", $this->loadMessages('admin.edit.user.profile.role.title'));
+			$this->assign("statusTitle", $this->loadMessages('admin.edit.user.profile.status.title'));
+			
+			
+			$this->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
+			$this->assign('requiredField', $this->loadErrorMessage('error.field.required'));
+			$this->assign("passwordInvalid", $this->loadMessages('error.password.lesslength'));
+			$this->assign("fullname",$this->loadMessages('admin.createnewaccount.fullname'));
+			
+			$this->assign('fullnameInvalid', $this->loadErrorMessage('error.fullname.invalid'));
+			$this->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
+
+			$this->assign('fullnamelength', $this->loadErrorMessage('error.fullname.length'));
+			$this->assign('emaillength', $this->loadErrorMessage('error.email.length'));
+			$this->assign('passwordless', $this->loadErrorMessage('error.password.lesslength'));
+		}
+		
+		/**
+		 * function edit user's profile
+		 */
+		function editUserProfile(){
+			if(!$this->isAdminLogged()){
+				$this->redirect($this->ctx().'/admin/login');
+				return;
+			}
+			
+			$this->loadModel('model_user');
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
+			{
+				$id=$_GET['userId'];
+				$params=array($id);
+				$user = $this->model_user->getUserByUserId($params);
+				$role = $this->model_user->getUserRoleByUserId($params);
+				$status = $this->model_user->getUserStatusByUserId(array($id));
+				$roles=$this->model_user->getRole(array());
+				
+				$this->assign('id', $id);
+				$this->assign('username', $user['username']);
+				$this->assign('fullname', $user['full_name']);
+				$this->assign('email', $user['email']);
+				$this->assign('role', $role['role_id']);
+				$this->assign('status', $status['status']);
+				$this->assign("roles",$roles);
+				
+				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_edit_user_profile');
+			} 
+			else if ($_SERVER['REQUEST_METHOD'] == 'POST') 
+			{
+				$this->loadModel('model_user');
+				$id = $_POST['id'];
+				$username = $_POST['username'];
+				$fullname = $_POST['fullname'];
+				$email = $_POST['email'];
+				$password = $_POST['password'];
+				$role = $_POST['role'];
+				$status = $_POST['status'];
+				
+				//echo $id;echo $username;echo $fullname;echo $email;echo $password;echo $role;echo $status;return;
+				
+				if ($this->model_user->isExists(array($username)) == true){
+					if ($id != ""){
+						if($password != "")
+							$this->model_user->updateUserPassword(array($this->encodePassword($password),$id));
+						if($fullname != "" && $email != ""){
+							$this->model_user->updateUserInformationForAdmin(array($fullname, $email, $status, $id));				
+							$this->model_user->updateUserRole(array($role,$id));
+						}
+						if($status == 1){
+							$this->model_user->updateEnableAccount(array($id));
+						}
+						else{
+							$this->model_user->updateDisableAccount(array($id));
+						}						
+					}
+					
+					$user = $this->model_user->getUserByUserId(array($id));
+					$role = $this->model_user->getUserRoleByUserId(array($id));
+					$status = $this->model_user->getUserStatusByUserId(array($id));
+					$roles=$this->model_user->getRole(array());
+					
+					$this->assign('id', $id);
+					$this->assign('username', $user['username']);
+					$this->assign('fullname', $user['full_name']);
+					$this->assign('email', $user['email']);
+					$this->assign('role', $role['role_id']);
+					$this->assign('status', $status['status']);
+					$this->assign("roles",$roles);
+					$this->assign("successMessage", $this->loadMessages('admin.edit.user.profile.success'));
+					$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_edit_user_profile');
+				}
+				else{
+					$this->assign("errorMessage", $this->loadMessages('error.admin.edit.user.profile.non.exist'));
+					$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_edit_user_profile');
+				}
+				
+				
+			}
+		}
 	}
-	
 ?>
