@@ -49,6 +49,10 @@
 						<input type="checkbox" name="channel" id="channel_<:$channel[a].id:>" value="<:$channel[a].id:>"/>
 						<:$channel[a].channel_name:><br/>
 						<:/section:>
+						<:section name=a loop=$otherChannel:>
+						<input type="checkbox" name="channel" id="channel_<:$otherChannel[a].id:>" value="<:$otherChannel[a].id:>"/>
+						<:$otherChannel[a].channel_name:><br/>
+						<:/section:>
 						<input type="hidden" name="videoId" value="<:$videoId:>">
 						<input type="hidden" name="channelId" id="channelId" value=""/>
 						<input type="hidden" name="channelUncheck" id="channelUncheck" value="" />
