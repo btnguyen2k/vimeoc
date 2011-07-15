@@ -948,6 +948,10 @@
 		 */
 		function updateContent()
 		{
+			if(!$this->isAdminLogged()){
+				$this->redirect($this->ctx().'/admin/login');
+				return;
+			}
 			$userId = $this->getLoggedUser();
 			$this->loadModel('model_user');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
