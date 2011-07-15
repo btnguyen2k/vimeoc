@@ -787,5 +787,57 @@
 			$types = array('integer','integer');
 			return $this->execute_command($sql, $params, $types);
 		}
+		
+		/**
+		 * function insert usersetting
+		 * @param param
+		 */
+		function addUserSetting($params){
+			$sql = 'INSERT INTO user_setting(user_id, name, value) VALUES (?, ?, ?)';
+			$types = array('integer' ,'text','text');
+			$this->execute_command($sql, $params, $types);
+		}
+		
+		/**
+		 * function update usersetting
+		 * @param param
+		 */
+		function updateUserSetting($params){
+			$sql = "UPDATE user_setting SET value=? WHERE user_id=? and name=?";
+			$types = array('text','integer','text');
+			return $this->execute_command($sql, $params, $types);
+		}
+		/**
+		 * 
+		 * check user_setting Exist
+		 * @param $params
+		 */
+		function userSettingExist($params)
+		{					
+			$sql = 'select 
+						count(*) as `count` 
+					from 
+						user_setting 
+					where 
+						user_id=? and name=?';
+			$types = array('integer','text');
+			$res = $this->execute_query($sql,$params,$types);
+			return $res[0]['count'];
+		}
+		/**
+		 * function get usersetting($params)
+		 * @param $params
+		 */
+		function getUserSetting($params)
+		{
+			$sql = "select value from user_setting where user_id=? and name=?";
+			$types = array('integer','text');
+			$res = $this->execute_query($sql, $params, $types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0]['value'] ;
+			}
+			return null;
+		}
 	}
 ?>

@@ -433,6 +433,7 @@
 		 * Display user video page
 		 */
 		function video(){
+			$this->loadModel('model_user');
 			$userId = $this->getLoggedUser();
 			if($userId == 0){
 				$this->redirect($this->ctx().'/auth/login/');
@@ -526,11 +527,36 @@
 			$sort_column = $_sort_columns[$_sort_mode];
 			$sort_order = $_sort_orders[$_sort_mode];
 			
-			$_search_obj->mode = $_display_mode;
-			$_search_obj->sort = $_sort_mode;
-			$_search_obj->psize = $_page_size;
-			$_search_obj->term = $_search_term;
+			if(!$this->model_user->userSettingExist(array($userId,'VIDEO_LIST_MODE')))
+			{
+				$this->model_user->addUserSetting(array($userId,'VIDEO_LIST_MODE',$_display_mode));
+			}
+			elseif (!$this->model_user->userSettingExist(array($userId,'VIDEO_LIST_SORT')))
+			{
+				$this->model_user->addUserSetting(array($userId,'VIDEO_LIST_SORT',$_sort_mode));
+			}
+			elseif (!$this->model_user->userSettingExist(array($userId,'VIDEO_LIST_PSIZE')))
+			{
+				$this->model_user->addUserSetting(array($userId,'VIDEO_LIST_PSIZE',$_page_size));
+			}
+			elseif (!$this->model_user->userSettingExist(array($userId,'VIDEO_LIST_TERM')))
+			{
+				$this->model_user->addUserSetting(array($userId,'VIDEO_LIST_TERM',$_search_term));
+			}
+			else 
+			{
+				$this->model_user->updateUserSetting(array($_display_mode,$userId,'VIDEO_LIST_MODE'));
+				$this->model_user->updateUserSetting(array($_sort_mode,$userId,'VIDEO_LIST_SORT'));
+				$this->model_user->updateUserSetting(array($_page_size,$userId,'VIDEO_LIST_PSIZE'));
+				$this->model_user->updateUserSetting(array($_search_term,$userId,'VIDEO_LIST_TERM'));
+			}
+			
+			$_search_obj->video_mode = $this->model_user->getUserSetting(array($userId,'VIDEO_LIST_MODE'));
+			$_search_obj->video_sort = $this->model_user->getUserSetting(array($userId,'VIDEO_LIST_SORT'));
+			$_search_obj->video_psize = $this->model_user->getUserSetting(array($userId,'VIDEO_LIST_PSIZE'));
+			$_search_obj->video_term = $this->model_user->getUserSetting(array($userId,'VIDEO_LIST_TERM'));
 			$_SESSION['SEARCH'] = serialize($_search_obj);
+				
 			
 			$this->loadModel('model_video');
 			$model_video = $this->model_video;
