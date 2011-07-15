@@ -211,5 +211,15 @@
 			$res = $this->execute_query($sql,$params,$types);
 			return $res;
 		}
+		
+		/**
+		 * get channels of other users not by the specific user
+		 */
+		function getChannelOfOther($params){
+			$sql = "SELECT * FROM channel WHERE user_id!=?";
+			$types= array('integer');
+			$res = $this->execute_query($sql,$params,$types);
+			return $res;
+		}
 	}
 ?>

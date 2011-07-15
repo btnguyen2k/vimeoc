@@ -291,6 +291,7 @@
 				return;
 			}
 			$this->loadModel('model_video');
+			$this->loadModel('model_channel');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$videoId=$_GET['videoId'];
@@ -299,6 +300,7 @@
 					return;
 				}
 				$channel= $this->model_video->getChannelByUserId(array($userId));
+				$otherChannel=$this->model_channel->getChannelOfOther(array($userId));
 				$video=$this->model_video->getVideoByVideoId(array($videoId));
 				$channelIds=$this->model_video->getChannelIdByVideoIdWithoutJoin(array($videoId));
 				$str="";
@@ -310,6 +312,7 @@
 				$this->assign("checkedChannels",$str);
 				$this->assign("video",$video['video_title']);
 				$this->assign("channel",$channel);
+				$this->assign("otherChannel",$otherChannel);
 				$this->assignVideoThumbnails($video);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_addtochannel');
 			}
@@ -341,11 +344,13 @@
 					}
 				}
 				$channel= $this->model_video->getChannelByUserId(array($userId));
+				$otherChannel=$this->model_channel->getChannelOfOther(array($userId));
 				$video=$this->model_video->getVideoByVideoId(array($videoId));
 				$this->assign("videoId",$videoId);
 				$this->assign("checkedChannels",$channelId);
 				$this->assign("video",$video['video_title']);
 				$this->assign("channel",$channel);
+				$this->assign("otherChannel",$otherChannel);
 				$this->assignVideoThumbnails($video);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_addtochannel');
 			}
