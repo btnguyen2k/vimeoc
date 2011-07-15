@@ -283,8 +283,8 @@
 					from 
 						video 
 					where 
-						video_alias=? and user_id = ?';
-			$types = array('text', 'integer');
+						video_alias=?';
+			$types = array('text');
 			$res = $this->execute_query($sql,$params,$types);
 			return $res[0]['count'];
 		}

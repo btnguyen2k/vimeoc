@@ -301,8 +301,8 @@
 					from 
 						album 
 					where 
-						album_alias=? and user_id = ?';
-			$types = array('text', 'integer');
+						album_alias=?';
+			$types = array('text');
 			$res = $this->execute_query($sql,$params,$types);
 			return $res[0]['count'];
 		}
