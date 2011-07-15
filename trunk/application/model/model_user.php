@@ -323,6 +323,17 @@
 		}
 		
 		/**
+		 * get user status by user id
+		 */
+		function getUserStatusByUserId($params)
+		{
+			$sql = 'SELECT CAST(account_enabled as unsigned integer) `status` FROM user WHERE id=?';
+			$type = array('integer');
+			$res = $this->execute_query($sql, $params, $type);
+			return $res[0];
+		}
+		
+		/**
 		 * update password 
 		 * @param $params
 		 */
@@ -347,6 +358,15 @@
 			return $this->execute_command($sql, $params, $types);
 		}
 		
+		/**
+		 * Update user information for admin in edit user's profile page (fullname, email, status)
+		 */
+		function updateUserInformationForAdmin($params){
+			$sql = 'UPDATE user SET full_name=?, email=?, account_enabled=? WHERE id=?';
+			$type = array('text', 'text', 'integer', 'integer');
+			return $this->execute_command($sql, $params, $types);
+		}
+			
 		/**
 		 * Update user password
 		 * @param $password
@@ -607,10 +627,10 @@
 		}
 		
 		/**
-		 * select role user
+		 * select user role
 		 * @param param
 		 */
-		function getRoleUserByUserId($param)
+		function getUserRoleByUserId($params)
 		{
 			$sql = "select * from user_role where user_id=?";
 			$types = array('integer');

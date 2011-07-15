@@ -63,6 +63,7 @@
 					<th>Fullname</th>
 					<th>Enable/Disable</th>
 					<th>Creation date</th>
+					<th>Edit Profile</th>
 					<th>Change status</th>
 					<th>Delete</th>
 					<th>Login as user</th>
@@ -79,7 +80,8 @@
 							enabled
 						<:/if:>
 					</td>
-					<td><:$v['creation_date']:></td>					
+					<td><:$v['creation_date']:></td>
+					<td><a href="<:$ctx:>/admin/editUserProfile/?userId=<:$v['id']:>">edit</a></td>					
 					<td>
 						<:if $v['enabled'] eq 0:>
 							<a href="<:$ctx:>/admin/enableAccount/?userId=<:$v['id']:>" onclick="return confirmActionEnable()"> enable</a>
@@ -89,7 +91,7 @@
 					</td>
 					<td><a href="<:$ctx:>/admin/deleteAccount/?userId=<:$v['id']:>" onclick="return confirmActionDelete()">delete</a></td>
 					<td>
-						<a href="<:$ctx:>/admin/loginAsUser/?userId=<:$v['id']:>">Login</a>
+						<a href="<:$ctx:>/admin/loginAsUser/?userId=<:$v['id']:>">login</a>
 					</td>
 				</tr>
 			<:/foreach:>				
