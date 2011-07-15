@@ -249,7 +249,6 @@
 			{
 				$this->loadModel('model_user');	
 				$username= $_POST['email'];
-				
 				if ($username=="")
 				{
 					$this->assign("errorNull", $this->loadMessages('auth.forgotpassword.errornull'));
@@ -263,14 +262,13 @@
 				}
 				else 
 				{	
-					$email=$_POST['xemail'];
 					$salt=$this->loadResources('salt');
 					$code = $this->encodeUsername($email,$salt);
 					$params = array($username);
 					// sending forgotpassword mail
 					$user = $this->model_user->getUsersByUsername($params);
 					$user['code']=$code;
-					$user['email']=$email;
+					$user['email']=$username;
 					$user['domain']=BASE_PATH . CONTEXT;
 					$this->sendingEmailWithSmarty('mail_forgotpassword', 'user', $user, null, $user['email']);
 					$this->assign("sent",$this->loadMessages('auth.submitsucceed.sent'));
