@@ -5,14 +5,21 @@
 	var link = "<:$domain:>/";
 	var flag = regex.test(url) && url.length <= 32;
 
+		if(url==$('#albumCustom').val())
+		{
+			return false;
+		}
+	
 		if(!flag){
 			$("#error_valid_url").show();
 			$("#error_valid_alias").hide();
 			return false;
-		}else{
+		}else{ 
 			$("#error_valid_url").hide();
 			return true;
 		}
+
+		
 }
 
 </script>
@@ -53,6 +60,7 @@
 					</li>
 					<li>
 						<input type="hidden" id="albumId" name="albumId" value="<:$albumId:>" /> 
+						<input type="hidden" id="albumCustom" name="albumCustom" value="<:$albumCustomUrl:>" />
 					</li>
 				</ul>
 			</fieldset>
