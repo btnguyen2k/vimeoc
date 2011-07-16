@@ -36,7 +36,6 @@
           'uploader'  : '<:$ctx:>/script/uploadify/uploadify.swf',
           'script'    : '<:$ctx:>/uploader/uploadUserVideo.php',
           'cancelImg' : '<:$ctx:>/script/uploadify/cancel.png',
-          'folder'    : '/uploads',
           'auto'      : true,
           'onAllComplete' : function(event,data) {
         	//alert(data.filesUploaded + ' files uploaded successfully!');
