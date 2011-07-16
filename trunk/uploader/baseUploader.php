@@ -26,14 +26,21 @@
 			$this->log->lfile('../log/logfile.log');		
 		}
 		
-		function upload($folderTarget, $fileTypes=null){
+		function upload($folderTarget, $fileTypes=null, $maxSize=5){
 			if (!empty($_FILES)) {
 				$tempFile = $_FILES['Filedata']['tmp_name'];				
 				$fileType = utils::getFileType($_FILES['Filedata']['name']);
 				$targetPath = $_SERVER['DOCUMENT_ROOT'] . $this->loadResources('context') . $folderTarget;				
 				$fileName = utils::genRandomString(64);
 				$targetFile =  str_replace('//','/',$targetPath) . $fileName . '.' . $fileType[1];
-				$fileTypes = $this->loadResources('video.upload.ext.support');
+				$sizeLimit = $maxsize*1024*1024;
+				$fileSize = $_FILES['Filedata']['size'];
+				
+				if($fileSize > $sizeLimit){
+					$this->log->lwrite("File size is " . $fileSize);
+					return -1;					
+				}
+				
 				if(!empty($fileTypes)){
 					$typesArray = split(',',$fileTypes);
 					if (in_array($fileType[1], $typesArray)) {
@@ -48,20 +55,7 @@
 					move_uploaded_file($tempFile,$targetFile);
 					$this->log->lwrite("Uploaded file: " . $targetFile);
 					return $fileName;
-				}
-				// $fileTypes  = str_replace(';','|',$fileTypes);
-				// $typesArray = split('\|',$fileTypes);
-				// $fileParts  = pathinfo($_FILES['Filedata']['name']);
-				
-				// if (in_array($fileParts['extension'],$typesArray)) {
-					// Uncomment the following line if you want to make the directory if it doesn't exist
-					// mkdir(str_replace('//','/',$targetPath), 0755, true);
-					
-					// move_uploaded_file($tempFile,$targetFile);
-					// echo str_replace($_SERVER['DOCUMENT_ROOT'],'',$targetFile);
-				// } else {
-				// 	echo 'Invalid file type.';
-				// }		
+				}						
 			}else{
 				$this->log->lwrite('Request upload empty file.');
 				return -1;
