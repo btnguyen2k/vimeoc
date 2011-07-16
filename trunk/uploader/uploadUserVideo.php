@@ -1,8 +1,6 @@
 <?php
 include 'baseUploader.php';
 
-echo pathinfo(__FILE__, PATHINFO_DIRNAME); 
-
 $uploader = new Uploader();
 
 $logger = new Logging();
@@ -33,7 +31,8 @@ if($guid == $hashCode){
 	$ret = $uploader->upload($uploader->loadResources('video.upload.path'), $uploader->loadResources('video.upload.ext.support'), $uploader->loadResources('video.upload.maxsize'));
 	if(!is_numeric($ret)){
 		$model_video = $uploader->getModel('model_video');
-		$model_video->addNewVideo(array($userId, $filename));
+		$model_video->addNewVideo(array($user['id'], $ret));
+		$logger->lwrite('Added video to user'.$user['id']);
 		echo $ret;
 	}else{
 		echo 'Invalid file';

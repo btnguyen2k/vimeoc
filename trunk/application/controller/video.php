@@ -782,6 +782,12 @@
 				$this->assign('videoTitle', $video['video_title']);
 				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->loadResources('image.upload.path') . $video['thumbnails_path']) : ('/images/icon-video.gif'));
 				$this->assign('upId', uniqid());
+				$model_user = $this->getModel('model_user');
+				$user = $model_user->getUserByUserId(array($userId));
+				$hashCode = $this->createHash($user['email'], $this->loadResources('salt'));
+				$this->assign('guid', $hashCode);
+				$this->assign('uid', $userId);
+				$this->assign('maxSize', $this->loadResources('video.upload.maxsize')*1024*1024);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_thumbnail');
 			}elseif ($_SERVER['REQUEST_METHOD'] == 'POST'){
 				$videoId = $_GET['videoId'];

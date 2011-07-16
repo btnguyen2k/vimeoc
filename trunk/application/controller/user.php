@@ -753,7 +753,7 @@
 				$hashCode = $this->createHash($user['email'], $this->loadResources('salt'));
 				$this->assign('guid', $hashCode);
 				$this->assign('uid', $userId);
-				$this->assign('maxSize', $this->loadResources('video.upload.maxsize')*1024);
+				$this->assign('maxSize', $this->loadResources('video.upload.maxsize')*1024*1024);
 				$this->loadTemplate(USER_TEMPLATE_DIR."view_user_uploadvideo");
 			}
 			else if($_SERVER['REQUEST_METHOD'] == 'POST')

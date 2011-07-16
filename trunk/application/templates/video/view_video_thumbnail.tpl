@@ -12,15 +12,18 @@
 
 		$('#file_upload').uploadify({
           'uploader'  : '<:$ctx:>/script/uploadify/uploadify.swf',
-          'script'    : '<:$ctx:>/uploader/uploadUserAvatar.php',
+          'script'    : '<:$ctx:>/uploader/uploadVideoThumbnail.php',
           'cancelImg' : '<:$ctx:>/script/uploadify/cancel.png',
+          'folder'    : '<:$guid:>|<:$uid:>|<:$videoId:>',
+          'fileExt'      : '<:$imageExtSupport:>',          
+          'fileDesc'    : 'Image Files',
+          'sizeLimit' : <:$maxSize:>,
           'auto'      : true,
           'onAllComplete' : function(event,data) {
-        	//alert(data.filesUploaded + ' files uploaded successfully!');
-          	$("#top_success").html(data.filesUploaded + ' files uploaded successfully!').show();
+			$("#top_success").html(data.filesUploaded + ' files uploaded successfully!').show();
           },
           'onError' : function (event,ID,fileObj,errorObj) {
-          	//alert(errorObj.type + ' Error: ' + errorObj.info);
+        	$("#top_error").html(errorObj.type + ' Error: ' + errorObj.info);
           }
         });
 	});
@@ -29,8 +32,8 @@
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
 	<div id="video_thumbnail_body" class="page_body">
 		<center><h1><:if $videoTitle!='':><:$videoTitle:> - <:/if:><:$title:></h1></center><br/>		
-		<span id="error_message" class="red" style="display: none"><:$errorMessage:></span>
-		<span id="info_message" class="green" style="display: none"><:$successMessage:></span>
+		<span id="top_error" class="red" style="display: none"><:$errorMessage:></span>
+		<span id="top_success" class="green" style="display: none"><:$successMessage:></span>
 		<fieldset>
 			<ul>
 				<li>
