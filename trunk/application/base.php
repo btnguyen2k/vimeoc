@@ -83,7 +83,7 @@
 		
 		function index()
 		{
-			return 'home';
+			$this->redirect($this->ctx().'/home');
 		}
 		
 		/**
@@ -97,12 +97,17 @@
 			if($controllerName == null || $controllerName == '')
 			{
 				$controllerName = $this->index();
-				$class = $this->index();
+				return;
 			}
 			
 			$file = "application/controller/".$controllerName.".php";
 			
-			if(!file_exists($file)) die();
+			if(!file_exists($file)) {
+				$file = "application/controller/user.php";
+				$class = "user";	
+				$this->uri['method'] = 'userprofile';	
+				$this->uri['var'] =	$controllerName; // profile_alias
+			}
 				
 			require_once($file);
 

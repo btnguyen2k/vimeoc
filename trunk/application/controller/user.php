@@ -378,34 +378,39 @@
 		 * Display userprofile pages
 		 * 
 		 */
-		function userprofile()
+		function userprofile($var=null)
 		{
 			$this->loadModel('model_user');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$id=$_GET['userId'];
 				$profileAlias=$_GET['profileAlias'];
-				$params=array($id);
-				$fullname_Alias=$this->model_user->getFullnameByProfileAlias(array($profileAlias));
-				$fullname_UserId=$this->model_user->getFullNamebyUserId($params);
-				if($fullname_Alias!=0)
-				{
-					$this->assign("fullname",$fullname_Alias['full_name']);
-					$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_profile');
+				
+				if(!empty($var)){
+					$profileAlias = $var;
 				}
-				else if ($fullname_UserId!=0)
-				{
-					$this->assign("fullname",$fullname_UserId['full_name']);
-					$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_profile');
+				
+				if(!empty($profileAlias)){
+					if(stripos($profileAlias, 'user') == 0){
+						$id = (int)str_replace('user', '', $profileAlias);						
+					}
 				}
-				else 
-				{
-					$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_home');
+				
+				if($id > 0){
+					$user = $this->model_user->getUserByUserId(array($id));
+				}else if(!empty($profileAlias)){
+					$user = $this->model_user->getUserByUserAlias(array($profileAlias));					
+				}else{
+					$this->redirect($this->ctx().'/home');
+					return;
 				}
+				
+				$this->assign("fullname",$user['full_name']);
+				$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_profile');				
 			} 
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 			{
-				$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_profile');
+				$this->redirect($this->ctx().'/home');
 			}
 		}
 		

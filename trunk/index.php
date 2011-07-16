@@ -13,7 +13,7 @@
 		
 	//Include Smarty 
 	require_once(SMARTY_DIR.'Smarty.class.php');
-	
+
 	//Take the initial PATH.
 	$url = $_SERVER['REQUEST_URI'];
 	$url = str_replace(CONTEXT,"",$url);
@@ -24,7 +24,7 @@
 	//Here, we will define what is what in the URL
 	$array_uri['controller'] = isset($array_tmp_uri[0])?$array_tmp_uri[0]:NULL; //a class
 	$array_uri['method']	 = isset($array_tmp_uri[1])?$array_tmp_uri[1]:NULL; //a function
-	$array_uri['var']		 = isset($array_tmp_uri[2])?$array_tmp_uri[2]:NULL; //a variable
+	$array_uri['var']		 = isset($array_tmp_uri[2])?$array_tmp_uri[2]:NULL; //a variable 
 	
 	//Load our base API
 	require_once("application/base.php");
