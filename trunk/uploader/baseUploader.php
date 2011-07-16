@@ -27,6 +27,10 @@
 		}
 		
 		function upload($folderTarget, $fileTypes=null, $maxSize=5){
+			$this->log->lwrite($folderTarget);
+			$this->log->lwrite($fileTypes);
+			$this->log->lwrite($maxSize);
+			$this->log->lwrite('Has file: ' . !empty($_FILES));
 			if (!empty($_FILES)) {
 				$tempFile = $_FILES['Filedata']['tmp_name'];				
 				$fileType = utils::getFileType($_FILES['Filedata']['name']);
@@ -36,13 +40,18 @@
 				$sizeLimit = $maxsize*1024*1024;
 				$fileSize = $_FILES['Filedata']['size'];
 				
+				$this->log->lwrite('Request upload file: ' . $fileType[0] . ' - size: ' . $fileSize);
+				
 				if($fileSize > $sizeLimit){
 					$this->log->lwrite("File size is " . $fileSize);
 					return -1;					
 				}
 				
 				if(!empty($fileTypes)){
-					$typesArray = split(',',$fileTypes);
+					$fileTypes  = str_replace('*.','',$fileTypes);
+					$fileTypes  = str_replace(';','|',$fileTypes);
+					$typesArray = split('\|',$fileTypes);
+					
 					if (in_array($fileType[1], $typesArray)) {
 						move_uploaded_file($tempFile,$targetFile);
 						$this->log->lwrite("Uploaded file: " . $targetFile);
