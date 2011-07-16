@@ -8,12 +8,12 @@ $logger->lfile('../log/logfile.log');
 $logger->lwrite("userid " . $_SESSION['uid']);
 
 if($uploader->getLoggedUser() > 0){
-	$logger->lwrite('Test');
+	$logger->lwrite('Functional');
 	
-	$ret = $uploader->upload($uploader->loadResources('video.upload.path'), $uploader->loadResources('video.upload.ext.support'), $uploader->loadResources('video.upload.maxsize'));
+	$ret = $uploader->upload($uploader->loadResources('image.upload.path'), $uploader->loadResources('image.upload.ext.support'), $uploader->loadResources('image.upload.maxsize'));
 	if(!is_numeric($ret)){
-		$model_video = $uploader->getModel('model_video');
-		$model_video->addNewVideo(array($userId, $filename));
+		$model_user = $uploader->getModel('model_user');
+		$model_user->updateUserAvatar(array($filename, $userId));
 		echo $ret;
 	}else{
 		echo 'Invalid file';
