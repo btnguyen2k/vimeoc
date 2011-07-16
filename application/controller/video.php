@@ -656,11 +656,6 @@
 		function videopage()
 		{
 			$userId = $this->getLoggedUser();
-//			if($userId == 0)
-//			{
-//				$this->redirect($this->ctx().'/auth/login/');
-//				return;
-//			}
 			
 			$this->loadModel('model_user');
 			$this->loadModel('model_video');
@@ -668,6 +663,7 @@
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$id=$_GET['videoId'];
+				
 				$params=array($id);
 				$video=$this->model_video->getVideoByVideoId(array($id));
 				$fullname=$this->model_user->getFullNamebyUserId(array($video['user_id']));

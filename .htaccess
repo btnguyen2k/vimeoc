@@ -13,12 +13,12 @@ RewriteRule ^video/([a-zA-Z0-9]+)$ index1.php?controller=video&method=videopage&
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !(home|user|auth|video|album|channel|admin)
-RewriteRule ^([a-zA-Z0-9]+)/([a-zA-Z0-9]+)$ index1.php?controller=route&method=routing&userAlias=$1&videoAlias=$2&albumAlias=$2 [L]
+RewriteRule ^user([0-9]+)$ index1.php?controller=user&method=userprofile&profileAlias=user$1 [L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^user([0-9]+)$ index1.php?controller=user&method=userprofile&profileAlias=user$1 [L]
+RewriteCond %{REQUEST_URI} !(home|user|auth|video|album|channel|admin)
+RewriteRule ^([a-zA-Z0-9]+)/([a-zA-Z0-9]+)$ index1.php?controller=route&method=routing&userAlias=$1&videoAlias=$2&albumAlias=$2 [L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

@@ -25,6 +25,7 @@
 			$videoModel = $this->getModel('model_video');
 			
 			$user = $userModel->getUserByUserAlias(array($userAlias));
+			
 			if($user == null){
 				$user = $userModel->getUserByUsername(array($userAlias));
 				if(user == null){
@@ -34,10 +35,10 @@
 			}
 			
 			if(is_numeric($videoAlias)){
-				$video = $videoModel->getVideoByVideoId(array($videoAlias));
+				$video = $videoModel->getVideoByVideoId(array($videoAlias));				
 				if($video != null && ($user['id'] == $video['user_id'])){
 					$_GET['videoId'] = $video['id']; 	
-					$controller = $this->getController('video', $this->tmpl);
+					$controller = $this->getController('video', $this->tmpl);					
 					$controller->videopageMessagesSource();
 					$controller->videopage();
 				}else{
