@@ -35,8 +35,8 @@
 				$tempFile = $_FILES['Filedata']['tmp_name'];				
 				$fileType = utils::getFileType($_FILES['Filedata']['name']);
 				$targetPath = $_SERVER['DOCUMENT_ROOT'] . $this->loadResources('context') . $folderTarget;				
-				$fileName = utils::genRandomString(64);
-				$targetFile =  str_replace('//','/',$targetPath) . $fileName . '.' . $fileType[1];
+				$fileName = utils::genRandomString(64). '.' . $fileType[1];
+				$targetFile =  str_replace('//','/',$targetPath) . $fileName;
 				$sizeLimit = $maxSize*1024*1024;
 				$fileSize = $_FILES['Filedata']['size'];
 				
