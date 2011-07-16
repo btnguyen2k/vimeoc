@@ -531,23 +531,35 @@
 			{
 				$this->model_user->addUserSetting(array($userId,'VIDEO_LIST_MODE',$_display_mode));
 			}
-			elseif (!$this->model_user->userSettingExist(array($userId,'VIDEO_LIST_SORT')))
+			else 
+			{
+				$this->model_user->updateUserSetting(array($_display_mode,$userId,'VIDEO_LIST_MODE'));
+			}
+			
+			if (!$this->model_user->userSettingExist(array($userId,'VIDEO_LIST_SORT')))
 			{
 				$this->model_user->addUserSetting(array($userId,'VIDEO_LIST_SORT',$_sort_mode));
 			}
-			elseif (!$this->model_user->userSettingExist(array($userId,'VIDEO_LIST_PSIZE')))
+			else 
+			{
+				$this->model_user->updateUserSetting(array($_sort_mode,$userId,'VIDEO_LIST_SORT'));
+			}
+			
+			if (!$this->model_user->userSettingExist(array($userId,'VIDEO_LIST_PSIZE')))
 			{
 				$this->model_user->addUserSetting(array($userId,'VIDEO_LIST_PSIZE',$_page_size));
 			}
-			elseif (!$this->model_user->userSettingExist(array($userId,'VIDEO_LIST_TERM')))
+			else 
+			{
+				$this->model_user->updateUserSetting(array($_page_size,$userId,'VIDEO_LIST_PSIZE'));
+			}
+			
+			if (!$this->model_user->userSettingExist(array($userId,'VIDEO_LIST_TERM')))
 			{
 				$this->model_user->addUserSetting(array($userId,'VIDEO_LIST_TERM',$_search_term));
 			}
 			else 
 			{
-				$this->model_user->updateUserSetting(array($_display_mode,$userId,'VIDEO_LIST_MODE'));
-				$this->model_user->updateUserSetting(array($_sort_mode,$userId,'VIDEO_LIST_SORT'));
-				$this->model_user->updateUserSetting(array($_page_size,$userId,'VIDEO_LIST_PSIZE'));
 				$this->model_user->updateUserSetting(array($_search_term,$userId,'VIDEO_LIST_TERM'));
 			}
 			
@@ -851,6 +863,39 @@
 			$_search_obj->term = $_search_term;
 			$_SESSION['ALBUM_SEARCH'] = serialize($_search_obj);
 			
+			
+			if (!$this->model_user->userSettingExist(array($userId,'ALBUM_LIST_SORT')))
+			{
+				$this->model_user->addUserSetting(array($userId,'ALBUM_LIST_SORT',$_sort_mode));
+			}
+			else 
+			{
+				$this->model_user->updateUserSetting(array($_sort_mode,$userId,'ALBUM_LIST_SORT'));
+			}
+			
+			if (!$this->model_user->userSettingExist(array($userId,'ALBUM_LIST_PSIZE')))
+			{
+				$this->model_user->addUserSetting(array($userId,'ALBUM_LIST_PSIZE',$_page_size));
+			}
+			else 
+			{
+				$this->model_user->updateUserSetting(array($_page_size,$userId,'ALBUM_LIST_PSIZE'));
+			}
+			
+			if (!$this->model_user->userSettingExist(array($userId,'ALBUM_LIST_TERM')))
+			{
+				$this->model_user->addUserSetting(array($userId,'ALBUM_LIST_TERM',$_search_term));
+			}
+			else 
+			{
+				$this->model_user->updateUserSetting(array($_search_term,$userId,'ALBUM_LIST_TERM'));
+			}
+			
+			$_search_obj->sort = $this->model_user->getUserSetting(array($userId,'ALBUM_LIST_SORT'));
+			$_search_obj->psize = $this->model_user->getUserSetting(array($userId,'ALBUM_LIST_PSIZE'));
+			$_search_obj->term = $this->model_user->getUserSetting(array($userId,'ALBUM_LIST_TERM'));
+			$_SESSION['ALBUM_SEARCH'] = serialize($_search_obj);
+			
 			$this->loadModel('model_album');
 			$model_album = $this->model_album;
 			$album_count = $model_album->countAlbumByUserId($userId, $limit, $offset, $_search_term, $sort_column, $sort_order);
@@ -1139,6 +1184,38 @@
 			$_search_obj->sort = $_sort_mode;
 			$_search_obj->psize = $_page_size;
 			$_search_obj->term = $_search_term;
+			$_SESSION['CHANNEL_SEARCH'] = serialize($_search_obj);
+			
+			if (!$this->model_user->userSettingExist(array($userId,'CHANNEL_LIST_SORT')))
+			{
+				$this->model_user->addUserSetting(array($userId,'CHANNEL_LIST_SORT',$_sort_mode));
+			}
+			else 
+			{
+				$this->model_user->updateUserSetting(array($_sort_mode,$userId,'CHANNEL_LIST_SORT'));
+			}
+			
+			if (!$this->model_user->userSettingExist(array($userId,'CHANNEL_LIST_PSIZE')))
+			{
+				$this->model_user->addUserSetting(array($userId,'CHANNEL_LIST_PSIZE',$_page_size));
+			}
+			else 
+			{
+				$this->model_user->updateUserSetting(array($_page_size,$userId,'CHANNEL_LIST_PSIZE'));
+			}
+			
+			if (!$this->model_user->userSettingExist(array($userId,'CHANNEL_LIST_TERM')))
+			{
+				$this->model_user->addUserSetting(array($userId,'CHANNEL_LIST_TERM',$_search_term));
+			}
+			else 
+			{
+				$this->model_user->updateUserSetting(array($_search_term,$userId,'CHANNEL_LIST_TERM'));
+			}
+			
+			$_search_obj->sort = $this->model_user->getUserSetting(array($userId,'CHANNEL_LIST_SORT'));
+			$_search_obj->psize = $this->model_user->getUserSetting(array($userId,'CHANNEL_LIST_PSIZE'));
+			$_search_obj->term = $this->model_user->getUserSetting(array($userId,'CHANNEL_LIST_TERM'));
 			$_SESSION['CHANNEL_SEARCH'] = serialize($_search_obj);
 			
 			$this->loadModel('model_channel');

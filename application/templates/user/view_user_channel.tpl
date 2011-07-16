@@ -1,5 +1,14 @@
 <link href="<:$ctx:>/css/user_channel.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="<:$ctx:>/script/user_channel.js"></script>
+<script type="text/javascript">
+function editSearchTerm(){
+	preTerm = $("#preTerm");
+	preTerm.hide();
+	term = $("#term");
+	term.show();
+	term.focus();
+}
+</script>
 <div id="user_info" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/user_left_menu.tpl":>
 	<div id="user_channel_body" class="page_body">
@@ -18,7 +27,8 @@
 			<:if $search_term != "":>
 				<input type="text" id="term" name="term" value="<:$search_term:>"></option>
 			<:else:>
-				<input type="text" id="term" name="term" value="Search Channel" onClick="this.value='';"></option>
+				<input type="text" id="preTerm" value="Search Channel" onClick="editSearchTerm()">
+				<input type="text" id="term" name="term" value="<:$search_term:>" style="display:none;"></option>
 			<:/if:>
 			<input type="hidden" name="page" value="<:$page:>"></input>
 			<input type="submit" value="Submit"></input>

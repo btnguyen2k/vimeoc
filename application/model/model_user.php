@@ -824,6 +824,8 @@
 			$res = $this->execute_query($sql,$params,$types);
 			return $res[0]['count'];
 		}
+		
+		
 		/**
 		 * function get usersetting($params)
 		 * @param $params

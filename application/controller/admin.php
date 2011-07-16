@@ -35,12 +35,15 @@
 			
 		function contentList()
 		{
+			
+			$userId = $this->getLoggedUser();
 			if(!$this->isAdminLogged()){
 				$this->redirect($this->ctx().'/admin/login');
 				return;
 			}
+			$this->loadModel('model_user');
 			
-			$_search_obj = unserialize($_SESSION['CONTENT_SEARCH']);
+			$_search_obj = unserialize($_SESSION['ADMIN_CONTENT_SEARCH']);
 			
 			$_sort_modes = array(
 				1 => 'Newest',
@@ -106,9 +109,47 @@
 			$offset = ($page - 1) * $limit;
 			$sort_column = $_sort_columns[$_sort_mode];
 			$sort_order = $_sort_orders[$_sort_mode];
+			
+			$_search_obj->sort = $_sort_mode;
+			$_search_obj->psize = $_page_size;
+			$_search_obj->term = $_search_term;
+			$_SESSION['ADMIN_CONTENT_SEARCH'] = serialize($_search_obj);
+			
+			
+			if (!$this->model_user->userSettingExist(array($userId,'ADMIN_CONTENT_LIST_SORT')))
+			{
+				$this->model_user->addUserSetting(array($userId,'ADMIN_CONTENT_LIST_SORT',$_sort_mode));
+			}
+			else 
+			{
+				$this->model_user->updateUserSetting(array($_sort_mode,$userId,'ADMIN_CONTENT_LIST_SORT'));
+			}
+			
+			if (!$this->model_user->userSettingExist(array($userId,'ADMIN_CONTENT_LIST_PSIZE')))
+			{
+				$this->model_user->addUserSetting(array($userId,'ADMIN_CONTENT_LIST_PSIZE',$_page_size));
+			}
+			else 
+			{
+				$this->model_user->updateUserSetting(array($_page_size,$userId,'ADMIN_CONTENT_LIST_PSIZE'));
+			}
+			
+			if (!$this->model_user->userSettingExist(array($userId,'ADMIN_CONTENT_LIST_TERM')))
+			{
+				$this->model_user->addUserSetting(array($userId,'ADMIN_CONTENT_LIST_TERM',$_search_term));
+			}
+			else 
+			{
+				$this->model_user->updateUserSetting(array($_search_term,$userId,'ADMIN_CONTENT_LIST_TERM'));
+			}
+			
+			$_search_obj->sort = $this->model_user->getUserSetting(array($userId,'ADMIN_CONTENT_LIST_SORT'));
+			$_search_obj->psize = $this->model_user->getUserSetting(array($userId,'ADMIN_CONTENT_LIST_PSIZE'));
+			$_search_obj->term = $this->model_user->getUserSetting(array($userId,'ADMIN_CONTENT_LIST_TERM'));
+			$_SESSION['ADMIN_CONTENT_SEARCH'] = serialize($_search_obj);
+			
 						
 			$this->loadModel('model_user');
-			
 			$model_user=$this->model_user;
 			$content_count=$model_user->countContents();
 			if($content_count > 0)
@@ -244,16 +285,14 @@
 			
 		function userList()
 		{
+			$userId = $this->getLoggedUser();
 			if(!$this->isAdminLogged()){
 				$this->redirect($this->ctx().'/admin/login');
 				return;
 			}
-			if($_SERVER['REQUEST_METHOD'] == 'GET')
-			{
-				$userId = $_GET['userId'];
-			}
+			$this->loadModel('model_user');
 			
-			$_search_obj = unserialize($_SESSION['USER_SEARCH']);
+			$_search_obj = unserialize($_SESSION['ADMIN_USER_SEARCH']);
 			
 			$_sort_modes = array(
 				1 => 'Newest',
@@ -319,6 +358,44 @@
 			$offset = ($page - 1) * $limit;
 			$sort_column = $_sort_columns[$_sort_mode];
 			$sort_order = $_sort_orders[$_sort_mode];
+			
+			$_search_obj->sort = $_sort_mode;
+			$_search_obj->psize = $_page_size;
+			$_search_obj->term = $_search_term;
+			$_SESSION['ADMIN_USER_SEARCH'] = serialize($_search_obj);
+			
+			
+			if (!$this->model_user->userSettingExist(array($userId,'ADMIN_USER_LIST_SORT')))
+			{
+				$this->model_user->addUserSetting(array($userId,'ADMIN_USER_LIST_SORT',$_sort_mode));
+			}
+			else 
+			{
+				$this->model_user->updateUserSetting(array($_sort_mode,$userId,'ADMIN_USER_LIST_SORT'));
+			}
+			
+			if (!$this->model_user->userSettingExist(array($userId,'ADMIN_USER_LIST_PSIZE')))
+			{
+				$this->model_user->addUserSetting(array($userId,'ADMIN_USER_LIST_PSIZE',$_page_size));
+			}
+			else 
+			{
+				$this->model_user->updateUserSetting(array($_page_size,$userId,'ADMIN_USER_LIST_PSIZE'));
+			}
+			
+			if (!$this->model_user->userSettingExist(array($userId,'ADMIN_USER_LIST_TERM')))
+			{
+				$this->model_user->addUserSetting(array($userId,'ADMIN_USER_LIST_TERM',$_search_term));
+			}
+			else 
+			{
+				$this->model_user->updateUserSetting(array($_search_term,$userId,'ADMIN_USER_LIST_TERM'));
+			}
+			
+			$_search_obj->sort = $this->model_user->getUserSetting(array($userId,'ADMIN_USER_LIST_SORT'));
+			$_search_obj->psize = $this->model_user->getUserSetting(array($userId,'ADMIN_USER_LIST_PSIZE'));
+			$_search_obj->term = $this->model_user->getUserSetting(array($userId,'ADMIN_USER_LIST_TERM'));
+			$_SESSION['ADMIN_USER_SEARCH'] = serialize($_search_obj);
 						
 			$this->loadModel('model_user');
 			
