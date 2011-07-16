@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 08, 2011 at 01:04 PM
+-- Generation Time: Jul 16, 2011 at 03:00 PM
 -- Server version: 5.1.41
 -- PHP Version: 5.3.1
 
@@ -123,6 +123,26 @@ CREATE TABLE IF NOT EXISTS `configuration` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `content`
+--
+
+CREATE TABLE IF NOT EXISTS `content` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `alias` varchar(255) DEFAULT NULL,
+  `body` longtext,
+  `keywords` varchar(255) DEFAULT NULL,
+  `modify_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `create_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `creator_id` bigint(20) DEFAULT NULL,
+  `modifier_id` bigint(20) DEFAULT NULL,
+  `publish` int(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `like`
 --
 
@@ -216,6 +236,19 @@ CREATE TABLE IF NOT EXISTS `user_role` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `user_setting`
+--
+
+CREATE TABLE IF NOT EXISTS `user_setting` (
+  `user_id` bigint(20) NOT NULL DEFAULT '0',
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `value` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`user_id`,`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `video`
 --
 
@@ -237,7 +270,7 @@ CREATE TABLE IF NOT EXISTS `video` (
   `description` tinytext,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=26 ;
 
 --
 -- Constraints for dumped tables
