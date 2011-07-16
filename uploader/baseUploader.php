@@ -37,14 +37,14 @@
 				$targetPath = $_SERVER['DOCUMENT_ROOT'] . $this->loadResources('context') . $folderTarget;				
 				$fileName = utils::genRandomString(64);
 				$targetFile =  str_replace('//','/',$targetPath) . $fileName . '.' . $fileType[1];
-				$sizeLimit = $maxsize*1024*1024;
+				$sizeLimit = $maxSize*1024*1024;
 				$fileSize = $_FILES['Filedata']['size'];
 				
 				$this->log->lwrite('Request upload file: ' . $fileType[0] . ' - size: ' . $fileSize);
 				
 				if($fileSize > $sizeLimit){
-					$this->log->lwrite("File size is " . $fileSize);
-					return -1;					
+					$this->log->lwrite("File size " . $fileSize . " is greater than maximum size " . $sizeLimit);
+					return -1;
 				}
 				
 				if(!empty($fileTypes)){

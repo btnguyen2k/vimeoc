@@ -6,43 +6,20 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		var videoExtArray = '<:$videoExtSupport:>'.split(",");
-		/*
-		var uploader = new qq.FileUploader({
-            element: document.getElementById('file-uploader'),
-            action: '<:$ctx:>/user/addvideoupload/',
-            allowedExtensions: videoExtArray,
-        	// you can return false to abort submit
-            onSubmit: function(id, fileName){},
-            onProgress: function(id, fileName, loaded, total){
-                var percent = Math.round(loaded / total * 100);
-				$("#upload-processing").css("width", percent +"%");
-            },
-            onComplete: function(id, fileName, responseJSON){
-            	$("#upload-processing").css("width", "100%");
-            	$("#top_success").show();
-            	setTimeout('$("#top_success").slideUp()',2000);
-            	setTimeout('$("#upload-processing").css("width","0%")',2000);
-            },
-            onCancel: function(id, fileName){
-            	$("#upload-processing").css("width", "0%");
-            },
-            showErrorMessage: function(message){
-            	$("#top_error").html(message).show();
-            	setTimeout('$("#top_error").slideUp()',2000);
-            }
-        });
-        */        
 		$('#file_upload').uploadify({
           'uploader'  : '<:$ctx:>/script/uploadify/uploadify.swf',
           'script'    : '<:$ctx:>/uploader/uploadUserVideo.php',
           'cancelImg' : '<:$ctx:>/script/uploadify/cancel.png',
+          'folder'    : '<:$guid:>|<:$uid:>',
+          'fileExt'      : '<:$videoExtSupport:>',          
+          'fileDesc'    : 'Video Files',
+          'sizeLimit' : <:$maxSize:>,
           'auto'      : true,
           'onAllComplete' : function(event,data) {
-        	//alert(data.filesUploaded + ' files uploaded successfully!');
           	$("#top_success").html(data.filesUploaded + ' files uploaded successfully!').show();
           },
           'onError' : function (event,ID,fileObj,errorObj) {
-          	//alert(errorObj.type + ' Error: ' + errorObj.info);
+        	  $("#top_error").html(errorObj.type + ' Error: ' + errorObj.info);
           }
         });
 	});
