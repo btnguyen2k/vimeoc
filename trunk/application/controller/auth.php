@@ -166,40 +166,39 @@
 						$_SESSION['CHANNEL_SEARCH'] = serialize($_channel_search_obj);					
 						
 						//user list.....................
-						if($this->isAdminLogged()){
-							if ($this->model_user->userSettingExist(array($user['id'],'ADMIN_USER_LIST_SORT')))
-							{
-								$_admin_user_search_obj->sort=$this->model_user->getUserSetting(array($user['id'],'ADMIN_USER_LIST_SORT'));
-							}
-							
-							if ($this->model_user->userSettingExist(array($user['id'],'ADMIN_USER_LIST_PSIZE')))
-							{
-								$_admin_user_search_obj->psize=$this->model_user->getUserSetting(array($user['id'],'ADMIN_USER_LIST_PSIZE'));
-							}
-							
-							if ($this->model_user->userSettingExist(array($user['id'],'ADMIN_USER_LIST_TERM')))
-							{
-								$_admin_user_search_obj->term = $this->model_user->getUserSetting(array($user['id'],'ADMIN_USER_LIST_TERM'));
-							}						
-							$_SESSION['ADMIN_USER_SEARCH'] = serialize($_admin_user_search_obj);	
-							
-							//content list...............
-							if ($this->model_user->userSettingExist(array($user['id'],'ADMIN_CONTENT_LIST_SORT')))
-							{
-								$_admin_content_search_obj->sort=$this->model_user->getUserSetting(array($user['id'],'ADMIN_CONTENT_LIST_SORT'));
-							}
-							
-							if ($this->model_user->userSettingExist(array($user['id'],'ADMIN_CONTENT_LIST_PSIZE')))
-							{
-								$_admin_content_search_obj->psize=$this->model_user->getUserSetting(array($user['id'],'ADMIN_CONTENT_LIST_PSIZE'));
-							}
-							
-							if ($this->model_user->userSettingExist(array($user['id'],'ADMIN_CONTENT_LIST_TERM')))
-							{
-								$_admin_content_search_obj->term = $this->model_user->getUserSetting(array($user['id'],'ADMIN_CONTENT_LIST_TERM'));
-							}						
-							$_SESSION['ADMIN_CONTENT_SEARCH'] = serialize($_admin_content_search_obj);
+						
+						if ($this->model_user->userSettingExist(array($user['id'],'ADMIN_USER_LIST_SORT')))
 						{
+							$_admin_user_search_obj->sort=$this->model_user->getUserSetting(array($user['id'],'ADMIN_USER_LIST_SORT'));
+						}
+						
+						if ($this->model_user->userSettingExist(array($user['id'],'ADMIN_USER_LIST_PSIZE')))
+						{
+							$_admin_user_search_obj->psize=$this->model_user->getUserSetting(array($user['id'],'ADMIN_USER_LIST_PSIZE'));
+						}
+						
+						if ($this->model_user->userSettingExist(array($user['id'],'ADMIN_USER_LIST_TERM')))
+						{
+							$_admin_user_search_obj->term = $this->model_user->getUserSetting(array($user['id'],'ADMIN_USER_LIST_TERM'));
+						}						
+						$_SESSION['ADMIN_USER_SEARCH'] = serialize($_admin_user_search_obj);	
+						
+						//content list...............
+						if ($this->model_user->userSettingExist(array($user['id'],'ADMIN_CONTENT_LIST_SORT')))
+						{
+							$_admin_content_search_obj->sort=$this->model_user->getUserSetting(array($user['id'],'ADMIN_CONTENT_LIST_SORT'));
+						}
+						
+						if ($this->model_user->userSettingExist(array($user['id'],'ADMIN_CONTENT_LIST_PSIZE')))
+						{
+							$_admin_content_search_obj->psize=$this->model_user->getUserSetting(array($user['id'],'ADMIN_CONTENT_LIST_PSIZE'));
+						}
+						
+						if ($this->model_user->userSettingExist(array($user['id'],'ADMIN_CONTENT_LIST_TERM')))
+						{
+							$_admin_content_search_obj->term = $this->model_user->getUserSetting(array($user['id'],'ADMIN_CONTENT_LIST_TERM'));
+						}						
+						$_SESSION['ADMIN_CONTENT_SEARCH'] = serialize($_admin_content_search_obj);
 						
 						$this->redirect($this->ctx().'/user');
 					}
