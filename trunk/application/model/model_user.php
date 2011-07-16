@@ -389,7 +389,7 @@
 		function updateUserAvatar($params)
 		{
 			$sql = 'UPDATE user SET avatar=? WHERE id=?';
-			$types = array('text', 'text');
+			$types = array('text', 'integer');
 			return $this->execute_command($sql, $params, $types);
 		}
 		
