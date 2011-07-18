@@ -212,6 +212,8 @@
 				$this->assign('guid', $hashCode);
 				$this->assign('uid', $user['id']);
 				$this->assign('maxSize', $this->loadResources('image.upload.maxsize')*1024*1024);
+				$this->assign('sid', session_id());
+				$this->assign('sn', session_name());
 				$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_portrait');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
