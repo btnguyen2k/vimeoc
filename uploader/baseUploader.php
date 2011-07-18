@@ -12,6 +12,7 @@
 	define("CONTEXT", $configs['context']);
 	
 	define("APP_DIR", '../application');
+	define("BASE_DIR", '../');
 	
 	include_once '../application/utils.php';
 	include_once '../application/logging.php';

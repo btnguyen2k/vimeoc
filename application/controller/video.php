@@ -827,6 +827,21 @@
 			}
 		}
 		
-		
+		/**
+		 *  ajax refresh video's thumbnail after upload thumbnail image successfully
+		 */
+		function refreshVideoThumbnail(){
+			$userId = $this->getLoggedUser();
+				if($userId == 0){
+					$this->redirect($this->ctx().'/auth/login/');
+					return;
+				}
+			$this->loadModel('model_video');	
+			if($_SERVER['REQUEST_METHOD'] == 'POST'){
+				$vid = $_POST['videoId'];
+				$video = $this->model_video->getVideoById($vid);
+				echo $video['thumbnails_path'];
+			}
+		}
 	}
 ?>

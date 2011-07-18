@@ -30,6 +30,11 @@ if($guid == $hashCode){
 	if(!is_numeric($ret)){
 		$model_user = $uploader->getModel('model_user');
 		$model_user->updateUserAvatar(array($ret, $uid));
+		$target = BASE_DIR . $uploader->loadResources('image.upload.path') . $ret;
+		$rimg = new RESIZEIMAGE($target);
+		$rimg->resize_limitwh(300, 300, $target);				    
+		$rimg->close();
+		$logger->lwrite("Update thumbnail for user" . $uid);
 		echo $ret;
 	}else{
 		echo 'Invalid file';

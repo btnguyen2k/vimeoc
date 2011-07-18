@@ -34,6 +34,10 @@ if($guid == $hashCode && $res){
 	if(!is_numeric($ret)){
 		$model_video = $uploader->getModel('model_video');
 		$model_video->updateThumbnailById(array($ret, $vid));
+		$target = BASE_DIR . $uploader->loadResources('image.upload.path') . $ret;
+		$rimg = new RESIZEIMAGE($target);
+		$rimg->resize_limitwh(300, 300, $target);				    
+		$rimg->close();
 		$logger->lwrite("Update thumbnail for video" . $vid);
 		echo $ret;
 	}else{
