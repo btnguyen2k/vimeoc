@@ -1,5 +1,10 @@
-<title>Ongsoft</title>
+<link rel="stylesheet" type="text/css" href="/script/facebox/facebox.css" />
+<script language="javascript" src="/script/jquery.min.js"></script>
+<script language="javascript" src="/script/facebox/facebox.js"></script>
 <script type="text/javascript">
+$(document).ready(function() {
+	    $('#a').facebox();
+		})	
 	function checkEmail(){	
 		var x = document.getElementById("password").value;
 		var y = document.getElementById("rpassword").value;
@@ -87,6 +92,7 @@
 		}
 		return flag;
 
+ 
 	}
 </script>
 <h1 align="center"><:$title:></h1>
@@ -127,7 +133,7 @@
 		<span class="red" id="error_less_rpassword" style="display: none;"><:$repasswordless:></span>
 	</div>
 	<div>	
-		<input id="agree" type="checkbox" name="agree"/> <:$understand:><a href="#"><:$term:></a>
+		<input id="agree" type="checkbox" name="agree"/> <:$understand:><a href="<:$ctx:>/content/term-and-condition" id="a" name="a"><:$term:></a>
 		
 	</div>
 	<div>
