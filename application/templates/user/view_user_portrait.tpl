@@ -1,3 +1,4 @@
+<script src="<:$ctx:>/script/uploadify/swfobject.js" type="text/javascript"></script>
 <script src="<:$ctx:>/script/file_uploader.js" type="text/javascript"></script>
 <script src="<:$ctx:>/script/uploadify/swfobject.js" type="text/javascript"></script>
 <script src="<:$ctx:>/script/uploadify/jquery.uploadify.v2.1.4.min.js" type="text/javascript"></script>
@@ -12,13 +13,25 @@
           'uploader'  : '<:$ctx:>/script/uploadify/uploadify.swf',
           'script'    : '<:$ctx:>/uploader/uploadUserAvatar.php',
           'cancelImg' : '<:$ctx:>/script/uploadify/cancel.png',
+          'folder'    : '<:$guid:>|<:$uid:>',
+          'fileExt'   : '<:$imageExtSupport:>',          
+          'fileDesc'  : 'Image Files',
+          'sizeLimit' : <:$maxSize:>,
           'auto'      : true,
           'onAllComplete' : function(event,data) {
-        	//alert(data.filesUploaded + ' files uploaded successfully!');
           	$("#top_success").html(data.filesUploaded + ' files uploaded successfully!').show();
+          	$.ajax({
+    			url : '<:$ctx:>/user/refreshUserAvatar/',
+    			data: 'userId=<:$uid:>',
+    			type: 'POST',
+    			success: function(avatar){
+        			$("#uAvatar").attr('src','<:$ctx:>/images/upload/'+avatar);
+        			$("#lAvatar").attr('src','<:$ctx:>/images/upload/'+avatar);
+    			}
+    		});
           },
           'onError' : function (event,ID,fileObj,errorObj) {
-          	//alert(errorObj.type + ' Error: ' + errorObj.info);
+        	  $("#top_error").html(errorObj.type + ' Error: ' + errorObj.info);
           }
         });
 	});
@@ -35,9 +48,9 @@
 				<li>
 					<span><:$currentPortrait:></span><br/>
 					<:if $avatar != '':>
-					<img class="userAvatar" src="<:$ctx:>/images/upload/<:$avatar:>" width="50" height="50"/>
+					<img class="userAvatar" id="uAvatar" src="<:$ctx:>/images/upload/<:$avatar:>" width="50" height="50"/>
 					<:else:>
-					<img class="userAvatar" src="<:$ctx:>/images/avatar.png" width="50" height="50"/>
+					<img class="userAvatar" id="uAvatar" src="<:$ctx:>/images/avatar.png" width="50" height="50"/>
 					<:/if:>
 				</li>
 				<li id="file-uploader">			

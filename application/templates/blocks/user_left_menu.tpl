@@ -3,9 +3,9 @@
 		<li>
 			<a href="<:$ctx:>/">
 			<:if $userAvatar != null:>
-			<img class="userAvatar" src="<:$ctx:>/images/upload/<:$userAvatar:>" width="50" height="50"/>
+			<img class="userAvatar" id="lAvatar" src="<:$ctx:>/images/upload/<:$userAvatar:>" width="50" height="50"/>
 			<:else:>
-			<img class="userAvatar" src="<:$ctx:>/images/avatar.png" width="50" height="50"/>
+			<img class="userAvatar" id="lAvatar" src="<:$ctx:>/images/avatar.png" width="50" height="50"/>
 			<:/if:>
 			</a>
 			<p>

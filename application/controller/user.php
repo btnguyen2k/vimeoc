@@ -206,6 +206,12 @@
 				$user = $this->model_user->getUserByUserId(array($userId));
 				$this->assign('avatar', $user['avatar']);
 				$this->assign('upId', uniqid());
+				$model_user = $this->getModel('model_user');
+				$user = $model_user->getUserByUserId(array($userId));
+				$hashCode = $this->createHash($user['email'], $this->loadResources('salt'));
+				$this->assign('guid', $hashCode);
+				$this->assign('uid', $user['id']);
+				$this->assign('maxSize', $this->loadResources('image.upload.maxsize')*1024*1024);
 				$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_portrait');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -1037,6 +1043,24 @@
 			
 			$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_album');
 		}
+		
+		/**
+		 *  ajax refresh user's avatar after upload avatar image successfully
+		 */
+		function refreshUserAvatar(){
+			$userId = $this->getLoggedUser();
+				if($userId == 0){
+					$this->redirect($this->ctx().'/auth/login/');
+					return;
+				}
+			$this->loadModel('model_user');	
+			if($_SERVER['REQUEST_METHOD'] == 'POST'){
+				$uid = $_POST['userId'];
+				$user = $this->model_user->getUserByUserId(array($uid));
+				echo $user['avatar'];
+			}
+		}
+		
 		/**
 		 *  ajax add video to album
 		 *  

@@ -15,8 +15,8 @@
           'script'    : '<:$ctx:>/uploader/uploadVideoThumbnail.php',
           'cancelImg' : '<:$ctx:>/script/uploadify/cancel.png',
           'folder'    : '<:$guid:>|<:$uid:>|<:$videoId:>',
-          'fileExt'      : '<:$imageExtSupport:>',          
-          'fileDesc'    : 'Image Files',
+          'fileExt'   : '<:$imageExtSupport:>',          
+          'fileDesc'  : 'Image Files',
           'sizeLimit' : <:$maxSize:>,
           'auto'      : true,
           'onAllComplete' : function(event,data) {
