@@ -1,0 +1,16 @@
+06:32:23 (uploadUserVideo) /vimeoc/user/addvideoupload/1de34a4a79f4a3e9fb4bce8905c9a1714424b938b6fc7|23
+06:32:23 (uploadUserVideo) /video/upload/
+06:32:23 (uploadUserVideo) *.wmv;*.avi;*.flv;*.WMV;*.AVI;*.FLV
+06:32:23 (uploadUserVideo) 4
+06:32:23 (uploadUserVideo) Has file: 1
+06:32:23 (uploadUserVideo) Request upload file: sample - size: 869444
+06:32:23 (uploadUserVideo) Uploaded file: C:/Users/son/Desktop/Tai lieu lam viec/PHP/xampp/htdocs/vimeoc/video/upload/ji6i472mu649d5cqduspkb9pljct4rvw7ubg6gafvahmeamscjnvod41wg4gh909.wmv
+06:32:23 (uploadUserVideo) Added video to user23
+06:32:43 (uploadVideoThumbnail) /vimeoc/video/thumbnail/1de34a4a79f4a3e9fb4bce8905c9a1714424b938b6fc7|23|59
+06:32:43 (uploadVideoThumbnail) /images/upload/
+06:32:43 (uploadVideoThumbnail) *.jpg;*.png;*.gif;*.JPG;*.PNG;*.GIF
+06:32:43 (uploadVideoThumbnail) 2
+06:32:43 (uploadVideoThumbnail) Has file: 1
+06:32:43 (uploadVideoThumbnail) Request upload file: 2325000516_PORTABLE_Counter_Strike_Condition_Zero_CS_CZ - size: 40100
+06:32:43 (uploadVideoThumbnail) Uploaded file: C:/Users/son/Desktop/Tai lieu lam viec/PHP/xampp/htdocs/vimeoc/images/upload/7oe7539wj6vv05kh2jc9ppepfjm0f54mpeo1g7e4furot2os92l08ko38xq1m3wo.jpg
+06:32:44 (uploadVideoThumbnail) Update thumbnail for video59

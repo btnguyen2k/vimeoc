@@ -7,6 +7,10 @@ RewriteRule ^content/([a-zA-Z0-9\-]+)$ index1.php?controller=content&method=load
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^channel/([a-zA-Z0-9\-]+)$ index1.php?controller=channel&method=load&alias=$1&id=$1&channelId=$1 [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^album/([a-zA-Z0-9]+)$ index1.php?controller=album&method=index&albumId=$1 [L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
