@@ -21,6 +21,14 @@
           'auto'      : true,
           'onAllComplete' : function(event,data) {
 			$("#top_success").html(data.filesUploaded + ' files uploaded successfully!').show();
+			$.ajax({
+    			url : '<:$ctx:>/video/refreshVideoThumbnail/',
+    			data: 'videoId=<:$videoId:>',
+    			type: 'POST',
+    			success: function(thumbnail){
+        			$("#thumbnail").attr('src','<:$ctx:>/images/upload/'+thumbnail);
+    			}
+			});
           },
           'onError' : function (event,ID,fileObj,errorObj) {
         	$("#top_error").html(errorObj.type + ' Error: ' + errorObj.info);
