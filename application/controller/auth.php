@@ -331,10 +331,8 @@
 		function forgotPassword()
 		{
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
-			{
-				
-				$this->loadTemplate('view_forgotpassword');
-				
+			{				
+				$this->loadTemplate('view_forgotpassword');				
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
@@ -370,8 +368,7 @@
 		
 		/**
 		 * Load default messages of ResetPassword form
-		 */
-		
+		 */	
 		function resetPasswordMessagesSource()
 		{
 			$this->assign("title",$this->loadMessages('auth.resetpassword.title'));
