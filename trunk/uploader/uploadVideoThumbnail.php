@@ -12,7 +12,7 @@ $lastSlash = strripos($folder, '/');
 $len = strlen($folder);
 $folder = substr($folder, $lastSlash+1, $len - $lastSlash+1);
 
-$logger->lwrite($folder);
+//$logger->lwrite($folder);
 
 $arr = split('\|', $folder);
 $vid = $arr[2];
@@ -26,12 +26,10 @@ $model_user = $uploader->getModel('model_user');
 $user = $model_user->getUserByUserId(array($uid));
 $hashCode = $uploader->createHash($user['email'], $uploader->loadResources('salt'));
 
-$logger->lwrite('Guid='.$guid);
-$logger->lwrite('Hash='.$hashCode);
+//$logger->lwrite('Guid='.$guid);
+//$logger->lwrite('Hash='.$hashCode);
 
-if($guid == $hashCode){
-	$logger->lwrite('Functional');
-	
+if($guid == $hashCode && $res){	
 	$ret = $uploader->upload($uploader->loadResources('image.upload.path'), $uploader->loadResources('image.upload.ext.support'), $uploader->loadResources('image.upload.maxsize'));
 	if(!is_numeric($ret)){
 		$model_video = $uploader->getModel('model_video');
