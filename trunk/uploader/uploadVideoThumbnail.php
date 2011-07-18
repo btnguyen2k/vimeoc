@@ -6,18 +6,9 @@ $uploader = new Uploader();
 $logger = new Logging();
 $logger->lfile('../log/logfile.log');
 
-$folder = $_REQUEST['folder'];
-$logger->lwrite($folder);
-$lastSlash = strripos($folder, '/');
-$len = strlen($folder);
-$folder = substr($folder, $lastSlash+1, $len - $lastSlash+1);
-
-//$logger->lwrite($folder);
-
-$arr = split('\|', $folder);
-$vid = $arr[2];
-$uid = $arr[1];
-$guid = $arr[0];
+$vid = $_POST['vid'];
+$uid = $_POST['uid'];
+$guid = $_POST['guid'];
 
 $model_video = $uploader->getModel('model_video');
 $res = $model_video->getVideoByVideoIdAndUserId(array($uid, $vid));
@@ -25,9 +16,6 @@ $res = $model_video->getVideoByVideoIdAndUserId(array($uid, $vid));
 $model_user = $uploader->getModel('model_user');
 $user = $model_user->getUserByUserId(array($uid));
 $hashCode = $uploader->createHash($user['email'], $uploader->loadResources('salt'));
-
-//$logger->lwrite('Guid='.$guid);
-//$logger->lwrite('Hash='.$hashCode);
 
 if($guid == $hashCode && $res){	
 	$ret = $uploader->upload($uploader->loadResources('image.upload.path'), $uploader->loadResources('image.upload.ext.support'), $uploader->loadResources('image.upload.maxsize'));

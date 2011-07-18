@@ -6,24 +6,12 @@ $uploader = new Uploader();
 $logger = new Logging();
 $logger->lfile('../log/logfile.log');
 
-$folder = $_REQUEST['folder'];
-$logger->lwrite($folder);
-$lastSlash = strripos($folder, '/');
-$len = strlen($folder);
-$folder = substr($folder, $lastSlash+1, $len - $lastSlash+1);
-
-//$logger->lwrite($folder);
-
-$arr = split('\|', $folder);
-$uid = $arr[1];
-$guid = $arr[0];
+$uid = $_POST['uid'];
+$guid = $_POST['guid'];
 
 $model_user = $uploader->getModel('model_user');
 $user = $model_user->getUserByUserId(array($uid));
 $hashCode = $uploader->createHash($user['email'], $uploader->loadResources('salt'));
-
-//$logger->lwrite('Guid='.$guid);
-//$logger->lwrite('Hash='.$hashCode);
 
 if($guid == $hashCode){		
 	$ret = $uploader->upload($uploader->loadResources('video.upload.path'), $uploader->loadResources('video.upload.ext.support'), $uploader->loadResources('video.upload.maxsize'));
