@@ -8,12 +8,11 @@
 	$(document).ready(function(){
 		var imageExtArray = '<:$imageExtSupport:>'.split(",");
 		var imageContext = '<:$ctx:>/images/upload/';
-
 		$('#file_upload').uploadify({
           'uploader'  : '<:$ctx:>/script/uploadify/uploadify.swf',
           'script'    : '<:$ctx:>/uploader/uploadUserAvatar.php',
+          'scriptData': {'<:$sn:>' : '<:$sid:>', 'guid' : '<:$guid:>', 'uid' : '<:$uid:>'},
           'cancelImg' : '<:$ctx:>/script/uploadify/cancel.png',
-          'folder'    : '<:$guid:>|<:$uid:>',
           'fileExt'   : '<:$imageExtSupport:>',          
           'fileDesc'  : 'Image Files',
           'sizeLimit' : <:$maxSize:>,
