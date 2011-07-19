@@ -4,6 +4,7 @@
 <link href="<:$ctx:>/css/file_uploader.css" rel="stylesheet" type="text/css">
 <link href="<:$ctx:>/css/uploadify.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
+	var waitingForSubmit = false;
 	$(document).ready(function(){
 		var videoExtArray = '<:$videoExtSupport:>'.split(",");
 		$('#file_upload').uploadify({
@@ -16,7 +17,10 @@
           'sizeLimit' : <:$maxSize:>,
           'auto'      : false,
           'onAllComplete' : function(event,data) {
-          	$("#top_success").html(data.filesUploaded + ' files uploaded successfully!').show();
+            if(waitingForSubmit == true){
+            	checkvalidate();
+            }
+          	$("#top_success").html(data.filesUploaded + ' files uploaded successfully!').show();          	
           },
           'onError' : function (event,ID,fileObj,errorObj) {
         	  $("#top_error").html(errorObj.type + ' Error: ' + errorObj.info);
@@ -40,8 +44,6 @@
           }
         });
 	});
-
-	var waitingForSubmit = false;
 
 	function checkvalidate()
 	{
