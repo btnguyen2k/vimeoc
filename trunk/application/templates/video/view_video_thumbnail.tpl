@@ -14,7 +14,7 @@
           'uploader'  : '<:$ctx:>/script/uploadify/uploadify.swf',
           'script'    : '<:$ctx:>/uploader/uploadVideoThumbnail.php',
           'cancelImg' : '<:$ctx:>/script/uploadify/cancel.png',
-          'folder'    : '<:$guid:>|<:$uid:>|<:$videoId:>',
+          'scriptData': {'guid':'<:$guid:>','uid':'<:$uid:>','vid':'<:$videoId:>'},
           'fileExt'   : '<:$imageExtSupport:>',          
           'fileDesc'  : 'Image Files',
           'sizeLimit' : <:$maxSize:>,

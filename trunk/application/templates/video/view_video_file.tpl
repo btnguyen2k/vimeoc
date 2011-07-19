@@ -9,7 +9,7 @@
           'uploader'  : '<:$ctx:>/script/uploadify/uploadify.swf',
           'script'    : '<:$ctx:>/uploader/uploadUpdateVideoFile.php',
           'cancelImg' : '<:$ctx:>/script/uploadify/cancel.png',
-          'folder'    : '<:$guid:>|<:$uid:>|<:$vid:>',
+          'scriptData': {'guid':'<:$guid:>','uid':'<:$uid:>','vid':'<:$vid:>'},
           'fileExt'      : '<:$videoExtSupport:>',          
           'fileDesc'    : 'Video Files',
           'sizeLimit' : <:$maxSize:>,

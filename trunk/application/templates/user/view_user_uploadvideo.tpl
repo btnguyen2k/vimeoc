@@ -10,7 +10,7 @@
           'uploader'  : '<:$ctx:>/script/uploadify/uploadify.swf',
           'script'    : '<:$ctx:>/uploader/uploadUserVideo.php',
           'cancelImg' : '<:$ctx:>/script/uploadify/cancel.png',
-          'folder'    : '<:$guid:>|<:$uid:>',
+          'scriptData': {'guid':'<:$guid:>','uid':'<:$uid:>'},
           'fileExt'      : '<:$videoExtSupport:>',          
           'fileDesc'    : 'Video Files',
           'sizeLimit' : <:$maxSize:>,
@@ -56,4 +56,4 @@
 	<div id="user_info_help" class="page_help">
 			Help?<div><:$hint:></div>
 	</div>
-</div>
+</div> 
