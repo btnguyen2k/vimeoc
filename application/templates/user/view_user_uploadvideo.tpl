@@ -41,7 +41,7 @@
         });
 	});
 
-	var count = 0;
+	var waitingForSubmit = false;
 
 	function checkvalidate()
 	{
@@ -75,11 +75,14 @@
 
 		if(videoId == ""){
 			flag = false;	
+			waitingForSubmit = true;
 			$("#submit-button").attr("disabled","disabled");	
 			$("#top_success").html("The video information is being saved ... ").show();
-			count ++;
-			$("#log").html('Tried saving ' + count + ' times ...');
 			setTimeout('checkvalidate()', 2000);	
+		}
+
+		if(flag == true && waitingForSubmit == true){
+			$("#videoForm").submit();
 		}
 			
 		return flag;
@@ -115,7 +118,7 @@
 					<div id="upload-processing" style="width: 0%; background: green;">&nbsp;</div>
 				</li>
 			</ul>
-			<form action="<:$ctx:>/user/addvideoupload/" method="post" onSubmit="return checkvalidate()">
+			<form action="<:$ctx:>/user/addvideoupload/" id="videoForm" method="post" onSubmit="return checkvalidate()">
 			<div id="log"></div>
 			<ul id="video_information" style="display: none">				
 				<li>
