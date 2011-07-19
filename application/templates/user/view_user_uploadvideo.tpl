@@ -41,6 +41,8 @@
         });
 	});
 
+	var count = 0;
+
 	function checkvalidate()
 	{
 		var title= $("#title").val();
@@ -75,6 +77,8 @@
 			flag = false;	
 			$("#submit-button").attr("disabled","disabled");	
 			$("#top_success").html("The video information is being saved ... ").show();
+			count ++;
+			$("#log").html('Tried saving ' + count + ' times ...');
 			setTimeout('checkvalidate()', 2000);	
 		}
 			
@@ -112,7 +116,8 @@
 				</li>
 			</ul>
 			<form action="<:$ctx:>/user/addvideoupload/" method="post" onSubmit="return checkvalidate()">
-			<ul id="video_information" style="display: none">
+			<div id="log"></div>
+			<ul id="video_information" style="display: none">				
 				<li>
 					<span><:$name:> </span><br/>						
 					<input type="text" name="title" id="title"/>
