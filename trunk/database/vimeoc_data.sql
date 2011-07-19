@@ -23,4 +23,10 @@ INSERT INTO `user_role` (`user_id`, `role_id`, `creation_date`) VALUES
 INSERT INTO configuration(name, value) VALUES ('SHOW_LOGIN_FORM', 1);
 INSERT INTO configuration(name, value) VALUES ('SHOW_SIGNUP_FORM', 1);
 
+--
+-- Terms and Conditions content
+--
+INSERT INTO `content` (`id`, `title`, `alias`, `body`, `keywords`, `modify_date`, `create_date`, `creator_id`, `modifier_id`, `publish`) VALUES
+(1, 'Terms & Conditions', 'term-and-condition', 'Terms and conditions', 'term, condition', '2011-07-19 10:16:04', '2011-07-19 10:16:04', 24, 24, 1);
+
 COMMIT;
