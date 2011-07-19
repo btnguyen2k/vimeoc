@@ -86,6 +86,7 @@
 		}
 
 		if(flag == true && waitingForSubmit == true){
+			waitingForSubmit = false;
 			$("#videoForm").submit();
 		}
 			
