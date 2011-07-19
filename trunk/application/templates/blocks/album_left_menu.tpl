@@ -1,5 +1,5 @@
 <div id="menu">
-	<:if $show_user_avatar == 1:>
+	<:if $show_user_avatar == 1 && $authorized eq true:>
 	<ul class="portrait">
 		<li>			
 			<a href="<:$ctx:>/">
@@ -12,7 +12,7 @@
 		</li>
 	</ul>
 	<:/if:>
-	<:if $show_user_avatar != 1:>
+	<:if $show_user_avatar != 1 || ($show_user_avatar == 1 && $authorized eq false):>
 	<ul id="album_thumb">
 		<li>
 		<:if $albumThumbnail != '':>
@@ -56,10 +56,10 @@
 			<li>
 				<a href="<:$ctx:>/user/album/"><:$menuMyAlbum:></a>
 			</li>
+			<li>
+				<a href="<:$ctx:>/user/video/"><:$videobacktovideo:></a>
+			</li>
 		<:/if:>
-		<li>
-			<a href="<:$ctx:>/user/video/"><:$videobacktovideo:></a>
-		</li>
 	</ul>
 	<:if $proxy eq true:>
 	<ul>

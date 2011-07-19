@@ -644,7 +644,8 @@
 				$strTags="";
 				for($i=0;$i<sizeof($tags);$i++)
 				{
-					$strTags .= "<a href=\"{$this->ctx()}\\tag\\{$tags[$i]['id']}\">".$tags[$i]['name'] . '</a>, ' ; 
+					//$strTags .= "<a href=\"{$this->ctx()}\\tag\\{$tags[$i]['id']}\">".$tags[$i]['name'] . '</a>, ' ; 
+					$strTags .= $tags[$i]['name'] . ', ' ;
 				}
 				$strTags = substr(trim($strTags), 0, -1); 
 				
