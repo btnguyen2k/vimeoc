@@ -1,5 +1,5 @@
 <div id="channel_menu">
-	<:if $show_user_avatar == 1:>
+	<:if $show_user_avatar == 1 && authorized eq true :>
 	<ul class="portrait">
 		<li>			
 			<a href="<:$ctx:>/">
@@ -47,13 +47,13 @@
 					<a href="<:$ctx:>/channel/?channelId=<:$channelId:>"/><:$menuBackToChannel:></a>
 				</li>
 			<:/if:>
-		<:/if:>
-		<li>
-			<a href="<:$ctx:>/user/channel/"/><:$menumychannel:></a>
-		</li>
-		<li>
-			<a href="<:$ctx:>/user/video/"><:$videobacktovideo:></a>
-		</li>
+			<li>
+				<a href="<:$ctx:>/user/channel/"/><:$menumychannel:></a>
+			</li>
+			<li>
+				<a href="<:$ctx:>/user/video/"><:$videobacktovideo:></a>
+			</li>
+		<:/if:>		
 	</ul>
 	<:if $proxy eq true:>
 	<ul>
