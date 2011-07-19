@@ -27,3 +27,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="content-language" content="en">
 <link rel="Shortcut Icon" href="/images/favicon.ico" />
+
+<:if $keywords:>
+	<meta name="keywords" content="<:$keywords:>" />		
+<:/if:>

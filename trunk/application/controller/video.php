@@ -561,6 +561,7 @@
 			$this->assign("message_title", $this->loadMessages('video.videofile.title'));
 			$this->assign('choose', $this->loadMessages('video.videofile.choose'));
 			$this->assign('videoExtSupport', $this->loadResources('video.upload.ext.support'));
+			$this->assign('maxSize', $this->loadResources('video.upload.maxsize')*1024*1024);
 		}
 		
 		/**
@@ -576,9 +577,6 @@
 			$this->loadModel('model_video');
 			$model_video = $this->model_video;
 
-			$this->loadModel('model_user');
-			$model_user = $this->model_user;
-			
 			if($_SERVER["REQUEST_METHOD"] == "GET"){
 				$videoId = $_GET['videoId'];
 				if(!$videoId){
@@ -595,45 +593,9 @@
 				
 				$this->assign('videoTitle', $video['video_title']);
 				$this->assignVideoThumbnails($video);
-				$this->assign('upId', uniqid());
-				$model_user = $this->getModel('model_user');
-				$user = $model_user->getUserByUserId(array($userId));
-				$hashCode = $this->createHash($user['email'], $this->loadResources('salt'));
-				$this->assign('guid', $hashCode);
-				$this->assign('uid', $userId);
-				$this->assign('vid', $videoId);
-				$this->assign('maxSize', $this->loadResources('video.upload.maxsize')*1024*1024);
+				$this->assign('vid', $videoId);		
+				$this->assign('sessionId', session_id());		
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_file');
-			}else if($_SERVER["REQUEST_METHOD"] == "POST"){
-				$videoId = $_GET['videoId'];
-				if(!$videoId){
-					$ret=array('error'=>'Invalid video id');
-					echo json_encode($ret);
-					return;
-				}
-				
-				$video = $model_video->getVideoById($videoId);
-				if((!$video) || ($video['user_id'] != $userId)){
-					$ret=array('error'=>'Invalid video id');
-					echo json_encode($ret);
-					return;
-				}
-				$this->assignVideoThumbnails($video);
-				
-				$maxsize = $this->loadResources('video.upload.maxsize');
-				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
-				$allowedExtensions = explode(',', $this->loadResources('video.upload.ext.support'));
-				// max file size in bytes
-				$sizeLimit = $maxsize*1024*1024;
-				
-				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
-				$result = $uploader->handleUpload(BASE_DIR . $this->loadResources('video.upload.path'));						
-				if($result['success']===true){
-					$filename = $result['filename'];
-					$ret = $this->model_video->updateVideoFile(array($filename, $videoId));
-				}
-				// to pass data through iframe you will need to encode all html tags
-				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);							
 			}
 		}
 		
@@ -754,6 +716,7 @@
 			$this->assign("currentThumbnail", $this->loadMessages('video.thumbnail.currentThumbnail'));
 			$this->assign("uploadNewThumbnail", $this->loadMessages('video.thumbnail.uploadNewThumbnail'));
 			$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("video thumbnail")));
+			$this->assign('maxSize', $this->loadResources('image.upload.maxsize')*1024*1024);
 		}
 		
 		function thumbnail(){
@@ -765,9 +728,6 @@
 			$this->loadModel('model_video');
 			$model_video = $this->model_video;
 
-			$this->loadModel('model_user');
-			$model_user = $this->model_user;
-			
 			if ($_SERVER['REQUEST_METHOD'] == 'GET'){
 				$videoId = $_GET['videoId'];
 				if(!$videoId){
@@ -783,47 +743,8 @@
 				$this->assign('videoId', $video['video_id']);
 				$this->assign('videoTitle', $video['video_title']);
 				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->loadResources('image.upload.path') . $video['thumbnails_path']) : ('/images/icon-video.gif'));
-				$this->assign('upId', uniqid());
-				$model_user = $this->getModel('model_user');
-				$user = $model_user->getUserByUserId(array($userId));
-				$hashCode = $this->createHash($user['email'], $this->loadResources('salt'));
-				$this->assign('guid', $hashCode);
-				$this->assign('uid', $userId);
-				$this->assign('maxSize', $this->loadResources('image.upload.maxsize')*1024*1024);
+				$this->assign('sessionId', session_id());
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_thumbnail');
-			}elseif ($_SERVER['REQUEST_METHOD'] == 'POST'){
-				$videoId = $_GET['videoId'];
-				$video = $model_video->getVideoById($videoId);
-				//check video owner
-				if(!$video || ($video['user_id'] != $userId)){
-					$ret = array('error' => $this->loadErrorMessage('error.video.thumbnail.invalidVideoId'));
-					echo json_encode($ret);
-					return;
-				}else{
-					$old_thumbnail = $video['thumbnails_path'];
-				}
-					
-				$maxsize = $this->loadResources('image.upload.maxsize');
-				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
-				$allowedExtensions = explode(',', $this->loadResources('image.upload.ext.support'));
-				// max file size in bytes
-				$sizeLimit = $maxsize*1024*1024;
-				
-				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
-				$result = $uploader->handleUpload(BASE_DIR . $this->loadResources('image.upload.path'));						
-				if($result['success']===true){
-					$filename = $result['filename'];
-					$ret = $model_video->updateThumbnailById(array($filename, $videoId));
-					if($old_thumbnail && file_exists(BASE_DIR . $this->loadResources('image.upload.path') . $old_thumbnail)){
-						unlink(BASE_DIR . $this->loadResources('image.upload.path') . $old_thumbnail);
-					}
-					$target = BASE_DIR . $this->loadResources('image.upload.path') . $filename;
-					$rimg = new RESIZEIMAGE($target);
-				    $rimg->resize_limitwh(300, 300, $target);				    
-				    $rimg->close();
-				}
-				// to pass data through iframe you will need to encode all html tags
-				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 			}
 		}
 		

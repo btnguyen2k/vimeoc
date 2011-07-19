@@ -45,18 +45,23 @@
 			{
 				if($resId==0)
 				{
-					$this->assign('errorMessage', $this->loadErrorMessage('error.content.found'));
+					$this->loadTemplate('view_404');
+					return;
 				}
 				else 
 				{
 					$content=$this->model_content->getContentById(array($id));
 					$this->assign('content',$content);
+					$this->assign('keywords', $content['keywords']);
+					$this->assign('title', $content['title']);
 				}
 			}
 			else 
 			{
 				$content=$this->model_content->getContentByAlias(array($alias));
 				$this->assign('content',$content);				
+				$this->assign('keywords', $content['keywords']);
+				$this->assign('title', $content['title']);
 			}
 			$this->loadTemplate(CONTENT_TEMPLATE_DIR.'view_content');
 		}

@@ -816,7 +816,11 @@
 		function addNewVideo($params){
 			$sql = 'INSERT INTO video(user_id, video_path) values(?,?)';
 			$types = array('integer', 'text');
-			return $this->execute_command($sql, $params, $types);
+			$this->execute_command($sql, $params, $types);
+			
+			$videoId = $this->getLatestInsertId('video');
+			
+			return $videoId;
 		}
 		
 		/**

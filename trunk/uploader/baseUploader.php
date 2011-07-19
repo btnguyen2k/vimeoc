@@ -1,4 +1,7 @@
 <?php
+	$id = $_POST['PHPSESSID'];
+	session_id($id);
+
 	session_start();
 	
 	date_default_timezone_set('UTC');
@@ -31,7 +34,6 @@
 			$this->log->lwrite($folderTarget);
 			$this->log->lwrite($fileTypes);
 			$this->log->lwrite($maxSize);
-			$this->log->lwrite('Has file: ' . !empty($_FILES));
 			if (!empty($_FILES)) {
 				$tempFile = $_FILES['Filedata']['tmp_name'];				
 				$fileType = utils::getFileType($_FILES['Filedata']['name']);

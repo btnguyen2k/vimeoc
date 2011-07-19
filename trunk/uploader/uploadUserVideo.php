@@ -6,22 +6,20 @@ $uploader = new Uploader();
 $logger = new Logging();
 $logger->lfile('../log/logfile.log');
 
-$uid = $_POST['uid'];
-$guid = $_POST['guid'];
+$logger->lwrite('Logged user[' . $uploader->getLoggedUser() . '] is uploading a file...');
 
 $model_user = $uploader->getModel('model_user');
-$user = $model_user->getUserByUserId(array($uid));
-$hashCode = $uploader->createHash($user['email'], $uploader->loadResources('salt'));
 
-if($guid == $hashCode){		
+if($uploader->getLoggedUser() > 0){		
+	$user = $model_user->getUserByUserId(array($uploader->getLoggedUser()));
 	$ret = $uploader->upload($uploader->loadResources('video.upload.path'), $uploader->loadResources('video.upload.ext.support'), $uploader->loadResources('video.upload.maxsize'));
 	if(!is_numeric($ret)){
 		$model_video = $uploader->getModel('model_video');
-		$model_video->addNewVideo(array($user['id'], $ret));
-		$logger->lwrite('Added video to user'.$user['id']);
-		echo $ret;
+		$videoId = $model_video->addNewVideo(array($user['id'], $ret));
+		$logger->lwrite('Added video['. $videoId .'] to user'.$user['id']);
+		echo $videoId;
 	}else{
-		echo 'Invalid file';
+		echo 'invalid-file.error';
 	}
 }else{
 	echo $uploader->getLoggedUser();
