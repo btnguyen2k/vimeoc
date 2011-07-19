@@ -1,5 +1,5 @@
 <div id="channel_menu">
-	<:if $show_user_avatar == 1 && authorized eq true :>
+	<:if $show_user_avatar == 1 && $authorized eq true:>
 	<ul class="portrait">
 		<li>			
 			<a href="<:$ctx:>/">
@@ -12,7 +12,7 @@
 		</li>
 	</ul>
 	<:/if:>
-	<:if $show_user_avatar != 1:>
+	<:if $show_user_avatar != 1 || ($show_user_avatar == 1 && $authorized eq false):>
 		<ul id="channel_thumb">
 			<li>
 				<:if $channelThumbnail != '':>
