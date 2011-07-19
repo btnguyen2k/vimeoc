@@ -9,16 +9,25 @@
           'uploader'  : '<:$ctx:>/script/uploadify/uploadify.swf',
           'script'    : '<:$ctx:>/uploader/uploadUpdateVideoFile.php',
           'cancelImg' : '<:$ctx:>/script/uploadify/cancel.png',
-          'scriptData': {'guid':'<:$guid:>','uid':'<:$uid:>','vid':'<:$vid:>'},
+          'scriptData': {'PHPSESSID':'<:$sessionId:>','vid':'<:$vid:>'},
           'fileExt'      : '<:$videoExtSupport:>',          
           'fileDesc'    : 'Video Files',
           'sizeLimit' : <:$maxSize:>,
-          'auto'      : true,
-          'onAllComplete' : function(event,data) {
-          	$("#top_success").html(data.filesUploaded + ' files uploaded successfully!').show();
-          },
+          'auto'      : false,     
           'onError' : function (event,ID,fileObj,errorObj) {
         	  $("#top_error").html(errorObj.type + ' Error: ' + errorObj.info);
+          },
+          'onAllComplete': function(event,data){
+        	  $("#top_success").html(data.filesUploaded + ' files uploaded successfully!');
+          },'onSelect'    : function(event,ID,fileObj) {			  
+        	  var exts = '<:$videoExtSupport:>';
+        	  if(exts.indexOf(fileObj.type) < 0){
+        		  $("#top_success").hide();
+        		  $("#top_error").html('You selected wrong file type.').show();
+        		  $('#file_upload').uploadifyCancel($('.uploadifyQueueItem').first().attr('id').replace('file_upload',''));
+        	  }else{
+        		  $("#top_error").hide();
+        	  }
           }
         });
 	});
@@ -44,6 +53,7 @@
 				</li>
 				<li>
 					<input id="file_upload" name="file_upload" type="file" />
+					<a href="###" onclick="$('#file_upload').uploadifyUpload();;">Upload</a>
 				</li>
 				<li style="width: 200px;">
 					<div id="upload-processing" style="width: 0%; background: green;">&nbsp;</div>

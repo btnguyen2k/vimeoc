@@ -186,6 +186,7 @@
 			$this->assign('imageExtSupport', $this->loadResources('image.upload.ext.support'));		
 			$this->assign('hint', $this->loadMessages('user.portrait.hint', array($this->loadResources('application.name'))));
 			$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("portrait")));
+			$this->assign('maxSize', $this->loadResources('image.upload.maxsize')*1024*1024);
 		}
 		
 		/**
@@ -205,37 +206,9 @@
 			{
 				$user = $this->model_user->getUserByUserId(array($userId));
 				$this->assign('avatar', $user['avatar']);
-				$this->assign('upId', uniqid());
-				$model_user = $this->getModel('model_user');
-				$user = $model_user->getUserByUserId(array($userId));
-				$hashCode = $this->createHash($user['email'], $this->loadResources('salt'));
-				$this->assign('guid', $hashCode);
+				$this->assign('sessionId', session_id());
 				$this->assign('uid', $user['id']);
-				$this->assign('maxSize', $this->loadResources('image.upload.maxsize')*1024*1024);
-				$this->assign('sid', session_id());
-				$this->assign('sn', session_name());
 				$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_portrait');
-			}
-			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
-			{
-				$maxsize = $this->loadResources('image.upload.maxsize');
-				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
-				$allowedExtensions = explode(',', $this->loadResources('image.upload.ext.support'));
-				// max file size in bytes
-				$sizeLimit = $maxsize*1024*1024;
-				
-				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
-				$result = $uploader->handleUpload(BASE_DIR . $this->loadResources('image.upload.path'));						
-				if($result['success']===true){
-					$filename = $result['filename'];
-					$this->model_user->updateUserAvatar(array($filename, $userId));
-					$target = BASE_DIR . $this->loadResources('image.upload.path') . $filename;
-					$rimg = new RESIZEIMAGE($target);
-				    $rimg->resize_limitwh(300, 300, $target);				    
-				    $rimg->close();
-				}
-				// to pass data through iframe you will need to encode all html tags
-				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 			}
 		}
 		
@@ -744,6 +717,15 @@
 			$this->assign('videoExtSupport', $this->loadResources('video.upload.ext.support'));
 			$this->assign("hint", $this->loadMessages('user.uploadvideo.hint'));
 			$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("video")));
+			$this->assign('maxSize', $this->loadResources('video.upload.maxsize')*1024*1024);
+			
+			$this->assign("name", $this->loadMessages('user.videosetting.name'));
+			$this->assign('description', $this->loadMessages('user.videosetting.description'));
+			$this->assign('tag', $this->loadMessages('user.videosetting.tags'));
+			
+			$this->assign('titleiInvalid', $this->loadErrorMessage('error.video.title'));
+			$this->assign('descriptionInvalid', $this->loadErrorMessage('error.video.description'));
+			$this->assign('tagInvalid', $this->loadErrorMessage('error.video.tag'));
 		}
 		
 		/**
@@ -760,31 +742,70 @@
 			}
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{				
-				$this->assign('upId', uniqid());
 				$model_user = $this->getModel('model_user');
 				$user = $model_user->getUserByUserId(array($userId));
-				$hashCode = $this->createHash($user['email'], $this->loadResources('salt'));
-				$this->assign('guid', $hashCode);
-				$this->assign('uid', $userId);
-				$this->assign('maxSize', $this->loadResources('video.upload.maxsize')*1024*1024);
+				$this->assign('sessionId', session_id());
 				$this->loadTemplate(USER_TEMPLATE_DIR."view_user_uploadvideo");
-			}
-			else if($_SERVER['REQUEST_METHOD'] == 'POST')
+			}else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
-				$maxsize = $this->loadResources('video.upload.maxsize');
-				// list of valid extensions, ex. array("jpeg", "xml", "bmp")
-				$allowedExtensions = explode(',', $this->loadResources('video.upload.ext.support'));
-				// max file size in bytes
-				$sizeLimit = $maxsize*1024*1024;
+				$videoTitle=$_POST['title'];
+				$description=$_POST['description'];
+				$tag=$_POST['tag'];
+				$slipTag=split(',', $tag);
+				$videoid=$_POST['videoid'];
+				$tagid=$_POST['tagid'];
+				$tcid=$_POST['tcid'];
 				
-				$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
-				$result = $uploader->handleUpload(BASE_DIR . $this->loadResources('video.upload.path'));						
-				if($result['success']===true){
-					$filename = $result['filename'];
-					$ret = $this->model_video->addNewVideo(array($userId, $filename));
+				$this->model_video->deleteAllTagComponentsByVideoId(array($videoid));
+				
+				
+				for($j=0;$j<sizeof($slipTag);$j++)
+				{				
+					if($slipTag[$j]!="")
+					{
+						$checkTag=$this->model_video->isTagExist(array($slipTag[$j]));
+						if($checkTag==0)
+						{
+							$this->model_video->addTagName(array($slipTag[$j]));			
+							$tagNewId=$this->model_video->getTagIdByName(array($slipTag[$j]));
+							//$this->model_video->deleteTagIdAndComponentId(array($tagNewId[0]["id"],$videoid));
+							$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],"1",$videoid));
+						}
+						else 
+						{
+							$tagNewId=$this->model_video->getTagIdByName(array($slipTag[$j]));
+							$res=$this->model_video->checkIdAndComponentId(array($tagNewId[0]["id"],$videoid));
+							if($res==0)
+							{
+								$this->assign('successMessage', $this->loadMessages('user.videosetting.updatesuccess'));
+								//$this->model_video->deleteTagIdAndComponentId(array($tagNewId[0]["id"],$videoid));
+								$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],'1',$videoid));
+							}
+							else 
+							{
+								$this->assign('successMessage', $this->loadMessages('user.videosetting.updatesuccess'));
+							}
+						}
+					}	
+				}	
+				$updatetitle= $this->model_video->updateTitlebyId(array($videoTitle,$videoid));
+				$updatedescrition= $this->model_video->updateDescriptionbyId(array($description,$videoid));				
+				$tags=$this->model_video->getTagfromTagandTagcomponent(array($tcid));
+				$video= $this->model_video->getVideofromVideoId(array($videoid));
+				$strTags="";
+				for($i=0;$i<sizeof($tags);$i++)
+				{
+					$strTags .= $tags[$i]['name'] . ',' ; 
 				}
-				// to pass data through iframe you will need to encode all html tags
-				echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+				$strTags = substr($strTags, 0, -1); 
+				$this->redirect($this->ctx() . '/user/video/');
+			}
+		}
+		
+		function assignVideoThumbnails($video){
+			if($video){
+				$videoThumbnail = empty($video['thumbnails_path']) ? '' : $this->loadResources('image.upload.path').$video['thumbnails_path'];
+				$this->assign("videoThumbnail", $videoThumbnail);
 			}
 		}
 		

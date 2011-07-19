@@ -6,27 +6,13 @@ $uploader = new Uploader();
 $logger = new Logging();
 $logger->lfile('../log/logfile.log');
 
-$session_name = session_name();
-$sid = $_POST[$session_name];
-$logger->lwrite("PHPSESSID: " . $sid);
-session_regenerate_id();
-$suid = $_SESSION['uid'];
-$logger->lwrite("suid: " . $suid);
+$logger->lwrite('Logged user[' . $uploader->getLoggedUser() . '] is uploading a file...');
 
-
-
-$uid = $_POST['uid'];
-$guid = $_POST['guid'];
-
-$model_user = $uploader->getModel('model_user');
-$user = $model_user->getUserByUserId(array($uid));
-$hashCode = $uploader->createHash($user['email'], $uploader->loadResources('salt'));
-
-if($guid == $hashCode){
+if($uploader->getLoggedUser() > 0){
 	$ret = $uploader->upload($uploader->loadResources('image.upload.path'), $uploader->loadResources('image.upload.ext.support'), $uploader->loadResources('image.upload.maxsize'));
 	if(!is_numeric($ret)){
 		$model_user = $uploader->getModel('model_user');
-		$model_user->updateUserAvatar(array($ret, $uid));
+		$model_user->updateUserAvatar(array($ret, $uploader->getLoggedUser()));
 		$target = BASE_DIR . $uploader->loadResources('image.upload.path') . $ret;
 		$rimg = new RESIZEIMAGE($target);
 		$rimg->resize_limitwh(300, 300, $target);				    
@@ -37,7 +23,6 @@ if($guid == $hashCode){
 		echo 'Invalid file';
 	}
 }else{
-	echo $uploader->getLoggedUser();
 	echo 'Invalid Session.';
 }
 ?>
