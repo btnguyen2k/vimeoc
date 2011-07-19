@@ -19,8 +19,10 @@
           'onAllComplete' : function(event,data) {
             if(waitingForSubmit == true){
             	checkvalidate();
-            }
-          	$("#top_success").html(data.filesUploaded + ' files uploaded successfully!').show();          	
+            	$("#top_success").html('Updating the video information ...');
+            }else{
+          		$("#top_success").html(data.filesUploaded + ' files uploaded successfully!').show();
+            }          	
           },
           'onError' : function (event,ID,fileObj,errorObj) {
         	  $("#top_error").html(errorObj.type + ' Error: ' + errorObj.info);
