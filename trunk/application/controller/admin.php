@@ -982,10 +982,15 @@
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
 				$title=$_POST['title'];
-				$alias=$_POST['alias'];
+				$alias=$_POST['alias'];				
 				$body=$_POST['body'];
 				$keywords=$_POST['keywords'];
 				$publish=$_POST['publish'];
+				
+				if(!empty($alias)){
+					$alias = strtolower($alias);
+					$alias = str_replace(' ', '-', $alias); 
+				}
 				if($this->model_user->isAliasExist(array($alias)))
 				{
 					$this->assign('errorMessage', $this->loadErrorMessage('error.content.alias.aliasExists'));
