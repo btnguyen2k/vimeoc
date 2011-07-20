@@ -8,6 +8,7 @@ $(document).ready(function() {
 		var alias=$("#alias").val();
 		var body=$("#body").val();
 		var keywords=$("#keywords").val();
+		
 		var flag=true;
 		
 		if(title==""){
@@ -36,8 +37,7 @@ $(document).ready(function() {
 			flag=false;
 		}else{
 			$("#error_valid_keyword").hide();
-		}	 
-
+		}	 		
 		return flag;
 	}
 
@@ -59,13 +59,13 @@ $(document).ready(function() {
 			<:if $errorMessage eq "":>
 		  		 &nbsp;
 			<:else:>
-		 		 <span class="red"><:$errorMessage:></span>
+		 		 <span class="red" id="errorMessage"><:$errorMessage:></span>
 			<:/if:>
 			
 			<:if $successfullMessage eq "":>
 		  		 &nbsp;
 			<:else:>
-		 		 <span class="green"><:$successfullMessage:></span>
+		 		 <span class="green" id="successfullMessage"><:$successfullMessage:></span>
 			<:/if:>
 				<fieldset>
 					<ul>
@@ -97,6 +97,7 @@ $(document).ready(function() {
 							<input type="submit" value= "Save"/>
 							<input type="hidden" name="contentId" id="contentId" value="<:$contentId:>"/>
 							<input type="hidden" name="publish_" id="publish_" value="<:$publish_:>" />
+							<input type="hidden" name="url_alias" id="url_alias" value="<:$content['alias']:>" />
 						</li>
 					</ul>
 				</fieldset>

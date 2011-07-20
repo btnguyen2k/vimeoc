@@ -1055,10 +1055,20 @@
 				$publish=$_POST['publish'];
 				$body=$_POST['body'];
 				$keywords=$_POST['keywords'];
-				if($this->model_user->isAliasExist(array($alias)))
+				$cContent = $this->model_user->getContent(array($contentId));
+				if($cContent['alias']!=$alias)
 				{
-					$this->assign('errorMessage', $this->loadErrorMessage('error.content.alias.aliasExists'));
-				}
+					if($this->model_user->isAliasExist(array($alias)))
+					{
+						$this->model_user->updateTitle(array($title,$contentId));
+						$this->model_user->updatePublish(array($publish,$contentId));
+						$this->model_user->updateBody(array($body,$contentId));
+						$this->model_user->updateKeyword(array($keywords,$contentId));
+						$this->model_user->updateModifyDate(array($contentId));
+						$this->model_user->updateModifer(array($userId,$contentId));
+						$this->assign('errorMessage', $this->loadErrorMessage('error.content.alias.aliasExists'));
+					}
+				}				
 				else 
 				{
 					$this->model_user->updateTitle(array($title,$contentId));
