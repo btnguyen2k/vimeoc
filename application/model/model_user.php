@@ -518,6 +518,8 @@
 			$types = array('integer');
 			$this->execute_command($sql, $params, $types);
 		}
+		
+		
 		/**
 		 * delete album by user
 		 * @param $params

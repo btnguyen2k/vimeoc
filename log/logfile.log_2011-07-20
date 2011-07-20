@@ -1,0 +1,7 @@
+03:26:12 (uploadVideoThumbnail) Logged user[23] is uploading a file...
+03:26:12 (uploadVideoThumbnail) /images/upload/
+03:26:12 (uploadVideoThumbnail) *.jpg;*.png;*.gif;*.JPG;*.PNG;*.GIF
+03:26:12 (uploadVideoThumbnail) 2
+03:26:12 (uploadVideoThumbnail) Request upload file: 2325000516_PORTABLE_Counter_Strike_Condition_Zero_CS_CZ - size: 40100
+03:26:12 (uploadVideoThumbnail) Uploaded file: C:/Users/son/Desktop/Tai lieu lam viec/PHP/xampp/htdocs/vimeoc/images/upload/mxpze0hez968qpoabvkgdiugfdts18aaamx0gd1xwwgwgqn54uyo6c160h024vv3.jpg
+03:26:13 (uploadVideoThumbnail) Update thumbnail for video16
