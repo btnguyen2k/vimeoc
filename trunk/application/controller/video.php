@@ -752,7 +752,7 @@
 		/**
 		 *  ajax refresh video's thumbnail after upload thumbnail image successfully
 		 */
-		function refreshVideoThumbnail(){
+			function refreshVideoThumbnail(){
 			$userId = $this->getLoggedUser();
 				if($userId == 0){
 					$this->redirect($this->ctx().'/auth/login/');
@@ -765,5 +765,9 @@
 				echo $video['thumbnails_path'];
 			}
 		}
+		/**
+		 * delete message source
+		 */
+		
 	}
 ?>

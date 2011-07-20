@@ -9,12 +9,7 @@
 		var pattern=/^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.([a-zA-Z])+([a-zA-Z])+/;
 		var flag=true;
 	
-		if(password.length<5){
-			$("#error_less_password").show();
-			flag=false;
-		}else{
-			$("#error_less_password").hide();
-		}
+
 		
 		if(fullname.length>150){
 			$("#error_length_fullname").show();
@@ -34,11 +29,18 @@
 			$("#error_existed_email").hide();
 			flag=false;
 		}
-		
+				
 		if(password==""){
 			$("#error_valid_password").show();
+			$("#error_less_password").hide();
+			flag=false;
+		}
+		else if(password.length<5){
+			$("#error_less_password").show();
+			$("#error_valid_password").hide();
 			flag=false;
 		}else{
+			$("#error_less_password").hide();
 			$("#error_valid_password").hide();
 		}	 
 		
