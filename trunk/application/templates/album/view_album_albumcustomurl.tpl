@@ -1,23 +1,23 @@
 <script type="text/javascript">
-	function checkUrl(form){
-	var regex = /^[a-zA-Z0-9]{0,32}$/;
+function checkUrl(form){
 	var url = $(form).find("input[name=url]").val();		
 	var link = "<:$domain:>/";
-	var flag = regex.test(url) && url.length <= 32;
+	var flag = shortcutReg.test(url) && url.length <= 32;
 
-		if(url==$('#albumCustom').val())
-		{
-			return false;
-		}
-	
-		if(!flag){
-			$("#error_valid_url").show();
-			$("#error_valid_alias").hide();
-			return false;
-		}else{ 
-			$("#error_valid_url").hide();
-			return true;
-		}
+	if(url==$('#albumCustom').val())
+	{
+		return false;
+	}
+
+	if(!flag){
+		$("#error_message").hide();					
+		$("#info_message").hide();
+		$("#error_valid_url").show();
+		return false;
+	}else{ 
+		$("#error_valid_url").hide();
+		return true;
+	}
 }
 
 </script>
@@ -29,13 +29,13 @@
 			<:if $successMessage eq "":>
   				 &nbsp;
 			<:else:>
-   				<span class="green" align="center"><:$successMessage:></span>
+   				<span id="info_message" class="green" align="center"><:$successMessage:></span>
 			<:/if:>
 			
 			<:if $errorMessage eq "":>
   				 &nbsp;
 			<:else:>
-   				<span class="red" id="error_valid_alias" align="center"><:$errorMessage:></span>
+   				<span class="red" id="error_message" align="center"><:$errorMessage:></span>
 			<:/if:>
 		<form action="<:$ctx:>/album/albumCustomUrl/?albumId=<:$albumId:>" method="post" name="albumCustomUrl" onsubmit="return checkUrl(this);">
 			<fieldset>
