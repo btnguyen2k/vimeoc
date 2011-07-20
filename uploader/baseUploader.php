@@ -21,6 +21,12 @@
 	include_once '../application/logging.php';
 	include_once '../application/base.php';		
 	
+	/**
+	 * 
+	 * Uploader class handles the file uploading
+	 * @author Tri
+	 *
+	 */
 	class Uploader extends Application{
 		var $resources;
 		var $log;

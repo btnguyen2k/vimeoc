@@ -15,6 +15,10 @@
 			$this->tmpl = &$tmpl;		
 		}
 		
+		/**
+		 * 
+		 * Routing action handles the advantaged url-rewrite
+		 */
 		function routing(){
 			$userAlias = $_GET['userAlias'];
 			$videoAlias = $_GET['videoAlias'];
