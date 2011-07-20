@@ -766,8 +766,48 @@
 			}
 		}
 		/**
-		 * delete message source
+		 * delete video messagesource
 		 */
-		
+		function videoDeleteMessagesSource()
+		{
+			$this->defaultVideoMessagesSource();
+			
+			$this->assign("name", $this->loadMessages('album.delete.name'));
+			$this->assign("question", $this->loadMessages('album.delete.quetion'));
+			$this->assign('hint', $this->loadMessages('album.delete.hint'));
+		}
+		/**
+		 * delete video
+		 */
+		function videoDelete()
+		{
+			$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			$this->loadModel('model_video');
+			$this->loadModel('model_user');
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
+			{
+				$videoid=$_GET['videoId'];
+				$video = $this->model_video->getVideoByVideoIdAndUserId(array($userId,$videoid));
+				$this->assign("videoName",$video['video_title']);
+				$this->assign("videoId",$videoid);
+				$this->assignVideoThumbnails($video);
+				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_videodelete');
+			}
+			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$videoid=$_GET['videoId'];
+				$video = $this->model_video->getVideoByVideoIdAndUserId(array($userId,$videoid));
+				$this->assignVideoThumbnails($video);
+				$this->assign("videoName",$video['video_title']);
+				$this->assign("videoId",$videoid);
+				$this->model_video->dropVideoByVideoId(array($videoid));
+				$this->redirect($this->ctx().'/user/video/');
+			}
+		}
 	}
 ?>
