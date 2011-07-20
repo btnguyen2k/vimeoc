@@ -16,44 +16,49 @@ $(document).ready(function() {
 		
 		if(x==""){
 			$("#error_valid_password").show();
+			$("#error_less_password").hide();
+			flag=false;
+		}
+		else if(x.length<5){
+			$("#error_less_password").show();
+			$("#error_valid_password").hide();
 			flag=false;
 		}else{
 			$("#error_valid_password").hide();
+			$("#error_less_password").hide();
 		}	 
 
 		if(y==""){
 			$("#error_valid_rpassword").show();
+			$("#error_less_rpassword").hide();
+			flag=false;
+		}
+		else if(y.length<5){
+			$("#error_less_rpassword").show();
+			$("#error_valid_rpassword").hide();
+			flag=false;
+		}
+		else if(x!=y){
+			$("#error_valid_mpassword").show();
+			$("#error_valid_rpassword").hide();
 			flag=false;
 		}else{
 			$("#error_valid_rpassword").hide();
+			$("#error_less_rpassword").hide();
+			$("#error_valid_mpassword").hide();
+			
 		}	 
 
 		if(z==""){
 			$("#error_valid_fullname").show();
 			flag=false;
-		}else{
-			$("#error_valid_fullname").hide();
 		}
-		
-		if(x.length<5){
-			$("#error_less_password").show();
-			flag=false;
-		}else{
-			$("#error_less_password").hide();
-		}
-
-		if(y.length<5){
-			$("#error_less_rpassword").show();
-			flag=false;
-		}else{
-			$("#error_less_rpassword").hide();
-		}
-		
-		if(z.length>150){
+		else if(z.length>150)
+		{
 			$("#error_length_fullname").show();
 			flag=false;
 		}else{
-			$("#error_length_fullname").hide();
+			$("#error_valid_fullname").hide();
 		}
 
 		if(e.length>50){
@@ -68,14 +73,6 @@ $(document).ready(function() {
 			flag=false;
 		}
 		
-	 
-			
-		if(x!=y){
-			$("#error_valid_mpassword").show();
-			flag=false;
-		}else{
-			$("#error_valid_mpassword").hide();
-		}	 
 
 		if(!term){
 			$("#error_valid_term").show();
