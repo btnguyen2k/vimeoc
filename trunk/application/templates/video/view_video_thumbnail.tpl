@@ -40,10 +40,15 @@
         		  $('#file_upload').uploadifyCancel($('.uploadifyQueueItem').first().attr('id').replace('file_upload',''));
         	  }else{
         		  $("#top_error").hide();
+        		  setTimeout('upload();', 200);
         	  }
           }
         });
 	});
+
+	function upload(){
+		$("#file_upload").uploadifyUpload();
+	}
 </script>
 <div id="video_custom_url" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
@@ -57,15 +62,8 @@
 					<span><:$currentThumbnail:></span><br/>
 					<img id="thumbnail" src="<:$ctx:>/<:$videoThumbnail:>"></img>
 				</li>
-				<li id="file-uploader">
-					 <noscript>			
-						<p>Please enable JavaScript to use file uploader.</p>
-						<!-- or put a simple form for upload here -->
-					</noscript>	  
-				</li>
 				<li>
 					<input id="file_upload" name="file_upload" type="file" />
-					<a href="###" onclick="$('#file_upload').uploadifyUpload();;">Upload</a>
 				</li>
 				<li style="width: 200px;">
 					<div id="upload-processing" style="width: 0%; background: green;">&nbsp;</div>
