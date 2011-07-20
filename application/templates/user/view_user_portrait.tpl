@@ -18,7 +18,7 @@
           'sizeLimit' : <:$maxSize:>,
           'auto'      : false,
           'onAllComplete' : function(event,data) {
-          	$("#top_success").html(data.filesUploaded + ' files uploaded successfully!').show();
+          	$("#top_success").html('Potrait has been uploaded successfully').show();
           	$.ajax({
     			url : '<:$ctx:>/user/refreshUserAvatar/',
     			data: 'userId=<:$uid:>',
@@ -38,11 +38,15 @@
         		  $("#top_error").html('You selected wrong file type.').show();
         		  $('#file_upload').uploadifyCancel($('.uploadifyQueueItem').first().attr('id').replace('file_upload',''));
         	  }else{
-        		  $("#top_error").hide();
+        		  setTimeout('upload();', 200);
         	  }
           }
         });
 	});
+
+	function upload(){
+		$("#file_upload").uploadifyUpload();
+	}
 </script>
 <div id="user_portrait" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/user_left_menu.tpl":>
@@ -61,15 +65,8 @@
 					<img class="userAvatar" id="uAvatar" src="<:$ctx:>/images/avatar.png" width="50" height="50"/>
 					<:/if:>
 				</li>
-				<li id="file-uploader">			
-					 <noscript>			
-						<p>Please enable JavaScript to use file uploader.</p>
-						<!-- or put a simple form for upload here -->
-					</noscript>	  
-				</li>
 				<li>
-					<input id="file_upload" name="file_upload" type="file" />
-					<a href="###" onclick="$('#file_upload').uploadifyUpload();;">Upload</a>
+					<input id="file_upload" name="file_upload" type="file" />					
 				</li>
 				<li style="width: 200px;">
 					<div id="upload-processing" style="width: 0%; background: green;">&nbsp;</div>

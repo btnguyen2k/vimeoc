@@ -20,9 +20,7 @@
             if(waitingForSubmit == true){
             	checkvalidate();
             	$("#top_success").html('Updating the video information ...');
-            }else{
-          		$("#top_success").html(data.filesUploaded + ' files uploaded successfully!').show();
-            }          	
+            }
           },
           'onError' : function (event,ID,fileObj,errorObj) {
         	  $("#top_error").html(errorObj.type + ' Error: ' + errorObj.info);
@@ -33,19 +31,27 @@
         		  $("#top_error").html('You selected wrong file type.').show();
         		  $('#file_upload').uploadifyCancel($('.uploadifyQueueItem').first().attr('id').replace('file_upload',''));
         	  }else{
-        		  $("#top_error").hide();
+        		  $("#top_error").hide();     
+        		  setTimeout('upload();', 200);   		  
         	  }
           }, 'onComplete' : function(event, ID, fileObj, response, data){
               if(response == 'invalid-file.error'){
             	  $("#top_error").html('Upload failed.').show();
               }else{
+                  var fileName = fileObj.name;
+                  fileName = fileName.replace(fileObj.type, "");
+            	  $("#top_success").html("Video '" + fileName + "' has been uploaded successfully.").show();
+            	  $("#title").val(fileName);
             	  $("#videoid").val(response);
+            	  $("#submit-button").attr("disabled","");
               }        	  
-          }, 'onOpen'      : function(event,ID,fileObj) {
-              $("#video_information").show();
           }
         });
 	});
+
+	function upload(){
+		$("#file_upload").uploadifyUpload();
+	}
 
 	function checkvalidate()
 	{
@@ -109,15 +115,8 @@
 					<span style="display: none" class="red" id="error_file"><:$requiredFields:></span>
 					<span style="display: none" class="red" id="notSupportExt"><:$videoExtSupport:></span>
 				</li>
-				<li id="file-uploader">			
-					 <noscript>			
-						<p>Please enable JavaScript to use file uploader.</p>
-						<!-- or put a simple form for upload here -->
-					</noscript>	  
-				</li>
 				<li>
-					<input id="file_upload" name="file_upload" type="file" />
-					<a href="###" onclick="$('#file_upload').uploadifyUpload();;">Upload</a>
+					<input id="file_upload" name="file_upload" type="file" />					
 				</li>				
 				<li style="width: 200px;">
 					<div id="upload-processing" style="width: 0%; background: green;">&nbsp;</div>
@@ -125,7 +124,8 @@
 			</ul>
 			<form action="<:$ctx:>/user/addvideoupload/" id="videoForm" method="post" onSubmit="return checkvalidate()">
 			<div id="log"></div>
-			<ul id="video_information" style="display: none">				
+			<h3>Video File Information</h3>
+			<ul id="video_information">				
 				<li>
 					<span><:$name:> </span><br/>						
 					<input type="text" name="title" id="title"/>
@@ -144,7 +144,7 @@
 				<li>
 					<input type="hidden" name="tcid" value="<:$tcid:>" />
 					<input type="hidden" id="videoid" name="videoid"/>
-					<input id="submit-button" type="submit" value="Save" />
+					<input id="submit-button" disabled="disabled" type="submit" value="Save" />
 				</li>
 			</ul>
 			</form>

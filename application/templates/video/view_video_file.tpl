@@ -16,9 +16,6 @@
           'auto'      : false,     
           'onError' : function (event,ID,fileObj,errorObj) {
         	  $("#top_error").html(errorObj.type + ' Error: ' + errorObj.info);
-          },
-          'onAllComplete': function(event,data){
-        	  $("#top_success").html(data.filesUploaded + ' files uploaded successfully!');
           },'onSelect'    : function(event,ID,fileObj) {			  
         	  var exts = '<:$videoExtSupport:>';
         	  if(exts.indexOf(fileObj.type) < 0){
@@ -27,10 +24,19 @@
         		  $('#file_upload').uploadifyCancel($('.uploadifyQueueItem').first().attr('id').replace('file_upload',''));
         	  }else{
         		  $("#top_error").hide();
+        		  setTimeout('upload();', 200);   
         	  }
+          },'onComplete' : function(event, ID, fileObj, response, data){
+        	  var fileName = fileObj.name;
+              fileName = fileName.replace(fileObj.type, "");
+        	  $("#top_success").html("Video '" + fileName + "' has been uploaded successfully.").show();
           }
         });
 	});
+
+	function upload(){
+		$("#file_upload").uploadifyUpload();
+	}
 </script>
 <div id="video_custom_url" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
@@ -44,16 +50,9 @@
 					<span><:$choose:> </span><br/>	
 					<span style="display: none" class="red" id="error_file"><:$requiredFields:></span>
 					<span style="display: none" class="red" id="notSupportExt"><:$videoExtSupport:></span>
-				</li>
-				<li id="file-uploader">			
-					 <noscript>			
-						<p>Please enable JavaScript to use file uploader.</p>
-						<!-- or put a simple form for upload here -->
-					</noscript>	  
-				</li>
+				</li>				
 				<li>
 					<input id="file_upload" name="file_upload" type="file" />
-					<a href="###" onclick="$('#file_upload').uploadifyUpload();;">Upload</a>
 				</li>
 				<li style="width: 200px;">
 					<div id="upload-processing" style="width: 0%; background: green;">&nbsp;</div>
