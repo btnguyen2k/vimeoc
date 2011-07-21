@@ -977,7 +977,7 @@
 
 				$this->assign("previewUrl", $previewLink);
 				
-			``	$this->assign('albumCustomUrl',$album['album_alias']);
+				$this->assign('albumCustomUrl',$album['album_alias']);
 				$this->assign("albumName",$album['album_name']);
 				$this->assign("albumId",$albumId);
 				$this->assign("domain",$domain);

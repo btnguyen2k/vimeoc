@@ -25,7 +25,7 @@
    				<span class="green" align="center"><:$successMessage:></span>
 			<:/if:>
 		</div>
-		<form action="<:$ctx:>/channel/createNewChannel" method="post" name="channelcreate" onSubmit="return checkValidForm(this)" >
+		<form action="<:$ctx:>/channel/createNewChannel/" method="post" name="channelcreate" onSubmit="return checkValidForm(this)" >
 			<fieldset>
 				<ul>
 					<li>
