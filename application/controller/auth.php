@@ -109,6 +109,8 @@
 							$this->setSessionValue("admin", true);
 						else
 							$this->setSessionValue("admin", false);
+							
+						$_video_search_obj = unserialize($_SESSION['VIDEO_SEARCH']);	
 						//video......................
 						if($this->model_user->userSettingExist(array($user['id'],'VIDEO_LIST_MODE')))
 						{
@@ -132,6 +134,7 @@
 						$_SESSION['VIDEO_SEARCH'] = serialize($_video_search_obj);
 						
 						//album .....................
+						$_album_search_obj = unserialize($_SESSION['ALBUM_SEARCH']);	
 						if ($this->model_user->userSettingExist(array($user['id'],'ALBUM_LIST_SORT')))
 						{
 							$_album_search_obj->sort=$this->model_user->getUserSetting(array($user['id'],'ALBUM_LIST_SORT'));
@@ -145,10 +148,11 @@
 						if ($this->model_user->userSettingExist(array($user['id'],'ALBUM_LIST_TERM')))
 						{
 							$_album_search_obj->term = $this->model_user->getUserSetting(array($user['id'],'ALBUM_LIST_TERM'));
-						}						
-						$_SESSION['ALBUM_SEARCH'] = serialize($_album_search_obj);
+						}				
+						$_SESSION['ALBUM_SEARCH'] = serialize($_album_search_obj);		
 						
 						//channel.................
+						$_channel_search_obj = unserialize($_SESSION['CHANNEL_SEARCH']);
 						if ($this->model_user->userSettingExist(array($user['id'],'CHANNEL_LIST_SORT')))
 						{
 							$_channel_search_obj->sort=$this->model_user->getUserSetting(array($user['id'],'CHANNEL_LIST_SORT'));
@@ -162,11 +166,11 @@
 						if ($this->model_user->userSettingExist(array($user['id'],'CHANNEL_LIST_TERM')))
 						{
 							$_channel_search_obj->term = $this->model_user->getUserSetting(array($user['id'],'CHANNEL_LIST_TERM'));
-						}						
-						$_SESSION['CHANNEL_SEARCH'] = serialize($_channel_search_obj);					
-						
+						}					
+						$_SESSION['CHANNEL_SEARCH'] = serialize($_channel_search_obj);	
+											
 						//user list.....................
-						
+						$_admin_user_search_obj = unserialize($_SESSION['ADMIN_USER_SEARCH']);
 						if ($this->model_user->userSettingExist(array($user['id'],'ADMIN_USER_LIST_SORT')))
 						{
 							$_admin_user_search_obj->sort=$this->model_user->getUserSetting(array($user['id'],'ADMIN_USER_LIST_SORT'));
@@ -180,10 +184,11 @@
 						if ($this->model_user->userSettingExist(array($user['id'],'ADMIN_USER_LIST_TERM')))
 						{
 							$_admin_user_search_obj->term = $this->model_user->getUserSetting(array($user['id'],'ADMIN_USER_LIST_TERM'));
-						}						
-						$_SESSION['ADMIN_USER_SEARCH'] = serialize($_admin_user_search_obj);	
+						}			
+						$_SESSION['ADMIN_USER_SEARCH'] = serialize($_admin_user_search_obj);			
 						
 						//content list...............
+						$_admin_content_search_obj = unserialize($_SESSION['ADMIN_CONTENT_SEARCH']);
 						if ($this->model_user->userSettingExist(array($user['id'],'ADMIN_CONTENT_LIST_SORT')))
 						{
 							$_admin_content_search_obj->sort=$this->model_user->getUserSetting(array($user['id'],'ADMIN_CONTENT_LIST_SORT'));
@@ -197,8 +202,8 @@
 						if ($this->model_user->userSettingExist(array($user['id'],'ADMIN_CONTENT_LIST_TERM')))
 						{
 							$_admin_content_search_obj->term = $this->model_user->getUserSetting(array($user['id'],'ADMIN_CONTENT_LIST_TERM'));
-						}						
-						$_SESSION['ADMIN_CONTENT_SEARCH'] = serialize($_admin_content_search_obj);
+						}			
+						$_SESSION['ADMIN_CONTENT_SEARCH'] = serialize($_admin_content_search_obj);			
 						
 						$this->redirect($this->ctx().'/user');
 					}
@@ -399,7 +404,12 @@
 				{
 					$this->assign("reset",$this->loadMessages('auth.invalid.reset'));
 					$this->assign("try",$this->loadMessages('auth.invalid.try'));
-					$this->loadTemplate('view_invalid');
+					//$this->loadTemplate('view_invalid');
+					echo $code . '<br/>';
+					echo $ecode . '<br/>';
+					
+					echo $email . '<br/>';
+					echo $salt;
 				}	
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
