@@ -28,7 +28,7 @@
 						<:section name=a loop=$videoThumbnails:>
 						<:if $videoThumbnails[a].thumbnails_path == '':>
 							<input type="radio" name="videoThumbnail" value="<:$videoThumbnails[a].thumbnails_path:>"/>
-							<img src="<:$ctx:>/images/icon-video.gif" width="100"/>
+							<img src="<:$ctx:>/images/icon-video.gif" width="100" />
 						<:else:>
 							<:if $albumThumbnail1 eq $videoThumbnails[a].thumbnails_path:>
 							

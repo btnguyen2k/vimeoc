@@ -701,6 +701,18 @@
 			$res = $this->execute_query($sql,$params,$types);	
 			return sizeof($res) > 0;
 		}
+		/**
+		 * check exist videoid
+		 * @param @params
+		 */
+		function isExistVideoId($params)
+		{
+			$sql = 'select id from video where id=?';
+			$types =  array('integer', 'integer');
+			$res = $this->execute_query($sql,$params,$types);
+			
+			return sizeof($res) > 0;
+		}
 		
 		/**
 		 * check channelid and videoid

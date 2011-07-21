@@ -124,7 +124,7 @@
 			
 			$videos = array();
 			$pagination = '';
-			//$_reset = $_GET['reset'];// reset all value for display
+			$_reset = $_GET['reset'];// reset all value for display
 			if($_reset){
 				
 			}else{
@@ -426,6 +426,11 @@
 			{
 				$albumId=$_GET['albumId'];
 				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
+				if($album==null)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
 				$this->assignAlbumThumbnails($album);
 				$this->assign("albumId",$albumId);
 				$this->assign("description_",$album['description']);
@@ -486,7 +491,7 @@
 				$videoThumbnails=$this->model_album->getVideoThumbnailsByAlbumId(array($albumId,$userId));
 				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
 				$res=$this->model_album->getVideoIdByAlbumId(array($albumId));
-				$a=$this->model_album->getVideoThumbnailsByAlbumId(array($albumId,$userId));
+				$video=$this->model_album->getVideoThumbnailsByAlbumId(array($albumId,$userId));
 				if($res==0)
 				{
 					$this->assign('error', $this->loadErrorMessage('error.albumthumbnail.error'));
@@ -495,7 +500,7 @@
 				{
 					if($album['thumbnails_path']=="")
 					{
-						$this->model_album->updateVideoThumbnailToAlbumThumbnail(array($a[0]['thumbnails_path'],$albumId));
+						$this->model_album->updateVideoThumbnailToAlbumThumbnail(array($video[0]['thumbnails_path'],$albumId));
 					}
 				}
 				$this->assign("albumThumbnail",$album['thumbnails_path']);

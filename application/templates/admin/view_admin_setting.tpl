@@ -32,6 +32,8 @@ $(document).ready(function() {
 		<form name="Settingform" action="<:$ctx:>/admin/Configuration/" method="post">
 			<div>
 				<span class="green"><:$messageSuccess:></span>
+				<span class="red"><:$errorMessageLogin:></span>
+				<span class="red"><:$errorMessageSignup:></span>
 				<fieldset>
 					<ul>
 						<li>

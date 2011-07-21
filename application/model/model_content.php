@@ -56,6 +56,20 @@
 		}
 		
 		/**
+		 * check content id
+		 * @param param
+		 */
+			function isExistContentId($params)
+		{
+			$sql = 'select id from content where id=?';
+			$types =  array('integer', 'integer');
+			$res = $this->execute_query($sql,$params,$types);
+			
+			return sizeof($res) > 0;
+		}
+		
+		
+		/**
 		 * get content by alias
 		 * @param $params
 		 */

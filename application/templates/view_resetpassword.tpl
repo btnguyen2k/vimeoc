@@ -1,4 +1,4 @@
-<<script type="text/javascript">
+<script type="text/javascript">
 <!--
 	function validatePassword(){
 		var password=$("#password").val();
