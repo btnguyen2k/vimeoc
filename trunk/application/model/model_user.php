@@ -604,8 +604,7 @@
 		function getValueConfigurationLogin()
 		{
 			$sql = "select * from configuration where name='SHOW_LOGIN_FORM'";
-			$types = array('integer');
-			$res = $this->execute_query($sql, $params, $types);
+			$res = $this->execute_query($sql);
 			if(sizeof($res) > 0)
 			{
 				return $res[0] ;
@@ -619,8 +618,7 @@
 		function getValueConfigurationSignup()
 		{
 			$sql = "select * from configuration where name='SHOW_SIGNUP_FORM'";
-			$types = array('integer');
-			$res = $this->execute_query($sql, $params, $types);
+			$res = $this->execute_query($sql);
 			if(sizeof($res) > 0)
 			{
 				return $res[0] ;
