@@ -539,13 +539,15 @@
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$userId=$_GET['userId'];
+				$res=$this->model_user->isExistUserId(array($userId));				
+				if($res==0)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
 				$this->model_user->updateDisableAccount(array($userId));
 				$this->redirect($this->ctx().'/admin/userlist');
 				
-			}
-			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
-			{
-				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_disableaccount');
 			}
 		}
 		/**
@@ -565,11 +567,6 @@
 				$contentId=$_GET['contentId'];
 				$this->model_user->publishContent(array($contentId));
 				$this->redirect($this->ctx().'/admin/contentList');
-				
-			}
-			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
-			{
-				//$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_publish_content');
 			}
 		}
 		
@@ -583,13 +580,15 @@
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$userId=$_GET['userId'];
+				$res=$this->model_user->isExistUserId(array($userId));
+				if($res==0)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
 				$this->model_user->updateEnableAccount(array($userId));
 				$this->redirect($this->ctx().'/admin/userlist');
-			}
-			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
-			{
-				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_enableaccount');
-			}		
+			}	
 		}
 		/**
 		 * 
@@ -609,10 +608,6 @@
 				$this->redirect($this->ctx().'/admin/contentList');
 				
 			}
-			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
-			{
-				//$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_unpublish_content');
-			}
 		}
 		
 		
@@ -626,16 +621,18 @@
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$userId=$_GET['userId'];
-				$this->model_user->dropVideoByUserId(array($userId));
+				$res=$this->model_user->isExistUserId(array($userId));
+				if($res==0)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
 				$this->model_user->dropAlbumByUserId(array($userId));
 				$this->model_user->dropChannelByUserId(array($userId));
 				$this->model_user->dropRoleByUserId(array($userId));
 				$this->model_user->dropUserByUserId(array($userId));
+				$this->model_user->dropVideoByUserId(array($userId));
 				$this->redirect($this->ctx().'/admin/userlist');
-			}
-			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
-			{
-				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_deleteaccount');
 			}
 		}
 		
@@ -650,15 +647,18 @@
 				return;
 			}
 			$this->loadModel('model_user');
+			$this->loadModel('model_content');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$contentId=$_GET['contentId'];
+				$res=$this->model_content->isExistContentId(array($contentId));
+				if($res==0)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
 				$this->model_user->dropContentById(array($contentId));
 				$this->redirect($this->ctx().'/admin/contentlist');
-			}
-			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
-			{
-				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_deletecontent');
 			}
 		}
 		
@@ -699,8 +699,8 @@
 			$this->loadModel('model_user');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
 			{
-				$getrole=$this->model_user->getRole(array());
-				$this->assign("getrole",$getrole);
+				$roles=$this->model_user->getRole(array());
+				$this->assign("getrole",$roles);
 				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_signup');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -734,13 +734,7 @@
 				}
 			}
 		}
-		
-		function editAccount()
-		{
-			if(!$this->isAdminLogged()){
-				$this->redirect($this->ctx().'/admin/login');
-			}
-		}
+
 		/**
 		 * function update value message source
 		 * 
@@ -775,13 +769,17 @@
 			{
 				$login=$_POST['login'];
 				$signup=$_POST['signup'];
-				$this->model_user->updateConfigurationLoginForm(array($login));	
-				$this->model_user->updateConfigurationSignUpForm(array($signup));		
+				$flag=true;
+				$res=$this->model_user->updateConfigurationLoginForm(array($login));
+				$res=$this->model_user->updateConfigurationSignUpForm(array($signup));		
 				$login=$this->model_user->getValueConfigurationLogin();
 				$signup=$this->model_user->getValueConfigurationSignup();
 				$this->assign("login",$login['value']);
 				$this->assign("signup",$signup['value']);
-				$this->assign("messageSuccess",$this->loadMessages('admin.configuration.successful'));
+				if($flag)
+				{
+					$this->assign("messageSuccess",$this->loadMessages('admin.configuration.successful'));
+				}
 				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_setting');
 			}
 		}
@@ -827,7 +825,7 @@
 					if($user != null)
 					{
 						$isAdmin= $this->model_user->isAdmin(array($user['id'],"ROLE_ADMIN"));
-						if($isAdmin==1)
+						if($isAdmin)
 						{
 							$this->setSessionValue("uid", $user['id']);
 							$this->setSessionValue("username", $user['username']);
@@ -854,34 +852,6 @@
 					$this->assign("errorMessage", $this->loadMessages('auth.login.error'));
 					$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_login');
 				}
-			}
-		}
-		
-		function disableLoginForm()
-		{
-			if(!$this->isAdminLogged()){
-				$this->redirect($this->ctx().'/admin/login');
-			}
-		}
-		
-		function enableLoginForm()
-		{
-			if(!$this->isAdminLogged()){
-				$this->redirect($this->ctx().'/admin/login');
-			}
-		}
-		
-		function disableRegistrationForm()
-		{
-			if(!$this->isAdminLogged()){
-				$this->redirect($this->ctx().'/admin/login');
-			}
-		}
-		
-		function enableRegistrationForm()
-		{
-			if(!$this->isAdminLogged()){
-				$this->redirect($this->ctx().'/admin/login');
 			}
 		}
 		
@@ -997,7 +967,11 @@
 				}
 				else 
 				{
-					$this->model_user->addNewContent(array($title,$alias,$body,$keywords,$publish,$userId,$userId));
+					$res=$this->model_user->addNewContent(array($title,$alias,$body,$keywords,$publish,$userId,$userId));
+					if($res==0)
+					{
+						$this->assign("errorInsertMessage","Create New Content Failed");
+					}
 					$this->assign("messageSuccessful",$this->loadMessages('admin.content.successful'));
 					$this->redirect($this->ctx().'/admin/contentlist');
 				}
@@ -1041,6 +1015,11 @@
 			{
 				$contentId=$_GET['id'];
 				$content=$this->model_user->getContent(array($contentId));
+				if($content==null)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
 				$this->assign('content',$content);
 				$this->assign('contentId',$contentId);
 				$publish_=$content['publish'];
@@ -1128,6 +1107,12 @@
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$id=$_GET['userId'];
+				$res=$this->model_user->isExistUserId(array($id));
+				if($res==0)
+				{
+					$this->redirect($this->ctx().'/admin/userlist');
+					return;
+				}
 				$params=array($id);
 				$user = $this->model_user->getUserByUserId($params);
 				$role = $this->model_user->getUserRoleByUserId($params);
@@ -1154,8 +1139,6 @@
 				$password = $_POST['password'];
 				$role = $_POST['role'];
 				$status = $_POST['status'];
-				
-				//echo $id;echo $username;echo $fullname;echo $email;echo $password;echo $role;echo $status;return;
 				
 				if ($this->model_user->isExists(array($username)) == true){
 					if ($id != ""){
@@ -1191,9 +1174,7 @@
 				else{
 					$this->assign("errorMessage", $this->loadMessages('error.admin.edit.user.profile.non.exist'));
 					$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_edit_user_profile');
-				}
-				
-				
+				}		
 			}
 		}
 	}

@@ -61,7 +61,11 @@
 		function login()
 		{
 			$this->loadModel('model_user');
-			$value=$this->model_user->getValueConfigurationLogin();			
+			$value=$this->model_user->getValueConfigurationLogin();
+			if ($value==null)
+			{
+				$value=1;
+			}
 			$login=$value['value'];
 			if($login==0)
 			{
@@ -69,7 +73,7 @@
 				return;
 			}
 			
-			if (!isset($_SESSION['uid']) ) 
+			if (!isset($_SESSION['uid'])) 
 			{
 				$this->sessionDefaults();
 			} 
@@ -105,7 +109,7 @@
 						$this->setSessionValue("cookie", 0);
 						$this->setSessionValue("remember", false);
 						$isAdmin= $this->model_user->isAdmin(array($user['id'],"ROLE_ADMIN"));
-						if($isAdmin==1)
+						if($isAdmin)
 							$this->setSessionValue("admin", true);
 						else
 							$this->setSessionValue("admin", false);
@@ -258,7 +262,11 @@
 		function signup()
 		{
 			$this->loadModel('model_user');
-			$value=$this->model_user->getValueConfigurationSignup();			
+			$value=$this->model_user->getValueConfigurationSignup();		
+			if ($value==null)
+			{
+				$value=1;
+			}	
 			$signup=$value['value'];
 			if($signup==0)
 			{
@@ -357,7 +365,7 @@
 				else 
 				{	
 					$salt=$this->loadResources('salt');
-					$code = $this->encodeUsername($email,$salt);
+					$code = $this->encodeUsername($username,$salt);
 					$params = array($username);
 					// sending forgotpassword mail
 					$user = $this->model_user->getUsersByUsername($params);
@@ -404,12 +412,7 @@
 				{
 					$this->assign("reset",$this->loadMessages('auth.invalid.reset'));
 					$this->assign("try",$this->loadMessages('auth.invalid.try'));
-					//$this->loadTemplate('view_invalid');
-					echo $code . '<br/>';
-					echo $ecode . '<br/>';
-					
-					echo $email . '<br/>';
-					echo $salt;
+					$this->loadTemplate('view_invalid');
 				}	
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')

@@ -88,7 +88,7 @@
 			
 			$videos = array();
 			$pagination = '';
-			//$_reset = $_GET['reset'];// reset all value for display
+			$_reset = $_GET['reset'];// reset all value for display
 			if($_reset){
 				
 			}else{
@@ -358,7 +358,7 @@
 			
 			$videos = array();
 			$pagination = '';
-			//$_reset = $_GET['reset'];// reset all value for display
+			$_reset = $_GET['reset'];// reset all value for display
 			if($_reset){
 				
 			}else{

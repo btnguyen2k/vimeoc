@@ -181,6 +181,18 @@
 			
 			return sizeof($res) > 0;
 		}
+		/**
+		 * check userId exist or not 
+		 * @param $params
+		 */
+		function isExistUserId($params)
+		{
+			$sql = 'select id from user where id=?';
+			$types =  array('integer', 'integer');
+			$res = $this->execute_query($sql,$params,$types);
+			
+			return sizeof($res) > 0;
+		}
 		
 		/**
 		 * 
@@ -621,7 +633,7 @@
 			$res = $this->execute_query($sql);
 			if(sizeof($res) > 0)
 			{
-				return $res[0] ;
+				return $res[0];
 			}
 			return null;
 		}

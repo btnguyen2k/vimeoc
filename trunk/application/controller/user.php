@@ -164,8 +164,11 @@
 					$this->assign('alias', $userAlias);
 					$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_shortcut');
 				} else {
-					$this->model_user->updateUserAlias(array($alias, $userId));
-					$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("profile shortcut's URL")));
+					$res=$this->model_user->updateUserAlias(array($alias, $userId));
+					if($res!=0)
+					{
+						$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("profile shortcut's URL")));
+					}
 					$this->assign('alias', $alias);
 					$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_shortcut');
 				}
@@ -263,9 +266,10 @@
 				
 				$params = array($fullName, $email, $website, $userId);
 				$ret = $this->model_user->updateUserInformation($params);
-				
-				$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("personal info")));
-				
+				if($ret!=0)
+				{
+					$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("personal info")));
+				}
 				$user = $this->model_user->getUserByUserId(array($userId));
 				$this->assign('fullName', $user['full_name']);
 				$this->assign('email', $user['email']);
@@ -467,7 +471,7 @@
 			
 			$videos = array();
 			$pagination = '';
-			//$_reset = $_GET['reset'];// reset all value for display
+			$_reset = $_GET['reset'];// reset all value for display
 			if($_reset){
 				
 			}else{
@@ -757,8 +761,7 @@
 				$tcid=$_POST['tcid'];
 				
 				$this->model_video->deleteAllTagComponentsByVideoId(array($videoid));
-				
-				
+								
 				for($j=0;$j<sizeof($slipTag);$j++)
 				{				
 					if($slipTag[$j]!="")
@@ -768,7 +771,6 @@
 						{
 							$this->model_video->addTagName(array($slipTag[$j]));			
 							$tagNewId=$this->model_video->getTagIdByName(array($slipTag[$j]));
-							//$this->model_video->deleteTagIdAndComponentId(array($tagNewId[0]["id"],$videoid));
 							$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],"1",$videoid));
 						}
 						else 
@@ -778,7 +780,6 @@
 							if($res==0)
 							{
 								$this->assign('successMessage', $this->loadMessages('user.videosetting.updatesuccess'));
-								//$this->model_video->deleteTagIdAndComponentId(array($tagNewId[0]["id"],$videoid));
 								$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],'1',$videoid));
 							}
 							else 
@@ -860,7 +861,7 @@
 			
 			$albums = array();
 			$pagination = '';
-			//$_reset = $_GET['reset'];// reset all value for display
+			$_reset = $_GET['reset'];// reset all value for display
 			if($_reset){
 				
 			}else{
@@ -1201,7 +1202,7 @@
 			
 			$channels = array();
 			$pagination = '';
-			//$_reset = $_GET['reset'];// reset all value for display
+			$_reset = $_GET['reset'];// reset all value for display
 			if($_reset){
 				
 			}else{

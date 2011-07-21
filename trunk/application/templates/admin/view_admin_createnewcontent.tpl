@@ -61,6 +61,12 @@ $(document).ready(function() {
  		 <span class="red"><:$errorMessage:></span>
 	<:/if:>
 	
+	<:if $errorInsertMessage eq "":>
+  		 &nbsp;
+	<:else:>
+ 		 <span class="red"><:$errorInsertMessage:></span>
+	<:/if:>
+	
 	<:if $messageSuccessful eq "":>
   		 &nbsp;
 	<:else:>
