@@ -221,5 +221,17 @@
 			$res = $this->execute_query($sql,$params,$types);
 			return $res;
 		}
+		/**
+		 * check channelId exist
+		 * @param param
+		 */
+		function isExistChannelId($params)
+		{
+			$sql = 'select id from channel where id=?';
+			$types =  array('integer', 'integer');
+			$res = $this->execute_query($sql,$params,$types);
+			
+			return sizeof($res) > 0;
+		}
 	}
 ?>
