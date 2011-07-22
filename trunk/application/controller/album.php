@@ -442,6 +442,12 @@
 				$albumDescription=$_POST['description'];
 				$albumName=$_POST['title'];
 				$albumId=$_POST['albumid'];
+				$res=$this->model_album->isExistAlbumId(array($albumId));
+				if($res==0)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
 				$this->model_album->updateAlbumTileByAlbumId(array($albumName,$albumId));
 				$this->model_album->updateAlbumDescriptionByAlbumId(array($albumDescription,$albumId));
 				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
@@ -492,6 +498,12 @@
 				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
 				$res=$this->model_album->getVideoIdByAlbumId(array($albumId));
 				$video=$this->model_album->getVideoThumbnailsByAlbumId(array($albumId,$userId));
+				$ret=$this->model_album->isExistAlbumId(array($albumId));
+				if($ret==0)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
 				if($res==0)
 				{
 					$this->assign('error', $this->loadErrorMessage('error.albumthumbnail.error'));
@@ -523,6 +535,11 @@
 				}
 				$this->model_album->updateVideoThumbnailToAlbumThumbnail(array($radioChecked,$albumId));
 				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
+				if($album==null)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
 				$this->assign("albumName",$album['album_name']);
 				$this->assign('albumId',$albumId);
 				$this->assign('succeesMessage',$this->loadMessages('album.albumthumbnail.success'));
@@ -568,6 +585,11 @@
 			{
 				$albumId=$_GET['albumId'];
 				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
+				if($album==null)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
 				$this->assignAlbumThumbnails($album);
 				$this->assign("albumName",$album['album_name']);
 				$this->assign("albumId",$albumId);
@@ -578,8 +600,19 @@
 			{
 				$albumId=$_POST['albumId'];
 				$albumPassword=$_POST['password'];
+				$res=$this->model_album->isExistAlbumId(array($albumId));
+				if($res==0)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
 				$this->model_album->updatePasswordByUserIdandAlbumId(array($albumPassword,$albumId,$userId));
 				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
+				if($album==null)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
 				$this->assignAlbumThumbnails($album);
 				$this->assign("successMessage",$this->loadMessages('album.password.success'));
 				$this->assign("albumName",$album['album_name']);
@@ -620,6 +653,11 @@
 			{
 				$albumId=$_GET['albumId'];
 				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
+				if($album==null)
+				{
+					$this->loadTemplate('view_404');
+					return;	
+				}
 				$this->assignAlbumThumbnails($album);
 				$this->assign("albumName",$album['album_name']);
 				$this->assign("albumId",$albumId);
@@ -632,6 +670,12 @@
 				$this->assignAlbumThumbnails($album);
 				$this->assign("albumName",$album['album_name']);
 				$this->assign("albumId",$albumId);
+				$res=$this->model_album->isExistAlbumId(array($albumId));
+				if($res==0)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
 				$this->model_album->dropAlbumByAlbumId(array($albumId));
 				$this->model_album->dropAlbumVideoByAlbumId(array($albumId));
 				$this->redirect($this->ctx().'/user/album/albumsetting');
@@ -972,6 +1016,11 @@
 				$albumId=$_GET['albumId'];
 				$user = $this->model_user->getUserByUserId($userId);
 				$album = $this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
+				if($album==null)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
 				$domain=$this->loadResources('domain');
 				
 				if(!$album['album_alias']){

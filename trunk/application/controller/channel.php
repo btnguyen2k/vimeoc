@@ -29,6 +29,7 @@
 			if($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$channelId = $_GET['channelId'];
+				
 			}
 			
 			if(!ctype_digit($channelId)){
@@ -615,6 +616,12 @@
 			{
 				$channelName=$_POST['title'];
 				$description=$_POST['description'];
+				$res=$this->model_user->isExistUserId(array($userId));
+				if($res==0)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
 				$channelId = $this->model_channel->addNewChannel(array($userId,$channelName,$description));
 				$this->redirect($this->ctx().'/user/channel/');
 			}
@@ -650,6 +657,12 @@
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$channelId=$_GET['channelId'];
+				$res=$this->model_channel->isExistChannelId(array($channelId));
+				if($res==0)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
 				$channel = $this->model_channel->getChannelbyChannelId(array($channelId));
 				$this->assign("channelId",$channelId);
 				$this->assign("description_",$channel['description']);
@@ -661,6 +674,12 @@
 				$channelDescription=$_POST['description'];
 				$channelName=$_POST['title'];
 				$channelId=$_POST['channelId'];
+				$res=$this->model_channel->isExistChannelId(array($channelId));
+				if($res==0)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
 				$this->model_channel->updateChannelTileByChannelId(array($channelName,$channelId));
 				$this->model_channel->updateChannelDescriptionByChannelId(array($channelDescription,$channelId));
 				$channel=$this->model_channel->getChannelbyChannelId(array($channelId));
@@ -703,6 +722,12 @@
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$channelId=$_GET['channelId'];
+				$res=$this->model_channel->isExistChannelId(array($channelId));
+				if($res==0)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
 				$channel = $this->model_channel->getChannelbyChannelId(array($channelId));
 				$this->assign("channelId",$channelId);
 				$this->assign("title",$channel['channel_name']);
@@ -711,6 +736,12 @@
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
 				$channelId=$_POST['channelId'];
+				$res=$this->model_channel->isExistChannelId(array($channelId));
+				if($res==0)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
 				$channel = $this->model_channel->getChannelbyChannelId(array($channelId));
 				$this->assign("channelId",$channelId);
 				$this->assign("title",$channel['channel_name']);
@@ -750,6 +781,12 @@
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$channelId=$_GET['channelId'];
+				$res=$this->model_channel->isExistChannelId(array($channelId));
+				if($res==0)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
 				$videoThumbnails=$this->model_channel->getVideoThumbnailsByChannelId(array($channelId,$userId));
 				$channel = $this->model_channel->getChannelbyChannelId(array($channelId));
 				$res=$this->model_channel->getVideoIdByChannelId(array($channelId));

@@ -82,6 +82,18 @@
 			
 			return $res;
 		}
+		/**
+		 * check albumId exist
+		 * @param param
+		 */
+		function isExistAlbumId($params)
+		{
+			$sql = 'select id from album where id=?';
+			$types =  array('integer', 'integer');
+			$res = $this->execute_query($sql,$params,$types);
+			
+			return sizeof($res) > 0;
+		}
 		
 		/**
 		 * 
