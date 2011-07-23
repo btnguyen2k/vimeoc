@@ -1,6 +1,9 @@
 <div id="menu">
 	<ul>
 		<li>
+			<a href="<:$ctx:>">Homepage</a>
+		</li>
+		<li>
 			<a href="<:$ctx:>/admin/configuration">Setting</a>
 		</li>
 		<li>
