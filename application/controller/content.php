@@ -52,17 +52,33 @@
 				else 
 				{
 					$content=$this->model_content->getContentById(array($id));
-					$this->assign('content',$content);
-					$this->assign('keywords', $content['keywords']);
-					$this->assign('title', $content['title']);
+					if($content['publish']=='1')
+					{
+						$this->assign('content',$content);
+						$this->assign('keywords', $content['keywords']);
+						$this->assign('title', $content['title']);
+					}
+					else 
+					{
+						$this->loadTemplate('view_404');
+						return;
+					}
 				}
 			}
 			else 
 			{
 				$content=$this->model_content->getContentByAlias(array($alias));
-				$this->assign('content',$content);				
-				$this->assign('keywords', $content['keywords']);
-				$this->assign('title', $content['title']);
+				if($content['publish']=='1')
+				{
+					$this->assign('content',$content);				
+					$this->assign('keywords', $content['keywords']);
+					$this->assign('title', $content['title']);
+				}
+				else 
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
 			}
 			
 			$model_category = $this->getModel('model_category');

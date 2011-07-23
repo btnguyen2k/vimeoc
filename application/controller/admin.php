@@ -260,12 +260,12 @@
 					$contents = $model_user->selectContent($limit, $offset, $_search_term, $sort_column, $sort_order);
 				}
 			}
-			
+			$categories=$this->model_user->getCategory();
 			$this->assign('contents', $contents);
 			$this->assign('pagination', $pagination);
 			$this->assign('sort_modes', $_sort_modes);
 			$this->assign('page_sizes', $_page_sizes);
-			
+			$this->assign('categories', $categories);
 			$this->assign('sort_mode', $_sort_mode);
 			$this->assign('page_size', $_page_size);
 			$this->assign('search_term', $_search_term);

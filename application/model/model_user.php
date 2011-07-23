@@ -51,7 +51,7 @@
 		{
 			$types = array();
 			$params = array(); 
-			$sql = "select id, title, create_date, modify_date, creator_id, modifier_id, publish from content c ";			
+			$sql = "select id, title, create_date, modify_date, creator_id, modifier_id, publish, category_id from content c ";			
 			
 			if(!empty($term)){
 				$term = str_replace('%', '\%', $term);
@@ -606,9 +606,7 @@
 			}
 			return null;
 		}
-		/**
-		 * 
-		 */
+
 		
 		
 		/**
