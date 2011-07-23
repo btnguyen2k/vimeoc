@@ -1,3 +1,4 @@
+<:include file="<:$base_dir_templates:>/blocks/content_list_module.tpl":>
 <div id="menu">
 	<ul class="portrait">
 		<li>

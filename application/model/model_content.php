@@ -2,7 +2,7 @@
 	require_once 'MDB2.php';
 	/**
 	 * 
-	 * Login model
+	 * Content model
 	 *
 	 */
 	class model_content extends Model
@@ -100,5 +100,17 @@
 			}
 			return null;
 		}
+		
+		/**
+		 * 
+		 * Get published content by category id
+		 * @param $params
+		 */
+		function loadPublishedContentByCategory($params){
+			$sql = "select * from content where category_id = ? and publish = 1";
+			$type = array('integer');
+			$res = $this->execute_query($sql, $params, $types);
+			return $res;
+		}		
 	}
 ?>

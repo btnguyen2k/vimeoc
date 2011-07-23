@@ -7,7 +7,7 @@ div#main {width: 1024px; text-align: left;}
 
 div.user_page {}
 
-div.user_page div#user_menu, div.user_page div#video_menu {float: left; width: 200px;}
+div.user_page div#user_menu, div.user_page div#video_menu, div# {float: left; width: 200px;}
 div.user_page div.user_page_body {float: left; width: 500px;}
 div.user_page div.user_page_help {float: right; padding-top: 50px; width: 200px;}
 
@@ -30,6 +30,9 @@ div.channel_page {}
 
 div.channel_page div#channel_menu {float: left; width: 200px;}
 div.channel_page div.channel_page_body {float: left; width: 500px;}
+
+div#content_list {float: left; width: 200px;}
+div#content {float: left; width: 500px;}
 
 /*iframe*/
 #upload_frame {border:0px; height:40px; width:400px; display:none;}
