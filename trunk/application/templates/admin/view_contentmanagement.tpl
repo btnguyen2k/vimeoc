@@ -66,6 +66,7 @@
 					<th>edit</th>
 					<th>publish/unpublish</th>
 					<th>delete</th>
+					<th>Category</th>
 				</tr>
 			<:foreach from=$contents key=k item=v:>
 				<tr>
@@ -90,7 +91,14 @@
 							<a href="<:$ctx:>/admin/unpublishContent/?contentId=<:$v['id']:>" onclick="return confirmActionUnPublish()">UnPublish</a>
 						<:/if:>
 					</td>
-					<td><a href="<:$ctx:>/admin/deleteContent/?contentId=<:$v['id']:>" onclick="return confirmActionDelete()">Delete</a></td>					
+					<td><a href="<:$ctx:>/admin/deleteContent/?contentId=<:$v['id']:>" onclick="return confirmActionDelete()">Delete</a></td>			
+					<td>
+						<:foreach from=$categories key=i item=c:>
+							<:if $v['category_id'] eq $c['id']:>
+								<:$c['name']:>
+							<:/if:>
+						<:/foreach:>
+					</td>		
 				</tr>
 			<:/foreach:>				
 		</table>
