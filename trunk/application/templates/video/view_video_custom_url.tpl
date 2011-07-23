@@ -30,7 +30,7 @@
 		<center><h1><:$videoTitle:> - <:$message_title:></h1></center><br/>		
 		<span id="error_message" class="red"><:$errorMessage:></span>
 		<span id="info_message" class="green"><:$successMessage:></span>
-		<form action="" method="post" onsubmit="return checkUrl(this);">
+		<form action="<:$ctx:>/video/customUrl/" method="post" onsubmit="return checkUrl(this);">
 			<fieldset>
 				<ul>
 					<li>
