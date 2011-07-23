@@ -567,11 +567,11 @@
 				}
 				
 				//check exist alias here
-				if((!$errorFlag) && ($model_video->isAliasExist(array($url_alias)))){
+				if((!$errorFlag) && ($model_video->isAliasExist(array($url_alias, $userId)))){
 					$this->assign('errorMessage', $this->loadErrorMessage('error.video.alias.aliasExists', array($url_alias)));
 					$errorFlag = true;
 				}
-				if((!$errorFlag) && ($model_album->isAliasExist(array($url_alias)))){
+				if((!$errorFlag) && ($model_album->isAliasExist(array($url_alias, $userId)))){
 					$this->assign('errorMessage', $this->loadErrorMessage('error.album.alias.aliasExists', array($url_alias)));
 					$errorFlag = true;
 				}

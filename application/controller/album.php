@@ -312,6 +312,7 @@
 			$this->assign('show_user_avatar', 1);
 			
 			$this->indexMessagesSource();
+			$this->assignAlbumThumbnails($album);
 			$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_index');
 		}
 		

@@ -386,12 +386,17 @@
 				}else if(!empty($profileAlias)){
 					$user = $this->model_user->getUserByUserAlias(array($profileAlias));					
 				}else{
-					$this->redirect($this->ctx().'/home');
+					$this->loadTemplate('view_404');
 					return;
 				}
 				
-				$this->assign("fullname",$user['full_name']);
-				$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_profile');				
+				if($user == null){
+					$this->loadTemplate('view_404');
+					return;
+				}else{
+					$this->assign("fullname",$user['full_name']);
+					$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_profile');
+				}
 			} 
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 			{
