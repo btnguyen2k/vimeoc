@@ -103,10 +103,13 @@
 			$file = "application/controller/".$controllerName.".php";
 			
 			if(!file_exists($file)) {
-				$file = "application/controller/user.php";
-				$class = "user";	
-				$this->uri['method'] = 'userprofile';	
-				$this->uri['var'] =	$controllerName; // profile_alias
+				$file = "application/controller/route.php";
+				$class = "route";	
+				
+				$_GET['userAlias'] = $controllerName;
+				$_GET['videoAlias'] = $this->uri['method'];
+				$_GET['albumAlias'] = $this->uri['method'];
+				$this->uri['method'] = 'routing';
 			}
 				
 			require_once($file);
