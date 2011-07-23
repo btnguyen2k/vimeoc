@@ -18,6 +18,16 @@
 			$this->tmpl = &$tmpl;		
 		}
 		
+		function onLoad(){
+			$model_category = $this->getModel('model_category');
+			$userCategory = $model_category->loadCategoryByName(array('user'));
+			if($userCategory != null){
+				$model_content = $this->getModel('model_content');
+				$contents = $model_content->loadPublishedContentByCategory(array($userCategory['id']));				
+				$this->assign("contentLinkList", $contents);
+			}					
+		}
+		
 		/**
 		 * 
 		 * Default action

@@ -119,8 +119,14 @@
 				{
 					$controller->{$this->uri['method'].'MessagesSource'}();
 				}
-			 	$controller->{$this->uri['method']}($this->uri['var']);
-			} else {
+			 	$controller->{$this->uri['method']}($this->uri['var']);			 	
+			 	if(method_exists($controller, "onLoad")){
+			 		$controller->onLoad();
+			 	}
+			} else {				
+				if(method_exists($controller, "onLoad")){					
+			 		$controller->onLoad();
+			 	}
 				$controller->index();	
 			}
 		}
