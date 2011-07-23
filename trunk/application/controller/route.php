@@ -49,9 +49,9 @@
 					$this->redirect($this->ctx());
 				}
 			}else{
-				$video = $videoModel->getVideoByVideoAlias(array($videoAlias));
+				$video = $videoModel->getVideoByVideoAlias(array($videoAlias, $user['id']));
 				if($video == null){
-					$album = $albumModel->getAlbumByAlbumAlias(array($albumAlias));
+					$album = $albumModel->getAlbumByAlbumAlias(array($albumAlias, $user['id']));
 					if($album != null && ($user['id'] == $album['user_id'])){
 						$_GET['albumId'] = $album['id']; 	
 						$controller = $this->getController('album', $this->tmpl);

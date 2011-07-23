@@ -788,8 +788,8 @@
 		
 		function getVideoByVideoAlias($params)
 		{
-			$sql = "select * from video where video_alias=?";
-			$types = array('text');
+			$sql = "select * from video where video_alias=? and user_id=?";
+			$types = array('text','integer');
 			$res = $this->execute_query($sql, $params, $types);
 			if(sizeof($res) > 0){
 				return $res[0];

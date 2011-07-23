@@ -293,8 +293,8 @@
 		}
 		
 		function getAlbumByAlbumAlias($params){
-			$sql = "Select * from album where album_alias=?";
-			$types = array('text');
+			$sql = "Select * from album where album_alias=? and user_id=?";
+			$types = array('text','integer');
 			$res = $this->execute_query($sql, $params, $types);
 			if(sizeof($res) > 0){
 				return $res[0];
