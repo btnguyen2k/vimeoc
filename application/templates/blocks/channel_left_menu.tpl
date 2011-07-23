@@ -29,7 +29,7 @@
 				<a href="<:$ctx:>/channel/createNewChannel/?channelId=<:$channelId:>"><:$menuchannelcreate:></a>
 			</li>
 		<:/if:>
-		<:if $authorized == true:>
+		<:if $authorized == true && $owner == true:>
 			<li>
 				<a href="<:$ctx:>/channel/channelsetting/?channelId=<:$channelId:>"><:$menuchannelsetting:></a>
 			</li>

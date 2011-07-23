@@ -29,7 +29,7 @@
 				<a href="<:$ctx:>/album/createNewAlbum/"><:$createNewAlbum:></a>
 			</li>
 		<:/if:>
-		<:if $authorized == true:>	
+		<:if $authorized == true && $owner == true:>	
 			<:if $create_album != 1:>
 				<li>
 					<a href="<:$ctx:>/album/albumsetting/?albumId=<:$albumId:>"><:$menubasicinfoAlbum:></a>

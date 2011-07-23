@@ -337,6 +337,19 @@
 				$this->assign('userAvatar', $user['avatar']);
 				$this->assign('user_fullname', $user['full_name']);
 				$this->assign('show_user_avatar', 1);
+				
+				$albumId = $_GET["albumId"];
+				if(!empty($albumId)){
+					$model_album = $this->getModel('model_album');
+					$album = $model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
+					if($album == null || ($album['user_id'] != $userId)){
+						$this->assign("owner", false);
+					}else{
+						$this->assign("owner", true);
+					}
+				}else{
+					$this->assign("owner", true);
+				}
 			}		
 			$this->assign("menuMyAlbum", $this->loadMessages('album.menu.myalbum.link'));
 			$this->assign("menubasicinfoAlbum", $this->loadMessages('album.menu.basicinfo.link'));
@@ -443,8 +456,8 @@
 				$albumDescription=$_POST['description'];
 				$albumName=$_POST['title'];
 				$albumId=$_POST['albumid'];
-				$res=$this->model_album->isExistAlbumId(array($albumId));
-				if($res==0)
+				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
+				if($album==null)
 				{
 					$this->loadTemplate('view_404');
 					return;
@@ -497,25 +510,19 @@
 				$albumId=$_GET['albumId'];
 				$videoThumbnails=$this->model_album->getVideoThumbnailsByAlbumId(array($albumId,$userId));
 				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
-				$res=$this->model_album->getVideoIdByAlbumId(array($albumId));
 				$video=$this->model_album->getVideoThumbnailsByAlbumId(array($albumId,$userId));
-				$ret=$this->model_album->isExistAlbumId(array($albumId));
-				if($ret==0)
+				if($album==null)
 				{
 					$this->loadTemplate('view_404');
 					return;
 				}
-				if($res==0)
+				
+				if(sizeof($video) > 0 && $album['thumbnails_path']=="")
 				{
-					$this->assign('error', $this->loadErrorMessage('error.albumthumbnail.error'));
+					$this->model_album->updateVideoThumbnailToAlbumThumbnail(array($video[0]['thumbnails_path'],$albumId));
+					$album['thumbnails_path'] = $video[0]['thumbnails_path'];
 				}
-				else
-				{
-					if($album['thumbnails_path']=="")
-					{
-						$this->model_album->updateVideoThumbnailToAlbumThumbnail(array($video[0]['thumbnails_path'],$albumId));
-					}
-				}
+				
 				$this->assign("albumThumbnail",$album['thumbnails_path']);
 				$this->assign("albumThumbnail1",$album['thumbnails_path']);
 				$this->assign("albumName",$album['album_name']);
@@ -528,19 +535,16 @@
 			{
 				$albumId=$_POST['albumId'];
 				$radioChecked=$_POST['videoThumbnail'];
-				$videoThumbnails=$this->model_album->getVideoThumbnailsByAlbumId(array($albumId,$userId));
-				$res=$this->model_album->getVideoIdByAlbumId(array($albumId));
-				if($res==0)
-				{
-					$this->assign('error', $this->loadErrorMessage('error.albumthumbnail.error'));
-				}
-				$this->model_album->updateVideoThumbnailToAlbumThumbnail(array($radioChecked,$albumId));
 				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
 				if($album==null)
 				{
 					$this->loadTemplate('view_404');
 					return;
 				}
+				$this->model_album->updateVideoThumbnailToAlbumThumbnail(array($radioChecked,$albumId));
+				$videoThumbnails=$this->model_album->getVideoThumbnailsByAlbumId(array($albumId,$userId));
+				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));				
+				
 				$this->assign("albumName",$album['album_name']);
 				$this->assign('albumId',$albumId);
 				$this->assign('succeesMessage',$this->loadMessages('album.albumthumbnail.success'));
@@ -668,17 +672,14 @@
 			{
 				$albumId=$_POST['albumId'];
 				$album=$this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
-				$this->assignAlbumThumbnails($album);
-				$this->assign("albumName",$album['album_name']);
-				$this->assign("albumId",$albumId);
-				$res=$this->model_album->isExistAlbumId(array($albumId));
-				if($res==0)
+				if($album==null)
 				{
 					$this->loadTemplate('view_404');
-					return;
+					return;	
 				}
-				$this->model_album->dropAlbumByAlbumId(array($albumId));
+				
 				$this->model_album->dropAlbumVideoByAlbumId(array($albumId));
+				$this->model_album->dropAlbumByAlbumId(array($albumId));
 				$this->redirect($this->ctx().'/user/album/albumsetting');
 			}
 		}
@@ -1044,6 +1045,11 @@
 				$albumId=$_POST['albumId'];
 				$albumCustomUrl=$_POST['url'];
 				$album = $this->model_album->getAlbumbyAlbumIdAndUserId(array($albumId,$userId));
+				if($album==null)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
 				//server side validate here
 				$urlReg = "/^[a-z0-9]{0,32}\$/";
 				if(!preg_match($urlReg, $albumCustomUrl)){

@@ -563,6 +563,19 @@
 				$this->assign('userAvatar', $user['avatar']);
 				$this->assign('user_fullname', $user['full_name']);
 				$this->assign('show_user_avatar', 1);
+				
+				$channelId = $_GET["channelId"];
+				if(!empty($channelId)){
+					$model_channel = $this->getModel('model_channel');
+					$channel = $model_channel->getChannelbyChannelId($channelId);
+					if($channel == null || ($channel['user_id'] != $userId)){
+						$this->assign("owner", false);
+					}else{
+						$this->assign("owner", true);
+					}
+				}else{
+					$this->assign("owner", true);
+				}
 			}		
 			$this->assign("menuChannel", $this->loadMessages('channel.menu.channelpage.link'));
 			$this->assign("menuBackToChannel", $this->loadMessages('channel.menu.channelback.link'));
@@ -575,6 +588,7 @@
 			$this->assign("menumychannel", $this->loadMessages('channel.menu.mychannel.link'));
 			$this->assign("videoId", $_GET["videoId"]);
 			$this->assign("albumId", $_GET["albumId"]);
+			$this->assign("channelId", $_GET["channelId"]);
 			$this->assign("videobacktovideo", $this->loadMessages('user.video.link.backtovideo'));
 		}
 		/**	
@@ -664,6 +678,10 @@
 					return;
 				}
 				$channel = $this->model_channel->getChannelbyChannelId(array($channelId));
+				if($channel['user_id'] != $userId){
+					$this->loadTemplate('view_access_denied');
+					return;
+				}
 				$this->assign("channelId",$channelId);
 				$this->assign("description_",$channel['description']);
 				$this->assign("title_",$channel['channel_name']);
@@ -678,6 +696,11 @@
 				if($res==0)
 				{
 					$this->loadTemplate('view_404');
+					return;
+				}
+				$channel = $this->model_channel->getChannelbyChannelId(array($channelId));
+				if($channel['user_id'] != $userId){
+					$this->loadTemplate('view_access_denied');
 					return;
 				}
 				$this->model_channel->updateChannelTileByChannelId(array($channelName,$channelId));
@@ -729,6 +752,10 @@
 					return;
 				}
 				$channel = $this->model_channel->getChannelbyChannelId(array($channelId));
+				if($channel['user_id'] != $userId){
+					$this->loadTemplate('view_access_denied');
+					return;
+				}
 				$this->assign("channelId",$channelId);
 				$this->assign("title",$channel['channel_name']);
 				$this->loadTemplate(CHANNEL_TEMPLATE_DIR.'view_channel_channeldelete');
@@ -743,6 +770,10 @@
 					return;
 				}
 				$channel = $this->model_channel->getChannelbyChannelId(array($channelId));
+				if($channel['user_id'] != $userId){
+					$this->loadTemplate('view_access_denied');
+					return;
+				}
 				$this->assign("channelId",$channelId);
 				$this->assign("title",$channel['channel_name']);
 				$this->model_channel->dropChannelByChannelId(array($channelId));
@@ -787,8 +818,12 @@
 					$this->loadTemplate('view_404');
 					return;
 				}
-				$videoThumbnails=$this->model_channel->getVideoThumbnailsByChannelId(array($channelId,$userId));
 				$channel = $this->model_channel->getChannelbyChannelId(array($channelId));
+				if($channel['user_id'] != $userId){
+					$this->loadTemplate('view_access_denied');
+					return;
+				}
+				$videoThumbnails=$this->model_channel->getVideoThumbnailsByChannelId(array($channelId,$userId));
 				$res=$this->model_channel->getVideoIdByChannelId(array($channelId));
 				if($res==0)
 				{
@@ -803,14 +838,19 @@
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
 				$channelId=$_POST['channelId'];
-				$radioChecked=$_POST['videoThumbnail'];
-				$this->model_channel->updateVideoThumbnailToChannelThumbnail(array($radioChecked,$channelId));
+				$radioChecked=$_POST['videoThumbnail'];				
 				$videoThumbnails=$this->model_channel->getVideoThumbnailsByChannelId(array($channelId,$userId));
 				$res=$this->model_channel->getVideoIdByChannelId(array($channelId));
 				if($res==0)
 				{
 					$this->assign('error', $this->loadErrorMessage('error.albumthumbnail.error'));
 				}
+				$channel = $this->model_channel->getChannelbyChannelId(array($channelId));
+				if($channel['user_id'] != $userId){
+					$this->loadTemplate('view_access_denied');
+					return;
+				}
+				$this->model_channel->updateVideoThumbnailToChannelThumbnail(array($radioChecked,$channelId));
 				$channel = $this->model_channel->getChannelbyChannelId(array($channelId));
 				$this->assign("channelId",$channelId);
 				$this->assign("channelName",$channel['channel_name']);

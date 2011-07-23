@@ -23,7 +23,7 @@
 			</li>
 		</ul>
 	<:/if:>
-	<:if $authorized == true:>
+	<:if $authorized == true && $owner == true:>
 	<ul>
 		<li>
 			<a href="<:$ctx:>/video/videosetting/?videoId=<:$videoId:>"><:$videobasicinfo:></a>

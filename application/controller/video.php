@@ -40,6 +40,19 @@
 				$user = $this->model_user->getUserByUserId($userId);
 				$this->assign('userAvatar', $user['avatar']);
 				$this->assign('show_user_avatar', 1);
+				
+				$videoId = $_GET["videoId"];
+				if(!empty($videoId)){
+					$model_video = $this->getModel('model_video');
+					$video = $model_video->getVideoById($videoId);
+					if($video == null || ($video['user_id'] != $userId)){
+						$this->assign("owner", false);
+					}else{
+						$this->assign("owner", true);
+					}
+				}else{
+					$this->assign("owner", true);
+				}
 			}
 			
 			$this->assign("videobasicinfo", $this->loadMessages('user.video.link.basicinfo'));
@@ -108,6 +121,11 @@
 				{
 					$this->loadTemplate('view_404');
 					return;
+				}else{
+					if($video['user_id'] != $userId && !$this->isAdminLogged()){
+						$this->loadTemplate('view_404');
+						return;	
+					}
 				}
 				$strTags="";
 				for($i=0;$i<sizeof($tags);$i++)
@@ -132,13 +150,21 @@
 				$videoid=$_POST['videoid'];
 				$tagid=$_POST['tagid'];
 				$tcid=$_POST['tcid'];
-				$ret=$this->model_user->isExistVideoId(array($videoid));
-				if($ret!=0)
+				
+				$ret=$this->model_video->isExistVideoId(array($videoid));
+				if($ret)
 				{
+					$video= $this->model_video->getVideofromVideoId(array($videoid));
+					if($video['user_id'] != $userId){
+						$this->loadTemplate('view_404');
+						return;	
+					}
+					
 					$this->model_video->deleteAllTagComponentsByVideoId(array($videoid));
+				}else{
+					$this->loadTemplate('view_404');
+					return;
 				}
-				
-				
 				
 				for($j=0;$j<sizeof($slipTag);$j++)
 				{				
@@ -224,13 +250,18 @@
 					return;
 				}
 				$albums= $this->model_video->getAlbumByUserId(array($userId));
-				$res=$this->model_video->isExistVideoId(array($videoid));
-				if($res==0)
+				$video=$this->model_video->getVideoByVideoId(array($videoid));
+				if($video == null)
 				{
 					$this->loadTemplate('view_404');
 					return;
+				}else{
+					if($video['user_id'] != $userId){
+						$this->loadTemplate('view_404');
+						return;	
+					}
 				}
-				$video=$this->model_video->getVideoByVideoId(array($videoid));
+				
 				$albumIds=$this->model_video->getAlbumIdByVideoIdWithoutJoin(array($videoid));
 				$str="";
 				for($i=0;$i<sizeof($albumIds);$i++)
@@ -256,6 +287,12 @@
 				{
 					$this->loadTemplate('view_404');
 					return;
+				}else{
+					$video=$this->model_video->getVideoByVideoId(array($videoid));
+					if($video['user_id'] != $userId){
+						$this->loadTemplate('view_404');
+						return;	
+					}
 				}
 				for($j=0;$j<sizeof($mAlbumUncheck);$j++)
 				{
@@ -305,7 +342,7 @@
 		 */
 		function addToChannel()
 		{
-		$userId = $this->getLoggedUser();
+			$userId = $this->getLoggedUser();
 			if($userId == 0)
 			{
 				$this->redirect($this->ctx().'/auth/login/');
@@ -321,15 +358,17 @@
 					$this->redirect($this->ctx().'/user/home');
 					return;
 				}
-				$res=$this->model_user->isExistUserId(array($userId));
-				if($res==0)
+				$video=$this->model_video->getVideoByVideoId(array($videoId));
+				if($video==null)
 				{
+					$this->loadTemplate('view_404');
+					return;
+				}else if($video['user_id'] != $userId){
 					$this->loadTemplate('view_404');
 					return;
 				}
 				$channel= $this->model_video->getChannelByUserId(array($userId));
 				$otherChannel=$this->model_channel->getChannelOfOther(array($userId));
-				$video=$this->model_video->getVideoByVideoId(array($videoId));
 				$channelIds=$this->model_video->getChannelIdByVideoIdWithoutJoin(array($videoId));
 				$str="";
 				for($i=0;$i<sizeof($channelIds);$i++)
@@ -356,6 +395,12 @@
 				{
 					$this->loadTemplate('view_404');
 					return;
+				}else{
+					$video=$this->model_video->getVideoByVideoId(array($videoId));
+					if($video['user_id'] != $userId){
+						$this->loadTemplate('view_404');
+						return;
+					}
 				}
 				for($j=0;$j<sizeof($mChannelUncheck);$j++)
 				{
@@ -423,19 +468,24 @@
 			$this->loadModel('model_user');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
-				$videoid=$_GET['videoId'];
-				$video = $this->model_video->getVideoByVideoIdAndUserId(array($userId,$videoid));
+				$videoid=$_GET['videoId'];				
 				$res=$this->model_video->isExistVideoId(array($videoid));
 				if($res==0)
 				{
 					$this->loadTemplate('view_404');
 					return;
+				}else{
+					$video=$this->model_video->getVideoByVideoId(array($videoid));
+					if($video['user_id'] != $userId){
+						$this->loadTemplate('view_404');
+						return;
+					}
 				}
 				$video2 = $this->model_video->getVideoByVideoId(array($videoid));
 				$this->assign("getpreRoll",$video2[pre_roll]);
 				$this->assign("getpostRoll",$video2[post_roll]);
 				$this->assign("videoid",$videoid);
-				$this->assign("video",$video[video_title]);
+				$this->assign("video",$video2[video_title]);
 				$this->assignVideoThumbnails($video2);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_preandpostroll');
 			}
@@ -455,6 +505,12 @@
 				{
 					$this->loadTemplate('view_404');
 					return;
+				}else{
+					$video=$this->model_video->getVideoByVideoId(array($videoid));
+					if($video['user_id'] != $userId){
+						$this->loadTemplate('view_404');
+						return;
+					}
 				}
 				$this->model_video->updatePre_roll(array($preRoll,$videoid,$userId));
 				$this->model_video->updatePost_roll(array($postRoll,$videoid,$userId));				
@@ -510,15 +566,16 @@
 					return;
 				}
 				$res=$this->model_video->isExistVideoId(array($videoId));
+				$video = $model_video->getVideoById($videoId);
 				if($res==0)
 				{
 					$this->loadTemplate('view_404');
 					return;
-				}
-				$video = $model_video->getVideoById($videoId);
-				if((!$video) || ($video['user_id'] != $userId)){
-					$this->redirect($this->ctx() . '/user/video/');
-					return;
+				}else{
+					if($video['user_id'] != $userId){
+						$this->loadTemplate('view_404');
+						return;	
+					}	
 				}
 				
 				$user = $model_user->getUserByUserId(array($userId));
@@ -552,6 +609,10 @@
 				
 				//check owner id
 				$video = $model_video->getVideoById($videoId);
+				if($video['user_id'] != $userId){
+					$this->loadTemplate('view_404');
+					return;
+				}
 				$user = $model_user->getUserByUserId(array($userId));
 				$this->assign('user_alias', $user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']);
 				$this->assign('videoId', $videoId);
@@ -637,14 +698,14 @@
 			if($_SERVER["REQUEST_METHOD"] == "GET"){
 				$videoId = $_GET['videoId'];
 				if(!$videoId){
-					$this->redirect($this->ctx() . '/user/video/');
+					$this->loadTemplate('view_404');
 					return;
 				}
 				
 				$video = $model_video->getVideoById($videoId);
 			
 				if((!$video) || ($video['user_id'] != $userId)){
-					$this->redirect($this->ctx() . '/user/video/');
+					$this->loadTemplate('view_404');
 					return;
 				}
 				
@@ -795,13 +856,13 @@
 			if ($_SERVER['REQUEST_METHOD'] == 'GET'){
 				$videoId = $_GET['videoId'];
 				if(!$videoId){
-					$this->redirect($this->ctx() . '/user/video/');
+					$this->loadTemplate('view_404');
 					return;
 				}
 				
 				$video = $model_video->getVideoById($videoId);
 				if((!$video) || ($video['user_id'] != $userId)){
-					$this->redirect($this->ctx() . '/user/video/');
+					$this->loadTemplate('view_404');
 					return;
 				}
 				$this->assign('videoId', $video['video_id']);
@@ -860,6 +921,12 @@
 				{
 					$this->loadTemplate('view_404');
 					return;
+				}else{
+					$video = $this->model_video->getVideoById($videoid);
+					if($video['user_id'] != $userId){
+						$this->loadTemplate('view_404');
+						return;
+					}
 				}
 				$video = $this->model_video->getVideoByVideoIdAndUserId(array($userId,$videoid));
 				$this->assign("videoName",$video['video_title']);
@@ -875,6 +942,12 @@
 				{
 					$this->loadTemplate('view_404');
 					return;
+				}else{
+					$video = $this->model_video->getVideoById($videoid);
+					if($video['user_id'] != $userId){
+						$this->loadTemplate('view_404');
+						return;
+					}
 				}
 				$video = $this->model_video->getVideoByVideoIdAndUserId(array($userId,$videoid));
 				$this->assignVideoThumbnails($video);
