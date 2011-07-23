@@ -926,6 +926,7 @@
 			$this->assign("keyword", $this->loadMessages('admin.content.keyword'));
 			$this->assign("publish",$this->loadMessages('admin.content.publish'));
 			$this->assign("name",$this->loadMessages('admin.content.name'));
+			$this->assign("categoryLable",$this->loadMessages('admin.content.category'));
 			
 			$this->assign('titleInvalid', $this->loadErrorMessage('error.title.invalid'));
 			$this->assign('aliasInvalid', $this->loadErrorMessage('error.alias.invalid'));
@@ -946,7 +947,13 @@
 			$this->loadModel('model_user');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
 			{
-				
+				$categories=$this->model_user->getCategory();
+				if($categories==null)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
+				$this->assign('categories', $categories);
 				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_createnewcontent');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -956,7 +963,7 @@
 				$body=$_POST['body'];
 				$keywords=$_POST['keywords'];
 				$publish=$_POST['publish'];
-				
+				$category=$_POST['category'];
 				if(!empty($alias)){
 					$alias = strtolower($alias);
 					$alias = str_replace(' ', '-', $alias); 
@@ -967,7 +974,7 @@
 				}
 				else 
 				{
-					$res=$this->model_user->addNewContent(array($title,$alias,$body,$keywords,$publish,$userId,$userId));
+					$res=$this->model_user->addNewContent(array($title,$alias,$body,$keywords,$publish,$userId,$userId,$category));
 					if($res==0)
 					{
 						$this->assign("errorInsertMessage","Create New Content Failed");
@@ -994,6 +1001,7 @@
 			$this->assign("keyword", $this->loadMessages('admin.content.keyword'));
 			$this->assign("publish",$this->loadMessages('admin.content.publish'));
 			$this->assign("name",$this->loadMessages('admin.content.name'));
+			$this->assign("categoryLable",$this->loadMessages('admin.content.category'));
 			
 			$this->assign('titleInvalid', $this->loadErrorMessage('error.title.invalid'));
 			$this->assign('aliasInvalid', $this->loadErrorMessage('error.alias.invalid'));
@@ -1020,9 +1028,11 @@
 					$this->loadTemplate('view_404');
 					return;
 				}
+				$category=$this->model_user->getCategoryByContentId(array($contentId));
 				$this->assign('content',$content);
 				$this->assign('contentId',$contentId);
 				$publish_=$content['publish'];
+				$this->assign('category',$category['category_id']);
 				$this->assign('publish_',$publish_);
 				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_updatecontent');
 			}
@@ -1035,6 +1045,7 @@
 				$body=$_POST['body'];
 				$keywords=$_POST['keywords'];
 				$cContent = $this->model_user->getContent(array($contentId));
+				$category =$_POST['category'];
 				if($cContent['alias']!=$alias)
 				{
 					if($this->model_user->isAliasExist(array($alias)))
@@ -1045,6 +1056,7 @@
 						$this->model_user->updateKeyword(array($keywords,$contentId));
 						$this->model_user->updateModifyDate(array($contentId));
 						$this->model_user->updateModifer(array($userId,$contentId));
+						$this->model_user->updateCategoryId(array($category,$contentId));
 						$this->assign('errorMessage', $this->loadErrorMessage('error.content.alias.aliasExists'));
 					}
 				}				
@@ -1057,6 +1069,7 @@
 					$this->model_user->updateKeyword(array($keywords,$contentId));
 					$this->model_user->updateModifyDate(array($contentId));
 					$this->model_user->updateModifer(array($userId,$contentId));
+					$this->model_user->updateCategoryId(array($category,$contentId));
 					$this->assign("successfullMessage",$this->loadMessages('admin.contentupdate.successful'));
 				}
 				$this->assign('contentId',$contentId);
@@ -1064,6 +1077,7 @@
 				$this->assign('content',$content);
 				$publish_=$content['publish'];
 				$this->assign('publish_',$publish_);
+				$this->assign('category',$category);
 				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_updatecontent');
 			}
 		}

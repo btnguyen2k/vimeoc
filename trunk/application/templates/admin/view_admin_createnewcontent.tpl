@@ -97,7 +97,20 @@ $(document).ready(function() {
 					<li>
 						<input type="radio" id="unpublish" name="publish" value="0"/>Unpublish
 					</li>
-				</li>			
+				</li>	
+				<li>
+					<span><:$categoryLable:> </span>
+						<select id="category" name="category">
+							<:section name=a loop=$categories:>
+							
+								<:if $category == $categories[a].id:>
+									<option value="<:$categories[a].id:>" selected="selected"><:$categories[a].name:></option>
+								<:else:>
+									<option value="<:$categories[a].id:>"><:$categories[a].name:></option>
+								<:/if:>
+							<:/section:>
+  						</select>
+				</li>		
 				<li>
 					<input type="submit" value= "Save"/>
 					<input type="hidden" id="publish_" name="publish_" value="<:$publish_:>"/>
