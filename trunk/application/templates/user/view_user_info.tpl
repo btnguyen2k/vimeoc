@@ -45,7 +45,7 @@
 					</li>					
 					<li>
 						<span><:$emailTitle:></span><br/>
-						<input type="text" name="email" value="<:$email:>" readonly="readonly"/>
+						<input type="text" name="email" value="<:$email:>" onkeydown="return false;"/>
 						<span class="red" id="error_valid_email" style="display: none;"><:$emailInvalid:></span>
 					</li>
 					<li>
