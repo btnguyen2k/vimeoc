@@ -82,11 +82,11 @@
 			}
 			
 			$model_category = $this->getModel('model_category');
-			$userCategory = $model_category->loadCategoryByName(array('user'));
-			if($userCategory != null){
+			$userCategory = $model_category->loadCategoryByName(array('user'));			
+			if($userCategory != null && $content['category_id'] == $userCategory['id']){
 				$model_content = $this->getModel('model_content');
 				$contents = $model_content->loadPublishedContentByCategory(array($userCategory['id']));				
-				$this->assign("contentLinkList", $contents);				
+				$this->assign("contentLinkList", $contents);
 			}	
 			
 			$this->loadTemplate(CONTENT_TEMPLATE_DIR.'view_content');
