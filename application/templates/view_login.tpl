@@ -17,6 +17,7 @@ function checkEmail()
 	}
 	if(x==""){
 		$("#error_password_invalid").show();
+    	$("#password").focus();
 		flag=false;
 	}else{
 		$("#error_password_invalid").hide();

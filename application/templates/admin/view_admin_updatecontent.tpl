@@ -94,6 +94,19 @@ $(document).ready(function() {
 							</li>
 						</li>
 						<li>
+							<span><:$categoryLable:></span>
+							<select id="category" name="category">
+							
+								<:if $category == "1":>
+									<option value="1" selected="selected">System</option>
+									<option value="2">User</option>
+								<:else:>
+									<option value="1">System</option>
+									<option value="2" selected="selected">User</option>
+								<:/if:>
+							</select>
+						</li>
+						<li>
 							<input type="submit" value= "Save"/>
 							<input type="hidden" name="contentId" id="contentId" value="<:$contentId:>"/>
 							<input type="hidden" name="publish_" id="publish_" value="<:$publish_:>" />

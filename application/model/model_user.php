@@ -586,13 +586,31 @@
 		 * get role 
 		 * @param $param
 		 */
-		function getRole($params)
+		function getRole()
 		{
 			$sql = "select * from role";
-			$types= array('integer');
-			$res = $this->execute_query($sql,$params,$types);
+			$res = $this->execute_query($sql);
 			return $res;
 		}
+		/**
+		 * get category 
+		 * @param $param
+		 */
+		function getCategory()
+		{
+			$sql = "select * from category";
+			$res = $this->execute_query($sql);
+			if(sizeof($res) > 0)
+			{
+				return $res ;
+			}
+			return null;
+		}
+		/**
+		 * 
+		 */
+		
+		
 		/**
 		 * update value configuration login form
 		 */
@@ -653,6 +671,7 @@
 			}
 			return null;
 		}
+		  		
 		/**
 		 * publish content
 		 * @param params
@@ -687,10 +706,22 @@
 		 */
 		function addNewContent($params)
 		{
-			$sql = 'INSERT INTO content(title, alias, body, keywords, publish, creator_id, modifier_id, create_date ) VALUES (?, ?, ?, ? ,? ,?, ?, CURRENT_TIMESTAMP)';
-			$types = array('text', 'text', 'text', 'text' , 'integer', 'integer', 'integer');
+			$sql = 'INSERT INTO content(title, alias, body, keywords, publish, creator_id, modifier_id, create_date, category_id ) VALUES (?, ?, ?, ? ,? ,?, ?, CURRENT_TIMESTAMP, ?)';
+			$types = array('text', 'text', 'text', 'text' , 'integer', 'integer', 'integer','integer');
 			$this->execute_command($sql, $params, $types);
 		}
+		/**
+		 * get category by contentid
+		 * @param params
+		 */
+		function getCategoryByContentId($params)
+		{
+			$sql = "select * from content where id=?";
+			$types = array('integer');
+			$res = $this->execute_query($sql, $params, $types);
+			return $res[0] ;
+		}
+		
 		/**
 		 * update creator_id and modifier_id
 		 * @param params
@@ -800,6 +831,16 @@
 			return $this->execute_command($sql, $params, $types);
 		}
 		
+		/**
+		 * function update category_id
+		 * @param param
+		 */
+		function updateCategoryId($params)
+		{
+			$sql = "UPDATE content SET category_id=? WHERE id=?";
+			$types = array('integer','integer');
+			return $this->execute_command($sql, $params, $types);	
+		}
 		/**
 		 * function insert usersetting
 		 * @param param
