@@ -54,7 +54,7 @@ $(document).ready(function() {
 	<:include file="<:$base_dir_templates:>/blocks/admin_left_menu.tpl":>
 	<div id="admin_updatecontent_body" class="page_body">
 		<h1 align="center"><:$title:></h1>
-		<form onSubmit="return validate()" name="contentform" action="<:$ctx:>/admin/updatecontent/?id=<:$contentId:>" method="post">
+		<form onSubmit="return validate()" name="contentform" action="<:$ctx:>/content/updatecontent/?id=<:$contentId:>" method="post">
 			<div>
 			<:if $errorMessage eq "":>
 		  		 &nbsp;
