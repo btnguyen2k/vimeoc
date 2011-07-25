@@ -485,8 +485,7 @@
 		
 		function getVideofromVideoId($params)
 		{
-			$sql = "select* from video v inner join tag_component tc on v.id=tc.component_id 
-			where tc.component_type=1 and v.id=?";
+			$sql = "select* from video where id=?";
 			$types = array('integer');
 			$res = $this->execute_query($sql,$params,$types);
 			if(sizeof($res) > 0)
@@ -621,7 +620,6 @@
 			$res = $this->execute_query($sql,$params,$types);
 			return $res;
 		}
-		
 		/**
 		 * select video by video id and UserId
 		 * @param $params
@@ -642,7 +640,6 @@
 		 * check Id and component Id
 		 * @param $params
 		 */
-		
 		function checkIdAndComponentId($params)
 		{
 			$sql = 'select tag_id,component_id from tag_component where tag_id=? and component_id=?';
