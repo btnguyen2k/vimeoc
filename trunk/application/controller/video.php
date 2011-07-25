@@ -122,7 +122,7 @@
 					$this->loadTemplate('view_404');
 					return;
 				}else{
-					if($video['user_id'] != $userId && !$this->isAdminLogged()){
+					if($video['user_id'] != $userId){
 						$this->loadTemplate('view_access_denied');
 						return;	
 					}
