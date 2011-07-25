@@ -148,7 +148,7 @@
 			$_search_obj->term = $this->model_user->getUserSetting(array($userId,'ADMIN_CONTENT_LIST_TERM'));
 			$_SESSION['ADMIN_CONTENT_SEARCH'] = serialize($_search_obj);
 			
-						
+			$this->loadModel('model_content');
 			$this->loadModel('model_user');
 			$model_user=$this->model_user;
 			$content_count=$model_user->countContents();
@@ -260,7 +260,7 @@
 					$contents = $model_user->selectContent($limit, $offset, $_search_term, $sort_column, $sort_order);
 				}
 			}
-			$categories=$this->model_user->getCategory();
+			$categories=$this->model_content->getCategory();
 			$this->assign('contents', $contents);
 			$this->assign('pagination', $pagination);
 			$this->assign('sort_modes', $_sort_modes);
