@@ -102,11 +102,11 @@
 				$this->redirect($this->ctx().'/admin/login');
 				return;
 			}	
-			$this->loadModel('model_user');
+			$this->loadModel('model_content');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$contentId=$_GET['contentId'];
-				$this->model_user->publishContent(array($contentId));
+				$this->model_content->publishContent(array($contentId));
 				$this->redirect($this->ctx().'/admin/contentList');
 			}
 		}
@@ -120,11 +120,11 @@
 				$this->redirect($this->ctx().'/admin/login');
 				return;
 			}	
-			$this->loadModel('model_user');
+			$this->loadModel('model_content');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$contentId=$_GET['contentId'];
-				$this->model_user->unpublishContent(array($contentId));
+				$this->model_content->unpublishContent(array($contentId));
 				$this->redirect($this->ctx().'/admin/contentList');
 				
 			}
@@ -139,7 +139,6 @@
 				$this->redirect($this->ctx().'/admin/login');
 				return;
 			}
-			$this->loadModel('model_user');
 			$this->loadModel('model_content');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
@@ -150,7 +149,7 @@
 					$this->loadTemplate('view_404');
 					return;
 				}
-				$this->model_user->dropContentById(array($contentId));
+				$this->model_content->dropContentById(array($contentId));
 				$this->redirect($this->ctx().'/admin/contentlist');
 			}
 		}
@@ -185,9 +184,10 @@
 			}
 			$userId = $this->getLoggedUser();
 			$this->loadModel('model_user');
+			$this->loadModel('model_content');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
 			{
-				$categories=$this->model_user->getCategory();
+				$categories=$this->model_content->getCategory();
 				if($categories==null)
 				{
 					$this->loadTemplate('view_404');
@@ -208,13 +208,13 @@
 					$alias = strtolower($alias);
 					$alias = str_replace(' ', '-', $alias); 
 				}
-				if($this->model_user->isAliasExist(array($alias)))
+				if($this->model_content->isAliasExist(array($alias)))
 				{
 					$this->assign('errorMessage', $this->loadErrorMessage('error.content.alias.aliasExists'));
 				}
 				else 
 				{
-					$res=$this->model_user->addNewContent(array($title,$alias,$body,$keywords,$publish,$userId,$userId,$category));
+					$res=$this->model_content->addNewContent(array($title,$alias,$body,$keywords,$publish,$userId,$userId,$category));
 					if($res==0)
 					{
 						$this->assign("errorInsertMessage","Create New Content Failed");
@@ -258,17 +258,17 @@
 				return;
 			}
 			$userId = $this->getLoggedUser();
-			$this->loadModel('model_user');
+			$this->loadModel('model_content');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
 			{
 				$contentId=$_GET['id'];
-				$content=$this->model_user->getContent(array($contentId));
+				$content=$this->model_content->getContent(array($contentId));
 				if($content==null)
 				{
 					$this->loadTemplate('view_404');
 					return;
 				}
-				$category=$this->model_user->getCategoryByContentId(array($contentId));
+				$category=$this->model_content->getCategoryByContentId(array($contentId));
 				$this->assign('content',$content);
 				$this->assign('contentId',$contentId);
 				$publish_=$content['publish'];
@@ -284,36 +284,36 @@
 				$publish=$_POST['publish'];
 				$body=$_POST['body'];
 				$keywords=$_POST['keywords'];
-				$cContent = $this->model_user->getContent(array($contentId));
+				$cContent = $this->model_content->getContent(array($contentId));
 				$category =$_POST['category'];
 				if($cContent['alias']!=$alias)
 				{
-					if($this->model_user->isAliasExist(array($alias)))
+					if($this->model_content->isAliasExist(array($alias)))
 					{
-						$this->model_user->updateTitle(array($title,$contentId));
-						$this->model_user->updatePublish(array($publish,$contentId));
-						$this->model_user->updateBody(array($body,$contentId));
-						$this->model_user->updateKeyword(array($keywords,$contentId));
-						$this->model_user->updateModifyDate(array($contentId));
-						$this->model_user->updateModifer(array($userId,$contentId));
-						$this->model_user->updateCategoryId(array($category,$contentId));
+						$this->model_content->updateTitle(array($title,$contentId));
+						$this->model_content->updatePublish(array($publish,$contentId));
+						$this->model_content->updateBody(array($body,$contentId));
+						$this->model_content->updateKeyword(array($keywords,$contentId));
+						$this->model_content->updateModifyDate(array($contentId));
+						$this->model_content->updateModifer(array($userId,$contentId));
+						$this->model_content->updateCategoryId(array($category,$contentId));
 						$this->assign('errorMessage', $this->loadErrorMessage('error.content.alias.aliasExists'));
 					}
 				}				
 				else 
 				{
-					$this->model_user->updateTitle(array($title,$contentId));
-					$this->model_user->updateAlias(array($alias,$contentId));
-					$this->model_user->updatePublish(array($publish,$contentId));
-					$this->model_user->updateBody(array($body,$contentId));
-					$this->model_user->updateKeyword(array($keywords,$contentId));
-					$this->model_user->updateModifyDate(array($contentId));
-					$this->model_user->updateModifer(array($userId,$contentId));
-					$this->model_user->updateCategoryId(array($category,$contentId));
+					$this->model_content->updateTitle(array($title,$contentId));
+					$this->model_content->updateAlias(array($alias,$contentId));
+					$this->model_content->updatePublish(array($publish,$contentId));
+					$this->model_content->updateBody(array($body,$contentId));
+					$this->model_content->updateKeyword(array($keywords,$contentId));
+					$this->model_content->updateModifyDate(array($contentId));
+					$this->model_content->updateModifer(array($userId,$contentId));
+					$this->model_content->updateCategoryId(array($category,$contentId));
 					$this->assign("successfullMessage",$this->loadMessages('admin.contentupdate.successful'));
 				}
 				$this->assign('contentId',$contentId);
-				$content=$this->model_user->getContent(array($contentId));
+				$content=$this->model_content->getContent(array($contentId));
 				$this->assign('content',$content);
 				$publish_=$content['publish'];
 				$this->assign('publish_',$publish_);
