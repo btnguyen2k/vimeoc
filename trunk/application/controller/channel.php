@@ -838,7 +838,13 @@
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
 				$channelId=$_POST['channelId'];
-				$radioChecked=$_POST['videoThumbnail'];				
+				$radioChecked=$_POST['videoThumbnail'];		
+				$res=$this->model_channel->isExistChannelId(array($channelId));
+				if($res==0)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}			
 				$videoThumbnails=$this->model_channel->getVideoThumbnailsByChannelId(array($channelId,$userId));
 				$res=$this->model_channel->getVideoIdByChannelId(array($channelId));
 				if($res==0)

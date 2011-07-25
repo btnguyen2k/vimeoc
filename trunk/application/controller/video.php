@@ -123,7 +123,7 @@
 					return;
 				}else{
 					if($video['user_id'] != $userId && !$this->isAdminLogged()){
-						$this->loadTemplate('view_404');
+						$this->loadTemplate('view_access_denied');
 						return;	
 					}
 				}
@@ -156,7 +156,7 @@
 				{
 					$video= $this->model_video->getVideofromVideoId(array($videoid));
 					if($video['user_id'] != $userId){
-						$this->loadTemplate('view_404');
+						$this->loadTemplate('view_access_denied');
 						return;	
 					}
 					
@@ -257,7 +257,7 @@
 					return;
 				}else{
 					if($video['user_id'] != $userId){
-						$this->loadTemplate('view_404');
+						$this->loadTemplate('view_access_denied');
 						return;	
 					}
 				}
@@ -290,7 +290,7 @@
 				}else{
 					$video=$this->model_video->getVideoByVideoId(array($videoid));
 					if($video['user_id'] != $userId){
-						$this->loadTemplate('view_404');
+						$this->loadTemplate('view_access_denied');
 						return;	
 					}
 				}
@@ -364,7 +364,7 @@
 					$this->loadTemplate('view_404');
 					return;
 				}else if($video['user_id'] != $userId){
-					$this->loadTemplate('view_404');
+					$this->loadTemplate('view_access_denied');
 					return;
 				}
 				$channel= $this->model_video->getChannelByUserId(array($userId));
@@ -398,7 +398,7 @@
 				}else{
 					$video=$this->model_video->getVideoByVideoId(array($videoId));
 					if($video['user_id'] != $userId){
-						$this->loadTemplate('view_404');
+						$this->loadTemplate('view_access_denied');
 						return;
 					}
 				}
@@ -477,7 +477,7 @@
 				}else{
 					$video=$this->model_video->getVideoByVideoId(array($videoid));
 					if($video['user_id'] != $userId){
-						$this->loadTemplate('view_404');
+						$this->loadTemplate('view_access_denied');
 						return;
 					}
 				}
@@ -494,13 +494,7 @@
 				$preRoll=$_POST['hpreroll'];
 				$postRoll=$_POST['hpostroll'];
 				$videoid=$_POST['videoid'];
-				$res=$this->model_user->isExistUserId(array($userId));
-				if($res==0)
-				{
-					$this->loadTemplate('view_404');
-					return;
-				}
-				$res1=$this->model_video->isExistVideoId(array($videoid));
+				$res=$this->model_video->isExistVideoId(array($videoid));
 				if($res==0)
 				{
 					$this->loadTemplate('view_404');
@@ -508,7 +502,7 @@
 				}else{
 					$video=$this->model_video->getVideoByVideoId(array($videoid));
 					if($video['user_id'] != $userId){
-						$this->loadTemplate('view_404');
+						$this->loadTemplate('view_access_denied');
 						return;
 					}
 				}
@@ -573,7 +567,7 @@
 					return;
 				}else{
 					if($video['user_id'] != $userId){
-						$this->loadTemplate('view_404');
+						$this->loadTemplate('view_access_denied');
 						return;	
 					}	
 				}
@@ -610,7 +604,7 @@
 				//check owner id
 				$video = $model_video->getVideoById($videoId);
 				if($video['user_id'] != $userId){
-					$this->loadTemplate('view_404');
+					$this->loadTemplate('view_access_denied');
 					return;
 				}
 				$user = $model_user->getUserByUserId(array($userId));
@@ -705,7 +699,7 @@
 				$video = $model_video->getVideoById($videoId);
 			
 				if((!$video) || ($video['user_id'] != $userId)){
-					$this->loadTemplate('view_404');
+					$this->loadTemplate('view_access_denied');
 					return;
 				}
 				
@@ -757,6 +751,11 @@
 				{
 					$this->loadTemplate('view_404');
 					return;
+				}else{
+					if($video['user_id'] != $userId){
+						$this->loadTemplate('view_access_denied');
+						return;	
+					}	
 				}
 				$fullname=$this->model_user->getFullNamebyUserId(array($video['user_id']));
 				$play=$this->model_video->getPlaybyVideoId(array($id));
@@ -818,14 +817,17 @@
 			else if($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
 				$id=$_POST['videoid'];
-				$res=$this->model_video->checkUserId(array($id));
-				if($res["user_id"]==$userId)
+				$res=$this->model_video->isExistVideoId(array($id));
+				if($res==0)
 				{
-					$this->model_video->dropVideoByVideoId(array($id));
-					$this->redirect($this->ctx().'/user/video/');
+					$this->loadTemplate('view_404');
 					return;
-				}
-			
+				}else{
+					if($video['user_id'] != $userId){
+						$this->loadTemplate('view_access_denied');
+						return;	
+					}	
+				}			
 				$videos=$this->model_video->getVideofromVideoId(array($id));
 				$this->assign("thumbnails",$videos['thumbnails_path']);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_videopage');
@@ -862,7 +864,7 @@
 				
 				$video = $model_video->getVideoById($videoId);
 				if((!$video) || ($video['user_id'] != $userId)){
-					$this->loadTemplate('view_404');
+					$this->loadTemplate('view_access_denied');
 					return;
 				}
 				$this->assign('videoId', $video['video_id']);
@@ -924,7 +926,7 @@
 				}else{
 					$video = $this->model_video->getVideoById($videoid);
 					if($video['user_id'] != $userId){
-						$this->loadTemplate('view_404');
+						$this->loadTemplate('view_access_denied');
 						return;
 					}
 				}
@@ -945,7 +947,7 @@
 				}else{
 					$video = $this->model_video->getVideoById($videoid);
 					if($video['user_id'] != $userId){
-						$this->loadTemplate('view_404');
+						$this->loadTemplate('view_access_denied');
 						return;
 					}
 				}
