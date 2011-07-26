@@ -35,7 +35,7 @@
 			$res = $this->execute_query($sql,$params,$types);
 			return $res[0]['count'];
 		}
-			/**
+		/**
 		 * 
 		 * Check whether id
 		 * @param $params
@@ -59,7 +59,7 @@
 		 * check content id
 		 * @param param
 		 */
-			function isExistContentId($params)
+		function isExistContentId($params)
 		{
 			$sql = 'select id from content where id=?';
 			$types =  array('integer', 'integer');
@@ -162,7 +162,7 @@
 			return $res[0] ;
 		}
 		/**
-		 * getContent
+		 * get Content
 		 * @param params
 		 */
 		function getContent($params)

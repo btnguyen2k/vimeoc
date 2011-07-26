@@ -537,12 +537,14 @@
 		 * delete tag
 		 * @param $params
 		 */
+		
 		function deleteTagIdAndComponentId($params)
 		{
 			$sql = 'delete from tag_component where tag_id=? and component_id=?';
 			$types = array('integer', 'integer');
 			$this->execute_command($sql, $params, $types);
 		}
+		
 		/**
 		 * delete all tags by videoid
 		 * @param params
