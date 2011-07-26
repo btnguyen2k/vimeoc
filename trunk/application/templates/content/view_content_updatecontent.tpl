@@ -74,7 +74,7 @@ $(document).ready(function() {
 							<span class="red" id="error_valid_title" style="display: none;"><:$titleInvalid:></span>
 						</li>
 						<li>
-							<:$alias:><input id="alias" name="alias" type="text" value="<:$content['alias']:>" />
+							<:$alias:><input id="alias" name="alias" type="text" value="<:$content['alias']:>"/>
 							<span class="red" id="error_valid_alias" style="display: none;"><:$aliasInvalid:></span>
 						</li>
 						<li>

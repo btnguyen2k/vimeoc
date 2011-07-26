@@ -183,7 +183,6 @@
 				return;
 			}
 			$userId = $this->getLoggedUser();
-			$this->loadModel('model_user');
 			$this->loadModel('model_content');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
 			{
@@ -298,6 +297,18 @@
 						$this->model_content->updateModifer(array($userId,$contentId));
 						$this->model_content->updateCategoryId(array($category,$contentId));
 						$this->assign('errorMessage', $this->loadErrorMessage('error.content.alias.aliasExists'));
+					}
+					else 
+					{
+						$this->model_content->updateTitle(array($title,$contentId));
+						$this->model_content->updateAlias(array($alias,$contentId));
+						$this->model_content->updatePublish(array($publish,$contentId));
+						$this->model_content->updateBody(array($body,$contentId));
+						$this->model_content->updateKeyword(array($keywords,$contentId));
+						$this->model_content->updateModifyDate(array($contentId));
+						$this->model_content->updateModifer(array($userId,$contentId));
+						$this->model_content->updateCategoryId(array($category,$contentId));
+						$this->assign("successfullMessage",$this->loadMessages('admin.contentupdate.successful'));
 					}
 				}				
 				else 

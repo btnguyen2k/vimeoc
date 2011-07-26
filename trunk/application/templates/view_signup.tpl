@@ -85,11 +85,11 @@ $(document).ready(function() {
 	    	$("#error_valid_email").hide();
 	    }else{   
 	    	$("#error_valid_email").show();
+	    	$("#error_existed_email").hide();
 	    	flag=false;
 		}
+	    $("#error_existed_email").hide();
 		return flag;
-
- 
 	}
 </script>
 <h1 align="center"><:$title:></h1>
