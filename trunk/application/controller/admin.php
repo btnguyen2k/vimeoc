@@ -150,6 +150,7 @@
 			
 			$this->loadModel('model_content');
 			$this->loadModel('model_user');
+			$this->loadModel('model_category');
 			$model_user=$this->model_user;
 			$content_count=$model_user->countContents();
 			if($content_count > 0)
@@ -260,7 +261,7 @@
 					$contents = $model_user->selectContent($limit, $offset, $_search_term, $sort_column, $sort_order);
 				}
 			}
-			$categories=$this->model_content->getCategory();
+			$categories=$this->model_category->getCategory();
 			$this->assign('contents', $contents);
 			$this->assign('pagination', $pagination);
 			$this->assign('sort_modes', $_sort_modes);
