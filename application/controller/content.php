@@ -184,9 +184,10 @@
 			}
 			$userId = $this->getLoggedUser();
 			$this->loadModel('model_content');
+			$this->loadModel('model_category');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
 			{
-				$categories=$this->model_content->getCategory();
+				$categories=$this->model_category->getCategory();
 				if($categories==null)
 				{
 					$this->loadTemplate('view_404');
@@ -203,6 +204,7 @@
 				$keywords=$_POST['keywords'];
 				$publish=$_POST['publish'];
 				$category=$_POST['category'];
+				$categories=$this->model_category->getCategory();
 				if(!empty($alias)){
 					$alias = strtolower($alias);
 					$alias = str_replace(' ', '-', $alias); 
@@ -225,6 +227,7 @@
 				$this->assign('body_',$body);
 				$this->assign('keywords_',$keywords);
 				$this->assign('publish_',$publish);
+				$this->assign('categories', $categories);
 				$this->loadTemplate(CONTENT_TEMPLATE_DIR.'view_content_createnewcontent');
 			}
 		}

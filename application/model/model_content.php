@@ -269,19 +269,5 @@
 			$types = array('integer','integer');
 			return $this->execute_command($sql, $params, $types);	
 		}
-		/**
-		 * get category 
-		 * @param $param
-		 */
-		function getCategory()
-		{
-			$sql = "select * from category";
-			$res = $this->execute_query($sql);
-			if(sizeof($res) > 0)
-			{
-				return $res ;
-			}
-			return null;
-		}
 	}
 ?>
