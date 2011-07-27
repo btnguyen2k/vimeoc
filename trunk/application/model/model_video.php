@@ -168,7 +168,8 @@
 						user_id  as `user_id`, 
 						video_title as `video_title`, 
 						video_alias as `video_alias`,  
-						thumbnails_path as `thumbnails_path` 
+						thumbnails_path as `thumbnails_path`,
+						video_path as `video_path`
 					from 
 						video 
 					where 
@@ -872,7 +873,15 @@
 			}
 			return null;
 		}
+		/**
+		 * get video 
+		 */
+		function getVideo()
+		{
+			$sql = "select * from video";
+			$res = $this->execute_query($sql);
+			return $res;
+		}
 	}
-		
-
+	
 ?>

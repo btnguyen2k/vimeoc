@@ -868,6 +868,19 @@
 					$this->loadTemplate('view_access_denied');
 					return;
 				}
+				$path=$this->loadResources('video.upload.thumbnails');
+				$videoPath=$video['video_path'];
+				$videoHash=substr($videoPath, 0, -4);
+				$folder=$path.$videoHash;
+				$dir = opendir(BASE_DIR.$folder);
+				$arrayImage=array();
+				while (($file = readdir($dir)) !== false)
+				{
+					$arrayImage[]=$file;
+				}
+				closedir($dir);
+				$this->assign('folder',$folder);
+				$this->assign('arrayImage',$arrayImage);
 				$this->assign('videoId', $video['video_id']);
 				$this->assign('videoTitle', $video['video_title']);
 				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->loadResources('image.upload.path') . $video['thumbnails_path']) : ('/images/icon-video.gif'));
@@ -958,6 +971,118 @@
 				$this->assign("videoId",$videoid);
 				$this->model_video->dropVideoByVideoId(array($videoid));
 				$this->redirect($this->ctx().'/user/video/');
+			}
+		}
+	/**
+		 * Default message source for public video
+		 * 
+		 */
+		function publicVideoMessagesSource()
+		{
+			$this->defaultVideoMessagesSource();
+			$this->assign("day", $this->loadMessages('user.videopage.day'));
+			$this->assign("by", $this->loadMessages('user.videopage.by'));
+			$this->assign("plays", $this->loadMessages('user.videopage.plays'));
+			$this->assign("comments", $this->loadMessages('user.videopage.comments'));
+			$this->assign("likes", $this->loadMessages('user.videopage.likes'));
+			$this->assign("tag", $this->loadMessages('user.videopage.tag'));
+			$this->assign("albums", $this->loadMessages('user.videopage.albums'));
+			
+		}
+		
+		/**
+		 * Display public video
+		 * 
+		 */
+		function publicVideo()
+		{
+			$userId = $this->getLoggedUser();
+			
+			$this->loadModel('model_user');
+			$this->loadModel('model_video');
+
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
+			{
+				$id=$_GET['videoId'];
+				
+				$params=array($id);
+				$video=$this->model_video->getVideoByVideoId(array($id));
+				$res=$this->model_video->isExistVideoId(array($id));
+				if($res==0)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}	
+				$fullname=$this->model_user->getFullNamebyUserId(array($video['user_id']));
+				$play=$this->model_video->getPlaybyVideoId(array($id));
+				$comment=$this->model_video->getCommentbyId($params);
+				$like=$this->model_video->getLikebyId($params);
+				$albums=$this->model_video->getAlbumByVideoIdAndUserId(array($id,$video['user_id']));
+				$tags=$this->model_video->getTagfromTagandTagcomponent(array($id));
+				
+				$strTags="";
+				for($i=0;$i<sizeof($tags);$i++)
+				{
+					//$strTags .= "<a href=\"{$this->ctx()}\\tag\\{$tags[$i]['id']}\">".$tags[$i]['name'] . '</a>, ' ; 
+					$strTags .= $tags[$i]['name'] . ', ' ;
+				}
+				$strTags = substr(trim($strTags), 0, -1); 
+				
+				$strAlbums="";
+				for($i=0;$i<sizeof($albums);$i++)
+				{
+					$strAlbums .= $albums[$i]['album_name'] . ',' ; 
+				}
+				$strAlbums = substr($strAlbums, 0, -1); 
+				
+				$this->assign("tags",$tags);
+				$this->assign("play",$play['play_count']);
+				$this->assign("comment",$comment['comment_count']);
+				$this->assign("like",$like['like_count']);
+				$this->assign("album",$albums);
+				$this->assign("fullname",$fullname['full_name']);
+				$this->assign("video",$video);
+				$this->assign("title",$video['video_title']);
+				$this->assign("videoid",$id);
+				$this->assign("strTags",$strTags);
+				$this->assign("strAlbums",$strAlbums);
+				$this->assign("videoOwner", $userId == $video['user_id']);
+				
+				$start = $video['creation_date'];				
+				$now = mktime(date("H"), date("i"),date("s"), date("m"), date("d"), date("Y"));
+				$end = date("Y-m-d H:i:s", time());
+				$diff=$this->get_time_difference($start, $end);
+				$strDate="";
+				if($diff['days']==0){
+					if ($diff['hours']==0){
+						if ($diff['minutes']==0)
+							$strDate.= $diff['seconds'] . ' seconds';
+						else 
+							$strDate.= $diff['minutes'] . ' minutes';
+					}
+					else{ 
+						$strDate.= $diff['hours']. ' hours ' . $diff['minutes'] . ' minutes';
+					}
+				}
+				else{
+					$strDate.= $diff['days']. ' days ' . $diff['hours'] . ' hours';
+				}		
+				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->loadResources('image.upload.path') . $video['thumbnails_path']) : ('/images/icon-video.gif'));
+				$this->assign("days",$strDate);
+				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_publicvideo');
+			}
+			else if($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$id=$_POST['videoid'];
+				$res=$this->model_video->isExistVideoId(array($id));
+				if($res==0)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}		
+				$videos=$this->model_video->getVideofromVideoId(array($id));
+				$this->assign("thumbnails",$videos['thumbnails_path']);
+				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_publicvideo');
 			}
 		}
 	}
