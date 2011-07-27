@@ -41,7 +41,7 @@
 <div id="video_custom_url" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
 	<div id="user_addvideoupload_body" class="page_body">
-		<center><h1><:$title:></h1></center><br/>
+		<center><h1><:$videoTitle:> - <:$title:></h1></center><br/>
 		<span class="red" id="top_error" style="display: none;"><:$errorMessage:></span>
 		<span class="green" id="top_success" style="display: none;"><:$successMessage:></span>
 		<fieldset>

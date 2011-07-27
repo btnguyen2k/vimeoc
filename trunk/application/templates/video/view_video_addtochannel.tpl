@@ -35,7 +35,7 @@
 <div id="video_addtochannel" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
 	<div id="video_addtochannel_body" class="page_body">	
-		<h1 align="center"><:$video:>-<:$add:></h1><br/>
+		<h1 align="center"><:$video:> - <:$add:></h1><br/>
 		<span class="green" align="center"><:$successMessage:></span>
 		<span class="red" align="center"><:$errorMessage:></span>		
 		<:if $channel|@count == 0:>
