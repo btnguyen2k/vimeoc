@@ -296,7 +296,8 @@
 				}
 				for($j=0;$j<sizeof($mAlbumUncheck);$j++)
 				{
-					$this->model_video->dropAlbumIdAndVideoId(array($mAlbumUncheck[$j],$videoid));				
+					$this->model_video->dropAlbumIdAndVideoId(array($mAlbumUncheck[$j],$videoid));	
+					$this->assign('successMessage', $this->loadMessages('video.addtopage.successful'));			
 				}
 				for($i=0;$i<sizeof($mAlbumId);$i++)
 				{
@@ -528,7 +529,7 @@
 		function customUrlMessagesSource()
 		{
 			$this->defaultVideoMessagesSource();
-			$this->assign("message_title", $this->loadMessages('video.customurl.title'));
+			$this->assign("title", $this->loadMessages('video.customurl.title'));
 			$this->assign("chooseYourCustomUrl", $this->loadMessages('video.customurl.chooseYourCustomUrl'));
 			$this->assign("message_invalid_url", $this->loadMessages('video.customurl.invalidUrl'));
 			$this->assign("message_url_hint", $this->loadMessages('video.customurl.hint'));

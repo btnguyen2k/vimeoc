@@ -39,7 +39,7 @@
 <div id="video_preandpostroll" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
 	<div id="video_preandpostroll_body" class="page_body">
-		<h1 align="center"><:$video:><:$title:></h1><br/>
+		<h1 align="center"><:$video:> - <:$title:></h1><br/>
 		<span class="green" align="center"><:$successMessage:></span>
 		<form action="<:$ctx:>/video/preandpostroll/?videoId=<:$videoid:>" method="post" name="preandpostrollform">
 			<fieldset>

@@ -20,16 +20,7 @@
 		}else{
 			$("#error_less_npassword").hide();
 		}
-
-			
-		if(rpass.length<5){
-			$("#error_less_rpassword").show();
-			flag=false;
-		}else{
-			$("#error_less_rpassword").hide();
-		}
-
-		
+				
 		if(npass==""){
 			$("#error_valid_npassword").show();
 			$("#error_less_npassword").hide();
