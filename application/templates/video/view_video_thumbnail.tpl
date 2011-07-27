@@ -68,6 +68,11 @@
 				<li style="width: 200px;">
 					<div id="upload-processing" style="width: 0%; background: green;">&nbsp;</div>
 				</li>
+				<div style="width: 100px; height:50px; over-flow: auto;">					
+					<:section name=a loop=$arrayImage:>
+						<img src="<:$ctx:><:$folder:>/<:$arrayImage[a]:>" />
+					<:/section:>
+				</div>
 			</ul>				
 		</fieldset>
 	</div>
