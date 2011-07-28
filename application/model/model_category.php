@@ -32,20 +32,5 @@
 			
 			return null;
 		}
-		/**
-		 * get category 
-		 * @param $param
-		 */
-		function getCategory()
-		{
-			$sql = "select * from category";
-			$res = $this->execute_query($sql);
-			if(sizeof($res) > 0)
-			{
-				return $res ;
-			}
-			return null;
-		}
-		
 	}
 ?>

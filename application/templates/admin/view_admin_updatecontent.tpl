@@ -54,7 +54,7 @@ $(document).ready(function() {
 	<:include file="<:$base_dir_templates:>/blocks/admin_left_menu.tpl":>
 	<div id="admin_updatecontent_body" class="page_body">
 		<h1 align="center"><:$title:></h1>
-		<form onSubmit="return validate()" name="contentform" action="<:$ctx:>/content/updatecontent/?id=<:$contentId:>" method="post">
+		<form onSubmit="return validate()" name="contentform" action="<:$ctx:>/admin/updatecontent/?id=<:$contentId:>" method="post">
 			<div>
 			<:if $errorMessage eq "":>
 		  		 &nbsp;
@@ -74,7 +74,7 @@ $(document).ready(function() {
 							<span class="red" id="error_valid_title" style="display: none;"><:$titleInvalid:></span>
 						</li>
 						<li>
-							<:$alias:><input id="alias" name="alias" type="text" value="<:$content['alias']:>"/>
+							<:$alias:><input id="alias" name="alias" type="text" value="<:$content['alias']:>" />
 							<span class="red" id="error_valid_alias" style="display: none;"><:$aliasInvalid:></span>
 						</li>
 						<li>

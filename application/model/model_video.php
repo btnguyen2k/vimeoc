@@ -168,8 +168,7 @@
 						user_id  as `user_id`, 
 						video_title as `video_title`, 
 						video_alias as `video_alias`,  
-						thumbnails_path as `thumbnails_path`,
-						video_path as `video_path`
+						thumbnails_path as `thumbnails_path` 
 					from 
 						video 
 					where 
@@ -486,7 +485,8 @@
 		
 		function getVideofromVideoId($params)
 		{
-			$sql = "select* from video where id=?";
+			$sql = "select* from video v inner join tag_component tc on v.id=tc.component_id 
+			where tc.component_type=1 and v.id=?";
 			$types = array('integer');
 			$res = $this->execute_query($sql,$params,$types);
 			if(sizeof($res) > 0)
@@ -538,14 +538,12 @@
 		 * delete tag
 		 * @param $params
 		 */
-		
 		function deleteTagIdAndComponentId($params)
 		{
 			$sql = 'delete from tag_component where tag_id=? and component_id=?';
 			$types = array('integer', 'integer');
 			$this->execute_command($sql, $params, $types);
 		}
-		
 		/**
 		 * delete all tags by videoid
 		 * @param params
@@ -623,6 +621,7 @@
 			$res = $this->execute_query($sql,$params,$types);
 			return $res;
 		}
+		
 		/**
 		 * select video by video id and UserId
 		 * @param $params
@@ -643,6 +642,7 @@
 		 * check Id and component Id
 		 * @param $params
 		 */
+		
 		function checkIdAndComponentId($params)
 		{
 			$sql = 'select tag_id,component_id from tag_component where tag_id=? and component_id=?';
@@ -873,15 +873,7 @@
 			}
 			return null;
 		}
-		/**
-		 * get video 
-		 */
-		function getVideo()
-		{
-			$sql = "select * from video";
-			$res = $this->execute_query($sql);
-			return $res;
-		}
 	}
-	
+		
+
 ?>

@@ -16,7 +16,7 @@
 			<a href="<:$ctx:>/admin/contentlist">Content List</a>
 		</li>
 		<li>
-			<a href="<:$ctx:>/content/createNewContent/">Create new content</a>
+			<a href="<:$ctx:>/admin/createNewContent/">Create new content</a>
 		</li>
 		<li>
 			<a href="<:$ctx:>/auth/logout">Logout</a>

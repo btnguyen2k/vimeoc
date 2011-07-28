@@ -2,12 +2,9 @@
 <script language="javascript" src="/script/jquery.min.js"></script>
 <script language="javascript" src="/script/facebox/facebox.js"></script>
 <script type="text/javascript">
-	$(document).ready(function() {
-		$('a.facebox-iframe').click(function(link){
-			showFaceboxIframe();
-			return false;
-		});
-	});
+$(document).ready(function() {
+	    $('#a').facebox();
+		})	
 	function checkEmail(){	
 		var x = document.getElementById("password").value;
 		var y = document.getElementById("rpassword").value;
@@ -34,6 +31,11 @@
 		if(y==""){
 			$("#error_valid_rpassword").show();
 			$("#error_less_rpassword").hide();
+			flag=false;
+		}
+		else if(y.length<5){
+			$("#error_less_rpassword").show();
+			$("#error_valid_rpassword").hide();
 			flag=false;
 		}
 		else if(x!=y){
@@ -83,11 +85,11 @@
 	    	$("#error_valid_email").hide();
 	    }else{   
 	    	$("#error_valid_email").show();
-	    	$("#error_existed_email").hide();
 	    	flag=false;
 		}
-	    $("#error_existed_email").hide();
 		return flag;
+
+ 
 	}
 </script>
 <h1 align="center"><:$title:></h1>
@@ -128,7 +130,7 @@
 		<span class="red" id="error_less_rpassword" style="display: none;"><:$repasswordless:></span>
 	</div>
 	<div>	
-		<input id="agree" type="checkbox" name="agree"/> <:$understand:><a href="<:$ctx:>/content/term-and-condition" class="facebox-iframe"><:$term:></a>
+		<input id="agree" type="checkbox" name="agree"/> <:$understand:><a href="<:$ctx:>/content/term-and-condition" id="a" name="a"><:$term:></a>
 		
 	</div>
 	<div>

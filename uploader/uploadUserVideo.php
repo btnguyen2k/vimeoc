@@ -12,7 +12,7 @@ $model_user = $uploader->getModel('model_user');
 
 if($uploader->getLoggedUser() > 0){		
 	$user = $model_user->getUserByUserId(array($uploader->getLoggedUser()));
-	$ret = $uploader->upload($uploader->loadResources('video.upload.path'), $uploader->loadResources('video.upload.thumbnails'), $uploader->loadResources('video.upload.ext.support'), $uploader->loadResources('video.upload.maxsize'));
+	$ret = $uploader->upload($uploader->loadResources('video.upload.path'), $uploader->loadResources('video.upload.ext.support'), $uploader->loadResources('video.upload.maxsize'));
 	if(!is_numeric($ret)){
 		$model_video = $uploader->getModel('model_video');
 		$videoId = $model_video->addNewVideo(array($user['id'], $ret));

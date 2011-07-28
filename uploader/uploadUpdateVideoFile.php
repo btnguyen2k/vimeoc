@@ -14,7 +14,7 @@ $res = $model_video->getVideoByVideoIdAndUserId(array($uploader->getLoggedUser()
 $logger->lwrite('Logged user[' . $uploader->getLoggedUser() . '] is uploading a file...');
 
 if($uploader->getLoggedUser() > 0 && $res){
-	$ret = $uploader->upload($uploader->loadResources('video.upload.path'),$uploader->loadResources('video.upload.thumbnails'), $uploader->loadResources('video.upload.ext.support'), $uploader->loadResources('video.upload.maxsize'));
+	$ret = $uploader->upload($uploader->loadResources('video.upload.path'), $uploader->loadResources('video.upload.ext.support'), $uploader->loadResources('video.upload.maxsize'));
 	if(!is_numeric($ret)){
 		$model_video->updateVideoFile(array($ret, $vid));
 		$logger->lwrite('Update video file of video'.$vid);

@@ -77,10 +77,10 @@
 				6 => 'ASC'
 			);
 			$_page_sizes = array(
-				1 => 10,
-				2 => 25,
-				3 => 50,
-				4 => 'All'
+				1 => 'All',//all videos
+				2 => 2,
+				3 => 3,
+				4 => 50
 			);
 			$_default_display_mode = 1;
 			$_default_sort_mode = 1;
@@ -347,10 +347,10 @@
 				6 => 'ASC'
 			);
 			$_page_sizes = array(
-				1 => 10,
-				2 => 25,
-				3 => 50,
-				4 => 'All'
+				1 => 'All',//all videos
+				2 => 2,
+				3 => 3,
+				4 => 50
 			);
 			$_default_display_mode = 1;
 			$_default_sort_mode = 1;
@@ -838,13 +838,7 @@
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
 				$channelId=$_POST['channelId'];
-				$radioChecked=$_POST['videoThumbnail'];		
-				$res=$this->model_channel->isExistChannelId(array($channelId));
-				if($res==0)
-				{
-					$this->loadTemplate('view_404');
-					return;
-				}			
+				$radioChecked=$_POST['videoThumbnail'];				
 				$videoThumbnails=$this->model_channel->getVideoThumbnailsByChannelId(array($channelId,$userId));
 				$res=$this->model_channel->getVideoIdByChannelId(array($channelId));
 				if($res==0)

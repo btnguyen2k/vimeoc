@@ -112,10 +112,10 @@
 				6 => 'ASC'
 			);
 			$_page_sizes = array(
-				1 => 10,
-				2 => 25,
-				3 => 50,
-				4 => 'All'
+				1 => 'All',//all videos
+				2 => 2,
+				3 => 3,
+				4 => 50
 			);
 			$_default_display_mode = 1;
 			$_default_sort_mode = 1;
@@ -444,12 +444,7 @@
 				{
 					$this->loadTemplate('view_404');
 					return;
-				}else{
-					if($album['user_id'] != $userId){
-						$this->loadTemplate('view_access_denied');
-						return;	
-					}
-				}				
+				}
 				$this->assignAlbumThumbnails($album);
 				$this->assign("albumId",$albumId);
 				$this->assign("description_",$album['description']);
@@ -558,6 +553,8 @@
 				$this->assignAlbumThumbnails($album);
 				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_albumthumbnail');
 			}
+			
+			
 		}
 		/**
 		 * Load defaul password page

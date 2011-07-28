@@ -36,20 +36,15 @@
 			$this->log->lfile('../log/logfile.log');		
 		}
 		
-		function upload($folderTarget, $folderThumbnails, $fileTypes=null, $maxSize=5){
+		function upload($folderTarget, $fileTypes=null, $maxSize=5){
 			$this->log->lwrite($folderTarget);
 			$this->log->lwrite($fileTypes);
 			$this->log->lwrite($maxSize);
 			if (!empty($_FILES)) {
 				$tempFile = $_FILES['Filedata']['tmp_name'];				
 				$fileType = utils::getFileType($_FILES['Filedata']['name']);
-				$targetPath = $_SERVER['DOCUMENT_ROOT'] . $this->loadResources('context') . $folderTarget;
-				do{
-					$folderName = utils::genRandomString(64);
-					$fileName = $folderName . '.' . $fileType[1];
-				}while(file_exists($folderTarget . $fileName));
-				if($folderThumbnails!=null)
-					mkdir(BASE_DIR.$folderThumbnails.$folderName, 0700);
+				$targetPath = $_SERVER['DOCUMENT_ROOT'] . $this->loadResources('context') . $folderTarget;				
+				$fileName = utils::genRandomString(64). '.' . $fileType[1];
 				$targetFile =  str_replace('//','/',$targetPath) . $fileName;
 				$sizeLimit = $maxSize*1024*1024;
 				$fileSize = $_FILES['Filedata']['size'];
