@@ -874,9 +874,16 @@
 				$folder=$path.$videoHash;
 				$dir = opendir(BASE_DIR.$folder);
 				$arrayImage=array();
-				while (($file = readdir($dir)) !== false)
+				$fileType=$this->loadResources('image.upload.ext.support');
+				$fileType = substr($fileType, 1);
+				$fileTypeArray=split(';\*', $fileType);
+				while (($fileName = readdir($dir)) !== false)
 				{
-					$arrayImage[]=$file;
+						for($i=0;$i<sizeof($fileTypeArray);$i++)
+						{
+							if(strpos($fileName, $fileTypeArray[$i]) !== false)
+								$arrayImage[]=$fileName;
+						}
 				}
 				closedir($dir);
 				$this->assign('folder',$folder);
@@ -884,6 +891,7 @@
 				$this->assign('videoId', $video['video_id']);
 				$this->assign('videoTitle', $video['video_title']);
 				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->loadResources('image.upload.path') . $video['thumbnails_path']) : ('/images/icon-video.gif'));
+				$this->assign('imageUpload',$this->loadResources('image.upload.path'));
 				$this->assign('sessionId', session_id());
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_thumbnail');
 			}
@@ -1083,6 +1091,33 @@
 				$videos=$this->model_video->getVideofromVideoId(array($id));
 				$this->assign("thumbnails",$videos['thumbnails_path']);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_publicvideo');
+			}
+		}
+		/**
+		 * update thumbnails from screen shot
+		 */
+		function updateThumbnailFromScreenShot()
+		{
+			$userId = $this->getLoggedUser();
+				if($userId == 0){
+					$this->redirect($this->ctx().'/auth/login/');
+					return;
+				}
+			$this->loadModel('model_video');	
+			if($_SERVER['REQUEST_METHOD'] == 'POST'){
+				$vid = $_POST['videoId'];
+				$imageName= $_POST['imageName'];
+				$video = $this->model_video->getVideoById($vid);
+				$videoPath=$video['video_path'];
+				$videoHash=substr($videoPath, 0, -4);
+				$destination=$this->loadResources('image.upload.path');
+				$source=$this->loadResources('video.upload.thumbnails');
+				if(!copy(BASE_DIR.$source.$videoHash. "/" .$imageName,BASE_DIR.$destination.$imageName))
+				{
+					echo "failed to copy $imageName to $destination \n";
+				}
+				$this->model_video->updateThumbnailById(array($imageName,$vid));
+				$this->redirect($this->ctx().'/video/thumbnail/?videoId='.$vid);
 			}
 		}
 	}
