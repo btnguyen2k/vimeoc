@@ -68,6 +68,14 @@
 		<center><h1><:if $videoTitle!='':><:$videoTitle:> - <:/if:><:$title:></h1></center><br/>		
 		<span id="top_error" class="red" style="display: none"><:$errorMessage:></span>
 		<span id="top_success" class="green" style="display: none"><:$successMessage:></span>
+		<style type="text/css">
+			div.scroll
+			{
+				width:600px;
+				height:220px;
+				overflow:scroll;
+			}
+		</style>
 			<fieldset>
 				<ul>
 					<li>
@@ -81,14 +89,14 @@
 						<div id="upload-processing" style="width: 0%; background: green;">&nbsp;</div>
 					</li>
 					
-						<div>					
+						<div class="scroll">					
 							<:section name=a loop=$arrayImage:>
 								<input type="radio" name="videoScreenShot" value="<:$arrayImage[a]:>"/>
 								<img id="arrayThumbnail" src="<:$ctx:><:$folder:>/<:$arrayImage[a]:>" />
 							<:/section:>
 						</div>
 						<li>
-							<input type="button" value="Save"  onclick="selectImageFromScreenShot()"/>
+							<input type="button" value="Save" onclick="selectImageFromScreenShot()"/>
 						</li>
 				</ul>				
 			</fieldset>
