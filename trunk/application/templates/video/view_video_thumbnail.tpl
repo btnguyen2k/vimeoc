@@ -6,6 +6,18 @@
 <link href="<:$ctx:>/css/file_uploader.css" rel="stylesheet" type="text/css">
 <link href="<:$ctx:>/css/uploadify.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
+	function selectImageFromScreenShot(){
+		var selectedImage = $('input[name=videoScreenShot]:checked').val();
+		$.ajax({
+			url : '<:$ctx:>/video/updateThumbnailFromScreenShot/',
+			data: 'videoId=<:$videoId:>&imageName='+selectedImage,
+			type: 'POST',
+			success: function(data){
+				$("#thumbnail").attr('src','<:$ctx:>/<:$imageUpload:>'+selectedImage);
+			}
+		});
+	}
+	
 	$(document).ready(function(){
 		var imageExtArray = '<:$imageExtSupport:>'.split(",");
 		var imageContext = '<:$ctx:>/images/upload/';
@@ -56,25 +68,30 @@
 		<center><h1><:if $videoTitle!='':><:$videoTitle:> - <:/if:><:$title:></h1></center><br/>		
 		<span id="top_error" class="red" style="display: none"><:$errorMessage:></span>
 		<span id="top_success" class="green" style="display: none"><:$successMessage:></span>
-		<fieldset>
-			<ul>
-				<li>
-					<span><:$currentThumbnail:></span><br/>
-					<img id="thumbnail" src="<:$ctx:>/<:$videoThumbnail:>"></img>
-				</li>
-				<li>
-					<input id="file_upload" name="file_upload" type="file" />
-				</li>
-				<li style="width: 200px;">
-					<div id="upload-processing" style="width: 0%; background: green;">&nbsp;</div>
-				</li>
-				<div style="width: 100px; height:50px; over-flow: auto;">					
-					<:section name=a loop=$arrayImage:>
-						<img src="<:$ctx:><:$folder:>/<:$arrayImage[a]:>" />
-					<:/section:>
-				</div>
-			</ul>				
-		</fieldset>
+			<fieldset>
+				<ul>
+					<li>
+						<span><:$currentThumbnail:></span><br/>
+						<img id="thumbnail" src="<:$ctx:>/<:$videoThumbnail:>"></img>
+					</li>
+					<li>
+						<input id="file_upload" name="file_upload" type="file" />
+					</li>
+					<li style="width: 200px;">
+						<div id="upload-processing" style="width: 0%; background: green;">&nbsp;</div>
+					</li>
+					
+						<div>					
+							<:section name=a loop=$arrayImage:>
+								<input type="radio" name="videoScreenShot" value="<:$arrayImage[a]:>"/>
+								<img id="arrayThumbnail" src="<:$ctx:><:$folder:>/<:$arrayImage[a]:>" />
+							<:/section:>
+						</div>
+						<li>
+							<input type="button" value="Save"  onclick="selectImageFromScreenShot()"/>
+						</li>
+				</ul>				
+			</fieldset>
 	</div>
 	
 	<div id="user_info_help" class="page_help">

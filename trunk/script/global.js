@@ -88,3 +88,12 @@ function relativeTime(timestamp){
 	}
 	return 'more than ' + Math.round(distance_in_minutes/525960) + ' yeas ago';
 }
+function showFaceboxIframe()
+{
+	var href = $('a.facebox-iframe').attr('href');
+	var $preview = $('<div>');
+	$preview.html("<iframe width='700' height='100%' frameborder='0' src='"+href+"'></iframe>");
+	$(document).append($preview);
+	$.facebox($preview.html());
+	return false;
+}
