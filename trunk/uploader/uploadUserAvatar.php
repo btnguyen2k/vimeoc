@@ -9,7 +9,7 @@ $logger->lfile('../log/logfile.log');
 $logger->lwrite('Logged user[' . $uploader->getLoggedUser() . '] is uploading a file...');
 
 if($uploader->getLoggedUser() > 0){
-	$ret = $uploader->upload($uploader->loadResources('image.upload.path'), $uploader->loadResources('image.upload.ext.support'), $uploader->loadResources('image.upload.maxsize'));
+	$ret = $uploader->upload($uploader->loadResources('image.upload.path'), null, $uploader->loadResources('image.upload.ext.support'), $uploader->loadResources('image.upload.maxsize'));
 	if(!is_numeric($ret)){
 		$model_user = $uploader->getModel('model_user');
 		$model_user->updateUserAvatar(array($ret, $uploader->getLoggedUser()));
