@@ -43,8 +43,8 @@
 				if($video != null && ($user['id'] == $video['user_id'])){
 					$_GET['videoId'] = $video['id']; 	
 					$controller = $this->getController('video', $this->tmpl);					
-					$controller->videopageMessagesSource();
-					$controller->videopage();
+					$controller->publicVideoMessagesSource();
+					$controller->publicVideo();
 				}else{
 					$this->redirect($this->ctx());
 				}
@@ -64,8 +64,8 @@
 					if($video != null && ($user['id'] == $video['user_id'])){
 						$_GET['videoId'] = $video['id']; 	
 						$controller = $this->getController('video', $this->tmpl);
-						$controller->videopageMessagesSource();
-						$controller->videopage();
+						$controller->publicVideoMessagesSource();
+						$controller->publicVideo();
 					}else{
 						$this->redirect($this->ctx());
 					}
