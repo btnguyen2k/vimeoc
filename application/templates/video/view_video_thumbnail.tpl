@@ -62,20 +62,21 @@
 		$("#file_upload").uploadifyUpload();
 	}
 </script>
+<style type="text/css">
+div.scroll
+{
+	width:600px;
+	height:220px;
+	overflow:scroll;
+}
+</style>
 <div id="video_custom_url" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
 	<div id="video_thumbnail_body" class="page_body">
 		<center><h1><:if $videoTitle!='':><:$videoTitle:> - <:/if:><:$title:></h1></center><br/>		
 		<span id="top_error" class="red" style="display: none"><:$errorMessage:></span>
 		<span id="top_success" class="green" style="display: none"><:$successMessage:></span>
-		<style type="text/css">
-			div.scroll
-			{
-				width:600px;
-				height:220px;
-				overflow:scroll;
-			}
-		</style>
+		
 			<fieldset>
 				<ul>
 					<li>
