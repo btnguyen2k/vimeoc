@@ -65,9 +65,9 @@
 <style type="text/css">
 div.scroll
 {
-	width:600px;
-	height:220px;
-	overflow:scroll;
+	width:620px;
+	height:200px;
+	overflow:auto;
 }
 </style>
 <div id="video_custom_url" class="page">
@@ -81,7 +81,7 @@ div.scroll
 				<ul>
 					<li>
 						<span><:$currentThumbnail:></span><br/>
-						<img id="thumbnail" src="<:$ctx:>/<:$videoThumbnail:>"></img>
+						<img width="150" height="150" id="thumbnail" src="<:$ctx:>/<:$videoThumbnail:>"></img>
 					</li>
 					<li>
 						<input id="file_upload" name="file_upload" type="file" />
@@ -89,16 +89,17 @@ div.scroll
 					<li style="width: 200px;">
 						<div id="upload-processing" style="width: 0%; background: green;">&nbsp;</div>
 					</li>
-					
+						<:if $arrayImage:>
 						<div class="scroll">					
 							<:section name=a loop=$arrayImage:>
 								<input type="radio" name="videoScreenShot" value="<:$arrayImage[a]:>"/>
-								<img id="arrayThumbnail" src="<:$ctx:><:$folder:>/<:$arrayImage[a]:>" />
+								<img width="100" height="100" id="arrayThumbnail" src="<:$ctx:><:$folder:>/<:$arrayImage[a]:>" />
 							<:/section:>
 						</div>
 						<li>
 							<input type="button" value="Save" onclick="selectImageFromScreenShot()"/>
 						</li>
+						<:/if:>
 				</ul>				
 			</fieldset>
 	</div>

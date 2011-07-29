@@ -34,17 +34,23 @@
         		  $("#top_error").hide();     
         		  setTimeout('upload();', 200);   		  
         	  }
-          }, 'onComplete' : function(event, ID, fileObj, response, data){
+          },
+          'onComplete' : function(event, ID, fileObj, response, data){
               if(response == 'invalid-file.error'){
             	  $("#top_error").html('Upload failed.').show();
               }else{
                   var fileName = fileObj.name;
                   fileName = fileName.replace(fileObj.type, "");
             	  $("#top_success").html("Video '" + fileName + "' has been uploaded successfully.").show();
-            	  $("#title").val(fileName);
-            	  $("#videoid").val(response);
-            	  $("#submit-button").attr("disabled","");
-              }        	  
+            	  if($("#title").val()==""){
+                	  $("#title").val(fileName);
+            	  }
+            	  $("#videoPath").val(response);
+               	  var videoId = $("#videoid").val();
+            	  if(!(videoId=="")){
+            		  createUploadingVideo();
+            	  }   
+              }
           }
         });
 	});
@@ -82,23 +88,31 @@
 		}else{
 			$("#error_valid_tag").hide();
 		}	
-
-		if(videoId == ""){
-			flag = false;	
-			waitingForSubmit = true;
-			$("#submit-button").attr("disabled","disabled");	
-			$("#top_success").html("The video information is being saved ... ").show();
-			setTimeout('checkvalidate()', 2000);	
+		if(flag){
+			createUploadingVideo();
 		}
+	}
 
-		if(flag == true && waitingForSubmit == true){
-			waitingForSubmit = false;
-			$("#videoForm").submit();
-		}
-			
-		return flag;
-
-		
+	function createUploadingVideo()
+	{
+		var title = $("#title").val();
+		var tag = $("#tag").val();
+		var desc = $("#description").val();
+		var tcid = $("#tcid").val();
+		var videoPath = $("#videoPath").val();
+		var videoid = $("#videoid").val();
+		$.ajax({
+			url : '<:$ctx:>/user/createUploadingVideo/',
+			data: 'title='+title+'&tag='+tag+'&description='+desc+'&tcid='+tcid+'&videoPath='+videoPath+'&videoid='+videoid,
+			type: 'POST',
+			success: function(data){
+				$("#videoid").val(data);
+				$("#submit-button").attr("disabled","disabled");
+				if(!(videoPath=="")){
+					window.location = "<:$ctx:>/user/video";
+				}
+			}
+		});
 	}
 </script>
 <div id="user_addvideoupload" class="page">
@@ -122,7 +136,6 @@
 					<div id="upload-processing" style="width: 0%; background: green;">&nbsp;</div>
 				</li>
 			</ul>
-			<form action="<:$ctx:>/user/addvideoupload/" id="videoForm" method="post" onSubmit="return checkvalidate()">
 			<div id="log"></div>
 			<h3>Video File Information</h3>
 			<ul id="video_information">				
@@ -142,12 +155,12 @@
 					<span class="red" id="error_valid_tag" style="display: none;"><:$tagInvalid:></span>
 				</li>
 				<li>
-					<input type="hidden" name="tcid" value="<:$tcid:>" />
-					<input type="hidden" id="videoid" name="videoid"/>
-					<input id="submit-button" disabled="disabled" type="submit" value="Save" />
+					<input type="hidden" name="tcid" id="tcid" value="<:$tcid:>" />
+					<input type="hidden" name="videoPath" id="videoPath"/>
+					<input type="hidden" id="videoid" name="videoid" />
+					<input id="submit-button" type="button" value="Save" onclick="checkvalidate()"/>
 				</li>
 			</ul>
-			</form>
 		</fieldset>
 	</div>
 	<div id="user_info_help" class="page_help">

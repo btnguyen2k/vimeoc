@@ -879,11 +879,11 @@
 				$fileTypeArray=split(';\*', $fileType);
 				while (($fileName = readdir($dir)) !== false)
 				{
-						for($i=0;$i<sizeof($fileTypeArray);$i++)
-						{
-							if(strpos($fileName, $fileTypeArray[$i]) !== false)
-								$arrayImage[]=$fileName;
-						}
+					for($i=0;$i<sizeof($fileTypeArray);$i++)
+					{
+						if(strpos($fileName, $fileTypeArray[$i]) !== false)
+							$arrayImage[]=$fileName;
+					}
 				}
 				closedir($dir);
 				$this->assign('folder',$folder);
@@ -1093,6 +1093,7 @@
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_publicvideo');
 			}
 		}
+		
 		/**
 		 * update thumbnails from screen shot
 		 */
@@ -1117,7 +1118,6 @@
 					echo "failed to copy $imageName to $destination \n";
 				}
 				$this->model_video->updateThumbnailById(array($imageName,$vid));
-				$this->redirect($this->ctx().'/video/thumbnail/?videoId='.$vid);
 			}
 		}
 	}
