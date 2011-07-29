@@ -76,7 +76,6 @@ div.scroll
 		<center><h1><:if $videoTitle!='':><:$videoTitle:> - <:/if:><:$title:></h1></center><br/>		
 		<span id="top_error" class="red" style="display: none"><:$errorMessage:></span>
 		<span id="top_success" class="green" style="display: none"><:$successMessage:></span>
-		
 			<fieldset>
 				<ul>
 					<li>

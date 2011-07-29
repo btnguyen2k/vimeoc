@@ -13,7 +13,7 @@
 				Your recent videos(<a href="<:$ctx:>/user/video">see all</a>)
 				<div>
 					<:foreach from=$recent_videos key=k item=v:>
-						<a href="<:$ctx:>/video/videopage/?videoId=<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
+						<a href="<:$ctx:>/video/<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
 						<:$v['video_title']:><br/><br/>
 					<:/foreach:>
 				</div>
