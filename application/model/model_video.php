@@ -79,7 +79,7 @@
 						v.play_count as `play_count`, 
 						v.comment_count as `comment_count`, 
 						v.like_count as `like_count`, 
-						UNIX_TIMESTAMP(v.creation_date) as `creation_date` 
+						v.creation_date as `creation_date` 
 					from 
 						video v, 
 						album a, 
@@ -124,7 +124,7 @@
 						v.play_count as `play_count`, 
 						v.comment_count as `comment_count`, 
 						v.like_count as `like_count`, 
-						UNIX_TIMESTAMP(v.creation_date) as `creation_date` 
+						v.creation_date as `creation_date` 
 					from 
 						video v, 
 						channel c, 

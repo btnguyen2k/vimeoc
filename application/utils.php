@@ -41,6 +41,59 @@
 			
 			return null;
 		}
+		
+		public static function getDiffTimeString($start){
+			$now = mktime(date("H"), date("i"),date("s"), date("m"), date("d"), date("Y"));
+			$end = date("Y-m-d H:i:s", time());
+			$diff= utils::getTimeDiff($start, $end);
+			$strDate="";
+			if($diff['days']==0){
+				if ($diff['hours']==0){
+					if ($diff['minutes']==0)
+						$strDate.= $diff['seconds'] . ' seconds';
+					else 
+						$strDate.= $diff['minutes'] . ' minutes';
+				}
+				else{ 
+					$strDate.= $diff['hours']. ' hours ' . $diff['minutes'] . ' minutes';
+				}
+			}
+			else{
+				$strDate.= $diff['days']. ' days ' . $diff['hours'] . ' hours';
+			}	
+			
+			return $strDate;
+		}
+		
+		public static function getTimeDiff( $start, $end )
+		{
+		    $uts['start']      =    strtotime( $start );
+		    $uts['end']        =    strtotime( $end );	
+		    if( $uts['start']!==-1 && $uts['end']!==-1 )
+		    {
+		        if( $uts['end'] >= $uts['start'] )
+		        {
+		            $diff    =    $uts['end'] - $uts['start'];
+		            if( $days=intval((floor($diff/86400))) )
+		                $diff = $diff % 86400;
+		            if( $hours=intval((floor($diff/3600))) )
+		                $diff = $diff % 3600;
+		            if( $minutes=intval((floor($diff/60))) )
+		                $diff = $diff % 60;
+		            $diff    =    intval( $diff );
+		            return( array('days'=>$days, 'hours'=>$hours, 'minutes'=>$minutes, 'seconds'=>$diff) );
+		        }
+		        else
+		        {
+		           return false;
+		        }
+		    }
+		    else
+		    {
+		       return false;
+		    }
+		    return( false );
+		}
 	}
 	
 	/**

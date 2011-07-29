@@ -64,6 +64,7 @@
 			$this->assign("videodelete", $this->loadMessages('user.video.link.delete'));
 			$this->assign("videobacktovideo", $this->loadMessages('user.video.link.backtovideo'));
 			$this->assign("videopreandpost", $this->loadMessages('user.video.link.preandpostroll'));
+			$this->assign("videopage", $this->loadMessages('user.video.link.playvideo'));
 			$this->assign("videoId", $_GET["videoId"]);
 			$this->assign("requiredFields", $this->loadErrorMessage('error.field.required'));
 		}
@@ -1057,6 +1058,7 @@
 				$this->assign("videoOwner", $userId == $video['user_id']);
 				
 				$start = $video['creation_date'];				
+				/*
 				$now = mktime(date("H"), date("i"),date("s"), date("m"), date("d"), date("Y"));
 				$end = date("Y-m-d H:i:s", time());
 				$diff=$this->get_time_difference($start, $end);
@@ -1074,7 +1076,9 @@
 				}
 				else{
 					$strDate.= $diff['days']. ' days ' . $diff['hours'] . ' hours';
-				}		
+				}
+				*/
+				$strDate = utils::getDiffTimeString($start);		
 				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->loadResources('image.upload.path') . $video['thumbnails_path']) : ('/images/icon-video.gif'));
 				$this->assign("days",$strDate);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_publicvideo');

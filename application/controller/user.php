@@ -696,11 +696,11 @@
 				$model_tag = $this->model_tag;
 				
 				foreach($videos as &$video){
-					$video['creation_date'] = date_format(new DateTime($video['creation_date']), 'U');
 					$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
 					$video['album'] = $model_album->selectAlbumByVideoId($video['id']);
 					$video['tag'] = $model_tag->selectTagByVideoId($video['id']);
 					$video['channel'] = $model_channel->getChannelByVideoId(array($video['id']));
+					$video['creation_date'] = utils::getDiffTimeString($video['creation_date']);
 				}
 			}
 			
@@ -1066,6 +1066,7 @@
 			if(is_array($albums) && (count($albums) > 0)){
 				foreach($albums as &$album){
 					$album['thumbnail'] = empty($album['thumbnails_path']) ? $this->ctx() . '/images/icon-album.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $album['thumbnails_path']);
+					$album['create_date'] = utils::getDiffTimeString($album['create_date']);
 				}
 			}
 			
@@ -1406,6 +1407,7 @@
 			if(is_array($channels) && (count($channels) > 0)){
 				foreach($channels as &$channel){
 					$channel['thumbnail'] = empty($channel['thumbnails_path']) ? $this->ctx() . '/images/channel.jpg' : ($this->ctx() . $this->loadResources('image.upload.path') . $channel['thumbnails_path']);
+					$channel['create_date'] = utils::getDiffTimeString($channel['create_date']);
 				}
 			}
 			

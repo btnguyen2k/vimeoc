@@ -24,7 +24,7 @@
 						a.id as `album_id`, 
 						a.album_name as `album_name`, 
 						count(b.video_id) as 'video_count', 
-						UNIX_TIMESTAMP(a.creation_date) as 'create_date',
+						a.creation_date as 'create_date',
 						thumbnails_path as `thumbnails_path` 
 					from 
 						album a 
@@ -147,7 +147,7 @@
 						user_id as `user_id`, 
 						album_name as `album_name`, 
 						album_locked as `album_alias`, 
-						UNIX_TIMESTAMP(creation_date) as `creation_date`, 
+						creation_date as `creation_date`, 
 						description as `description`,
 						thumbnails_path as `thumbnails_path`, 
 						arrange as `arrange`, 

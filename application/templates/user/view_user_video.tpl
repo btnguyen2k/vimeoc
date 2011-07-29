@@ -81,7 +81,7 @@
 				<:if $v['video_title'] != '':>
 				Title: <:$v['video_title']:><br/>
 				<:/if:>
-				<div class="creation_date">Uploaded: <span class="relative_time"><:$v['creation_date']:></span></div>
+				<div class="creation_date">Uploaded: <span class=""><:$v['creation_date']:></span></div>
 				Play count: <:$v['play_count']:><br/>
 				Comment count: <:$v['comment_count']:><br/>
 				Like count: <:$v['like_count']:><br/>
