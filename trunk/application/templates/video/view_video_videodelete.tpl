@@ -11,7 +11,7 @@
 							<li>
 								<center>
 									<input type="submit" value="Yes" />
-									<input type="button" value="No" onClick="window.location.href='<:$ctx:>/video/videopage/?videoId=<:$videoId:>'">
+									<input type="button" value="No" onClick="window.location.href='<:$ctx:>/video/<:$videoId:>'">
 								</center>
 							</li>
 							<li>

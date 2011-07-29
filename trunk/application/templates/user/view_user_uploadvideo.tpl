@@ -108,6 +108,10 @@
 			success: function(data){
 				$("#videoid").val(data);
 				$("#submit-button").attr("disabled","disabled");
+				$("#title").attr("disabled","disabled");
+				$("#description").attr("disabled","disabled");
+				$("#tag").attr("disabled","disabled");
+				$("#success").show();
 				if(!(videoPath=="")){
 					window.location = "<:$ctx:>/user/video";
 				}
@@ -138,6 +142,7 @@
 			</ul>
 			<div id="log"></div>
 			<h3>Video File Information</h3>
+			<span class="green" id="success" style="display: none;"><:$success:></span>
 			<ul id="video_information">				
 				<li>
 					<span><:$name:> </span><br/>						

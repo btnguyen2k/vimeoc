@@ -745,6 +745,7 @@
 			$this->assign('titleiInvalid', $this->loadErrorMessage('error.video.title'));
 			$this->assign('descriptionInvalid', $this->loadErrorMessage('error.video.description'));
 			$this->assign('tagInvalid', $this->loadErrorMessage('error.video.tag'));
+			
 		}
 		
 		/**
@@ -764,6 +765,7 @@
 				$model_user = $this->getModel('model_user');
 				$user = $model_user->getUserByUserId(array($userId));
 				$this->assign('sessionId', session_id());
+				$this->assign('success',$this->loadMessages('user.upload.success'));
 				$this->loadTemplate(USER_TEMPLATE_DIR."view_user_uploadvideo");
 			}else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
@@ -1491,8 +1493,6 @@
 								$res=$this->model_video->checkIdAndComponentId(array($tagNewId[0]["id"],$newVideoId));
 								if($res==0){
 									$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],'1',$newVideoId));
-								}
-								else{
 								}
 							}
 						}	

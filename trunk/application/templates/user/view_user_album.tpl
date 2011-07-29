@@ -34,7 +34,7 @@ function editSearchTerm(){
 			<input type="submit" value="Submit"></input>
 		</form>
 			<:foreach from=$albums key=k item=v:>
-				<a href="<:$ctx:>/album/?albumId=<:$v['album_id']:>"><img width="100" src="<:$v['thumbnail']:>" /></a><br/>
+				<a href="<:$ctx:>/album/<:$v['album_id']:>"><img width="100" src="<:$v['thumbnail']:>" /></a><br/>
 				name: <:$v['album_name']:><br/>
 				created: <span class="relative_time"><:$v['create_date']:></span><br/>
 				<:$v['video_count']:> video(s)<br/>

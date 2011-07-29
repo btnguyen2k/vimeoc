@@ -77,7 +77,7 @@
 
 		<:if 2 == $display_mode:>
 			<:foreach from=$videos key=k item=v:>
-				<a href="<:$ctx:>/video/videopage/?videoId=<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
+				<a href="<:$ctx:>/video/<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
 				<:if $v['video_title'] != '':>
 				Title: <:$v['video_title']:><br/>
 				<:/if:>
@@ -86,7 +86,7 @@
 				Comment count: <:$v['comment_count']:><br/>
 				Like count: <:$v['like_count']:><br/>
 				<:if $v['album']|@count gt 0:>
-				Albums: <:foreach from=$v['album'] key=k1 item=v1 name=albums:><a href="<:$ctx:>/album/?albumId=<:$v1['album_id']:>"><:$v1['album_name']:></a><:if $smarty.foreach.albums.last:><:else:>, <:/if:><:/foreach:><br/>
+				Albums: <:foreach from=$v['album'] key=k1 item=v1 name=albums:><a href="<:$ctx:>/album/<:$v1['album_id']:>"><:$v1['album_name']:></a><:if $smarty.foreach.albums.last:><:else:>, <:/if:><:/foreach:><br/>
 				<:/if:>
 				<:if $v['tag']|@count gt 0:>
 				Tags: <:foreach from=$v['tag'] key=k1 item=v1 name=tags:><a href="<:$ctx:>/tag/<:$v1['tag_id']:>"><:$v1['tag_name']:></a><:if $smarty.foreach.tags.last:> <:else:>, <:/if:><:/foreach:><br/>
@@ -114,7 +114,7 @@
 								<table>
 									<tr>
 										<td>
-											<a href="<:$ctx:>/video/videopage/?videoId=<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>"/></a>
+											<a href="<:$ctx:>/video/<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>"/></a>
 										</td>
 									</tr>
 									<tr>

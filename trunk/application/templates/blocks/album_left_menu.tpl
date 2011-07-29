@@ -50,7 +50,7 @@
 					<a href="<:$ctx:>/album/albumDelete/?albumId=<:$albumId:>"><:$menudeleteAlbum:></a>
 				</li>
 				<li>
-					<a href="<:$ctx:>/album/?albumId=<:$albumId:>"/><:$menubackAlbum:></a>
+					<a href="<:$ctx:>/album/<:$albumId:>"/><:$menubackAlbum:></a>
 				</li>
 			<:/if:>
 			<li>
