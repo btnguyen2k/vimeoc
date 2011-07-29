@@ -36,7 +36,7 @@ function editSearchTerm(){
 			<:foreach from=$channels key=k item=v:>
 				<a href="<:$ctx:>/channel/?channelId=<:$v['channel_id']:>"><img width="100" src="<:$v['thumbnail']:>" /></a><br/>
 				name: <:$v['channel_name']:><br/>
-				created: <span class="relative_time"><:$v['create_date']:></span><br/>
+				created: <span class=""><:$v['create_date']:></span><br/>
 				<:$v['video_count']:> video(s)<br/>
 				<br/>
 			<:/foreach:>

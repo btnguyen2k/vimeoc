@@ -5,7 +5,7 @@
 		<form action="<:$ctx:>/video/publicVideo/" id="form" method="post">
 			<div>
 				<div style="float: left">
-						<img src="<:$ctx:>/<:$videoThumbnail:>" />
+						<img src="<:$ctx:>/<:$videoThumbnail:>" width="340" height="340"/>
 				</div>
 				<div style="float: left">
 					<p><:$days:> ago<:$by:><span class=blue><:$fullname:></span></p>

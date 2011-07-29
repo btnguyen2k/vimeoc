@@ -37,6 +37,9 @@
 		<li>
 			<a href="<:$ctx:>/video/preandpostroll/?videoId=<:$videoId:>"><:$videopreandpost:></a>
 		</li>
+		<li>
+			<a href="<:$ctx:>/video/videopage/?videoId=<:$videoId:>"><:$videopage:></a>
+		</li>
 	</ul>
 	<ul>
 		<li>

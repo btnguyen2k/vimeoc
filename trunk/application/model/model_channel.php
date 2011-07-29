@@ -127,7 +127,7 @@
 						a.channel_name as `channel_name`, 
 						a.thumbnails_path as `thumbnails_path`,
 						count(b.video_id) as 'video_count', 
-						UNIX_TIMESTAMP(a.creation_date) as 'create_date' 
+						a.creation_date as 'create_date' 
 					from 
 						channel a 
 					left outer join 

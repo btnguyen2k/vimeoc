@@ -292,6 +292,7 @@
 					$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
 					$video['album'] = $model_album->selectAlbumByVideoId($video['id']);
 					$video['tag'] = $model_tag->selectTagByVideoId($video['id']);
+					$video['creation_date'] = utils::getDiffTimeString($video['creation_date']);
 				}
 			}
 			
@@ -775,6 +776,7 @@
 					$this->assign('video_count', count($videos));
 					foreach($videos as &$video){
 						$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
+						$video['creation_date'] = utils::getDiffTimeString($video['creation_date']);
 					}
 				}else{
 					$this->assign('message', $this->loadMessages('album.arrange.no_video'));
@@ -841,6 +843,7 @@
 					if(is_array($videos) && (count($videos) > 0)){
 						foreach($videos as &$video){
 							$video['thumbnails_path'] = empty($video['thumbnails_path']) ? $this->ctx() . '/images/icon-video.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']);
+							$video['creation_date'] = utils::getDiffTimeString($video['creation_date']);
 						}
 					}
 					
