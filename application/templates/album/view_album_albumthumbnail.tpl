@@ -28,15 +28,15 @@
 						<:section name=a loop=$videoThumbnails:>
 						<:if $videoThumbnails[a].thumbnails_path == '':>
 							<input type="radio" name="videoThumbnail" value="<:$videoThumbnails[a].thumbnails_path:>"/>
-							<img src="<:$ctx:>/images/icon-video.gif" width="100" />
+							<img width="100" height="100" src="<:$ctx:>/images/icon-video.gif" width="100" />
 						<:else:>
 							<:if $albumThumbnail1 eq $videoThumbnails[a].thumbnails_path:>
 							
 								<input checked="true" type="radio" name="videoThumbnail" value="<:$videoThumbnails[a].thumbnails_path:>" />
-								<img src="<:$ctx:>/images/upload/<:$videoThumbnails[a].thumbnails_path:>" />
+								<img width="100" height="100" src="<:$ctx:>/images/upload/<:$videoThumbnails[a].thumbnails_path:>" />
 							<:else:>
 								<input type="radio" name="videoThumbnail" value="<:$videoThumbnails[a].thumbnails_path:>"/>
-								<img src="<:$ctx:>/images/upload/<:$videoThumbnails[a].thumbnails_path:>" />
+								<img width="100" height="100" src="<:$ctx:>/images/upload/<:$videoThumbnails[a].thumbnails_path:>" />
 							<:/if:>
 						<:/if:>
 						<:$videoThumbnails[a].video_title:><br/>

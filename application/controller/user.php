@@ -748,7 +748,7 @@
 		}
 		
 		/**
-		 * action upload video using valums library
+		 * action upload video 
 		 */
 		function addvideoupload()
 		{
@@ -774,9 +774,7 @@
 				$videoid=$_POST['videoid'];
 				$tagid=$_POST['tagid'];
 				$tcid=$_POST['tcid'];
-				
-				$this->model_video->deleteAllTagComponentsByVideoId(array($videoid));
-								
+				$this->model_video->deleteAllTagComponentsByVideoId(array($videoid));				
 				for($j=0;$j<sizeof($slipTag);$j++)
 				{				
 					if($slipTag[$j]!="")
@@ -1420,6 +1418,88 @@
 			$this->assign('page', $page);
 			
 			$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_channel');
+		}
+		
+		/**
+		 * create video using ajax
+		 * 
+		 */
+		function createUploadingVideo()
+		{
+			$userId = $this->getLoggedUser();
+			if($userId == 0){
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			$this->loadModel('model_video');	
+			if($_SERVER['REQUEST_METHOD'] == 'POST'){
+				$videoTitle=$_POST['title'];
+				$description=$_POST['description'];
+				$tag=$_POST['tag'];
+				$slipTag=split(',', $tag);
+				$videoid=$_POST['videoid'];
+				$tcid=$_POST['tcid'];
+				$videoPath = $_POST['videoPath'];
+				if($videoid!=null)
+				{					
+					for($j=0;$j<sizeof($slipTag);$j++){				
+						if($slipTag[$j]!="")
+						{
+							$checkTag=$this->model_video->isTagExist(array($slipTag[$j]));
+							if($checkTag==0)
+							{
+								$this->model_video->addTagName(array($slipTag[$j]));			
+								$tagNewId=$this->model_video->getTagIdByName(array($slipTag[$j]));
+								$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],"1",$videoid));
+							}
+							else 
+							{
+								$tagNewId=$this->model_video->getTagIdByName(array($slipTag[$j]));
+								$res=$this->model_video->checkIdAndComponentId(array($tagNewId[0]["id"],$videoid));
+								if($res==0)
+								{
+									$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],'1',$videoid));
+								}
+							}
+						}	
+					}
+					if($videoPath != null){
+						$this->model_video->updateVideoFile(array($videoPath, $videoid));
+					}
+					$updatetitle= $this->model_video->updateTitlebyId(array($videoTitle,$videoid));
+					$updatedescrition= $this->model_video->updateDescriptionbyId(array($description,$videoid));
+					echo $videoid;							
+				}
+				else{
+					$newVideoId=$this->model_video->addNewVideoWithInfo(array($userId,$videoTitle,$description));
+					if($videoPath != null){
+						$this->model_video->updateVideoFile(array($videoPath, $newVideoId));
+					}
+					for($j=0;$j<sizeof($slipTag);$j++){				
+						if($slipTag[$j]!="")
+						{
+							$checkTag=$this->model_video->isTagExist(array($slipTag[$j]));
+							if($checkTag==0)
+							{
+								$this->model_video->addTagName(array($slipTag[$j]));			
+								$tagNewId=$this->model_video->getTagIdByName(array($slipTag[$j]));
+								$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],"1",$newVideoId));
+							}
+							else 
+							{
+								$tagNewId=$this->model_video->getTagIdByName(array($slipTag[$j]));
+								$res=$this->model_video->checkIdAndComponentId(array($tagNewId[0]["id"],$newVideoId));
+								if($res==0){
+									$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],'1',$newVideoId));
+								}
+								else{
+								}
+							}
+						}	
+					}
+					echo $newVideoId;
+				}							
+			}
 		}
 	}
 ?>

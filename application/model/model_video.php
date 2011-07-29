@@ -829,7 +829,19 @@
 			$sql = 'INSERT INTO video(user_id, video_path) values(?,?)';
 			$types = array('integer', 'text');
 			$this->execute_command($sql, $params, $types);
+			$videoId = $this->getLatestInsertId('video');
 			
+			return $videoId;
+		}
+		
+		/**
+		 * add new video 
+		 * @param params
+		 */
+		function addNewVideoWithInfo($params){
+			$sql = 'INSERT INTO video(user_id, video_title, description) values(?,?,?)';
+			$types = array('integer', 'text','text');
+			$this->execute_command($sql, $params, $types);
 			$videoId = $this->getLatestInsertId('video');
 			
 			return $videoId;
