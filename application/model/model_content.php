@@ -108,7 +108,7 @@
 		 */
 		function loadPublishedContentByCategory($params){
 			$sql = "select * from content where category_id = ? and publish = 1";
-			$type = array('integer');
+			$types = array('integer');
 			$res = $this->execute_query($sql, $params, $types);
 			return $res;
 		}	
