@@ -15,7 +15,7 @@ RewriteRule ^album/([a-zA-Z0-9]+)$ index1.php?controller=album&method=index&albu
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^video/([a-zA-Z0-9]+)$ index1.php?controller=video&method=videopage&videoId=$1 [L]
+RewriteRule ^video/([a-zA-Z0-9]+)$ index1.php?controller=video&method=publicVideo&videoId=$1 [L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
