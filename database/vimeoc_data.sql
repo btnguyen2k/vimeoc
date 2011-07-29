@@ -26,8 +26,8 @@ INSERT INTO configuration(name, value) VALUES ('SHOW_SIGNUP_FORM', 1);
 --
 -- Add content category
 --
-INSERT INTO category(id,name) VALUES (1,'system');
-INSERT INTO category(id,name) VALUES (2,'user');
+INSERT INTO category(id,name) VALUES (1,'Not show on user menu');
+INSERT INTO category(id,name) VALUES (2,'Show on user menu');
 
 --
 -- Terms and Conditions content
