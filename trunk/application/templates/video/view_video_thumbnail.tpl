@@ -13,7 +13,7 @@
 			data: 'videoId=<:$videoId:>&imageName='+selectedImage,
 			type: 'POST',
 			success: function(data){
-				$("#thumbnail").attr('src','<:$ctx:>/<:$imageUpload:>'+selectedImage);
+				$("#thumbnail").attr('src','<:$ctx:><:$imageUpload:>'+selectedImage);
 			}
 		});
 	}
