@@ -293,9 +293,13 @@
 		 * Redirect to $url
 		 * @param $url
 		 */
-		function redirect($url)
+		function redirect($url, $fullUrl = false)
 		{
-			header("Location: " . $url);	
+			if($fullUrl){
+				header("Location: " . $url);
+			}else{
+				header("Location: http://" . $_SERVER['SERVER_NAME'] . $url);
+			}
 		}
 		
 		/**

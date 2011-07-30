@@ -82,10 +82,9 @@
 			}
 			
 			$model_category = $this->getModel('model_category');
-			$userCategory = $model_category->loadCategoryByName(array('user'));			
-			if($userCategory != null && $content['category_id'] == $userCategory['id']){
+			if($content['category_id'] == CONTENT_USER_TYPE){
 				$model_content = $this->getModel('model_content');
-				$contents = $model_content->loadPublishedContentByCategory(array($userCategory['id']));				
+				$contents = $model_content->loadPublishedContentByCategory(array(CONTENT_USER_TYPE));				
 				$this->assign("contentLinkList", $contents);
 			}	
 			
