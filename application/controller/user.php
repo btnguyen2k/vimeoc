@@ -816,7 +816,7 @@
 		
 		function assignVideoThumbnails($video){
 			if($video){
-				$videoThumbnail = empty($video['thumbnails_path']) ? '' : $this->loadResources('image.upload.path').$video['thumbnails_path'];
+				$videoThumbnail = empty($video['thumbnails_path']) ? ($this->ctx() . '/images/icon-video.gif') : $this->loadResources('image.upload.path').$video['thumbnails_path'];
 				$this->assign("videoThumbnail", $videoThumbnail);
 			}
 		}

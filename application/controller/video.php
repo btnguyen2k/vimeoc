@@ -899,7 +899,7 @@
 				$this->assign('arrayImage',$arrayImage);
 				$this->assign('videoId', $video['video_id']);
 				$this->assign('videoTitle', $video['video_title']);
-				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->loadResources('image.upload.path') . $video['thumbnails_path']) : ('/images/icon-video.gif'));
+				$this->assign('videoThumbnail', !empty($video['thumbnails_path']) ? ($this->loadResources('image.upload.path') . $video['thumbnails_path']) : ($this->ctx() . '/images/icon-video.gif'));
 				$this->assign('imageUpload',$this->loadResources('image.upload.path'));
 				$this->assign('sessionId', session_id());
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_thumbnail');
