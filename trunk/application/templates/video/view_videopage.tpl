@@ -6,7 +6,7 @@
 		<form action="<:$ctx:>/video/videopage/" id="form" method="post">
 			<div>
 				<div style="float: left">
-						<img width="340" height="340" src="<:$ctx:>/<:$videoThumbnail:>" />
+						<img width="340" height="340" src="<:$videoThumbnail:>" />
 				</div>
 				<div style="float: left">
 					<:if $videoOwner:>
