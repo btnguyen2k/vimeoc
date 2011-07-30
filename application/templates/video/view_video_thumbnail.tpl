@@ -12,8 +12,8 @@
 			url : '<:$ctx:>/video/updateThumbnailFromScreenShot/',
 			data: 'videoId=<:$videoId:>&imageName='+selectedImage,
 			type: 'POST',
-			success: function(data){
-				$("#thumbnail").attr('src','<:$ctx:><:$imageUpload:>'+selectedImage);
+			success: function(res){
+				$("#thumbnail").attr('src','<:$ctx:><:$imageUpload:>'+res);
 			}
 		});
 	}
@@ -80,7 +80,7 @@ div.scroll
 				<ul>
 					<li>
 						<span><:$currentThumbnail:></span><br/>
-						<img width="150" height="150" id="thumbnail" src="<:$ctx:>/<:$videoThumbnail:>"></img>
+						<img width="150" height="150" id="thumbnail" src="<:$videoThumbnail:>"></img>
 					</li>
 					<li>
 						<input id="file_upload" name="file_upload" type="file" />

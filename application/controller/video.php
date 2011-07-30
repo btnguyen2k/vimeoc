@@ -812,7 +812,7 @@
 				else{
 					$strDate.= $diff['days']. ' days ' . $diff['hours'] . ' hours';
 				}		
-				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->loadResources('image.upload.path') . $video['thumbnails_path']) : ('/images/icon-video.gif'));
+				$this->assign('videoThumbnail', !empty($video['thumbnails_path']) ? ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']) : ($this->ctx() . '/images/icon-video.gif'));
 				$this->assign("days",$strDate);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_videopage');
 			}
@@ -871,22 +871,30 @@
 				}
 				$path=$this->loadResources('video.upload.thumbnails');
 				$videoPath=$video['video_path'];
-				$videoHash=substr($videoPath, 0, -4);
+				$videoHash=utils::getFileType($videoPath);
+				$videoHash=$videoHash[0];
 				$folder=$path.$videoHash;
-				$dir = opendir(BASE_DIR.$folder);
-				$arrayImage=array();
-				$fileType=$this->loadResources('image.upload.ext.support');
-				$fileType = substr($fileType, 1);
-				$fileTypeArray=split(';\*', $fileType);
-				while (($fileName = readdir($dir)) !== false)
-				{
-					for($i=0;$i<sizeof($fileTypeArray);$i++)
-					{
-						if(strpos($fileName, $fileTypeArray[$i]) !== false)
-							$arrayImage[]=$fileName;
+				$folderPath=BASE_DIR . $folder;
+				if(file_exists($folderPath) && is_dir($folderPath)){
+					$dir = opendir($folderPath);
+					$arrayImage=array();
+					$fileType=$this->loadResources('image.upload.ext.support');
+					$fileType = substr($fileType, 1);
+					$fileTypeArray=split(';\*', $fileType);
+					while (($fileName = readdir($dir)) !== false)
+					{						
+						if ($fileName != "." && $fileName != ".."){
+							$type = utils::getFileType($fileName);							
+							if($type != null){
+								$type = '.' . $type[1];
+								if(in_array($type, $fileTypeArray)){
+									$arrayImage[]=$fileName;
+								}					
+							}		
+						}
 					}
+					closedir($dir);
 				}
-				closedir($dir);
 				$this->assign('folder',$folder);
 				$this->assign('arrayImage',$arrayImage);
 				$this->assign('videoId', $video['video_id']);
@@ -1058,28 +1066,8 @@
 				$this->assign("videoOwner", $userId == $video['user_id']);
 				
 				$start = $video['creation_date'];				
-				/*
-				$now = mktime(date("H"), date("i"),date("s"), date("m"), date("d"), date("Y"));
-				$end = date("Y-m-d H:i:s", time());
-				$diff=$this->get_time_difference($start, $end);
-				$strDate="";
-				if($diff['days']==0){
-					if ($diff['hours']==0){
-						if ($diff['minutes']==0)
-							$strDate.= $diff['seconds'] . ' seconds';
-						else 
-							$strDate.= $diff['minutes'] . ' minutes';
-					}
-					else{ 
-						$strDate.= $diff['hours']. ' hours ' . $diff['minutes'] . ' minutes';
-					}
-				}
-				else{
-					$strDate.= $diff['days']. ' days ' . $diff['hours'] . ' hours';
-				}
-				*/
 				$strDate = utils::getDiffTimeString($start);		
-				$this->assign('videoThumbnail', $video['thumbnails_path'] ? ($this->loadResources('image.upload.path') . $video['thumbnails_path']) : ('/images/icon-video.gif'));
+				$this->assign('videoThumbnail', !empty($video['thumbnails_path']) ? ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']) : ($this->ctx() . '/images/icon-video.gif'));
 				$this->assign("days",$strDate);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_publicvideo');
 			}
@@ -1114,14 +1102,21 @@
 				$imageName= $_POST['imageName'];
 				$video = $this->model_video->getVideoById($vid);
 				$videoPath=$video['video_path'];
-				$videoHash=substr($videoPath, 0, -4);
+				$videoHash=utils::getFileType($videoPath);
+				$videoThumbnailsDir = $videoHash[0];
 				$destination=$this->loadResources('image.upload.path');
 				$source=$this->loadResources('video.upload.thumbnails');
-				if(!copy(BASE_DIR.$source.$videoHash. "/" .$imageName,BASE_DIR.$destination.$imageName))
+				$destName = $imageName;
+				$destType = utils::getFileType($imageName);
+				while(file_exists(BASE_DIR.$destination.$destName)){
+					$destName=utils::genRandomString(64).'.'.$destType[1];
+				}
+				if(!copy(BASE_DIR.$source.$videoThumbnailsDir."/".$imageName,BASE_DIR.$destination.$destName))
 				{
 					echo "failed to copy $imageName to $destination \n";
 				}
-				$this->model_video->updateThumbnailById(array($imageName,$vid));
+				$this->model_video->updateThumbnailById(array($destName,$vid));
+				echo $destName;
 			}
 		}
 	}
