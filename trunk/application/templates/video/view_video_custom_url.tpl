@@ -6,10 +6,17 @@
 <script type="text/javascript">
 	function checkUrl(form){
 		var url = $(form).find("input[name=url_alias]").val();
-		if(url==$('#videourl').val())
+		if(url == '')
 		{
+			$("#error_valid_alias").show();		
 			return false;
-		}	
+		}else{
+			$("#error_valid_alias").hide();
+		}
+
+		if(url==$('#videourl').val()){
+			return false;
+		}
 
 		var flag = shortcutReg.test(url) && url.length <= 32;
 

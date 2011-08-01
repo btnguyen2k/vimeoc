@@ -1,28 +1,15 @@
 <div id="menu">
-	<:if $show_user_avatar == 1:>
-		<ul class="portrait">
-			<li>			
-				<a href="<:$ctx:>/">
-				<:if $userAvatar != null:>
-				<img class="userAvatar" src="<:$ctx:>/images/upload/<:$userAvatar:>" width="50" height="50"/>
-				<:else:>
-				<img class="userAvatar" src="<:$ctx:>/images/avatar.png" width="50" height="50"/>
-				<:/if:>
-				</a>
-			</li>
-		</ul>
-	<:/if:>
-	<:if $show_user_avatar != 1:>
-		<ul id="video_thumb">
-			<li>
-				<:if $videoThumbnail != '':>
-					<img src="<:$ctx:><:$videoThumbnail:>" width="100"/>
-				<:else:>
-					<img src="<:$ctx:>/images/icon-video.gif" width="100"/>
-				<:/if:>
-			</li>
-		</ul>
-	<:/if:>
+	<ul class="portrait">
+		<li>			
+			<a href="<:$ctx:>/">
+			<:if $userAvatar != null:>
+			<img class="userAvatar" src="<:$ctx:>/images/upload/<:$userAvatar:>" width="50" height="50"/>
+			<:else:>
+			<img class="userAvatar" src="<:$ctx:>/images/avatar.png" width="50" height="50"/>
+			<:/if:>
+			</a>
+		</li>
+	</ul>
 	<:if $authorized == true && $owner == true:>
 	<ul>
 		<li>
@@ -36,9 +23,6 @@
 		</li>
 		<li>
 			<a href="<:$ctx:>/video/preandpostroll/?videoId=<:$videoId:>"><:$videopreandpost:></a>
-		</li>
-		<li>
-			<a href="<:$ctx:>/video/videopage/?videoId=<:$videoId:>"><:$videopage:></a>
 		</li>
 	</ul>
 	<ul>
@@ -63,7 +47,7 @@
 	<:/if:>
 	<:if $authorized == false:>
 	<ul>
-		<li><a href="<:$ctx:>">Back to homepage</a>
+		<li><a href="<:$ctx:>/">Back to homepage</a>
 	</ul>
 	<:/if:>
 	<:if $proxy eq true:>

@@ -8,6 +8,9 @@
 						<img src="<:$videoThumbnail:>" width="340" height="340"/>
 				</div>
 				<div style="float: left">
+					<:if $videoOwner:>
+					<p><a href="<:$ctx:>/video/videosetting/?videoId=<:$videoid:>">[Setting]</a><a href="<:$ctx:>/video/videodelete/?videoId=<:$videoid:>">[Delete]</a></p>
+					<:/if:>
 					<p><:$days:> ago<:$by:><span class=blue><:$fullname:></span></p>
 					<p><:$play:> <:$plays:>,<:$comment:> <:$comments:>,<:$like:><:$likes:></p>
 					<:if $strTags != '':>

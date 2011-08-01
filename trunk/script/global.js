@@ -97,3 +97,11 @@ function showFaceboxIframe()
 	$.facebox($preview.html());
 	return false;
 }
+
+$(document).ready(function(){
+	$("input").blur(function(){
+		var val = $(this).val();
+		val = $.trim(val);
+		$(this).val(val);
+	});
+});

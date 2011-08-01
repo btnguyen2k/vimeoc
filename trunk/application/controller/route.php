@@ -39,7 +39,7 @@
 			}
 			
 			if(is_numeric($videoAlias)){
-				$video = $videoModel->getVideoByVideoId(array($videoAlias));				
+				$video = $videoModel->getVideoByVideoId(array($videoAlias));
 				if($video != null && ($user['id'] == $video['user_id'])){
 					$_GET['videoId'] = $video['id']; 	
 					$controller = $this->getController('video', $this->tmpl);					
@@ -49,7 +49,7 @@
 					$this->redirect($this->ctx());
 				}
 			}else{
-				$video = $videoModel->getVideoByVideoAlias(array($videoAlias, $user['id']));
+				$video = $videoModel->getVideoByVideoAlias(array($videoAlias, $user['id']));				
 				if($video == null){
 					$album = $albumModel->getAlbumByAlbumAlias(array($albumAlias, $user['id']));
 					if($album != null && ($user['id'] == $album['user_id'])){
