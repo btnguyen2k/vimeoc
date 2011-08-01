@@ -161,7 +161,7 @@
 						return;	
 					}
 					
-					$this->model_video->deleteAllTagComponentsByVideoId(array($videoid));
+					$this->model_video->deleteAllTagComponentsByVideoId(array(COMPONENT_VIDEO_TYPE,$videoid));
 				}else{
 					$this->loadTemplate('view_404');
 					return;
@@ -177,7 +177,7 @@
 							$this->model_video->addTagName(array($slipTag[$j]));			
 							$tagNewId=$this->model_video->getTagIdByName(array($slipTag[$j]));
 							//$this->model_video->deleteTagIdAndComponentId(array($tagNewId[0]["id"],$videoid));
-							$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],"1",$videoid));
+							$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],COMPONENT_VIDEO_TYPE,$videoid));
 						}
 						else 
 						{
@@ -187,7 +187,7 @@
 							{
 								$this->assign('successMessage', $this->loadMessages('user.videosetting.updatesuccess'));
 								//$this->model_video->deleteTagIdAndComponentId(array($tagNewId[0]["id"],$videoid));
-								$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],'1',$videoid));
+								$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],COMPONENT_VIDEO_TYPE,$videoid));
 							}
 							else 
 							{
