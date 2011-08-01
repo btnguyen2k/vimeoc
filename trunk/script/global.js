@@ -92,7 +92,7 @@ function showFaceboxIframe()
 {
 	var href = $('a.facebox-iframe').attr('href');
 	var $preview = $('<div>');
-	$preview.html("<iframe width='700' height='100%' frameborder='0' src='"+href+"'></iframe>");
+	$preview.html("<iframe width='500px' height='400px' frameborder='0' src='"+href+"'></iframe>");
 	$(document).append($preview);
 	$.facebox($preview.html());
 	return false;
