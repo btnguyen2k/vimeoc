@@ -2,11 +2,7 @@
 	function checkvalidate()
 	{
 		var title= document.getElementById("title").value;
-		var description= document.getElementById("description").value;
-		var tag= document.getElementById("tag").value;
 
-		
-		
 		var flag=true;
 
 		if(title==""){
@@ -16,9 +12,7 @@
 			$("#error_valid_title").hide();
 		}	
 			
-		return flag;
-
-		
+		return flag;		
 	}
 </script>
 
