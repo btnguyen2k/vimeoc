@@ -997,6 +997,7 @@
 				$this->assignVideoThumbnails($video);
 				$this->assign("videoName",$video['video_title']);
 				$this->assign("videoId",$videoid);
+				$this->model_video->deleteAllTagComponentsByVideoId(array(COMPONENT_VIDEO_TYPE,$videoid));
 				$this->model_video->dropVideoByVideoId(array($videoid));
 				$this->redirect($this->ctx().'/user/video/');
 			}
