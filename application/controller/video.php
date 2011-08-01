@@ -555,6 +555,8 @@
 			$this->loadModel('model_album');
 			$model_album = $this->model_album;
 			
+			$user = $model_user->getUserByUserId(array($userId));
+			
 			if ($_SERVER['REQUEST_METHOD'] == 'GET'){
 				$videoId = $_GET['videoId'];
 				if(!$videoId){
@@ -574,7 +576,6 @@
 					}	
 				}
 				
-				$user = $model_user->getUserByUserId(array($userId));
 				$this->assign('user_alias', $user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']);
 				$this->assign('video_alias', $video['video_alias']);
 				$this->assignVideoThumbnails($video);
@@ -639,10 +640,11 @@
 						$this->assign('successMessage', $this->loadMessages('video.customurl.success'));
 						$this->assign('video_alias', $url_alias);
 						
-						if(!$url_alias){
-							$previewLink = BASE_PATH . CONTEXT . "/" . $video['video_id'];
+						if(!$video['video_alias']){
+							$userAlias = empty($user['profile_alias']) ? 'user'.$user['id'] : $user['profile_alias'];
+							$previewLink = BASE_PATH . CONTEXT . "/" . $userAlias . '/' . $video['video_id'];
 						}else{
-							$previewLink = BASE_PATH . CONTEXT . "/" . ($user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']) .  "/" . $url_alias;
+							$previewLink = BASE_PATH . CONTEXT . "/" . ($user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']) .  "/" . $video['video_alias'];
 						}
 						$this->assign("previewUrl", $previewLink);
 					}else{
@@ -654,10 +656,12 @@
 				
 				if($errorFlag){
 					if(!$video['video_alias']){
-						$previewLink = BASE_PATH . CONTEXT . "/" . $video['video_id'];
+						$userAlias = empty($user['profile_alias']) ? 'user'.$user['id'] : $user['profile_alias'];
+						$previewLink = BASE_PATH . CONTEXT . "/" . $userAlias . '/' . $video['video_id'];
 					}else{
 						$previewLink = BASE_PATH . CONTEXT . "/" . ($user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']) .  "/" . $video['video_alias'];
 					}
+					
 					$this->assign("previewUrl", $previewLink);
 				}
 				
@@ -769,7 +773,6 @@
 				$strTags="";
 				for($i=0;$i<sizeof($tags);$i++)
 				{
-					//$strTags .= "<a href=\"{$this->ctx()}\\tag\\{$tags[$i]['id']}\">".$tags[$i]['name'] . '</a>, ' ; 
 					$strTags .= $tags[$i]['name'] . ', ' ;
 				}
 				$strTags = substr(trim($strTags), 0, -1); 
@@ -1040,7 +1043,6 @@
 				$strTags="";
 				for($i=0;$i<sizeof($tags);$i++)
 				{
-					//$strTags .= "<a href=\"{$this->ctx()}\\tag\\{$tags[$i]['id']}\">".$tags[$i]['name'] . '</a>, ' ; 
 					$strTags .= $tags[$i]['name'] . ', ' ;
 				}
 				$strTags = substr(trim($strTags), 0, -1); 
