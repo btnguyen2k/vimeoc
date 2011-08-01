@@ -103,6 +103,7 @@
 				<:/if:>
 				<br/>
 			<:/foreach:>
+			<span style="width:100%"><:$pagination:></span>
 		<:else:>
 			<div>
 				<ul id="thumbnail">
