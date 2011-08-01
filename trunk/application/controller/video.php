@@ -598,7 +598,7 @@
 				$errorFlag = false;
 				
 				//server side validate here
-				$urlReg = "/^[a-z0-9]{0,32}\$/";
+				$urlReg = "/^[a-zA-Z0-9]{1,16}\$/";
 				if(!preg_match($urlReg, $url_alias)){
 					$this->assign('errorMessage', $this->loadErrorMessage('error.video.alias.invalidUrl'));
 					$errorFlag = true;
@@ -610,6 +610,14 @@
 					$this->loadTemplate('view_access_denied');
 					return;
 				}
+				
+				$reservedKeywords = $this->loadResources('shortcut.url.reserved.video');
+				$reservedKeywords = split(",",$reservedKeywords);
+				if(in_array($url_alias, $reservedKeywords)){
+					$this->assign('errorMessage', $this->loadErrorMessage('error.video.alias.invalidUrl'));
+					$errorFlag = true;					
+				}
+				
 				$user = $model_user->getUserByUserId(array($userId));
 				$this->assign('user_alias', $user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']);
 				$this->assign('videoId', $videoId);

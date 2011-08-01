@@ -2,7 +2,15 @@
 function checkUrl(form){
 	var url = $(form).find("input[name=url]").val();		
 	var link = "<:$domain:>/";
-	var flag = shortcutReg.test(url) && url.length <= 32;
+	var flag = shortcutReg.test(url) && url.length <= 16;
+
+	if(url == '')
+	{
+		$("#error_valid_url").show();		
+		return false;
+	}else{
+		$("#error_valid_url").hide();
+	}
 
 	if(url==$('#albumCustom').val())
 	{

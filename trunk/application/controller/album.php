@@ -1056,8 +1056,16 @@
 					$this->loadTemplate('view_404');
 					return;
 				}
+				
+				$reservedKeywords = $this->loadResources('shortcut.url.reserved.album');
+				$reservedKeywords = split(",",$reservedKeywords);
+				if(in_array($albumCustomUrl, $reservedKeywords)){
+					$this->assign('errorMessage', $this->loadErrorMessage('error.album.alias.invalidUrl'));
+					$errorFlag = true;					
+				}
+				
 				//server side validate here
-				$urlReg = "/^[a-z0-9]{0,32}\$/";
+				$urlReg = "/^[a-zA-Z0-9]{1,16}\$/";
 				if(!preg_match($urlReg, $albumCustomUrl)){
 					$this->assign('errorMessage', $this->loadErrorMessage('error.album.alias.invalidUrl'));
 					$errorFlag = true;
