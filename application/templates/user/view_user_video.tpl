@@ -87,7 +87,7 @@
 				Albums: <:foreach from=$v['album'] key=k1 item=v1 name=albums:><a href="<:$ctx:>/album/<:$v1['album_id']:>"><:$v1['album_name']:></a><:if $smarty.foreach.albums.last:><:else:>, <:/if:><:/foreach:><br/>
 				<:/if:>
 				<:if $v['tag']|@count gt 0:>
-				Tags: <:foreach from=$v['tag'] key=k1 item=v1 name=tags:><a href="<:$ctx:>/tag/<:$v1['tag_id']:>"><:$v1['tag_name']:></a><:if $smarty.foreach.tags.last:> <:else:>, <:/if:><:/foreach:><br/>
+				Tags: <:foreach from=$v['tag'] key=k1 item=v1 name=tags:><:$v1['tag_name']:></a><:if $smarty.foreach.tags.last:> <:else:>, <:/if:><:/foreach:><br/>
 				<:/if:>
 				<:if $albums|@count gt 0:>
 				Choose albums:

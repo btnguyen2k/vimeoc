@@ -37,7 +37,7 @@
 					<li>
 						<span><:$profileShortcut:></span><br/>
 						<:$domain:>/<input name="alias" value="<:$alias:>" maxlength="16"/>	
-						<span class="red" id="error_valid_alias" style="display: none;">Invalid shortcut</span>					
+						<span class="red" id="error_valid_alias" style="display: none;">Invalid shortcut! It can only contain up to 16 letters and digits; and must start with a letter.</span>					
 					</li>
 					<li>
 						<span>It can be up to 16 characters long, but only letters and numbers</span>

@@ -15,20 +15,6 @@
 		}else{
 			$("#error_valid_title").hide();
 		}	
-
-		if(description==""){
-			$("#error_valid_description").show();
-			flag=false;
-		}else{
-			$("#error_valid_description").hide();
-		}	
-
-		if(tag==""){
-			$("#error_valid_tag").show();
-			flag=false;
-		}else{
-			$("#error_valid_tag").hide();
-		}	
 			
 		return flag;
 
@@ -63,12 +49,10 @@
 					<li>
 						<span><:$description:></span><br/>
 						<textarea type="text" name="description" id="description" ><:$description_:></textarea>
-						<span class="red" id="error_valid_description" style="display: none;"><:$descriptionInvalid:></span>
 					</li>
 					<li>
 						<span><:$tag:></span><br/>
 						<input type="text" name="tag" id="tag" size=40 value="<:$tag_:>"/>
-						<span class="red" id="error_valid_tag" style="display: none;"><:$tagInvalid:></span>
 					</li>
 					<li>
 						<input type="submit" value="Save" />

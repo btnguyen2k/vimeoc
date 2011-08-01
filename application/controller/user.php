@@ -288,6 +288,7 @@
 				$this->assign('fullName', $user['full_name']);
 				$this->assign('email', $user['email']);
 				$this->assign('website', $user['website']);
+				$this->setSessionValue("fullname", $user['full_name']);
 				$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_info');
 			}
 		}

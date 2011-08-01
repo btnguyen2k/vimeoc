@@ -30,7 +30,7 @@
 			$("#error_valid_password").hide();
 			$("#error_less_password").hide();
 		}	 
-
+		
 		if(y==""){
 			$("#error_valid_rpassword").show();
 			$("#error_less_rpassword").hide();
