@@ -647,12 +647,14 @@
 					if(($video['video_alias'] == $url_alias) ||$model_video->updateAliasById(array($url_alias, $videoId))){
 						$this->assign('successMessage', $this->loadMessages('video.customurl.success'));
 						$this->assign('video_alias', $url_alias);
-						
-						if(!$video['video_alias']){
+
+						//if(!$video['video_alias']){
+						if ( empty($url_alias) ) {
 							$userAlias = empty($user['profile_alias']) ? 'user'.$user['id'] : $user['profile_alias'];
 							$previewLink = BASE_PATH . CONTEXT . "/" . $userAlias . '/' . $video['video_id'];
 						}else{
-							$previewLink = BASE_PATH . CONTEXT . "/" . ($user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']) .  "/" . $video['video_alias'];
+							$userAlias = empty($user['profile_alias']) ? 'user'.$user['id'] : $user['profile_alias'];
+							$previewLink = BASE_PATH . CONTEXT . "/" . $userAlias .  "/" . $url_alias;
 						}
 						$this->assign("previewUrl", $previewLink);
 					}else{
