@@ -1,7 +1,7 @@
 <div id="channel_delete" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/channel_left_menu.tpl":>	
 	<div id="channel_channeldelete_body" class="page_body">
-		<center><h1><:$title:>-<:$name:></h1></center>
+		<center><h1><:$title|escape:'html':>-<:$name:></h1></center>
 		<span class="green" align="center"><:$successMessage:></span>
 		<form action="<:$ctx:>/channel/channelDelete/?channelId=<:$channelId:>" method="post" name="channeldelete" >
 			<fieldset>

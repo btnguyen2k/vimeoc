@@ -51,7 +51,7 @@ $(document).ready(function() {
 <div id="album_password" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
 	<div id="album_albumpassword_body" class="page_body">
-		<center><h1><:$albumName:>-<:$name:></h1></center>
+		<center><h1><:$albumName|escape:'html':>-<:$name:></h1></center>
 		<:if $successMessage eq "":>
   			&nbsp;
 		<:else:>

@@ -14,7 +14,7 @@
 				<div>
 					<:foreach from=$recent_videos key=k item=v:>
 						<a href="<:$ctx:>/video/<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
-						<:$v['video_title']:><br/><br/>
+						<:$v['video_title']|escape:'html':><br/><br/>
 					<:/foreach:>
 				</div>
 			</div>

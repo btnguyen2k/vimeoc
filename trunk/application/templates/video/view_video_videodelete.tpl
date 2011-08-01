@@ -1,7 +1,7 @@
 <div id="video_delete" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
 			<div id="video_delete_body" class="page_body">
-				<center><h1><:$videoName:> - <:$name:></h1></center>
+				<center><h1><:$videoName|escape:'html':> - <:$name:></h1></center>
 				<form action="<:$ctx:>/video/videoDelete/?videoId=<:$videoId:>" method="post" name="albumDelete" >
 					<fieldset>
 						<ul>

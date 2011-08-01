@@ -3,7 +3,7 @@
 <div id="user_info" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/channel_left_menu.tpl":>	
 	<div id="album_page_body" class="page_body">
-		<center><h1><:$channel_title:> - <:$title:></h1></center><br/>
+		<center><h1><:$channel_title|escape:'html':> - <:$title:></h1></center><br/>
 		<span id="error_message" class="red"><:$errorMessage:></span>
 		<span id="info_message" class="green"><:$successMessage:></span>
 		<form id="channel_arrange_form" name="channel_arrange_form" method="post" action="">

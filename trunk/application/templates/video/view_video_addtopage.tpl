@@ -35,7 +35,7 @@
 <div id="video_addtopage" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
 	<div id="video_addtopage_body" class="page_body">	
-		<h1 align="center"><:$video:> - <:$title:></h1><br/>
+		<h1 align="center"><:$video|escape:'html':> - <:$title:></h1><br/>
 		<span class="green" align="center"><:$successMessage:></span>
 		<span class="red" align="center"><:$errorMessage:></span>		
 		<:if $albums|@count == 0:>
@@ -47,7 +47,7 @@
 					<li>
 						<:section name=a loop=$albums:>
 						<input type="checkbox" name="albums" id="album_<:$albums[a].id:>" value="<:$albums[a].id:>"/>
-						<:$albums[a].album_name:><br/>
+						<:$albums[a].album_name|escape:'html':><br/>
 						<:/section:>
 						<input type="hidden" name="videoid" value="<:$videoid:>">
 						<input type="hidden" name="album_id" id="album_id" value=""/>
