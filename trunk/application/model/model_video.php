@@ -553,8 +553,8 @@
 		 */
 		function deleteAllTagComponentsByVideoId($params)
 		{
-			$sql = 'delete from tag_component where component_type=1 and component_id=?';
-			$types = array('integer');
+			$sql = 'delete from tag_component where component_type=? and component_id=?';
+			$types = array('integer','integer');
 			$this->execute_command($sql, $params, $types);
 		}
 		

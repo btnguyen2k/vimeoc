@@ -543,6 +543,9 @@
 				$res=$this->model_user->isExistUserId(array($userId));				
 				if($res==0)
 				{
+					$this->assign("access1",$this->loadMessages('auth.accessdenied1'));
+					$this->assign("access2", $this->loadMessages('auth.accessdenied2'));
+					$this->assign("access3", $this->loadMessages('auth.accessdenied3'));
 					$this->loadTemplate('view_access_denied');
 					return;
 				}
@@ -565,6 +568,9 @@
 				$res=$this->model_user->isExistUserId(array($userId));
 				if($res==0)
 				{
+					$this->assign("access1",$this->loadMessages('auth.accessdenied1'));
+					$this->assign("access2", $this->loadMessages('auth.accessdenied2'));
+					$this->assign("access3", $this->loadMessages('auth.accessdenied3'));
 					$this->loadTemplate('view_access_denied');
 					return;
 				}
@@ -587,6 +593,9 @@
 				$res=$this->model_user->isExistUserId(array($userId));
 				if($res==0)
 				{
+					$this->assign("access1",$this->loadMessages('auth.accessdenied1'));
+					$this->assign("access2", $this->loadMessages('auth.accessdenied2'));
+					$this->assign("access3", $this->loadMessages('auth.accessdenied3'));
 					$this->loadTemplate('view_access_denied');
 					return;
 				}

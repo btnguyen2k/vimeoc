@@ -62,9 +62,6 @@
 	function checkvalidate()
 	{
 		var title= $("#title").val();
-		var description= $("#description").val();
-		var tag= $("#tag").val();
-		var videoId = $("#videoid").val();
 
 		var flag=true;
 
@@ -73,21 +70,8 @@
 			flag=false;
 		}else{
 			$("#error_valid_title").hide();
-		}	
+		}
 
-		if(description==""){
-			$("#error_valid_description").show();
-			flag=false;
-		}else{
-			$("#error_valid_description").hide();
-		}	
-
-		if(tag==""){
-			$("#error_valid_tag").show();
-			flag=false;
-		}else{
-			$("#error_valid_tag").hide();
-		}	
 		if(flag){
 			createUploadingVideo();
 		}
@@ -152,12 +136,10 @@
 				<li>
 					<span><:$description:></span><br/>
 					<textarea type="text" name="description" id="description" ></textarea>
-					<span class="red" id="error_valid_description" style="display: none;"><:$descriptionInvalid:></span>
 				</li>
 				<li>
 					<span><:$tag:></span><br/>
 					<input type="text" name="tag" id="tag" size="40"/>
-					<span class="red" id="error_valid_tag" style="display: none;"><:$tagInvalid:></span>
 				</li>
 				<li>
 					<input type="hidden" name="tcid" id="tcid" value="<:$tcid:>" />

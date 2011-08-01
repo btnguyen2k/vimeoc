@@ -47,6 +47,7 @@
 			$this->assign("email",$this->loadMessages('auth.login.username'));
 			$this->assign("password", $this->loadMessages('auth.login.password'));
 			$this->assign("submit", $this->loadMessages('auth.login.submit'));
+			$this->assign("forgot", $this->loadMessages('auth.login.forgot'));
 			
 			$this->assign('passwordInvalid', $this->loadErrorMessage('error.password.invalid'));
 			$this->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
@@ -69,6 +70,7 @@
 			$login=$value['value'];
 			if($login==0)
 			{
+				$this->assign("maintain", $this->loadMessages('auth.maintain'));
 				$this->loadTemplate('view_site_maintain');
 				return;
 			}
@@ -240,6 +242,7 @@
 			$this->assign("rpassword", $this->loadMessages('auth.signup.rpassword'));
 			$this->assign("understand", $this->loadMessages('auth.signup.understand'));
 			$this->assign("term", $this->loadMessages('auth.signup.term'));
+			$this->assign("thankyou", $this->loadMessages('auth.signup.thankyou'));
 			
 			$this->assign('passwordInvalid', $this->loadErrorMessage('error.password.invalid'));
 			$this->assign('mathpasswordInvalid', $this->loadErrorMessage('error.mathpassword.invalid'));
@@ -270,6 +273,7 @@
 			$signup=$value['value'];
 			if($signup==0)
 			{
+				$this->assign("maintain", $this->loadMessages('auth.maintain'));
 				$this->loadTemplate('view_site_maintain');
 				return;
 			}
@@ -374,6 +378,7 @@
 					$user['domain']=BASE_PATH . CONTEXT;
 					$this->sendingEmailWithSmarty('mail_forgotpassword', 'user', $user, null, $user['email']);
 					$this->assign("sent",$this->loadMessages('auth.submitsucceed.sent'));
+					$this->assign("success",$this->loadMessages('auth.submitsucceed.success'));
 					$this->loadTemplate('view_sent_resetpassword_result');
 				}		
 			}
