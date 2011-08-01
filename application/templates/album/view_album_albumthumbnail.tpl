@@ -1,7 +1,7 @@
 <div id="album_albumthumbnail" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
 	<div id="album_albumthumbnail_body" class="page_body">
-		<center><h1><:$albumName:><:$name:></h1></center>
+		<center><h1><:$albumName|escape:'html':><:$name:></h1></center>
 			<:if $succeesMessage eq "":>
   				 &nbsp;
 			<:else:>
@@ -39,7 +39,7 @@
 								<img width="100" height="100" src="<:$ctx:>/images/upload/<:$videoThumbnails[a].thumbnails_path:>" />
 							<:/if:>
 						<:/if:>
-						<:$videoThumbnails[a].video_title:><br/>
+						<:$videoThumbnails[a].video_title|escape:'html':><br/>
 						<:/section:>
 					
 					</li>

@@ -17,7 +17,7 @@ function checkValidForm()
 <div id="album_albumsetting" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
 	<div id="album_albumsetting_body" class="page_body">
-		<center><h1><:$title_:><:$name:></h1></center>
+		<center><h1><:$title_|escape:'html':><:$name:></h1></center>
 		<span class="green" align="center"><:$successMessage:></span>
 		<form action="<:$ctx:>/album/albumsetting/?albumId=<:$albumId:>" method="post" name="albumsetting" onSubmit="return checkValidForm(this)" >
 			<fieldset>

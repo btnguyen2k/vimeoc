@@ -3,7 +3,7 @@
 <div id="user_info" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/channel_left_menu.tpl":>		
 	<div id="user_video_body" class="page_body">
-		<center><h1><:$title:> <:$channel_name:></h1></center><br/>
+		<center><h1><:$title:> <:$channel_name|escape:'html':></h1></center><br/>
 		<form id="search_form" name="search_from" action="<:$ctx:>/channel/" method="GET">
 		<input type="hidden" id="channelId" name="channelId" value="<:$channelId:>"></input>
 		<select id="mode" name="mode">
@@ -25,7 +25,7 @@
 			<:foreach from=$videos key=k item=v:>
 				<a href="<:$ctx:>/video/<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
 				<:if $v['video_title'] != '':>
-				Title: <:$v['video_title']:><br/>
+				Title: <:$v['video_title']|escape:'html':><br/>
 				<:/if:>
 				<div class="creation_date">Uploaded: <span class=""><:$v['creation_date']:></span></div>
 				Play count: <:$v['play_count']:><br/>
@@ -42,7 +42,7 @@
 			<:foreach from=$videos key=k item=v:>
 				<a href="<:$ctx:>/video/<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
 				<:if $v['video_title'] != '':>
-				Title: <:$v['video_title']:>
+				Title: <:$v['video_title']|escape:'html':>
 				<:/if:><br/><br/>
 			<:/foreach:>
 		<:/if:>

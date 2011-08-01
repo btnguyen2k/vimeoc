@@ -29,7 +29,7 @@
 			<:foreach from=$videos key=k item=v:>
 				<a href="<:$ctx:>/video/<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
 				id: <:$v['id']:><br/>
-				title: <:$v['video_title']:><br/>
+				title: <:$v['video_title']|escape:'html':><br/>
 				<div class="creation_date">uploaded: <span class="relative_time"><:$v['creation_date']:></span></div>
 				play count: <:$v['play_count']:><br/>
 				comment count: <:$v['comment_count']:><br/>
@@ -40,7 +40,7 @@
 		<:else:>
 			<:foreach from=$videos key=k item=v:>
 				<a href="<:$ctx:>/video/<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
-				title: <:$v['video_title']:><br/><br/>
+				title: <:$v['video_title']|escape:'html':><br/><br/>
 			<:/foreach:>
 		<:/if:>
 		<:$message:>

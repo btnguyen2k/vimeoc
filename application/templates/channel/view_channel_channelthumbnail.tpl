@@ -1,7 +1,7 @@
 <div id="channel_albumthumbnail" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/channel_left_menu.tpl":>	
 	<div id="channel_channelthumbnail_body" class="page_body">
-		<center><h1><:$channelName:><:$name:></h1></center>
+		<center><h1><:$channelName|escape:'html':><:$name:></h1></center>
 			<:if $succeesMessage eq "":>
   				 &nbsp;
 			<:else:>

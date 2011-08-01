@@ -25,7 +25,7 @@ function checkUrl(form){
 <div id="album_customURL" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
 	<div id="album_albumcustomURL_body" class="page_body">
-		<center><h1><:$albumName:><:$title:></h1></center>
+		<center><h1><:$albumName|escape:'html':><:$title:></h1></center>
 			<:if $successMessage eq "":>
   				 &nbsp;
 			<:else:>

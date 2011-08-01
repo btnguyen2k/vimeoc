@@ -34,7 +34,7 @@
 <div id="video_custom_url" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
 	<div id="video_custom_url_body" class="page_body">
-		<center><h1><:$videoTitle:> - <:$title:></h1></center><br/>		
+		<center><h1><:$videoTitle|escape:'html':> - <:$title:></h1></center><br/>		
 		<span id="error_message" class="red"><:$errorMessage:></span>
 		<span id="info_message" class="green"><:$successMessage:></span>
 		<form action="<:$ctx:>/video/customUrl/" method="post" onsubmit="return checkUrl(this);">
@@ -42,7 +42,7 @@
 				<ul>
 					<li>
 						<span><:$chooseYourCustomUrl:></span><br/>
-						<:$domain:>/<:$user_alias:>/<input id="url_alias" name="url_alias" value="<:$video_alias:>" maxlength="32"/>
+						<:$domain:>/<:$user_alias|escape:'html':>/<input id="url_alias" name="url_alias" value="<:$video_alias:>" maxlength="32"/>
 						<span class="red" id="error_valid_alias" style="display: none;">Invalid shortcut</span>						
 					</li>
 					<li>

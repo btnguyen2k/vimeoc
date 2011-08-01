@@ -10,7 +10,7 @@
 			<:/if:>
 			</a>
 			<p>
-			<:$smarty.session.fullname:>
+			<:$smarty.session.fullname|escape:'html':>
 			</p>
 		</li>
 	</ul>

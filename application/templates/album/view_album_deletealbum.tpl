@@ -1,7 +1,7 @@
 <div id="album_delete" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
 	<div id="album_albumdelete_body" class="page_body">
-		<center><h1><:$albumName:>-<:$name:></h1></center>
+		<center><h1><:$albumName|escape:'html':>-<:$name:></h1></center>
 		<form action="<:$ctx:>/album/albumDelete/?albumId=<:$albumId:>" method="post" name="albumDelete" >
 			<fieldset>
 				<ul>

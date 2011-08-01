@@ -4,7 +4,7 @@
 	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
 	<br/><br/>
 	<div id="album_page_body" class="page_body">
-		<center><h1><:$album_title:> - <:$title:></h1></center><br/>
+		<center><h1><:$album_title|escape:'html':> - <:$title:></h1></center><br/>
 		<span id="error_message" class="red"><:$errorMessage:></span>
 		<span id="info_message" class="green"><:$successMessage:></span>
 		<form id="album_arrange_form" name="album_arrange_form" method="post" action="">
@@ -21,7 +21,7 @@
 		<div id="video_list">
 		<:foreach from=$videos key=k item=v:>
 			<a href="<:$ctx:>/video/<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
-			title: <:$v['video_title']:><br/>
+			title: <:$v['video_title']|escape:'html':><br/>
 			<div class="creation_date">uploaded: <span class=""><:$v['creation_date']:></span></div><br/>
 		<:/foreach:>
 		</div>

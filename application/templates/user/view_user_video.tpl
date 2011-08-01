@@ -46,7 +46,7 @@
 <div id="user_info" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/user_left_menu.tpl":>
 	<div id="user_video_body" class="page_body">
-		<center><h1><:$user_fullname:>'s <:$title:></h1></center><br/>
+		<center><h1><:$user_fullname|escape:'html':>'s <:$title:></h1></center><br/>
 		<form id="search_form" name="search_from" action="<:$ctx:>/user/video/">
 		<select id="mode" name="mode">
 			<:foreach from=$display_modes key=k item=v:>
@@ -70,8 +70,6 @@
 			<input type="text" id="term" name="term" value="<:$search_term:>" style="display:none;"></option>
 		<:/if:>
 		<input type="hidden" name="page" value="<:$page:>"></input>
-		<!--input type="hidden" name="albumid" value=""/>
-		<input type="hidden" name="videoid" value="" /-->
 		<input type="submit" value="Submit"></input>
 		</form>
 
@@ -79,7 +77,7 @@
 			<:foreach from=$videos key=k item=v:>
 				<a href="<:$ctx:>/video/<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
 				<:if $v['video_title'] != '':>
-				Title: <:$v['video_title']:><br/>
+				Title: <:$v['video_title']|escape:'html':><br/>
 				<:/if:>
 				<div class="creation_date">Uploaded: <span class=""><:$v['creation_date']:></span></div>
 				Play count: <:$v['play_count']:><br/>
@@ -120,7 +118,7 @@
 									<tr>
 										<td>
 											<:if $v['video_title'] != '':>
-												Title: <:$v['video_title']:>
+												Title: <:$v['video_title']|escape:'html':>
 											<:/if:>
 										</td>
 									</tr>
