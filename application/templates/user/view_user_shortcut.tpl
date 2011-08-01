@@ -11,10 +11,17 @@
 
 		if(allowReg.test(alias)){
 			flag = alias == defaultAlias;
+			if(!flag){
+				$("#error_reserved_alias").show();
+				$("#error_valid_alias").hide();
+				return false;
+			}else{
+				$("#error_reserved_alias").hide();
+			}
 		}
 		
 		if(!flag){
-			$(".top_error_msg").hide();					
+			$(".top_error_msg").hide();
 			$(".top_success_msg").hide();
 			$("#error_valid_alias").show();			
 			return false;
@@ -37,7 +44,8 @@
 					<li>
 						<span><:$profileShortcut:></span><br/>
 						<:$domain:>/<input name="alias" value="<:$alias:>" maxlength="16"/>	
-						<span class="red" id="error_valid_alias" style="display: none;">Invalid shortcut! It can only contain up to 16 letters and digits; and must start with a letter.</span>					
+						<span class="red" id="error_valid_alias" style="display: none;">Invalid shortcut! It can only contain up to 16 letters and digits; and must start with a letter.</span>
+						<span class="red" id="error_reserved_alias" style="display: none;">Invalid! This shortcut is reserved.</span>											
 					</li>
 					<li>
 						<span>It can be up to 16 characters long, but only letters and numbers</span>
