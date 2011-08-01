@@ -137,8 +137,16 @@
 				$defaultRegex = '/^user[0-9]{1,12}$/';
 				$defaultAlias = 'user'.$user['id'];
 				$userAlias = $user['profile_alias'];
+				$reservedKeywords = $this->loadResources('shortcut.url.reserved.user');
+				$reservedKeywords = split(",",$reservedKeywords);
 				
-				if(preg_match($regex, $alias)){
+				if(in_array($alias, $reservedKeywords)){
+					$this->assign('defaultAlias', $defaultAlias);
+					$this->assign('errorMessage', $this->loadErrorMessage('error.user.shortcut.invalid', array($alias)));
+					$this->assign('alias', $user['profile_alias']);
+					$this->loadTemplate(USER_TEMPLATE_DIR.'view_user_shortcut');
+					return;
+				}else if(preg_match($regex, $alias)){
 					if(preg_match($defaultRegex, $alias) && ($alias != $defaultAlias)){
 						if($userAlias == null || $userAlias == ''){
 							$userAlias = $defaultAlias;

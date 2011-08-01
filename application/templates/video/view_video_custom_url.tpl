@@ -18,7 +18,7 @@
 			return false;
 		}
 
-		var flag = shortcutReg.test(url) && url.length <= 32;
+		var flag = shortcutReg.test(url) && url.length <= 16;
 
 		if(!flag){
 			$("#error_message").hide();					
