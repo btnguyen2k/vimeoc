@@ -46,7 +46,7 @@
 <div id="user_info" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/user_left_menu.tpl":>
 	<div id="user_video_body" class="page_body">
-		<center><h1><:$user_fullname|escape:'html':>'s <:$title:></h1></center><br/>
+		<center><h1><:$user_fullname|escape:'html':>'s <:$title|escape:'html':></h1></center><br/>
 		<form id="search_form" name="search_from" action="<:$ctx:>/user/video/">
 		<select id="mode" name="mode">
 			<:foreach from=$display_modes key=k item=v:>
@@ -92,13 +92,13 @@
 				<:if $albums|@count gt 0:>
 				Choose albums:
 				<:foreach from=$albums key=l item=a:>					
-					<input type="checkbox" id="<:$a['id']:>" name ="<:$v['id']:>" onclick="addVideoToAlbum(this)" <:foreach from=$v['album'] key=l1 item=va:><:if $va['album_id'] eq $a['id']:>checked='true'<:/if:><:/foreach:>><:$a['album_name']:></input>
+					<input type="checkbox" id="<:$a['id']:>" name ="<:$v['id']:>" onclick="addVideoToAlbum(this)" <:foreach from=$v['album'] key=l1 item=va:><:if $va['album_id'] eq $a['id']:>checked='true'<:/if:><:/foreach:>><:$a['album_name']|escape:'html':></input>
 				<:/foreach:><br/>
 				<:/if:>
 				<:if $channels|@count gt 0:>
 				Choose channels:
 				<:foreach from=$channels key=l item=a:>					
-					<input type="checkbox" id="<:$a['id']:>" name ="<:$v['id']:>" onclick="addVideoToChannel(this)" <:foreach from=$v['channel'] key=l1 item=va:><:if $va['channel_id'] eq $a['id']:>checked='true'<:/if:><:/foreach:>><:$a['channel_name']:></input>
+					<input type="checkbox" id="<:$a['id']:>" name ="<:$v['id']:>" onclick="addVideoToChannel(this)" <:foreach from=$v['channel'] key=l1 item=va:><:if $va['channel_id'] eq $a['id']:>checked='true'<:/if:><:/foreach:>><:$a['channel_name']|escape:'html':></input>
 				<:/foreach:><br/>
 				<:/if:>
 				<br/>
