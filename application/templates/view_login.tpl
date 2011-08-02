@@ -48,7 +48,7 @@ function checkEmail()
 		<span class="red" id="error_password_invalid" style="display: none;"><:$passwordInvalid:></span>
 	</div>
 	<div>
-		<input type="submit" value="<:$submit:>"/><a href="<:$ctx:>/auth/forgotPassword">[Forgot your password ?]</a>
-		<a href="<:$ctx:>/auth/signup">[Sign up ?]</a>
+		<input type="submit" value="<:$submit:>"/><a href="<:$ctx:>/auth/forgotPassword"><:$forgot:></a>
+		<a href="<:$ctx:>/auth/signup"><:$signuptitle:></a>
 	</div>
 </form>
