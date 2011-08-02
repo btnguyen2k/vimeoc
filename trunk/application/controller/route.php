@@ -28,14 +28,31 @@
 			$albumModel = $this->getModel('model_album');
 			$videoModel = $this->getModel('model_video');
 			
+			$defaultRegex = '/^user[0-9]{1,12}$/';
+			
 			$user = $userModel->getUserByUserAlias(array($userAlias));
 			
 			if($user == null){
 				$user = $userModel->getUserByUsername(array($userAlias));
-				if(user == null){
-					$this->redirect($this->ctx());
-					return;
+				if($user == null){		
+					if(preg_match($defaultRegex, $userAlias)){
+						$userId = substr($userAlias, 4);
+						$user = $userModel->getUserByUserId($userId);
+					}						
 				}
+			}
+			
+			if($user == null){
+				$this->redirect($this->ctx());
+				return;
+			}
+			
+			if(!isset($videoAlias) && !isset($albumAlias)){
+				$_GET['userId'] = $user['id']; 	
+				$controller = $this->getController('user', $this->tmpl);					
+				$controller->userprofileMessagesSource();
+				$controller->userprofile();
+				return;
 			}
 			
 			if(is_numeric($videoAlias)){
