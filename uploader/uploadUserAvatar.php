@@ -12,7 +12,7 @@ if($uploader->getLoggedUser() > 0){
 	$ret = $uploader->upload($uploader->loadResources('image.upload.path'), null, $uploader->loadResources('image.upload.ext.support'), $uploader->loadResources('image.upload.maxsize'));
 	$fileExists = $uploader->isFileExists($uploader->loadResources('image.upload.path'), $ret);
 	$logger->lwrite('Write file result: ' . $fileExists);	
-	if(!is_numeric($ret) && ){		
+	if(!is_numeric($ret) && $fileExists){		
 		$model_user = $uploader->getModel('model_user');
 		$model_user->updateUserAvatar(array($ret, $uploader->getLoggedUser()));
 		$target = BASE_DIR . $uploader->loadResources('image.upload.path') . $ret;
