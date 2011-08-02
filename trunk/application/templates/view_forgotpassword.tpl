@@ -1,4 +1,3 @@
-<title>Forgot Password</title>
 <script  type="text/javascript">
 	function checkEmail(){	
 	    var pattern=/^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.([a-zA-Z])+([a-zA-Z])+/;
