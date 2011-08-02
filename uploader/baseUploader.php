@@ -36,6 +36,12 @@
 			$this->log->lfile('../log/logfile.log');		
 		}
 		
+		function isFileExists($folderTarget, $fileName){
+			$targetPath = $_SERVER['DOCUMENT_ROOT'] . $this->loadResources('context') . $folderTarget;
+			$targetFile =  str_replace('//','/',$targetPath) . $fileName;
+			return file_exists($targetFile);
+		}
+		
 		function upload($folderTarget, $folderThumbnails, $fileTypes=null, $maxSize=5){
 			$this->log->lwrite($folderTarget);
 			$this->log->lwrite($fileTypes);
