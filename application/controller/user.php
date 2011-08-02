@@ -383,6 +383,7 @@
 			$this->loadModel('model_user');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
+				$defaultRegex = '/^user[0-9]{1,12}$/';
 				$id=$_GET['userId'];
 				$profileAlias=$_GET['profileAlias'];
 				
@@ -390,9 +391,9 @@
 					$profileAlias = $var;
 				}
 				
-				if(!empty($profileAlias)){
+				if(preg_match($defaultRegex, $profileAlias)){
 					if(stripos($profileAlias, 'user') == 0){
-						$id = (int)str_replace('user', '', $profileAlias);						
+						$id = (int)substr($profileAlias, 4);						
 					}
 				}
 				
