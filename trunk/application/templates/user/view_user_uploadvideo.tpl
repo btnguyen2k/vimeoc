@@ -24,7 +24,8 @@
           },
           'onError' : function (event,ID,fileObj,errorObj) {
         	  $("#top_error").html(errorObj.type + ' Error: ' + errorObj.info);
-          },'onSelect'    : function(event,ID,fileObj) {			  
+          },
+          'onSelect'    : function(event,ID,fileObj) {			  
         	  var exts = '<:$videoExtSupport:>';
         	  if(exts.indexOf(fileObj.type) < 0){
         		  $("#top_success").hide();
@@ -36,6 +37,7 @@
         	  }
           },
           'onComplete' : function(event, ID, fileObj, response, data){
+        	  $('#submit-button').removeAttr("disabled");
               if(response == 'invalid-file.error'){
             	  $("#top_error").html('Upload failed.').show();
               }else{
@@ -49,6 +51,7 @@
                	  var videoId = $("#videoid").val();
             	  if(!(videoId=="")){
             		  createUploadingVideo();
+            		  $('#submit-button').removeAttr("disabled");
             	  }   
               }
           }
@@ -145,7 +148,7 @@
 					<input type="hidden" name="tcid" id="tcid" value="<:$tcid:>" />
 					<input type="hidden" name="videoPath" id="videoPath"/>
 					<input type="hidden" id="videoid" name="videoid" />
-					<input id="submit-button" type="button" value="Save" onclick="checkvalidate()"/>
+					<input id="submit-button" type="button" value="Save" onclick="checkvalidate()" disabled="disabled"/>
 				</li>
 			</ul>
 		</fieldset>
