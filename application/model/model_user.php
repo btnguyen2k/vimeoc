@@ -319,7 +319,6 @@
 			{
 				return $res[0] ;
 			}
-			
 			return null;
 		}
 		
@@ -707,5 +706,16 @@
 			}
 			return null;
 		}
+		
+		/**
+		 * function update ecode($params)
+		 * @param $params
+		 */
+		function updateResetkey($params){
+			$sql = "UPDATE user SET reset_key=? WHERE username=?";
+			$types = array('text','text');
+			return $this->execute_command($sql, $params, $types);
+		}
+
 	}
 ?>

@@ -16,4 +16,7 @@
 	define("CONTENT_SYSTEM_TYPE", 1);
 	
 	define("CONTENT_USER_TYPE", 2);
+	
+	//Define Reset_Key
+	define("RESETKEY_USER", NULL);
 ?>

@@ -368,8 +368,9 @@
 				}
 				else 
 				{	
-					$salt=$this->loadResources('salt');
-					$code = $this->encodeUsername($username,$salt);
+					$randomStr=utils::genRandomString(32);
+					$code=$this->encodeUsername($email,$randomStr);
+					$this->model_user->updateResetkey(array($code,$username));
 					$params = array($username);
 					// sending forgotpassword mail
 					$user = $this->model_user->getUsersByUsername($params);
@@ -405,13 +406,14 @@
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$email=$_GET['email'];		
-				$this->assign("email",$email);		
+				$this->assign("email",$email);
 				$code=$_GET['secret'];
-				$salt=$this->loadResources('salt');
-				$ecode=$this->encodeUsername($email,$salt);
-				if($code==$ecode)
-				{
+				$dCode=$this->model_user->getUserByUsername(array($email));
+				$eCode=$dCode['reset_key'];
+				if($code==$eCode)
+				{	
 					$this->loadTemplate('view_resetpassword');
+					$this->model_user->updateResetkey(array(RESETKEY_USER,$email));
 				}
 				else 
 				{

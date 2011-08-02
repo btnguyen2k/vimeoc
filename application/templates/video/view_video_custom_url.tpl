@@ -43,7 +43,7 @@
 					<li>
 						<span><:$chooseYourCustomUrl:></span><br/>
 						<:$domain:>/<:$user_alias|escape:'html':>/<input id="url_alias" name="url_alias" value="<:$video_alias:>" maxlength="32"/>
-						<span class="red" id="error_valid_alias" style="display: none;">Invalid shortcut</span>						
+						<span class="red" id="error_valid_alias" style="display: none;"><:$invalidShortcut:></span>						
 					</li>
 					<li>
 						Preview url: <a href="<:$previewUrl:>"><:$previewUrl:></a>

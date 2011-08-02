@@ -534,6 +534,9 @@
 			$this->assign("chooseYourCustomUrl", $this->loadMessages('video.customurl.chooseYourCustomUrl'));
 			$this->assign("message_invalid_url", $this->loadMessages('video.customurl.invalidUrl'));
 			$this->assign("message_url_hint", $this->loadMessages('video.customurl.hint'));
+			
+			$this->assign('invalidShortcut', $this->loadErrorMessage('error.video.alias.shortcut'));
+			
 		}
 		/**
 		 * View and action for video custom url
