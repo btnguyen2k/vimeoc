@@ -40,19 +40,19 @@ $(document).ready(function() {
 							<:$signupTitle:>
 
 							<li>
-								<input type="radio" id="signup1" name="signup" value="1"/>Enable
+								<input type="radio" id="signup1" name="signup" value="1"/><:$enable:>
 							</li>
 							<li>
-								<input type="radio" id="signup" name="signup" value="0"/>Disable
+								<input type="radio" id="signup" name="signup" value="0"/><:$disable:>
 							</li>
 						</li>
 						<li>
 							<:$loginTitle:>
 							<li>
-								<input type="radio" id="login1" name="login" value="1"/>Enable
+								<input type="radio" id="login1" name="login" value="1"/><:$enable:>
 							</li>
 							<li>
-								<input type="radio" id="login" name="login" value="0"/>Disable
+								<input type="radio" id="login" name="login" value="0"/><:$disable:>
 							</li>
 						</li>
 						<li>

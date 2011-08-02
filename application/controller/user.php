@@ -99,6 +99,9 @@
 			$this->assign("hint", $this->loadMessages('user.shortcut.hint'));
 			$this->assign("domain", BASE_PATH . CONTEXT);
 			$this->assign("reservedUrl", $this->loadResources('shortcut.url.reserved.user'));
+			$this->assign("notice", $this->loadMessages('user.shortcut.notice'));
+			
+			$this->assign('shortcutInvalid', $this->loadErrorMessage('error.user.shortcut.wrong'));
 		}
 		
 		/**
@@ -202,6 +205,7 @@
 			$this->assign('uploadNew', $this->loadMessages('user.portrait.upload'));	
 			$this->assign('imageExtSupport', $this->loadResources('image.upload.ext.support'));		
 			$this->assign('hint', $this->loadMessages('user.portrait.hint', array($this->loadResources('application.name'))));
+			$this->assign('help', $this->loadMessages('video.help'));
 			$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("portrait")));
 			$this->assign('maxSize', $this->loadResources('image.upload.maxsize')*1024*1024);
 		}
@@ -242,6 +246,7 @@
 			$this->assign("emailTitle", $this->loadMessages('user.personalInfo.email'));
 			$this->assign("yourWebsiteTitle", $this->loadMessages('user.personalInfo.website'));
 			$this->assign("hint", $this->loadMessages('user.personalInfo.hint'));
+			$this->assign('help', $this->loadMessages('video.help'));
 			
 			$this->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
 			$this->assign('urlInvalid', $this->loadErrorMessage('error.url.invalid'));
@@ -306,6 +311,7 @@
 			$this->assign("newpassword", $this->loadMessages('user.password.newpassword'));
 			$this->assign("repassword", $this->loadMessages('user.password.retypepassword'));
 			$this->assign("hint", $this->loadMessages('user.password.hint'));
+			$this->assign('help', $this->loadMessages('video.help'));
 			
 			$this->assign('cpassword', $this->loadErrorMessage('error.password.invalid'));
 			$this->assign('mpassword', $this->loadErrorMessage('error.mathpassword.invalid'));
@@ -372,6 +378,7 @@
 		function userprofileMessagesSource()
 		{
 			$this->assign("title", $this->loadMessages('user.profile.title'));
+			$this->assign('help', $this->loadMessages('video.help'));
 		}
 		
 		/**
@@ -743,6 +750,7 @@
 			$this->assign("hint", $this->loadMessages('user.uploadvideo.hint'));
 			$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("video")));
 			$this->assign('maxSize', $this->loadResources('video.upload.maxsize')*1024*1024);
+			$this->assign('help', $this->loadMessages('video.help'));
 			
 			$this->assign("name", $this->loadMessages('user.videosetting.name'));
 			$this->assign('description', $this->loadMessages('user.videosetting.description'));
@@ -844,6 +852,7 @@
 			$this->defaultUserMessagesSource();
 			$this->assign('title', $this->loadMessages('user.album.title'));
 			$this->assign('hint', $this->loadMessages('user.album.hint'));
+			$this->assign('help', $this->loadMessages('video.help'));
 		}
 		
 		/**

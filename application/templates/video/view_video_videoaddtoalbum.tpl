@@ -47,6 +47,6 @@
 		<:$pagination:>
 	</div>
 	<div id="user_info_help" class="page_help">
-		Help?<div><:$hint:></div>
+		<:$help:><div><:$hint:></div>
 	</div>
 </div>

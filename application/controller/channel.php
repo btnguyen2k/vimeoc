@@ -604,6 +604,7 @@
 			$this->assign("title", $this->loadMessages('channel.create.title'));
 			$this->assign('description', $this->loadMessages('channel.create.description'));
 			$this->assign('hint', $this->loadMessages('channel.create.hint'));
+			$this->assign('help', $this->loadMessages('video.help'));
 			
 			$this->assign('errorDescription', $this->loadErrorMessage('error.channel.create.description'));
 			$this->assign('show_user_avatar', 1);
@@ -653,6 +654,7 @@
 			$this->assign("title", $this->loadMessages('channel.setting.title'));
 			$this->assign('description', $this->loadMessages('channel.setting.description'));
 			$this->assign('hint', $this->loadMessages('channel.setting.hint'));
+			$this->assign('help', $this->loadMessages('video.help'));
 			
 			$this->assign('errorDescription', $this->loadErrorMessage('error.channel.create.description'));
 		}
@@ -726,6 +728,7 @@
 			$this->assign("name", $this->loadMessages('channel.delete.name'));
 			$this->assign('question', $this->loadMessages('channel.delete.question'));
 			$this->assign('hint', $this->loadMessages('channel.delete.hint'));
+			$this->assign('help', $this->loadMessages('video.help'));
 			
 			$this->assign('errorDescription', $this->loadErrorMessage('error.channel.create.description'));
 		}
@@ -795,6 +798,7 @@
 			$this->assign("name", $this->loadMessages('channel.thumbnail.name'));
 			$this->assign("choose", $this->loadMessages('channel.thumbnail.choose'));
 			$this->assign('hint', $this->loadMessages('channel.thumbnail.hint'));
+			$this->assign('help', $this->loadMessages('video.help'));
 			
 		}
 		/**
@@ -881,6 +885,7 @@
 		 */
 		function arrangeMessagesSource(){
 			$this->defaultChannelMessagesSource();
+			$this->assign('help', $this->loadMessages('video.help'));
 		}
 		
 		/**

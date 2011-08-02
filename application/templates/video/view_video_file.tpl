@@ -62,6 +62,6 @@
 	</div>
 	
 	<div id="user_info_help" class="page_help">
-		Help?<div><:$message_url_hint:></div>
+		<:$help:><div><:$message_url_hint:></div>
 	</div>
 </div>
