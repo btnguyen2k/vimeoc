@@ -75,23 +75,23 @@
 					<td><:$v['full_name']:></td>
 					<td>
 						<:if $v['enabled'] eq 0:>
-							disabled
+							<:$disable:>
 						<:else:>
-							enabled
+							<:$enable:>
 						<:/if:>
 					</td>
 					<td><:$v['creation_date']:></td>
-					<td><a href="<:$ctx:>/admin/editUserProfile/?userId=<:$v['id']:>">edit</a></td>					
+					<td><a href="<:$ctx:>/admin/editUserProfile/?userId=<:$v['id']:>"><:$edit:></a></td>					
 					<td>
 						<:if $v['enabled'] eq 0:>
-							<a href="<:$ctx:>/admin/enableAccount/?userId=<:$v['id']:>" onclick="return confirmActionEnable()"> enable</a>
+							<a href="<:$ctx:>/admin/enableAccount/?userId=<:$v['id']:>" onclick="return confirmActionEnable()"> <:$enable:></a>
 						<:else:>
-							<a href="<:$ctx:>/admin/disableAccount/?userId=<:$v['id']:>" onclick="return confirmActionDisable()"> disable</a></td>			
+							<a href="<:$ctx:>/admin/disableAccount/?userId=<:$v['id']:>" onclick="return confirmActionDisable()"> <:$disable:></a></td>			
 						<:/if:>
 					</td>
-					<td><a href="<:$ctx:>/admin/deleteAccount/?userId=<:$v['id']:>" onclick="return confirmActionDelete()">delete</a></td>
+					<td><a href="<:$ctx:>/admin/deleteAccount/?userId=<:$v['id']:>" onclick="return confirmActionDelete()"><:$delete:></a></td>
 					<td>
-						<a href="<:$ctx:>/admin/loginAsUser/?userId=<:$v['id']:>">login</a>
+						<a href="<:$ctx:>/admin/loginAsUser/?userId=<:$v['id']:>"><:$login:></a>
 					</td>
 				</tr>
 			<:/foreach:>				

@@ -281,7 +281,12 @@
 		 */
 		function userListMessagesSource()
 		{
-			$this->assign("title",$this->loadMessages('admin.userlist.title'));			 
+			$this->assign("title",$this->loadMessages('admin.userlist.title'));	
+			$this->assign("enable", $this->loadMessages('admin.edit.user.enable'));
+			$this->assign("disable",$this->loadMessages('admin.edit.user.disable'));
+			$this->assign("delete",$this->loadMessages('admin.edit.user.delete'));
+			$this->assign("login",$this->loadMessages('admin.edit.user.login'));
+			$this->assign("edit",$this->loadMessages('admin.edit.user.edit'));		 
 		}
 			
 		function userList()
@@ -691,6 +696,8 @@
 			$this->assign("title",$this->loadMessages('admin.setting.Title'));
 			$this->assign("signupTitle",$this->loadMessages('admin.setting.signupform'));
 			$this->assign("loginTitle",$this->loadMessages('admin.setting.loginform'));
+			$this->assign("enable", $this->loadMessages('admin.edit.user.enable'));
+			$this->assign("disable",$this->loadMessages('admin.edit.user.disable'));
 		}
 		/**
 		 * function update value
@@ -879,6 +886,9 @@
 			$this->assign('requiredField', $this->loadErrorMessage('error.field.required'));
 			$this->assign("passwordInvalid", $this->loadMessages('error.password.lesslength'));
 			$this->assign("fullname",$this->loadMessages('admin.createnewaccount.fullname'));
+			
+			$this->assign("enable", $this->loadMessages('admin.edit.user.enable'));
+			$this->assign("disable",$this->loadMessages('admin.edit.user.disable'));
 			
 			$this->assign('fullnameInvalid', $this->loadErrorMessage('error.fullname.invalid'));
 			$this->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));

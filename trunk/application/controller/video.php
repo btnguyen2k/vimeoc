@@ -89,6 +89,7 @@
 			$this->assign('description', $this->loadMessages('user.videosetting.description'));
 			$this->assign('tag', $this->loadMessages('user.videosetting.tags'));
 			$this->assign('hint', $this->loadMessages('user.videosetting.hint'));
+			$this->assign('help', $this->loadMessages('video.help'));
 
 			$this->assign('titleiInvalid', $this->loadErrorMessage('error.video.title'));
 			$this->assign('descriptionInvalid', $this->loadErrorMessage('error.video.description'));
@@ -227,7 +228,7 @@
 			$this->assign("add", $this->loadMessages('video.addtopage.addtialbum'));
 			$this->assign("title", $this->loadMessages('video.addtopage.title'));
 			$this->assign("hint", $this->loadMessages('video.addtopage.hint'));
-			
+			$this->assign('help', $this->loadMessages('video.help'));
 		}
 		
 		/**
@@ -337,7 +338,7 @@
 			$this->assign("add", $this->loadMessages('video.addtochannel.add'));
 			$this->assign("title", $this->loadMessages('video.addtochannel.title'));
 			$this->assign("hint", $this->loadMessages('video.addtochannel.hint'));
-			
+			$this->assign('help', $this->loadMessages('video.help'));
 		}
 		/**
 		 *  view and action for video_addtopage
@@ -450,7 +451,7 @@
 			$this->assign("PreRoll", $this->loadMessages('video.preandpostroll.preroll'));
 			$this->assign("PostRoll", $this->loadMessages('video.preandpostroll.postroll'));
 			$this->assign("hint", $this->loadMessages('video.preandpostroll.hint'));
-			
+			$this->assign('help', $this->loadMessages('video.help'));
 		}
 
 		
@@ -534,6 +535,7 @@
 			$this->assign("chooseYourCustomUrl", $this->loadMessages('video.customurl.chooseYourCustomUrl'));
 			$this->assign("message_invalid_url", $this->loadMessages('video.customurl.invalidUrl'));
 			$this->assign("message_url_hint", $this->loadMessages('video.customurl.hint'));
+			$this->assign('help', $this->loadMessages('video.help'));
 			
 			$this->assign('invalidShortcut', $this->loadErrorMessage('error.video.alias.shortcut'));
 			
@@ -691,6 +693,7 @@
 			$this->assign("title", $this->loadMessages('video.videofile.title'));
 			$this->assign("message_title", $this->loadMessages('video.videofile.title'));
 			$this->assign('choose', $this->loadMessages('video.videofile.choose'));
+			$this->assign('help', $this->loadMessages('video.help'));
 			$this->assign('videoExtSupport', $this->loadResources('video.upload.ext.support'));
 			$this->assign('maxSize', $this->loadResources('video.upload.maxsize')*1024*1024);
 		}
@@ -745,6 +748,7 @@
 			$this->assign("likes", $this->loadMessages('user.videopage.likes'));
 			$this->assign("tag", $this->loadMessages('user.videopage.tag'));
 			$this->assign("albums", $this->loadMessages('user.videopage.albums'));
+			$this->assign('help', $this->loadMessages('video.help'));
 			
 		}
 		
@@ -859,6 +863,7 @@
 			$this->assign("hint", $this->loadMessages('video.thumbnail.hint'));
 			$this->assign('imageExtSupport', $this->loadResources('image.upload.ext.support'));
 			$this->assign("currentThumbnail", $this->loadMessages('video.thumbnail.currentThumbnail'));
+			$this->assign('help', $this->loadMessages('video.help'));
 			$this->assign("uploadNewThumbnail", $this->loadMessages('video.thumbnail.uploadNewThumbnail'));
 			$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("video thumbnail")));
 			$this->assign('maxSize', $this->loadResources('image.upload.maxsize')*1024*1024);
@@ -948,6 +953,7 @@
 			$this->assign("name", $this->loadMessages('album.delete.name'));
 			$this->assign("question", $this->loadMessages('album.delete.quetion'));
 			$this->assign('hint', $this->loadMessages('album.delete.hint'));
+			$this->assign('help', $this->loadMessages('video.help'));
 		}
 		/**
 		 * delete video
@@ -1021,6 +1027,7 @@
 			$this->assign("likes", $this->loadMessages('user.videopage.likes'));
 			$this->assign("tag", $this->loadMessages('user.videopage.tag'));
 			$this->assign("albums", $this->loadMessages('user.videopage.albums'));
+			$this->assign('help', $this->loadMessages('video.help'));
 			
 		}
 		

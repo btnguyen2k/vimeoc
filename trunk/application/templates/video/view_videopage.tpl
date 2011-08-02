@@ -1,4 +1,3 @@
-
 <div id="video_page" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
 	<div id="video_page_body" class="page_body">

@@ -44,11 +44,11 @@
 					<li>
 						<span><:$profileShortcut:></span><br/>
 						<:$domain:>/<input name="alias" value="<:$alias:>" maxlength="16"/>	
-						<span class="red" id="error_valid_alias" style="display: none;">Invalid shortcut! It can only contain up to 16 letters and digits; and must start with a letter.</span>
-						<span class="red" id="error_reserved_alias" style="display: none;">Invalid! This shortcut is reserved.</span>											
+						<span class="red" id="error_valid_alias" style="display: none;"><:$shortcutInvalid:></span>
+						<span class="red" id="error_reserved_alias" style="display: none;"><:$errorMessage:></span>											
 					</li>
 					<li>
-						<span>It can be up to 16 characters long, but only letters and numbers</span>
+						<span><:$notice:></span>
 					</li>
 					<li>
 						<input type="submit" value="Save" />
@@ -59,6 +59,6 @@
 	</div>
 	
 	<div id="user_info_help" class="page_help">
-		Help?<div><:$hint:></div>
+		<:$help:><div><:$hint:></div>
 	</div>
 </div>

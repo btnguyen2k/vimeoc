@@ -92,11 +92,11 @@
 						<span><:$statusTitle:>: </span>
 						<select id="status" name="status">
 							<:if $status == "1":>
-								<option value="1" selected="selected">Enabled</option>
-								<option value="0">Disabled</option>
+								<option value="1" selected="selected"><:$enable:></option>
+								<option value="0"><:$disable:></option>
 							<:else:>
-								<option value="1">Enabled</option>
-								<option value="0" selected="selected">Disabled</option>
+								<option value="1"><:$enable:></option>
+								<option value="0" selected="selected"><:$disable:></option>
 							<:/if:>
 						</select>
 					</li>

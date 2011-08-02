@@ -377,6 +377,7 @@
 			$this->assign("title", $this->loadMessages('album.create.title'));
 			$this->assign('description', $this->loadMessages('album.create.description'));
 			$this->assign('hint', $this->loadMessages('album.create.hint'));
+			$this->assign('help', $this->loadMessages('video.help'));
 			
 			$this->assign('errorDescription', $this->loadErrorMessage('error.album.create.description'));
 			$this->assign('show_user_avatar', 1);
@@ -420,6 +421,7 @@
 			$this->assign("title", $this->loadMessages('album.albumsetting.title'));
 			$this->assign('description', $this->loadMessages('album.albumsetting.description'));
 			$this->assign('hint', $this->loadMessages('album.albumsetting.hint'));
+			$this->assign('help', $this->loadMessages('video.help'));
 			
 			$this->assign('errorDescription', $this->loadErrorMessage('error.album.create.description'));
 		}
@@ -493,6 +495,7 @@
 			$this->assign("name", $this->loadMessages('album.albumthumbnail.name'));
 			$this->assign("choose", $this->loadMessages('album.albumthumbnail.choose'));
 			$this->assign('hint', $this->loadMessages('album.albumthumbnail.hint'));
+			$this->assign('help', $this->loadMessages('video.help'));
 			
 		}
 		
@@ -571,6 +574,7 @@
 			$this->assign("name", $this->loadMessages('album.password.name'));
 			$this->assign("protected", $this->loadMessages('album.password.protected'));
 			$this->assign('hint', $this->loadMessages('album.password.hint'));
+			$this->assign('help', $this->loadMessages('video.help'));
 			
 			$this->assign('errorMessage',$this->loadErrorMessage('error.albumpassword.remove'));
 			$this->assign('passwordInvalid',$this->loadErrorMessage('error.albumpassword.invalid'));
@@ -642,6 +646,7 @@
 			$this->assign("name", $this->loadMessages('album.delete.name'));
 			$this->assign("question", $this->loadMessages('album.delete.quetion'));
 			$this->assign('hint', $this->loadMessages('album.delete.hint'));
+			$this->assign('help', $this->loadMessages('video.help'));
 		}
 		
 		/**
@@ -695,6 +700,7 @@
 		 */
 		function arrangeMessagesSource(){
 			$this->defaultAlbumMessagesSource();
+			$this->assign('help', $this->loadMessages('video.help'));
 		}
 		
 		/**
@@ -999,6 +1005,7 @@
 			$this->assign("name", $this->loadMessages('album.customURL.name'));
 			$this->assign('preview', $this->loadMessages('album.customURL.preview'));
 			$this->assign('hint', $this->loadMessages('album.customURL.hint'));
+			$this->assign('help', $this->loadMessages('video.help'));
 		}
 		
 		/**

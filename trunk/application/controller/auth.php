@@ -48,6 +48,8 @@
 			$this->assign("password", $this->loadMessages('auth.login.password'));
 			$this->assign("submit", $this->loadMessages('auth.login.submit'));
 			$this->assign("forgot", $this->loadMessages('auth.login.forgot'));
+			$this->assign("maintain", $this->loadMessages('auth.maintain'));
+			$this->assign("signuptitle", $this->loadMessages('auth.signup.question'));
 			
 			$this->assign('passwordInvalid', $this->loadErrorMessage('error.password.invalid'));
 			$this->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
@@ -243,6 +245,8 @@
 			$this->assign("understand", $this->loadMessages('auth.signup.understand'));
 			$this->assign("term", $this->loadMessages('auth.signup.term'));
 			$this->assign("thankyou", $this->loadMessages('auth.signup.thankyou'));
+			$this->assign("maintain", $this->loadMessages('auth.maintain'));
+			$this->assign("forgot", $this->loadMessages('auth.signup.forgotpassword'));
 			
 			$this->assign('passwordInvalid', $this->loadErrorMessage('error.password.invalid'));
 			$this->assign('mathpasswordInvalid', $this->loadErrorMessage('error.mathpassword.invalid'));
@@ -336,6 +340,8 @@
 		{
 			$this->assign("title",$this->loadMessages('auth.forgotpassword.title'));
 			$this->assign("email",$this->loadMessages('auth.forgotpassword.email'));
+			$this->assign("sent",$this->loadMessages('auth.submitsucceed.sent'));
+			$this->assign("success",$this->loadMessages('auth.submitsucceed.success'));
 			
 			$this->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
 		}
@@ -378,8 +384,6 @@
 					$user['email']=$username;
 					$user['domain']=BASE_PATH . CONTEXT;
 					$this->sendingEmailWithSmarty('mail_forgotpassword', 'user', $user, null, $user['email']);
-					$this->assign("sent",$this->loadMessages('auth.submitsucceed.sent'));
-					$this->assign("success",$this->loadMessages('auth.submitsucceed.success'));
 					$this->loadTemplate('view_sent_resetpassword_result');
 				}		
 			}
