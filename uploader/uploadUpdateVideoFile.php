@@ -15,7 +15,8 @@ $logger->lwrite('Logged user[' . $uploader->getLoggedUser() . '] is uploading a 
 
 if($uploader->getLoggedUser() > 0 && $res){
 	$ret = $uploader->upload($uploader->loadResources('video.upload.path'),$uploader->loadResources('video.upload.thumbnails'), $uploader->loadResources('video.upload.ext.support'), $uploader->loadResources('video.upload.maxsize'));
-	if(!is_numeric($ret)){
+	$fileExists = $uploader->isFileExists($uploader->loadResources('video.upload.path'), $ret);
+	if(!is_numeric($ret) && $fileExists){
 		$model_video->updateVideoFile(array($ret, $vid));
 		$logger->lwrite('Update video file of video'.$vid);
 		echo $ret;

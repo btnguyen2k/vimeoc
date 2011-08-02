@@ -15,7 +15,8 @@ $logger->lwrite('Logged user[' . $uploader->getLoggedUser() . '] is uploading a 
 
 if($uploader->getLoggedUser() > 0 && $res){	
 	$ret = $uploader->upload($uploader->loadResources('image.upload.path'), null, $uploader->loadResources('image.upload.ext.support'), $uploader->loadResources('image.upload.maxsize'));
-	if(!is_numeric($ret)){
+	$fileExists = $uploader->isFileExists($uploader->loadResources('image.upload.path'), $ret);
+	if(!is_numeric($ret) && $fileExists){
 		$model_video->updateThumbnailById(array($ret, $vid));
 		$target = BASE_DIR . $uploader->loadResources('image.upload.path') . $ret;
 		$rimg = new RESIZEIMAGE($target);
