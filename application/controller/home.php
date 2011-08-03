@@ -16,7 +16,7 @@
 			$this->loadModel('model_home');	
 			$this->tmpl = &$tmpl;		
 		}
-	
+
 		/**
 		 * 
 		 * Default action
@@ -35,7 +35,11 @@
 					return;
 				}
 			}
-			$this->assign('title', $this->loadMessages('home.title'));
+			$this->assign("title",$this->loadMessages('home.title'));	
+			$this->assign("signin",$this->loadMessages('home.signin'));	
+			$this->assign("register",$this->loadMessages('home.register'));
+			$this->assign("or",$this->loadMessages('home.or'));	
+			$this->assign("now",$this->loadMessages('home.now'));
 			$this->loadTemplate('view_home');
 		}
 	}

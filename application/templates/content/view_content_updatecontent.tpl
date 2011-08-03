@@ -96,7 +96,6 @@ $(document).ready(function() {
 						<li>
 							<span><:$categoryLable:></span>
 							<select id="category" name="category">
-							
 								<:if $category == "1":>
 									<option value="1" selected="selected"><:$system:></option>
 									<option value="2"><:$user:></option>

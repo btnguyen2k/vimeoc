@@ -1,4 +1,4 @@
-<title>Thank You</title>
+<title><:$thankyou:></title>
 <h4 align="center"><:$success:></h4>
 <div align="center"> 
 	<a href="<:$ctx:>/auth/login" ><:$login:></a>			

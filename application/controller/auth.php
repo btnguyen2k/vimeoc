@@ -328,6 +328,7 @@
 					$this->sendingEmailWithSmarty('mail_welcome', 'user', $user, null, $user['email']);
 					$this->assign("success",$this->loadMessages('auth.thankyou.success'));
 					$this->assign("login",$this->loadMessages('auth.thankyou.login'));
+					$this->assign("thankyou",$this->loadMessages('auth.thankyou.thankyou'));
 					$this->loadTemplate('view_thankyou');
 				}
 			}
