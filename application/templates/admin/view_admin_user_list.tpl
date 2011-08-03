@@ -58,15 +58,15 @@
 	</form>
 		<table border="1">
 				<tr>
-					<th>User Id</th>
-					<th>Username</th>
-					<th>Fullname</th>
-					<th>Enable/Disable</th>
-					<th>Creation date</th>
-					<th>Edit Profile</th>
-					<th>Change status</th>
-					<th>Delete</th>
-					<th>Login as user</th>
+					<th><:$userid:></th>
+					<th><:$username:></th>
+					<th><:$fullname:></th>
+					<th><:$status:></th>
+					<th><:$creationDate:></th>
+					<th><:$editProfile:></th>
+					<th><:$changeStatus:></th>
+					<th><:$deleteTitle:></th>
+					<th><:$loginasUser:></th>
 				</tr>
 			<:foreach from=$users key=k item=v:>
 				<tr>

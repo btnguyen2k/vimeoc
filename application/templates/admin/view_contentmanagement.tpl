@@ -56,17 +56,17 @@
 	</form>
 	<table border="1">
 				<tr>
-					<th>Id</th>
-					<th>Title</th>
-					<th>create_date</th>
-					<th>creator name</th>
-					<th>modify_date</th>
-					<th>modifier name</th>
-					<th>publish status</th>
-					<th>edit</th>
-					<th>publish/unpublish</th>
-					<th>delete</th>
-					<th>Category</th>
+					<th><:$id:></th>
+					<th><:$titleLable:></th>
+					<th><:$createDate:></th>
+					<th><:$creatorName:></th>
+					<th><:$modifyDate:></th>
+					<th><:$modifierName:></th>
+					<th><:$publish:></th>
+					<th><:$edit:></th>
+					<th><:$status:></th>
+					<th><:$delete:></th>
+					<th><:$category:></th>
 				</tr>
 			<:foreach from=$contents key=k item=v:>
 				<tr>
@@ -78,20 +78,20 @@
 					<td><:$v['modifier_id']:></td>
 					<td>
 						<:if $v['publish'] eq 0:>
-							unpublish
+							<:$UnpublishLable:>
 						<:else:>
-							publish
+							<:$publishLable:>
 						<:/if:>
 					</td>
-					<td><a href="<:$ctx:>/content/updatecontent/?id=<:$v['id']:>">Edit</a></td>
+					<td><a href="<:$ctx:>/content/updatecontent/?id=<:$v['id']:>"><:$edit:></a></td>
 					<td>
 						<:if $v['publish'] eq 0:>
-							<a href="<:$ctx:>/content/publishContent/?contentId=<:$v['id']:>" onclick="return confirmActionPublish()">Publish</a>
+							<a href="<:$ctx:>/content/publishContent/?contentId=<:$v['id']:>" onclick="return confirmActionPublish()"><:$publishLable:></a>
 						<:else:>
-							<a href="<:$ctx:>/content/unpublishContent/?contentId=<:$v['id']:>" onclick="return confirmActionUnPublish()">UnPublish</a>
+							<a href="<:$ctx:>/content/unpublishContent/?contentId=<:$v['id']:>" onclick="return confirmActionUnPublish()"><:$UnpublishLable:></a>
 						<:/if:>
 					</td>
-					<td><a href="<:$ctx:>/content/deleteContent/?contentId=<:$v['id']:>" onclick="return confirmActionDelete()">Delete</a></td>			
+					<td><a href="<:$ctx:>/content/deleteContent/?contentId=<:$v['id']:>" onclick="return confirmActionDelete()"><:$delete:></a></td>			
 					<td>
 						<:foreach from=$categories key=i item=c:>
 							<:if $v['category_id'] eq $c['id']:>
