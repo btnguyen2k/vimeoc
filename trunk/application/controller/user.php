@@ -1199,6 +1199,7 @@
 			$this->defaultUserMessagesSource();
 			$this->assign('title', $this->loadMessages('user.channel.title'));
 			$this->assign('hint', $this->loadMessages('user.channel.hint'));
+			$this->assign('help', $this->loadMessages('video.help'));
 		}
 		
 		function channel(){
