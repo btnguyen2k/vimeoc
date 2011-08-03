@@ -30,7 +30,20 @@
 		 */
 		function contentListMessagesSource()
 		{
-			$this->assign("title",$this->loadMessages('admin.contentlist.title'));			 
+			$this->assign("title",$this->loadMessages('admin.contentlist.title'));	
+			$this->assign("id",$this->loadMessages('contentmanagement.id'));	
+			$this->assign("titleLable",$this->loadMessages('contentmanagement.title'));	
+			$this->assign("createDate",$this->loadMessages('contentmanagement.createdate'));	
+			$this->assign("creatorName",$this->loadMessages('contentmanagement.creatorname'));	
+			$this->assign("modifyDate",$this->loadMessages('contentmanagement.modifydate'));	
+			$this->assign("modifierName",$this->loadMessages('contentmanagement.modifiername'));	
+			$this->assign("publish",$this->loadMessages('contentmanagement.publish'));	
+			$this->assign("edit",$this->loadMessages('contentmanagement.edit'));	
+			$this->assign("status",$this->loadMessages('contentmanagement.status'));	
+			$this->assign("delete",$this->loadMessages('contentmanagement.delete'));	
+			$this->assign("category",$this->loadMessages('contentmanagement.category'));	
+			$this->assign("publishLable",$this->loadMessages('contentmanagement.lable.publish'));	
+			$this->assign("UnpublishLable",$this->loadMessages('contentmanagement.lable.unpublish'));
 		}
 			
 		function contentList()
@@ -286,7 +299,16 @@
 			$this->assign("disable",$this->loadMessages('admin.edit.user.disable'));
 			$this->assign("delete",$this->loadMessages('admin.edit.user.delete'));
 			$this->assign("login",$this->loadMessages('admin.edit.user.login'));
-			$this->assign("edit",$this->loadMessages('admin.edit.user.edit'));		 
+			$this->assign("edit",$this->loadMessages('admin.edit.user.edit'));	
+			$this->assign("userid", $this->loadMessages('admin.edit.user.userid'));
+			$this->assign("username",$this->loadMessages('admin.edit.user.username'));
+			$this->assign("fullname",$this->loadMessages('admin.edit.user.fullname'));
+			$this->assign("status",$this->loadMessages('admin.edit.user.status'));
+			$this->assign("creationDate",$this->loadMessages('admin.edit.user.creationdate'));	
+			$this->assign("editProfile", $this->loadMessages('admin.edit.user.editprofile'));
+			$this->assign("changeStatus",$this->loadMessages('admin.edit.user.changestatus'));
+			$this->assign("deleteTitle",$this->loadMessages('admin.edit.user.deleteTitle'));
+			$this->assign("loginasUser",$this->loadMessages('admin.edit.user.loginasuser'));		 
 		}
 			
 		function userList()

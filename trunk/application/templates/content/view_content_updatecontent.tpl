@@ -87,10 +87,10 @@ $(document).ready(function() {
 						</li>
 						<li>
 							<li>
-								<input type="radio" id="publish" name="publish" value="1"/>Publish
+								<input type="radio" id="publish" name="publish" value="1"/><:$publish:>
 							</li>
 							<li>
-								<input type="radio" id="unpublish" name="publish" value="0"/>Unpublish
+								<input type="radio" id="unpublish" name="publish" value="0"/><:$unpublish:>
 							</li>
 						</li>
 						<li>
@@ -98,11 +98,11 @@ $(document).ready(function() {
 							<select id="category" name="category">
 							
 								<:if $category == "1":>
-									<option value="1" selected="selected">System</option>
-									<option value="2">User</option>
+									<option value="1" selected="selected"><:$system:></option>
+									<option value="2"><:$user:></option>
 								<:else:>
-									<option value="1">System</option>
-									<option value="2" selected="selected">User</option>
+									<option value="1"><:$system:></option>
+									<option value="2" selected="selected"><:$user:></option>
 								<:/if:>
 							</select>
 						</li>

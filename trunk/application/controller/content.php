@@ -163,6 +163,7 @@
 			$this->assign("body",$this->loadMessages('admin.content.body'));
 			$this->assign("keyword", $this->loadMessages('admin.content.keyword'));
 			$this->assign("publish",$this->loadMessages('admin.content.publish'));
+			$this->assign("unpublish",$this->loadMessages('admin.content.unpublish'));
 			$this->assign("name",$this->loadMessages('admin.content.name'));
 			$this->assign("categoryLable",$this->loadMessages('admin.content.category'));
 			
@@ -241,6 +242,9 @@
 			$this->assign("body",$this->loadMessages('admin.content.body'));
 			$this->assign("keyword", $this->loadMessages('admin.content.keyword'));
 			$this->assign("publish",$this->loadMessages('admin.content.publish'));
+			$this->assign("unpublish",$this->loadMessages('admin.content.unpublish'));
+			$this->assign("system",$this->loadMessages('admin.content.system'));
+			$this->assign("user",$this->loadMessages('admin.content.user'));
 			$this->assign("name",$this->loadMessages('admin.content.name'));
 			$this->assign("categoryLable",$this->loadMessages('admin.content.category'));
 			

@@ -92,10 +92,10 @@ $(document).ready(function() {
 				</li>
 				<li>
 					<li>
-						<input type="radio" id="publish" name="publish" value="1" checked="checked"/>Publish
+						<input type="radio" id="publish" name="publish" value="1" checked="checked"/><:$publish:>
 					</li>
 					<li>
-						<input type="radio" id="unpublish" name="publish" value="0"/>Unpublish
+						<input type="radio" id="unpublish" name="publish" value="0"/><:$unpublish:>
 					</li>
 				</li>	
 				<li>
