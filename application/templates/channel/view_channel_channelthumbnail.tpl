@@ -1,4 +1,4 @@
-<div id="channel_albumthumbnail" class="page">
+<div id="channel_thumbnail" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/channel_left_menu.tpl":>	
 	<div id="channel_channelthumbnail_body" class="page_body">
 		<center><h1><:$channelName|escape:'html':><:$name:></h1></center>
