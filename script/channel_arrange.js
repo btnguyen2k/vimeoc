@@ -26,7 +26,7 @@ $(document).ready(function(){
 	$('#info_message').ajaxStop(ajax_stop);
 });
 function ajax_start(){
-	$('#info_message').html('Processing...');
+	$('#info_message').html('Done');
 }
 function ajax_stop(){
 	$('#info_message').html('');
