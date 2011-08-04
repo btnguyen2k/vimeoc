@@ -951,7 +951,7 @@
 			$this->defaultVideoMessagesSource();
 			
 			$this->assign("name", $this->loadMessages('album.delete.name'));
-			$this->assign("question", $this->loadMessages('album.delete.quetion'));
+			$this->assign("question", $this->loadMessages('video.delete.question'));
 			$this->assign('hint', $this->loadMessages('album.delete.hint'));
 			$this->assign('help', $this->loadMessages('video.help'));
 		}

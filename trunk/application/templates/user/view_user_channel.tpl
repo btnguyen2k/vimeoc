@@ -12,6 +12,7 @@ function editSearchTerm(){
 <div id="user_info" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/user_left_menu.tpl":>
 	<div id="user_channel_body" class="page_body">
+		<title><:$user_fullname|escape:'html':><:$title:></title>
 		<center><h1><:$user_fullname|escape:'html':><:$title:></h1></center><br/>
 		<form id="search_form" name="search_from" action="<:$ctx:>/user/channel/" method="GET">
 			<select id="sort" name="sort">
