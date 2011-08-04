@@ -46,8 +46,8 @@ function editSearchTerm(){
 									</tr>
 									<tr>
 										<td>
-											name: <:$v['channel_name']|escape:'html':><br/>
-											created: <span class=""><:$v['create_date']:></span><br/>
+											name:<a style="font-size:16px;font-weight:bold;" href="<:$ctx:>/channel/?channelId=<:$v['channel_id']:>"><:$v['channel_name']|escape:'html':></a><br/>
+											created: <span class=""><:$v['create_date']:> ago</span><br/>
 											<:$v['video_count']:> video(s)<br/>
 										</td>
 									</tr>
