@@ -4,13 +4,6 @@
 		if($("#title").val()==""){
 			$("#title").val("Untitled");
 		}
-
-		if($("#description").val()==""){
-			$("#error_valid_description").show();
-			return false;
-		}else{
-			$("#error_valid_description").hide();
-		}
 	}
 </script>
 <div id="channel_create" class="page">

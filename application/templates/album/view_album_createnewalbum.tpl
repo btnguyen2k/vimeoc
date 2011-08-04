@@ -6,12 +6,6 @@
 			$("#title").val("Untitled");
 		}
 
-		if($("#description").val()==""){
-			$("#error_valid_description").show();
-			return false;
-		}else{
-			$("#error_valid_description").hide();
-		}
 	}
 </script>
 <div id="album_createnewalbum" class="page">
