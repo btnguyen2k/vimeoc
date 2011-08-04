@@ -850,7 +850,6 @@
 		function albumMessagesSource()		
 		{
 			$this->defaultUserMessagesSource();
-			$this->assign('title', $this->loadMessages('user.album.title'));
 			$this->assign('hint', $this->loadMessages('user.album.hint'));
 			$this->assign('help', $this->loadMessages('video.help'));
 		}
@@ -1088,8 +1087,8 @@
 					$album['create_date'] = utils::getDiffTimeString($album['create_date']);
 				}
 			}
-			
-			
+			$user=$this->model_user->getUserByUserId(array($userId));
+			$this->assign('title', $user['full_name'].$this->loadMessages('user.album.title'));
 			$this->assign('albums', $albums);
 			$this->assign('pagination', $pagination);
 			$this->assign('sort_modes', $_sort_modes);
@@ -1197,7 +1196,6 @@
 		
 		function channelMessagesSource(){
 			$this->defaultUserMessagesSource();
-			$this->assign('title', $this->loadMessages('user.channel.title'));
 			$this->assign('hint', $this->loadMessages('user.channel.hint'));
 			$this->assign('help', $this->loadMessages('video.help'));
 		}
@@ -1208,7 +1206,7 @@
 				$this->redirect($this->ctx().'/auth/login/');
 				return;
 			}
-			
+			$this->loadModel('model_user');
 			$_search_obj = unserialize($_SESSION['CHANNEL_SEARCH']);
 			
 			$_sort_modes = array(
@@ -1430,7 +1428,8 @@
 					$channel['create_date'] = utils::getDiffTimeString($channel['create_date']);
 				}
 			}
-			
+			$user=$this->model_user->getUserByUserId(array($userId));
+			$this->assign('title', $user['full_name'].$this->loadMessages('user.channel.title'));
 			$this->assign('channels', $channels);
 			$this->assign('pagination', $pagination);
 			$this->assign('sort_modes', $_sort_modes);

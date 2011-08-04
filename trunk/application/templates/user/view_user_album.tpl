@@ -12,7 +12,7 @@ function editSearchTerm(){
 <div id="user_info" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/user_left_menu.tpl":>
 	<div id="user_album_body" class="page_body">
-		<center><h1><:$user_fullname|escape:'html':><:$title:></h1></center><br/>
+		<center><h1><:$title:></h1></center><br/>
 		<form id="search_form" name="search_from" action="<:$ctx:>/user/album/" method="GET">
 			<select id="sort" name="sort">
 				<:foreach from=$sort_modes key=k item=v:>
@@ -33,13 +33,30 @@ function editSearchTerm(){
 			<input type="hidden" name="page" value="<:$page:>"></input>
 			<input type="submit" value="Submit"></input>
 		</form>
-			<:foreach from=$albums key=k item=v:>
-				<a href="<:$ctx:>/album/<:$v['album_id']:>"><img width="100" src="<:$v['thumbnail']:>" /></a><br/>
-				name: <:$v['album_name']|escape:'html':><br/>
-				created: <span class=""><:$v['create_date']:></span><br/>
-				<:$v['video_count']:> video(s)<br/>
-				<br/>
-			<:/foreach:>
+			<div>
+				<ul id="thumbnail">
+					<:foreach from=$albums key=k item=v:>
+						<li>
+							<span>
+								<table>
+									<tr>
+										<td>
+											<a href="<:$ctx:>/album/<:$v['album_id']:>"><img width="100" src="<:$v['thumbnail']:>" /></a><br/>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											name: <:$v['album_name']|escape:'html':><br/>
+											created: <span class=""><:$v['create_date']:></span><br/>
+											<:$v['video_count']:> video(s)<br/>
+										</td>
+									</tr>
+								</table>
+							</span>
+						</li>
+					<:/foreach:>
+				</ul>
+			</div>
 		<:$message:>
 		<:$pagination:>
 		<p>
