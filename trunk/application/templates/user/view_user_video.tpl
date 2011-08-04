@@ -77,12 +77,12 @@
 			<:foreach from=$videos key=k item=v:>
 				<a href="<:$ctx:>/video/<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
 				<:if $v['video_title'] != '':>
-				Title: <:$v['video_title']|escape:'html':><br/>
+				Title: <a style="font-size:16px;font-weight:bold;" href="<:$ctx:>/video/<:$v['id']:>"><:$v['video_title']|escape:'html':></a><br/>
 				<:/if:>
-				<div class="creation_date">Uploaded: <span class=""><:$v['creation_date']:></span></div>
-				Play count: <:$v['play_count']:><br/>
-				Comment count: <:$v['comment_count']:><br/>
-				Like count: <:$v['like_count']:><br/>
+				<div class="creation_date"><span class=""><:$v['creation_date']:> ago</span></div>
+				Play count: <:$v['play_count']:>(s)<br/>
+				Comment count: <:$v['comment_count']:>(s)<br/>
+				Like count: <:$v['like_count']:>(s)<br/>
 				<:if $v['album']|@count gt 0:>
 				Albums: <:foreach from=$v['album'] key=k1 item=v1 name=albums:><a href="<:$ctx:>/album/<:$v1['album_id']:>"><:$v1['album_name']:></a><:if $smarty.foreach.albums.last:><:else:>, <:/if:><:/foreach:><br/>
 				<:/if:>
@@ -119,7 +119,7 @@
 									<tr>
 										<td>
 											<:if $v['video_title'] != '':>
-												Title: <:$v['video_title']|escape:'html':>
+												Title: <a style="font-size:16px;font-weight:bold;" href="<:$ctx:>/video/<:$v['id']:>"><:$v['video_title']|escape:'html':></a>
 											<:/if:>
 										</td>
 									</tr>

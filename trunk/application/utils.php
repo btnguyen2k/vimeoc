@@ -55,11 +55,11 @@
 						$strDate.= $diff['minutes'] . ' minutes';
 				}
 				else{ 
-					$strDate.= $diff['hours']. ' hours ' . $diff['minutes'] . ' minutes';
+					$strDate.= $diff['hours']. ' hour(s) ' . $diff['minutes'] . ' minute(s)';
 				}
 			}
 			else{
-				$strDate.= $diff['days']. ' days ' . $diff['hours'] . ' hours';
+				$strDate.= $diff['days']. ' day(s) ' . $diff['hours'] . ' hour(s)';
 			}	
 			
 			return $strDate;
