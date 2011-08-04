@@ -18,7 +18,7 @@
 				<:if $channelThumbnail != '':>
 					<img src="<:$ctx:>/images/upload/<:$channelThumbnail:>" width="100"/>
 				<:else:>
-					<img src="<:$ctx:>/images/channel.jpg" width="100"/>
+					<img src="<:$ctx:>/images/icon-channel.gif" width="100"/>
 				<:/if:>
 			</li>
 		</ul>
