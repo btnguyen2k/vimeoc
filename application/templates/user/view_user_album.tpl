@@ -46,7 +46,7 @@ function editSearchTerm(){
 									</tr>
 									<tr>
 										<td>
-											name: <:$v['album_name']|escape:'html':><br/>
+											name: <a style="font-size:16px;font-weight:bold;" href="<:$ctx:>/album/<:$v['album_id']:>"><:$v['album_name']|escape:'html':></a><br/>
 											created: <span class=""><:$v['create_date']:></span><br/>
 											<:$v['video_count']:> video(s)<br/>
 										</td>
