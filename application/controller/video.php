@@ -177,7 +177,6 @@
 						{
 							$this->model_video->addTagName(array($slipTag[$j]));			
 							$tagNewId=$this->model_video->getTagIdByName(array($slipTag[$j]));
-							//$this->model_video->deleteTagIdAndComponentId(array($tagNewId[0]["id"],$videoid));
 							$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],COMPONENT_VIDEO_TYPE,$videoid));
 						}
 						else 
@@ -186,13 +185,7 @@
 							$res=$this->model_video->checkIdAndComponentId(array($tagNewId[0]["id"],$videoid));
 							if($res==0)
 							{
-								$this->assign('successMessage', $this->loadMessages('user.videosetting.updatesuccess'));
-								//$this->model_video->deleteTagIdAndComponentId(array($tagNewId[0]["id"],$videoid));
 								$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],COMPONENT_VIDEO_TYPE,$videoid));
-							}
-							else 
-							{
-								$this->assign('successMessage', $this->loadMessages('user.videosetting.updatesuccess'));
 							}
 						}
 					}	
@@ -207,6 +200,7 @@
 					$strTags .= $tags[$i]['name'] . ',' ; 
 				}
 				$strTags = substr($strTags, 0, -1); 
+				$this->assign('successMessage', $this->loadMessages('user.videosetting.updatesuccess'));
 				$this->assign('tcid', $tcid);
 				$this->assign('hiddenvideo',$videoid);
 				$this->assign('title_', $video['video_title']);
