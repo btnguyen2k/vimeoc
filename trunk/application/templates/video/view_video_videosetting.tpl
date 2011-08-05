@@ -12,7 +12,7 @@
 			$("#error_valid_title").hide();
 		}	
 			
-		return flag;		
+		return flag;
 	}
 </script>
 
