@@ -21,11 +21,11 @@
 			$types = array();
 			$params = array(); 
 			$sql = "select 
-						a.id as `album_id`, 
-						a.album_name as `album_name`, 
+						a.id as 'album_id', 
+						a.album_name as 'album_name', 
 						count(b.video_id) as 'video_count', 
 						a.creation_date as 'create_date',
-						thumbnails_path as `thumbnails_path` 
+						thumbnails_path as 'thumbnails_path' 
 					from 
 						album a 
 					left outer join 
