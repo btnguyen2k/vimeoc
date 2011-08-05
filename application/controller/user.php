@@ -879,8 +879,7 @@
 			);
 			$_sort_orders = array(
 				1 => 'DESC',
-				2 => 'ASC',
-				3 => 'ASC'
+				2 => 'ASC'
 			);
 			$_page_sizes = array(		
 				1 => 10,
