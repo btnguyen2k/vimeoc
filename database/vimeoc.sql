@@ -2,10 +2,10 @@
 -- version 3.2.4
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Jul 23, 2011 at 01:50 PM
--- Server version: 5.1.41
--- PHP Version: 5.3.1
+-- Serveur: localhost
+-- Généré le : Ven 05 Août 2011 à 21:33
+-- Version du serveur: 5.1.41
+-- Version de PHP: 5.3.1
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
@@ -16,13 +16,13 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `vimeoc`
+-- Base de données: `vimeoc`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `album`
+-- Structure de la table `album`
 --
 
 CREATE TABLE IF NOT EXISTS `album` (
@@ -39,12 +39,12 @@ CREATE TABLE IF NOT EXISTS `album` (
   `thumbnails_path` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `album_video`
+-- Structure de la table `album_video`
 --
 
 CREATE TABLE IF NOT EXISTS `album_video` (
@@ -58,19 +58,19 @@ CREATE TABLE IF NOT EXISTS `album_video` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `category`
+-- Structure de la table `category`
 --
 
 CREATE TABLE IF NOT EXISTS `category` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `channel`
+-- Structure de la table `channel`
 --
 
 CREATE TABLE IF NOT EXISTS `channel` (
@@ -84,12 +84,12 @@ CREATE TABLE IF NOT EXISTS `channel` (
   `thumbnails_path` varchar(255) DEFAULT NULL,
   `arrange` tinyint(2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `channel_video`
+-- Structure de la table `channel_video`
 --
 
 CREATE TABLE IF NOT EXISTS `channel_video` (
@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `channel_video` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `comment`
+-- Structure de la table `comment`
 --
 
 CREATE TABLE IF NOT EXISTS `comment` (
@@ -124,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `comment` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `configuration`
+-- Structure de la table `configuration`
 --
 
 CREATE TABLE IF NOT EXISTS `configuration` (
@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `configuration` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `content`
+-- Structure de la table `content`
 --
 
 CREATE TABLE IF NOT EXISTS `content` (
@@ -151,12 +151,12 @@ CREATE TABLE IF NOT EXISTS `content` (
   `publish` int(1) DEFAULT NULL,
   `category_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `like`
+-- Structure de la table `like`
 --
 
 CREATE TABLE IF NOT EXISTS `like` (
@@ -172,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `like` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `role`
+-- Structure de la table `role`
 --
 
 CREATE TABLE IF NOT EXISTS `role` (
@@ -184,7 +184,7 @@ CREATE TABLE IF NOT EXISTS `role` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tag`
+-- Structure de la table `tag`
 --
 
 CREATE TABLE IF NOT EXISTS `tag` (
@@ -193,12 +193,12 @@ CREATE TABLE IF NOT EXISTS `tag` (
   `tag_locked` bit(1) NOT NULL DEFAULT b'0',
   `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tag_component`
+-- Structure de la table `tag_component`
 --
 
 CREATE TABLE IF NOT EXISTS `tag_component` (
@@ -212,7 +212,7 @@ CREATE TABLE IF NOT EXISTS `tag_component` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Structure de la table `user`
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
@@ -224,18 +224,19 @@ CREATE TABLE IF NOT EXISTS `user` (
   `account_locked` bit(1) NOT NULL DEFAULT b'0',
   `account_enabled` bit(1) NOT NULL DEFAULT b'1',
   `full_name` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `reset_key` varchar(225) DEFAULT NULL,
   `website` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   `profile_alias` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `avatar` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`,`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=30 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_role`
+-- Structure de la table `user_role`
 --
 
 CREATE TABLE IF NOT EXISTS `user_role` (
@@ -249,7 +250,7 @@ CREATE TABLE IF NOT EXISTS `user_role` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_setting`
+-- Structure de la table `user_setting`
 --
 
 CREATE TABLE IF NOT EXISTS `user_setting` (
@@ -262,7 +263,7 @@ CREATE TABLE IF NOT EXISTS `user_setting` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `video`
+-- Structure de la table `video`
 --
 
 CREATE TABLE IF NOT EXISTS `video` (
@@ -283,47 +284,47 @@ CREATE TABLE IF NOT EXISTS `video` (
   `description` tinytext,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=31 ;
 
 --
--- Constraints for dumped tables
+-- Contraintes pour les tables exportées
 --
 
 --
--- Constraints for table `album`
+-- Contraintes pour la table `album`
 --
 ALTER TABLE `album`
   ADD CONSTRAINT `album_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `album_video`
+-- Contraintes pour la table `album_video`
 --
 ALTER TABLE `album_video`
   ADD CONSTRAINT `album_video_ibfk_1` FOREIGN KEY (`album_id`) REFERENCES `album` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `album_video_ibfk_2` FOREIGN KEY (`video_id`) REFERENCES `video` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `channel_video`
+-- Contraintes pour la table `channel_video`
 --
 ALTER TABLE `channel_video`
   ADD CONSTRAINT `channel_video_ibfk_1` FOREIGN KEY (`channel_id`) REFERENCES `channel` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `channel_video_ibfk_2` FOREIGN KEY (`video_id`) REFERENCES `video` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `comment`
+-- Contraintes pour la table `comment`
 --
 ALTER TABLE `comment`
   ADD CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `user_role`
+-- Contraintes pour la table `user_role`
 --
 ALTER TABLE `user_role`
   ADD CONSTRAINT `user_role_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `user_role_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `video`
+-- Contraintes pour la table `video`
 --
 ALTER TABLE `video`
   ADD CONSTRAINT `video_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -331,3 +332,4 @@ ALTER TABLE `video`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+

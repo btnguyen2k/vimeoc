@@ -1,1 +1,0 @@
-ALTER TABLE `user` ADD `reset_key` varchar(225) after full_name
