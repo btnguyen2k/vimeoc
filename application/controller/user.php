@@ -1424,7 +1424,7 @@
 			
 			if(is_array($channels) && (count($channels) > 0)){
 				foreach($channels as &$channel){
-					$channel['thumbnail'] = empty($channel['thumbnails_path']) ? $this->ctx() . '/images/icon-channel.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $channel['thumbnails_path']);
+					$channel['thumbnail'] = empty($channel['thumbnails_path']) ? $this->ctx() . '/images/icon-channel.jpg' : ($this->ctx() . $this->loadResources('image.upload.path') . $channel['thumbnails_path']);
 					$channel['create_date'] = utils::getDiffTimeString($channel['create_date']);
 				}
 			}
