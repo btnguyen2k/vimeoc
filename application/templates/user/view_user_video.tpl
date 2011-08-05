@@ -80,9 +80,9 @@
 				Title: <a style="font-size:16px;font-weight:bold;" href="<:$ctx:>/video/<:$v['id']:>"><:$v['video_title']|escape:'html':></a><br/>
 				<:/if:>
 				<div class="creation_date"><span class=""><:$v['creation_date']:> ago</span></div>
-				Play count: <:$v['play_count']:>(s)<br/>
-				Comment count: <:$v['comment_count']:>(s)<br/>
-				Like count: <:$v['like_count']:>(s)<br/>
+				<:$v['play_count']:> play(s),
+				<:$v['comment_count']:> count(s),
+				<:$v['like_count']:> Like(s) <br/>
 				<:if $v['album']|@count gt 0:>
 				Albums: <:foreach from=$v['album'] key=k1 item=v1 name=albums:><a href="<:$ctx:>/album/<:$v1['album_id']:>"><:$v1['album_name']:></a><:if $smarty.foreach.albums.last:><:else:>, <:/if:><:/foreach:><br/>
 				<:/if:>
@@ -90,13 +90,13 @@
 				Tags: <:foreach from=$v['tag'] key=k1 item=v1 name=tags:><:$v1['tag_name']:></a><:if $smarty.foreach.tags.last:> <:else:>, <:/if:><:/foreach:><br/>
 				<:/if:>
 				<:if $albums|@count gt 0:>
-				Choose albums:
+				Albums:
 				<:foreach from=$albums key=l item=a:>					
 					<input type="checkbox" id="<:$a['id']:>" name ="<:$v['id']:>" onclick="addVideoToAlbum(this)" <:foreach from=$v['album'] key=l1 item=va:><:if $va['album_id'] eq $a['id']:>checked='true'<:/if:><:/foreach:>><:$a['album_name']|escape:'html':></input>
 				<:/foreach:><br/>
 				<:/if:>
 				<:if $channels|@count gt 0:>
-				Choose channels:
+				Channels:
 				<:foreach from=$channels key=l item=a:>					
 					<input type="checkbox" id="<:$a['id']:>" name ="<:$v['id']:>" onclick="addVideoToChannel(this)" <:foreach from=$v['channel'] key=l1 item=va:><:if $va['channel_id'] eq $a['id']:>checked='true'<:/if:><:/foreach:>><:$a['channel_name']|escape:'html':></input>
 				<:/foreach:><br/>
