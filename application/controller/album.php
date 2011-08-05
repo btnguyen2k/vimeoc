@@ -83,7 +83,7 @@
 			}
 			
 			
-			$_search_obj = unserialize($_SESSION['ALBUM_SEARCH']);
+			$_search_obj = unserialize($_SESSION['ALBUM_VIDEO']);
 			
 			$_display_modes = array(1 => 'Thumnail mode', 2 => 'Detail mode');
 			
@@ -169,7 +169,7 @@
 			$_search_obj->sort = $_sort_mode;
 			$_search_obj->psize = $_page_size;
 			$_search_obj->term = $_search_term;
-			$_SESSION['ALBUM_SEARCH'] = serialize($_search_obj);
+			$_SESSION['ALBUM_VIDEO'] = serialize($_search_obj);
 			
 			$this->loadModel('model_video');
 			$model_video = $this->model_video;
