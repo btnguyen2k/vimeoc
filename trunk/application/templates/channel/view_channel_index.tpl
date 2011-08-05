@@ -27,10 +27,10 @@
 				<:if $v['video_title'] != '':>
 				Title: <:$v['video_title']|escape:'html':><br/>
 				<:/if:>
-				<div class="creation_date">Uploaded: <span class=""><:$v['creation_date']:></span></div>
-				Play count: <:$v['play_count']:><br/>
-				Comment count: <:$v['comment_count']:><br/>
-				Like count: <:$v['like_count']:><br/>
+				<div class="creation_date"><span class=""><:$v['creation_date']:> ago</span></div>
+				<:$v['play_count']:> play(s),
+				<:$v['comment_count']:> comment(s),
+				<:$v['like_count']:> like(s)<br/>
 				<:if $v['album']|@count gt 0:>
 				Albums: <:foreach from=$v['album'] key=k1 item=v1 name=albums:><a href="<:$ctx:>/album/<:$v1['album_id']:>"><:$v1['album_name']:></a><:if $smarty.foreach.albums.last:> <:else:>, <:/if:><:/foreach:><br/>
 				<:/if:>
