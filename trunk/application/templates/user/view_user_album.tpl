@@ -33,35 +33,23 @@ function editSearchTerm(){
 			<input type="hidden" name="page" value="<:$page:>"></input>
 			<input type="submit" value="Submit"></input>
 		</form>
-			<div>
-				<ul id="thumbnail">
-					<:foreach from=$albums key=k item=v:>
-						<li>
-							<span>
-								<table>
-									<tr>
-										<td>
-											<a href="<:$ctx:>/album/<:$v['album_id']:>"><img width="100" src="<:$v['thumbnail']:>" /></a><br/>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											name: <a style="font-size:16px;font-weight:bold;" href="<:$ctx:>/album/<:$v['album_id']:>"><:$v['album_name']|escape:'html':></a><br/>
-											created: <span class=""><:$v['create_date']:></span><br/>
-											<:$v['video_count']:> video(s)<br/>
-										</td>
-									</tr>
-								</table>
-							</span>
-						</li>
-					<:/foreach:>
-				</ul>
-			</div>
-		<:$message:>
-		<:$pagination:>
-		<p>
-			<a href="<:$ctx:>/album/createnewalbum/">Create new album</a>
-		</p>
+		<div style="display: block">
+			<ul id="thumbnail">
+                <li style="width: 100%"><:$pagination:></li>
+                <li style="width: 100%"><a href="<:$ctx:>/album/createnewalbum/">Create new album</a></li>
+				<:foreach from=$albums key=k item=v:>
+					<li>
+                        <a href="<:$ctx:>/album/<:$v['album_id']:>"><img width="100" src="<:$v['thumbnail']:>" /></a><br/>
+                        <a style="font-size:16px;font-weight:bold;" href="<:$ctx:>/album/<:$v['album_id']:>"><:$v['album_name']|escape:'html':></a><br/>
+                        <:$v['create_date']:> ago<br/>
+                        <:$v['video_count']:> video(s)<br/>
+					</li>
+				<:/foreach:>
+                <li style="width: 100%"><a href="<:$ctx:>/album/createnewalbum/">Create new album</a></li>
+                <li style="width: 100%"><:$pagination:></li>
+			</ul>
+		</div>
+        <:$message:>
 	</div>
 	<div id="user_info_help" class="page_help">
 		<:$help:><div><:$hint:></div>

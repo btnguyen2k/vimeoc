@@ -50,9 +50,9 @@
 			if($diff['days']==0){
 				if ($diff['hours']==0){
 					if ($diff['minutes']==0)
-						$strDate.= $diff['seconds'] . ' seconds';
+						$strDate.= $diff['seconds'] . ' second(s)';
 					else 
-						$strDate.= $diff['minutes'] . ' minutes';
+						$strDate.= $diff['minutes'] . ' minute(s)';
 				}
 				else{ 
 					$strDate.= $diff['hours']. ' hour(s) ' . $diff['minutes'] . ' minute(s)';

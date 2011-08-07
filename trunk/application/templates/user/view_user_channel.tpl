@@ -33,35 +33,22 @@ function editSearchTerm(){
 			<input type="hidden" name="page" value="<:$page:>"></input>
 			<input type="submit" value="Submit"></input>
 		</form>
-			<div>
-				<ul id="thumbnail">
-					<:foreach from=$channels key=k item=v:>
-						<li>
-							<span>
-								<table>
-									<tr>
-										<td>
-											<a href="<:$ctx:>/channel/?channelId=<:$v['channel_id']:>"><img width="100" src="<:$v['thumbnail']:>" /></a><br/>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											name:<a style="font-size:16px;font-weight:bold;" href="<:$ctx:>/channel/?channelId=<:$v['channel_id']:>"><:$v['channel_name']|escape:'html':></a><br/>
-											created: <span class=""><:$v['create_date']:> ago</span><br/>
-											<:$v['video_count']:> video(s)<br/>
-										</td>
-									</tr>
-								</table>
-							</span>
-						</li>
-					<:/foreach:>
-				</ul>
-			</div>
-		<:$message:>
-		<:$pagination:>
-		<p>
-			<a href="<:$ctx:>/channel/createnewchannel/">Create new channel</a>
-		</p>
+        <div>
+			<ul id="thumbnail">
+                <li style="width: 100%"><:$pagination:></li>
+                <li style="width: 100%"><a href="<:$ctx:>/album/createnewalbum/">Create new channel</a></li>
+				<:foreach from=$channels key=k item=v:>
+					<li>
+						<a href="<:$ctx:>/channel/?channelId=<:$v['channel_id']:>"><img width="100" src="<:$v['thumbnail']:>" /></a><br/>
+						<a style="font-size:16px;font-weight:bold;" href="<:$ctx:>/channel/?channelId=<:$v['channel_id']:>"><:$v['channel_name']|escape:'html':></a><br/>
+                        <:$v['create_date']:> ago<br/>
+                        <:$v['video_count']:> video(s)<br/>
+                    </li>
+				<:/foreach:>
+                <li style="width: 100%"><a href="<:$ctx:>/album/createnewalbum/">Create new channel</a></li>
+                <li style="width: 100%"><:$pagination:></li>
+			</ul>
+        </div>
 	</div>
 	<div id="user_info_help" class="page_help">
 		<:$help:><div><:$hint:></div>
