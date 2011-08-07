@@ -89,7 +89,7 @@
                     -->
 				<:/if:>
 				<:if $v['tag']|@count gt 0:>
-                    Tags: <:foreach from=$v['tag'] key=k1 item=v1 name=tags:><:$v1['tag_name']:></a><:if $smarty.foreach.tags.last:> <:else:>, <:/if:><:/foreach:><br/>
+                    Tags: <:foreach from=$v['tag'] key=k1 item=v1 name=tags:><:$v1['tag_name']:><:if $smarty.foreach.tags.last:> <:else:>, <:/if:><:/foreach:><br/>
 				<:/if:>
 				<:if $albums|@count gt 0:>
                     Albums:
