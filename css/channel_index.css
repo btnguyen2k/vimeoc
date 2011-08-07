@@ -31,3 +31,10 @@ div.pagination span.disabled {
 
 	color: #DDD;
 }
+
+ul#thumbnail li {
+    display: inline;
+    float: left;
+    list-style-type: none;
+    padding-right: 50px;
+}
