@@ -662,7 +662,6 @@
 						$errorFlag = true;
 					}
 				}
-				
 				if($errorFlag){
 					if(!$video['video_alias']){
 						$userAlias = empty($user['profile_alias']) ? 'user'.$user['id'] : $user['profile_alias'];

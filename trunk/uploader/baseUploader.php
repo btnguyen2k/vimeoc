@@ -4,7 +4,7 @@
 
 	session_start();
 	
-	date_default_timezone_set('UTC');
+	//date_default_timezone_set('UTC');
 	
 	$configs = parse_ini_file('../application/configs/resources.ini');
 	

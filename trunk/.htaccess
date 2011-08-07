@@ -1,5 +1,6 @@
 RewriteEngine On
-RewriteBase /vimeoc/
+#RewriteBase /vimeoc/
+RewriteBase /
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
