@@ -4,104 +4,124 @@
 <link href="<:$ctx:>/css/file_uploader.css" rel="stylesheet" type="text/css">
 <link href="<:$ctx:>/css/uploadify.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
+    var videoUploaded = false;
+    var videoInfoSaved = false;
+    var videoInfoAutoSave = false;
+    
 	var waitingForSubmit = false;
 	$(document).ready(function(){
 		var videoExtArray = '<:$videoExtSupport:>'.split(",");
 		$('#file_upload').uploadify({
-          'uploader'  : '<:$ctx:>/script/uploadify/uploadify.swf',
-          'script'    : '<:$ctx:>/uploader/uploadUserVideo.php',
-          'cancelImg' : '<:$ctx:>/script/uploadify/cancel.png',
-          'scriptData': {'PHPSESSID':'<:$sessionId:>'},
-          'fileExt'      : '<:$videoExtSupport:>',          
-          'fileDesc'    : 'Video Files',
-          'sizeLimit' : <:$maxSize:>,
-          'auto'      : false,
-          'onAllComplete' : function(event,data) {
-            if(waitingForSubmit == true){
-            	checkvalidate();
-            	$("#top_success").html('Updating the video information ...');
+            'uploader'  : '<:$ctx:>/script/uploadify/uploadify.swf',
+            'script'    : '<:$ctx:>/uploader/uploadUserVideo.php',
+            'cancelImg' : '<:$ctx:>/script/uploadify/cancel.png',
+            'scriptData': {'PHPSESSID':'<:$sessionId:>'},
+            'fileExt'   : '<:$videoExtSupport:>',          
+            'fileDesc'  : 'Video Files',
+            'sizeLimit' : <:$maxSize:>,
+            'auto'      : false,
+            'multi'     : false,
+            'onError' : function (event,ID,fileObj,errorObj) {
+                $("#top_error").html(errorObj.type + ' Error: ' + errorObj.info);
+            },
+            //'onAllComplete' : function(event,data) {
+            //    //mark file uploading completed
+            //    videoUploaded = true;
+            //    if(waitingForSubmit == true){
+            //        checkvalidate();
+            //        $("#top_success").html('Updating the video information ...');
+            //    }
+            //},
+            'onSelect' : function(event,ID,fileObj) {			  
+                var exts = '<:$videoExtSupport:>';
+                if(exts.indexOf(fileObj.type) < 0){
+                    $("#top_success").hide();
+                    $("#top_error").html('You selected wrong file type.').show();
+                    $('#file_upload').uploadifyCancel($('.uploadifyQueueItem').first().attr('id').replace('file_upload',''));
+                }else{
+                    $("#top_error").hide();     
+                    setTimeout('upload();', 200);   		  
+                }
+            },
+            'onOpen' : function(event,ID,fileObj) {
+                $("#top_success").html("Uploading, please wait...").show();
+                //enable the Save button so that user can save video information while uploading
+                $('#submit-button').removeAttr("disabled");
+            },
+            'onComplete' : function(event, ID, fileObj, response, data){
+                videoUploaded = true; //mark file uploading completed
+                $('#submit-button').removeAttr("disabled");
+                if (response == 'invalid-file.error') {
+                    $("#top_error").html('Upload failed.').show();
+                } else {
+                    var fileName = fileObj.name;
+                    fileName = fileName.replace(fileObj.type, "");
+                    $("#top_success").html("Video '" + fileName + "' has been uploaded successfully.").show();
+                    if ($("#title").val()=="") {
+                        //auto save the video
+                        videoInfoAutoSave = true;
+                        $("#top_success").html("Auto saving video, please wait...").show();
+                        $("#title").val(fileName);
+                        createUploadingVideo();
+                    }
+                    $("#videoPath").val(response);
+                    var videoId = $("#videoid").val();
+                    if ( !(videoId=="") && videoInfoSaved ) {
+                        createUploadingVideo();
+                    }   
+                }
             }
-          },
-          'onError' : function (event,ID,fileObj,errorObj) {
-        	  $("#top_error").html(errorObj.type + ' Error: ' + errorObj.info);
-          },
-          'onSelect'    : function(event,ID,fileObj) {			  
-        	  var exts = '<:$videoExtSupport:>';
-        	  if(exts.indexOf(fileObj.type) < 0){
-        		  $("#top_success").hide();
-        		  $("#top_error").html('You selected wrong file type.').show();
-        		  $('#file_upload').uploadifyCancel($('.uploadifyQueueItem').first().attr('id').replace('file_upload',''));
-        	  }else{
-        		  $("#top_error").hide();     
-        		  setTimeout('upload();', 200);   		  
-        	  }
-          },
-          'onComplete' : function(event, ID, fileObj, response, data){
-        	  $('#submit-button').removeAttr("disabled");
-              if(response == 'invalid-file.error'){
-            	  $("#top_error").html('Upload failed.').show();
-              }else{
-                  var fileName = fileObj.name;
-                  fileName = fileName.replace(fileObj.type, "");
-            	  $("#top_success").html("Video '" + fileName + "' has been uploaded successfully.").show();
-            	  if($("#title").val()==""){
-                	  $("#title").val(fileName);
-            	  }
-            	  $("#videoPath").val(response);
-               	  var videoId = $("#videoid").val();
-            	  if(!(videoId=="")){
-            		  createUploadingVideo();
-            		  $('#submit-button').removeAttr("disabled");
-            	  }   
-              }
-          }
         });
 	});
 
-	function upload(){
+	function upload() {
 		$("#file_upload").uploadifyUpload();
 	}
 
-	function checkvalidate()
-	{
+	function checkvalidate() {
 		var title= $("#title").val();
 
 		var flag=true;
 
-		if(title==""){
+		if (title=="") {
 			$("#error_valid_title").show();
 			flag=false;
-		}else{
+		} else {
 			$("#error_valid_title").hide();
 		}
 
-		if(flag){
+		if (flag) {
 			createUploadingVideo();
 		}
 	}
 
-	function createUploadingVideo()
-	{
+	function createUploadingVideo() {
 		var title = $("#title").val();
 		var tag = $("#tag").val();
 		var desc = $("#description").val();
 		var tcid = $("#tcid").val();
 		var videoPath = $("#videoPath").val();
 		var videoid = $("#videoid").val();
+        $("#success").html("Please wait...").show();
 		$.ajax({
 			url : '<:$ctx:>/user/createUploadingVideo/',
 			data: 'title='+title+'&tag='+tag+'&description='+desc+'&tcid='+tcid+'&videoPath='+videoPath+'&videoid='+videoid,
 			type: 'POST',
 			success: function(data){
+                videoInfoSaved = true; //mark video info has been saved
+                if ( videoInfoAutoSave ) {
+                    $("#top_success").html("Auto saving video, please wait...done!").show();
+                }
 				$("#videoid").val(data);
-				$("#submit-button").attr("disabled","disabled");
-				$("#title").attr("disabled","disabled");
-				$("#description").attr("disabled","disabled");
-				$("#tag").attr("disabled","disabled");
-				$("#success").show();
-				if(!(videoPath=="")){
+				//$("#submit-button").attr("disabled","disabled");
+				//$("#title").attr("disabled","disabled");
+				//$("#description").attr("disabled","disabled");
+				//$("#tag").attr("disabled","disabled");
+				$("#success").html("<:$success:>").show();
+				if( !(videoPath=="") && !videoInfoAutoSave){
 					window.location = "<:$ctx:>/user/video";
 				}
+                videoInfoAutoSave = false;
 			}
 		});
 	}
