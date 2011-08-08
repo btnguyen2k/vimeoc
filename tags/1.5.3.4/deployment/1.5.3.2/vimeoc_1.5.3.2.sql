@@ -1,0 +1,1 @@
+UPDATE `user` SET `profile_alias`='user1' WHERE id=1;
