@@ -36,7 +36,6 @@ function editSearchTerm(){
         <div>
 			<ul id="thumbnail">
                 <li style="width: 100%"><:$pagination:></li>
-                <li style="width: 100%"><a href="<:$ctx:>/channel/createnewchannel/">Create new channel</a></li>
 				<:foreach from=$channels key=k item=v:>
 					<li>
 						<a href="<:$ctx:>/channel/?channelId=<:$v['channel_id']:>"><img width="100" src="<:$v['thumbnail']:>" /></a><br/>

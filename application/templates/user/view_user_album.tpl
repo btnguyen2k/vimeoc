@@ -36,7 +36,6 @@ function editSearchTerm(){
 		<div style="display: block">
 			<ul id="thumbnail">
                 <li style="width: 100%"><:$pagination:></li>
-                <li style="width: 100%"><a href="<:$ctx:>/album/createnewalbum/">Create new album</a></li>
 				<:foreach from=$albums key=k item=v:>
 					<li>
                         <a href="<:$ctx:>/album/<:$v['album_id']:>"><img width="100" src="<:$v['thumbnail']:>" /></a><br/>
