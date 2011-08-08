@@ -233,5 +233,15 @@
 			
 			return sizeof($res) > 0;
 		}
+		
+		/**
+		 * 
+		 * Get all channels
+		 */
+		function getChannels(){
+			$sql = "SELECT * FROM channel";
+			$res = $this->execute_query($sql);
+			return $res;
+		}
 	}
 ?>
