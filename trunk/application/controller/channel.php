@@ -985,7 +985,8 @@
 				
 				$this->loadTemplate(CHANNEL_TEMPLATE_DIR.'view_channel_arrange');
 			}elseif($_SERVER['REQUEST_METHOD'] == 'POST'){
-				if((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')){
+				if( (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') ) {
+                    //ajax request to arrange channel
 					$channelId = $_POST['channelId'];
 
 					//validate channel id here
@@ -1075,6 +1076,7 @@
 					header("Content-Type:text/xml");
 					echo $doc->saveXML();
 				}else{
+                    //normal form submission
 					$error_flag = false;
 					$channelId = $_GET['channelId'];
 					
