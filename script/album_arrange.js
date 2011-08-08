@@ -8,14 +8,26 @@ $(document).ready(function(){
 			success: function(msg){
 				error = $(msg).find('result error').text();
 				if(error == '0'){
-					var text = $(msg).find('result message').text();						
-					$('#video_list').html(text);
-					$('#info_message').html('Done');
+					$('#video_list').html($(msg).find('result message').text());
+					$('.relative_time').each(function(){
+						$(this).html(relativeTime($(this).html()));
+					});
 				}
 			},
 			error: function(msg){
-				$('#info_message').html('');
+				//alert(0);
 			},
 		});
 	 });
+	$('.relative_time').each(function(){
+		$(this).html(relativeTime($(this).html()));
+	});
+	$('#info_message').ajaxStart(ajax_start);
+	$('#info_message').ajaxStop(ajax_stop);
 });
+function ajax_start(){
+	$('#info_message').html('Done');
+}
+function ajax_stop(){
+	$('#info_message').html('');
+}

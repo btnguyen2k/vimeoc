@@ -36,7 +36,7 @@ function editSearchTerm(){
         <div>
 			<ul id="thumbnail">
                 <li style="width: 100%"><:$pagination:></li>
-                <li style="width: 100%"><a href="<:$ctx:>/album/createnewalbum/">Create new channel</a></li>
+                <li style="width: 100%"><a href="<:$ctx:>/channel/createnewchannel/">Create new channel</a></li>
 				<:foreach from=$channels key=k item=v:>
 					<li>
 						<a href="<:$ctx:>/channel/?channelId=<:$v['channel_id']:>"><img width="100" src="<:$v['thumbnail']:>" /></a><br/>
@@ -45,7 +45,7 @@ function editSearchTerm(){
                         <:$v['video_count']:> video(s)<br/>
                     </li>
 				<:/foreach:>
-                <li style="width: 100%"><a href="<:$ctx:>/album/createnewalbum/">Create new channel</a></li>
+                <li style="width: 100%"><a href="<:$ctx:>/channel/createnewchannel/">Create new channel</a></li>
                 <li style="width: 100%"><:$pagination:></li>
 			</ul>
         </div>
