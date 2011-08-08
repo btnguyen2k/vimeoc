@@ -708,7 +708,7 @@
 			}
 			
 			$albums= $this->model_video->getAlbumByUserId(array($userId));
-			$channles = $model_channel->getChannelByUserId(array($userId));
+			$channles = $model_channel->getChannels();
 			
 			$this->assign('channels', $channles);
 			$this->assign('albums', $albums);
