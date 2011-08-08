@@ -1048,9 +1048,9 @@
 					if(is_array($videos) && (count($videos) > 0)){
 						foreach($videos as &$video){
 							$return .= "
-							<a href=\"{$ctx}/video/videopage/?videoId={$video['id']}\"><img width=\"100\" src=\"{$video['thumbnails_path']}\" /></a><br/>
-							title: {$video['video_title']}<br/>
-							<div class=\"creation_date\">uploaded: <span class=\"relative_time\">{$video['creation_date']}</span></div><br/>";
+							<a href=\"{$ctx}/vimeoc/video/{$video['id']}\"><img width=\"100\" src=\"{$video['thumbnails_path']}\" /></a><br/>
+							<a href=\"{$ctx}/vimeoc/video/{$video['id']}\">{$video['video_title']}</a><br/>
+							<div class=\"creation_date\"><span class=\"relative_time\">{$video['creation_date']} ago</span></div><br/>";
 						}
 					}
 					
