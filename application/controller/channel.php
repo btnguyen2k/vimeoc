@@ -1048,8 +1048,8 @@
 					if(is_array($videos) && (count($videos) > 0)){
 						foreach($videos as &$video){
 							$return .= "
-							<a href=\"{$ctx}/vimeoc/video/{$video['id']}\"><img width=\"100\" src=\"{$video['thumbnails_path']}\" /></a><br/>
-							<a href=\"{$ctx}/vimeoc/video/{$video['id']}\">{$video['video_title']}</a><br/>
+							<a href=\"{$ctx}/vimeoc/video/{$video['id']}\" style=\"font-size:16px;font-weight:bold;\"><img width=\"100\" src=\"{$video['thumbnails_path']}\" /></a><br/>
+							<a href=\"{$ctx}/vimeoc/video/{$video['id']}\" style=\"font-size:16px;font-weight:bold;\">{$video['video_title']}</a><br/>
 							<div class=\"creation_date\"><span class=\"relative_time\">{$video['creation_date']} ago</span></div><br/>";
 						}
 					}
@@ -1163,6 +1163,12 @@
 					}else{
 						$this->assign('message', $this->loadMessages('channel.arrange.no_video'));
 						$this->assign('video_count', 0);
+					}
+					
+					if(is_array($videos) && (count($videos) > 0)){
+						foreach($videos as &$video){
+							$video['creation_date'] = utils::getDiffTimeString($video['creation_date']);
+						}
 					}
 					
 					$this->assign('videos', $videos);
