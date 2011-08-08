@@ -14,8 +14,9 @@ $(document).ready(function(){
 					});
 				}
 			},
-			error: function(msg){
-				//alert(0);
+			error: function(jqXHR, textStatus, errorThrown) {
+				//alert('Error: ' + textStatus);
+                //alert('Error: ' + errorThrown);
 			},
 		});
 	 });
@@ -26,8 +27,8 @@ $(document).ready(function(){
 	$('#info_message').ajaxStop(ajax_stop);
 });
 function ajax_start(){
-	$('#info_message').html('Done');
+	$('#info_message').html('Sorting, please wait...');
 }
 function ajax_stop(){
-	$('#info_message').html('');
+	$('#info_message').html('Sort done! Click "Save" to save the setting.');
 }
