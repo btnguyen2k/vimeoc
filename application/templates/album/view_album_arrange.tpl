@@ -7,7 +7,7 @@
 		<center><h1><:$album_title|escape:'html':> - <:$title:></h1></center><br/>
 		<span id="error_message" class="red"><:$errorMessage:></span>
 		<span id="info_message" class="green"><:$successMessage:></span>
-		<form id="album_arrange_form" name="album_arrange_form" method="post" action="">
+		<form id="album_arrange_form" name="album_arrange_form" method="post" action="${ctx}/album/arrange/">
 			<input type="hidden" id="albumId" name="albumId" value="<:$album_id:>"></input>
 			<:if $video_count > 0:>
 			<select id="sort" name="sort">
