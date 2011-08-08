@@ -861,8 +861,8 @@
 					if(is_array($videos) && (count($videos) > 0)){
 						foreach($videos as &$video){
 							$return .= "
-							<a href=\"{$ctx}/vimeoc/video/{$video['id']}\"><img width=\"100\" src=\"{$video['thumbnails_path']}\" /></a><br/>
-							<a href=\"{$ctx}/vimeoc/video/{$video['id']}\">{$video['video_title']}</a><br/>
+							<a href=\"{$ctx}/vimeoc/video/{$video['id']}\" style=\"font-size:16px;font-weight:bold;\"><img width=\"100\" src=\"{$video['thumbnails_path']}\" /></a><br/>
+							<a href=\"{$ctx}/vimeoc/video/{$video['id']}\" style=\"font-size:16px;font-weight:bold;\">{$video['video_title']}</a><br/>
 							<div class=\"creation_date\"><span class=\"relative_time\">{$video['creation_date']} ago</span></div><br/>";
 						}
 					}
@@ -978,6 +978,12 @@
 						$this->assign('video_count', 0);
 					}
 					
+					if(is_array($videos) && (count($videos) > 0)){
+						$this->assign('video_count', count($videos));
+						foreach($videos as &$video){
+							$video['creation_date'] = utils::getDiffTimeString($video['creation_date']);
+						}
+					}
 					$this->assign('videos', $videos);
 					$this->assign('sort_modes', $_sort_modes);
 					$this->assign('sort_mode', $sort_mode);
