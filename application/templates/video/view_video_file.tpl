@@ -18,7 +18,8 @@
         	  $("#top_error").html(errorObj.type + ' Error: ' + errorObj.info);
           },'onSelect'    : function(event,ID,fileObj) {			  
         	  var exts = '<:$videoExtSupport:>';
-        	  if(exts.indexOf(fileObj.type) < 0){
+        	  var type = getFileType(fileObj.name);
+        	  if(!type || exts.indexOf(type) < 0){
         		  $("#top_success").hide();
         		  $("#top_error").html('You selected wrong file type.').show();
         		  $('#file_upload').uploadifyCancel($('.uploadifyQueueItem').first().attr('id').replace('file_upload',''));
