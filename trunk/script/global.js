@@ -98,6 +98,17 @@ function showFaceboxIframe()
 	return false;
 }
 
+function getFileType(file){
+	if(file){
+		var lastDot = file.lastIndexOf('.');
+		if(lastDot){
+			return file.substring(lastDot);
+		}
+	}
+	
+	return null;
+}
+
 $(document).ready(function(){
 	$("input").blur(function(){
 		var val = $(this).val();
