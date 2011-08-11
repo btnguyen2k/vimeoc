@@ -169,11 +169,15 @@
 		 */
 		function loadTemplate($template)
 		{			
+			$this->loadResources("initializing");
+			$this->loadMessages("initializing");
 			$this->tmpl->assign("base_dir_decorator", APP_DIR . '/templates/decorator/');
 			$this->tmpl->assign("base_dir_templates", APP_DIR . '/templates/');
 			$this->tmpl->assign('body_code', $template.'.tpl');
 			$this->tmpl->assign('ctx', $this->ctx());
 			$this->tmpl->assign('authorized', $this->getLoggedUser() > 0);
+			$this->tmpl->assign('resources', $this->resources);
+			$this->tmpl->assign('messages', $this->messages);
 			if(isset($_SESSION['proxy']) && $_SESSION['proxy'] == true){
 				$this->tmpl->assign('proxy', true);
 			}else{
