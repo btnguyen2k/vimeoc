@@ -40,11 +40,11 @@ function editSearchTerm(){
 					<li>
                         <a href="<:$ctx:>/album/<:$v['album_id']:>"><img width="100" src="<:$v['thumbnail']:>" /></a><br/>
                         <a style="font-size:16px;font-weight:bold;" href="<:$ctx:>/album/<:$v['album_id']:>"><:$v['album_name']|escape:'html':></a><br/>
-                        <:$v['create_date']:> ago<br/>
-                        <:$v['video_count']:> video(s)<br/>
+                        <:$v['create_date']:> <:$messages['user.album.ago']:><br/>
+                        <:$v['video_count']:> <:$messages['user.album.video']:><br/>
 					</li>
 				<:/foreach:>
-                <li style="width: 100%"><a href="<:$ctx:>/album/createnewalbum/">Create new album</a></li>
+                <li style="width: 100%"><a href="<:$ctx:>/album/createnewalbum/"><:$messages['user.album.create']:></a></li>
                 <li style="width: 100%"><:$pagination:></li>
 			</ul>
 		</div>

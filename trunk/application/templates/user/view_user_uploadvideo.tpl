@@ -141,7 +141,7 @@
 				</li>
 			</ul>
 			<div id="log"></div>
-			<h3>Video File Information</h3>
+			<h3><:$messages['user.uploadvideo.infor']:></h3>
 			<span class="green" id="success" style="display: none;"><:$success:></span>
 			<ul id="video_information">				
 				<li>

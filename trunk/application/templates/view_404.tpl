@@ -1,1 +1,1 @@
-<center>Page not found, click <a href="<:$ctx:>">here</a> to return home page</center>
+<center><:$messages['auth.pagenotfound']:><a href="<:$ctx:>"> <:$messages['auth.accessdenied2']:></a> <:$messages['auth.accessdenied3']:></center>

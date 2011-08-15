@@ -53,7 +53,7 @@
 			<fieldset>
 				<ul>
 					<li>
-						<center><span>Username: <:$username:></span></center>
+						<center><span><:$messages['admin.edit.user.edit.username']:> <:$username:></span></center>
 					</li>
 					<li>
 						<span><:$fullNameTitle:> *</span><br/>						

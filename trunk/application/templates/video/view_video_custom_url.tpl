@@ -46,7 +46,7 @@
 						<span class="red" id="error_valid_alias" style="display: none;"><:$invalidShortcut:></span>						
 					</li>
 					<li>
-						Preview url: <a href="<:$previewUrl:>"><:$previewUrl:></a>
+						<:$messages['video.customurl.preview']:> <a href="<:$previewUrl:>"><:$previewUrl:></a>
 					</li>
 					<li>
 						<input type="submit" value="Save" />

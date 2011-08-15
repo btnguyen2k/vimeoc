@@ -28,14 +28,14 @@
 		<:if 2 == $display_mode:>
 			<:foreach from=$videos key=k item=v:>
 				<a href="<:$ctx:>/video/<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
-				id: <:$v['id']:><br/>
-				title: <:$v['video_title']|escape:'html':><br/>
-				<div class="creation_date">uploaded: <span class="relative_time"><:$v['creation_date']:></span></div>
-				play count: <:$v['play_count']:><br/>
-				comment count: <:$v['comment_count']:><br/>
-				like count: <:$v['like_count']:><br/>
-				album: <:foreach from=$v['album'] key=k1 item=v1:><a href="<:$ctx:>/album/<:$v1['album_id']:>"><:$v1['album_name']:></a>, <:/foreach:><br/>
-				tag: <:foreach from=$v['tag'] key=k1 item=v1:><a href="<:$ctx:>/tag/<:$v1['tag_id']:>"><:$v1['tag_name']:></a>, <:/foreach:><br/><br/>
+				<:$messages['video.videoaddtoalbum.id']:> <:$v['id']:><br/>
+				<:$messages['video.videoaddtoalbum.title']:> <:$v['video_title']|escape:'html':><br/>
+				<div class="creation_date"><:$messages['video.videoaddtoalbum.upload']:> <span class="relative_time"><:$v['creation_date']:></span></div>
+				<:$messages['video.videoaddtoalbum.playcount']:> <:$v['play_count']:><br/>
+				<:$messages['video.videoaddtoalbum.comment']:> <:$v['comment_count']:><br/>
+				<:$messages['video.videoaddtoalbum.likecount']:> <:$v['like_count']:><br/>
+				<:$messages['video.videoaddtoalbum.album']:> <:foreach from=$v['album'] key=k1 item=v1:><a href="<:$ctx:>/album/<:$v1['album_id']:>"><:$v1['album_name']:></a>, <:/foreach:><br/>
+				<:$messages['video.videoaddtoalbum.tag']:> <:foreach from=$v['tag'] key=k1 item=v1:><a href="<:$ctx:>/tag/<:$v1['tag_id']:>"><:$v1['tag_name']:></a>, <:/foreach:><br/><br/>
 			<:/foreach:>
 		<:else:>
 			<:foreach from=$videos key=k item=v:>

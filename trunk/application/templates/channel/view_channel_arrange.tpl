@@ -22,7 +22,7 @@
 		<:foreach from=$videos key=k item=v:>
 			<a href="<:$ctx:>/video/<:$v['id']:>"><img width="100" src="<:$v['thumbnails_path']:>" /></a><br/>
             <a style="font-size:16px;font-weight:bold;" href="<:$ctx:>/video/<:$v['id']:>"><:$v['video_title']|escape:'html':></a><br/>
-            <div class="creation_date"><span class="relative_time"><:$v['creation_date']:> ago</span></div><br/>
+            <div class="creation_date"><span class="relative_time"><:$v['creation_date']:> <:$messages['channel.arrange.ago']:></span></div><br/>
 		<:/foreach:>
 		</div>
 		<div><:$message:></div>

@@ -53,7 +53,7 @@ function checkUrl(form){
 					</li>
 					<li>
 						<input type="text" id="url" name="url" value="<:$albumCustomUrl:>" maxlength="32"/>
-						<span class="red" id="error_valid_url" style="display: none;">Invalid shortcut</span>
+						<span class="red" id="error_valid_url" style="display: none;"><:$messages['album.customURL.invalid']:></span>
 					</li>
 					<li>
 						<span><:$preview:> </span>
