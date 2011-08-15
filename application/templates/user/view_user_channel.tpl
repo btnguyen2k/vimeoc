@@ -40,11 +40,11 @@ function editSearchTerm(){
 					<li>
 						<a href="<:$ctx:>/channel/?channelId=<:$v['channel_id']:>"><img width="100" src="<:$v['thumbnail']:>" /></a><br/>
 						<a style="font-size:16px;font-weight:bold;" href="<:$ctx:>/channel/?channelId=<:$v['channel_id']:>"><:$v['channel_name']|escape:'html':></a><br/>
-                        <:$v['create_date']:> ago<br/>
-                        <:$v['video_count']:> video(s)<br/>
+                        <:$v['create_date']:> <:$messages['user.channel.ago']:><br/>
+                        <:$v['video_count']:> <:$messages['user.channel.video']:><br/>
                     </li>
 				<:/foreach:>
-                <li style="width: 100%"><a href="<:$ctx:>/channel/createnewchannel/">Create new channel</a></li>
+                <li style="width: 100%"><a href="<:$ctx:>/channel/createnewchannel/"><:$messages['user.channel.create']:></a></li>
                 <li style="width: 100%"><:$pagination:></li>
 			</ul>
         </div>

@@ -39,7 +39,7 @@
 		<span class="green" align="center"><:$successMessage:></span>
 		<span class="red" align="center"><:$errorMessage:></span>		
 		<:if $channel|@count == 0:>
-		Cannot find any channel. Please <a href="<:$ctx:>/channel/createnewchannel/">add</a> some.
+		<:$messages['video.addtochannel.cannot']:> <a href="<:$ctx:>/channel/createnewchannel/"><:$messages['video.addtochannel.add']:></a> <:$messages['video.addtochannel.some']:>
 		<:else:>
 		<form action="<:$ctx:>/video/addtochannel/?videoId=<:$videoId:>" method="post" name="addtochannelform">
 			<fieldset>
