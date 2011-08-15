@@ -1,5 +1,8 @@
 <link href="<:$ctx:>/css/album_index.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="/script/facebox/facebox.css" />
 <script type="text/javascript" src="<:$ctx:>/script/album_index.js"></script>
+<script language="javascript" src="/script/jquery.min.js"></script>
+<script language="javascript" src="/script/facebox/facebox.js"></script>
 <div id="user_info" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
 	<div id="user_video_body" class="page_body">
@@ -19,6 +22,7 @@
             <input type="text" id="term" name="term" value="<:$search_term:>"></option>
             <input type="hidden" name="page" value="<:$page:>"></input>
             <input type="submit" name="search" value="Submit"></input>
+            </br><center><a href="<:$ctx:>/content/term-and-condition" class="facebox-iframe"><:$messages['album.index.addtovideo']:></a></center>
 		</form>
 
 		<:if 2 == $display_mode:>

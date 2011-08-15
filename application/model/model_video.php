@@ -894,6 +894,21 @@
 			$res = $this->execute_query($sql);
 			return $res;
 		}
+		/**
+		 * get video by userId
+		 * @param params
+		 */
+		function getVideoByUserId()
+		{
+			$sql = "select * from video where user_id='?'";
+			$types= array('integer');
+			$res = $this->execute_query($sql,$params,$types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
+		}
 	}
 	
 ?>
