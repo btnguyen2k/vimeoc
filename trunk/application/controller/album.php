@@ -1140,6 +1140,48 @@
 				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_albumcustomurl');
 			}
 		}
+		
+		/**
+		 * add multivideo to album message source
+		 */
+		function addMultiVideoToAlbumMessagesSource()
+		{
+			$this->defaultAlbumMessagesSource();
+			$this->assign('name', $this->loadMessages('album.addmultivideotoalbum.title'));
+		}
+		
+		/**
+		 * add multivideo to album
+		 */
+		function addMultiVideoToAlbum()
+		{
+			$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			$this->loadModel('model_video');
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
+			{
+				$video=$this->model_video->getVideoByUserId(array($userId));
+				$albumId=$_GET['albumId'];
+				if($video==null)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}else if($video['user_id'] != $userId){
+					$this->loadTemplate('view_access_denied');
+					return;
+				}
+				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_addmultivideo');
+			}
+			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_addmultivideo');
+			}
+		}
+		
 	}
 	
 ?>
