@@ -236,6 +236,22 @@
 			return sizeof($res) > 0;
 		}
 		/**
+		 * get videoids by albumId
+		 * @param params
+		 */
+		function getVideoIdsByAlbumId($params)
+		{
+			$sql= 'select id from video v inner join album_video av on v.id=av.video_id
+			where av.album_id=?';
+			$types =  array('integer','integer');
+			$res = $this->execute_query($sql,$params,$types);
+			if(sizeof($res) > 0)
+			{
+				return $res;
+			}
+			return null;
+		}
+		/**
 		 *  update password by userid and album id
 		 *  @param params
 		 */
@@ -332,6 +348,16 @@
 				return $res[0] ;
 			}
 			return null;
+		}
+		/**
+		 * delete video by albumId
+		 * @param params
+		 */
+		function deleteVideoFromAlbumVideo($params)
+		{
+			$sql = 'delete from album_video where album_id=?';
+			$types = array('integer');
+			$this->execute_command($sql, $params, $types);
 		}
 	}
 ?>

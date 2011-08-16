@@ -909,6 +909,22 @@
 			}
 			return null;
 		}
+		/**
+		 * 
+		 * Get video by userid
+		 * @param $params
+		 */
+		function getVideosByUserId($params)
+		{
+			$sql= "select * from video where user_id=?";
+			$types= array('integer');
+			$res = $this->execute_query($sql,$params,$types);
+			if(sizeof($res) > 0)
+			{
+				return $res;
+			}
+			return null;
+		}
 	}
 	
 ?>

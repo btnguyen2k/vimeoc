@@ -483,6 +483,7 @@
 			}
 			return null;
 		}
+	
 		
 		function getUserByUserAlias($params){
 			$sql = "select * from user where profile_alias=?";

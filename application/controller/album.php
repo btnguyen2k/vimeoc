@@ -1142,18 +1142,9 @@
 		}
 		
 		/**
-		 * add multivideo to album message source
+		 * ajax load multi video to album
 		 */
-		function addMultiVideoToAlbumMessagesSource()
-		{
-			$this->defaultAlbumMessagesSource();
-			$this->assign('name', $this->loadMessages('album.addmultivideotoalbum.title'));
-		}
-		
-		/**
-		 * add multivideo to album
-		 */
-		function addMultiVideoToAlbum()
+		function loadVideosForAlbum()
 		{
 			$userId = $this->getLoggedUser();
 			if($userId == 0)
@@ -1162,25 +1153,69 @@
 				return;
 			}
 			$this->loadModel('model_video');
-			if ($_SERVER['REQUEST_METHOD'] == 'GET')
+			$this->loadModel('model_album');
+			if($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
-				$video=$this->model_video->getVideoByUserId(array($userId));
 				$albumId=$_GET['albumId'];
-				if($video==null)
+				$arrayVideos=array();
+				$videos=$this->model_video->getVideosByUserId(array($userId));
+				$albumVideoIds=$this->model_album->getVideoIdsByAlbumId(array($albumId));
+				$array = array();
+				for($i=0;$i<sizeof($albumVideoIds);$i++)
 				{
-					$this->loadTemplate('view_404');
-					return;
-				}else if($video['user_id'] != $userId){
-					$this->loadTemplate('view_access_denied');
-					return;
+					array_push($array, $albumVideoIds[$i]['id']);
+				}		
+				if($albumVideoIds!=null)
+				{
+					for($i=0;$i<sizeof($videos);$i++)
+					{		
+						if(in_array($videos[$i]['id'],$array))
+						{
+							$video=array('id' => $videos[$i]['id'], 'title'=>$videos[$i]['video_title'], 'status'=>true);
+						}
+						else 
+						{
+							$video=array('id' => $videos[$i]['id'], 'title'=>$videos[$i]['video_title'], 'status'=>false);
+						}
+						array_push($arrayVideos,$video);
+					}
+					
 				}
-				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_addmultivideo');
-			}
-			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
-			{
-				$this->loadTemplate(ALBUM_TEMPLATE_DIR.'view_album_addmultivideo');
+				else{
+					for($i=0;$i<sizeof($videos);$i++)
+					{		
+						$video=array('id' => $videos[$i]['id'], 'title'=>$videos[$i]['video_title'], 'status'=>false);
+						array_push($arrayVideos,$video);
+					}
+				}
+				echo json_encode($arrayVideos);
 			}
 		}
+		function updateVideosToAlbum()
+		{
+			$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			$this->loadModel('model_video');
+			$this->loadModel('model_album');
+			if($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$checkedVideo=$_POST['videoList'];
+				var_dump($checkedVideo);
+
+				$albumId=$_POST['albumId'];
+				$this->model_album->deleteVideoFromAlbumVideo(array($albumId));
+				for($i=0;$i<sizeof($checkedVideo);$i++)
+				{
+					$this->model_video->addVideoToAlBum(array($albumId,$checkedVideo[$i]));
+				}
+				echo true;
+			}
+		}
+		
 		
 	}
 	
