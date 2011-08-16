@@ -243,5 +243,22 @@
 			$res = $this->execute_query($sql);
 			return $res;
 		}
+		
+		/**
+		 * get videoids by channelId
+		 * @param params
+		 */
+		function getVideoIdsByChannelId($params)
+		{
+			$sql= 'select id from video v inner join channel_video cv on v.id=cv.video_id
+			where cv.channel_id=?';
+			$types =  array('integer','integer');
+			$res = $this->execute_query($sql,$params,$types);
+			if(sizeof($res) > 0)
+			{
+				return $res[0] ;
+			}
+			return null;
+		}
 	}
 ?>

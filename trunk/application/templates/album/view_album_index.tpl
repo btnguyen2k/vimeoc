@@ -3,6 +3,49 @@
 <script type="text/javascript" src="<:$ctx:>/script/album_index.js"></script>
 <script language="javascript" src="/script/jquery.min.js"></script>
 <script language="javascript" src="/script/facebox/facebox.js"></script>
+<script>
+	function updateVideoToAlbum()
+	{
+		$("#updateVideosToAlbum").ajaxSubmit(function(data){
+			if(data=="true"){
+				
+			}else{
+				document.location.reload();
+			}
+		});
+		//$.facebox.close();
+	}
+	
+	function loadVideos()
+	{
+		$.ajax({
+			url : '<:$ctx:>/album/loadVideosForAlbum/',
+			data: 'albumId=<:$albumId:>',
+			type: 'GET',
+			success: function(json){
+				var data = eval('(' + json + ')');
+				var div = $("<div>").attr('id','videoList');
+				var list = $("<form id='updateVideosToAlbum' name='updateVideosToAlbum' action='<:$ctx:>/album/updateVideosToAlbum/' method='POST'>");
+				for(var i=0;i<data.length;i++)
+				{
+					var input = $("<input name='videoList[]' type='checkbox' value='"+data[i].id+"' >");
+					var title = data[i].title;
+					if(data[i].status){
+						input.attr('checked',true);
+					}
+					list.append(input).append(title).append('<br>');
+				}
+				var albumId= $("<input name='albumId' type='hidden' value='<:$albumId:>'>");
+				var update= $("<input type='button' value='Update' onclick='updateVideoToAlbum()'>");
+				var cancel= $("<input type='button' value='Cancel' onclick='$.facebox.close();'>");
+				list.append(albumId).append(update).append(cancel);
+				div.append(list);
+				$.facebox(div);
+				
+			}
+		});
+	}
+</script>
 <div id="user_info" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
 	<div id="user_video_body" class="page_body">
@@ -22,7 +65,8 @@
             <input type="text" id="term" name="term" value="<:$search_term:>"></option>
             <input type="hidden" name="page" value="<:$page:>"></input>
             <input type="submit" name="search" value="Submit"></input>
-            </br><center><a href="<:$ctx:>/content/term-and-condition" class="facebox-iframe"><:$messages['album.index.addtovideo']:></a></center>
+            <br><center><span class="green" id="message"></span></center>
+            <br><center><a href="###" onclick="loadVideos()"><:$messages['album.index.addtovideo']:></a></center>
 		</form>
 
 		<:if 2 == $display_mode:>
