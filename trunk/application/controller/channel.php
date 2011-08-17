@@ -1185,6 +1185,128 @@
 				}
 			}
 		}
+		/**
+		 * ajax load multi video to channel
+		 */
+		function loadVideosForChannel()
+		{
+			$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			$_sort_columns = array(
+				1 => 'creation_date',
+				2 => 'creation_date',
+				3 => 'play_count',
+				4 => 'comment_count',
+				5 => 'like_count',
+				6 => 'video_title'
+			);
+			$_sort_orders = array(
+				1 => 'DESC',
+				2 => 'ASC',
+				3 => 'DESC',
+				4 => 'DESC',
+				5 => 'DESC',
+				6 => 'ASC'
+			);
+			$_default_sort_mode = 1;
+			$this->loadModel('model_video');
+			$this->loadModel('model_channel');
+			if($_SERVER['REQUEST_METHOD'] == 'GET')
+			{
+				$channelId=$_GET['channelId'];
+				$sortMode=$_GET['sortMode'];
+				$arrayVideos=array();
+				//var_dump($sortMode);
+				if($sortMode == null)
+					$sortMode = $_default_sort_mode;
+				$sort_column = $_sort_columns[$sortMode];
+				$sort_order = $_sort_orders[$sortMode];
+				$res=$this->model_channel->checkChannelIdByUserId(array($userId,$channelId));
+				if($res==1){
+					$owner = true;
+				}else{
+					$owner = false;
+				}
+				$videos=$this->model_channel->getVideoNotByChannelId(array($userId,$channelId),$sort_column,$sort_order);
+				$channelVideoIds=$this->model_channel->getVideoIdsByChannelId(array($channelId),$sort_column,$sort_order);
+				$array = array();
+				$videoArray = array();
+				$arrayVideos = array();
+				for($i=0;$i<sizeof($channelVideoIds);$i++)
+				{
+					array_push($array, $channelVideoIds[$i]['id']);
+				}
+				for($i=0;$i<sizeof($videos);$i++)
+				{
+					array_push($videoArray, $videos[$i]['id']);
+				}
+				if($channelVideoIds!=null)
+				{
+					for($i=0;$i<(sizeof($channelVideoIds)+$count);$i++)
+					{	
+						$video=array('id' => $channelVideoIds[$i]['id'], 'title'=>$channelVideoIds[$i]['video_title'], 'status'=>true);
+						array_push($arrayVideos,$video);
+					}
+					for($i=0;$i<sizeof($videos);$i++)
+					{		
+						$video=array('id' => $videos[$i]['id'], 'title'=>$videos[$i]['video_title'], 'status'=>false);
+						array_push($arrayVideos,$video);
+					}
+					
+				}
+				else{
+					for($i=0;$i<sizeof($videos);$i++)
+					{		
+						$video=array('id' => $videos[$i]['id'], 'title'=>$videos[$i]['video_title'], 'status'=>false);
+						array_push($arrayVideos,$video);
+					}
+				}
+				$json = array('owner' => $owner, 'items' => $arrayVideos);
+				echo json_encode($json);
+			}
+		}
+		
+		
+		function updateVideosToChannel()
+		{
+			$userId = $this->getLoggedUser();
+			if($userId == 0)
+			{
+				$this->redirect($this->ctx().'/auth/login/');
+				return;
+			}
+			$this->loadModel('model_video');
+			$this->loadModel('model_channel');
+			if($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				$checkedVideo=$_POST['videoList'];
+				$channelId=$_POST['channelId'];
+				$res=$this->model_channel->checkChannelIdByUserId(array($userId,$channelId));
+				if($res==1)
+				{
+					$this->model_channel->dropChannelVideoByChannelId(array($channelId));
+					for($i=0;$i<sizeof($checkedVideo);$i++)
+					{
+						$this->model_video->addVideoToChannel(array($channelId,$checkedVideo[$i]));
+					}
+				}
+				else 
+				{
+					for($i=0;$i<sizeof($checkedVideo);$i++)
+					{
+						if ($this->model_video->isChannelExist(array($channelId,$checkedVideo[$i])) != true)
+						{
+							$this->model_video->addVideoToChannel(array($channelId,$checkedVideo[$i]));
+						}	
+					}
+				}
+				echo true;
+			}
+		}
 	}
 
 ?>

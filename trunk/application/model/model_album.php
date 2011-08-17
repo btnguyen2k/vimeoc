@@ -90,8 +90,7 @@
 		{
 			$sql = 'select id from album where id=?';
 			$types =  array('integer', 'integer');
-			$res = $this->execute_query($sql,$params,$types);
-			
+			$res = $this->execute_query($sql,$params,$types);			
 			return sizeof($res) > 0;
 		}
 		
@@ -322,6 +321,7 @@
 		 *check duplicated alias
 		 * @param $params
 		 */
+		
 		function isAliasExist($params)
 		{					
 			$sql = 'select 
@@ -334,6 +334,7 @@
 			$res = $this->execute_query($sql,$params,$types);
 			return $res[0]['count'];
 		}
+		
 		/**
 		 * check album bu userId
 		 * @param params
@@ -348,16 +349,6 @@
 				return $res[0] ;
 			}
 			return null;
-		}
-		/**
-		 * delete video by albumId
-		 * @param params
-		 */
-		function deleteVideoFromAlbumVideo($params)
-		{
-			$sql = 'delete from album_video where album_id=?';
-			$types = array('integer');
-			$this->execute_command($sql, $params, $types);
 		}
 	}
 ?>
