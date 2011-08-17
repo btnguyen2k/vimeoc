@@ -4,13 +4,21 @@
 <script language="javascript" src="/script/jquery.min.js"></script>
 <script language="javascript" src="/script/facebox/facebox.js"></script>
 <script>
+	var currentUrl = document.location.href;
 	function updateVideoToAlbum()
 	{
 		$("#updateVideosToAlbum").ajaxSubmit(function(data){
 			if(data=="true"){
-				
-			}else{
 				document.location.reload();
+			}else{
+				$.facebox.close()
+				var newUrl = currentUrl;
+				if(currentUrl.indexOf('?') > 0){
+					newUrl=currentUrl + "&updatedVideos=1";
+				}else{
+					newUrl="<:$ctx:>/album/?albumId=<:$albumId:>&updatedVideos=1";
+				}
+				document.location.href=newUrl;
 			}
 		});
 	}
@@ -19,7 +27,7 @@
 	{
 		$.ajax({
 			url : '<:$ctx:>/album/loadVideosForAlbum/',
-			data: 'albumId=<:$albumId:>',
+			data: 'albumId=<:$albumId:>&sortMode=<:$sort_mode:>',
 			type: 'GET',
 			success: function(json){
 				var data = eval('(' + json + ')');
@@ -64,8 +72,10 @@
             <input type="text" id="term" name="term" value="<:$search_term:>"></option>
             <input type="hidden" name="page" value="<:$page:>"></input>
             <input type="submit" name="search" value="Submit"></input>
-            <br><center><span class="green" id="message"></span></center>
-            <br><center><a href="###" onclick="loadVideos()"><:$messages['album.index.addtovideo']:></a></center>
+            <:if $smarty.get.updatedVideos eq 1:>
+            	<br><center><span class="green" id="message"><:$messages['index.addvideo.successfull']:></span></center>
+            <:/if:>            
+            <br><center><a style="display:none" href="###" onclick="loadVideos()"><:$messages['album.index.addtovideo']:></a></center>
 		</form>
 
 		<:if 2 == $display_mode:>

@@ -229,10 +229,21 @@
 		{
 			$sql = 'select id from channel where id=?';
 			$types =  array('integer', 'integer');
-			$res = $this->execute_query($sql,$params,$types);
-			
+			$res = $this->execute_query($sql,$params,$types);	
 			return sizeof($res) > 0;
 		}
+		/**
+		 * check channelId by userid
+		 * @param param
+		 */
+		function checkChannelIdByUserId($params)
+		{
+			$sql = 'select id from channel where user_id=? and id=?';
+			$types =  array('integer', 'integer', 'integer');
+			$res = $this->execute_query($sql,$params,$types);			
+			return sizeof($res) > 0;
+		}
+		
 		
 		/**
 		 * 
@@ -248,17 +259,36 @@
 		 * get videoids by channelId
 		 * @param params
 		 */
-		function getVideoIdsByChannelId($params)
+		function getVideoIdsByChannelId($params, $sort_column = 'creation_date', $sort_order = 'ASC')
 		{
-			$sql= 'select id from video v inner join channel_video cv on v.id=cv.video_id
-			where cv.channel_id=?';
+			$sql= "select * from video v inner join channel_video cv on v.id=cv.video_id
+			where cv.channel_id=? order by v.{$sort_column} {$sort_order}";
 			$types =  array('integer','integer');
 			$res = $this->execute_query($sql,$params,$types);
 			if(sizeof($res) > 0)
 			{
-				return $res[0] ;
+				return $res ;
 			}
 			return null;
+		}
+		/**
+		 * 
+		 */
+		function getVideoNotByChannelId($params, $sort_column = 'creation_date', $sort_order = 'ASC')
+		{
+			$sql= "SELECT * FROM video v WHERE v.user_id=? AND v.id NOT IN(
+					SELECT cv.video_id
+					FROM channel_video cv
+					WHERE cv.channel_id =?
+					)
+					order by v.{$sort_column} {$sort_order}";
+			$types =  array('integer','integer','integer','integer');
+			$res = $this->execute_query($sql,$params,$types);
+			if(sizeof($res) > 0)
+			{
+				return $res ;
+			}
+			return null;	
 		}
 	}
 ?>

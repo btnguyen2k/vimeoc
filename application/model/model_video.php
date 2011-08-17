@@ -710,7 +710,6 @@
 			$sql = 'select id from video where id=?';
 			$types =  array('integer', 'integer');
 			$res = $this->execute_query($sql,$params,$types);
-			
 			return sizeof($res) > 0;
 		}
 		
@@ -914,9 +913,9 @@
 		 * Get video by userid
 		 * @param $params
 		 */
-		function getVideosByUserId($params)
+		function getVideosByUserId($params, $sort_column = 'creation_date', $sort_order = 'ASC')
 		{
-			$sql= "select * from video where user_id=?";
+			$sql= "select * from video where user_id=? order by {$sort_column} {$sort_order}";
 			$types= array('integer');
 			$res = $this->execute_query($sql,$params,$types);
 			if(sizeof($res) > 0)

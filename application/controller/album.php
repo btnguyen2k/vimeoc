@@ -36,7 +36,7 @@
 			$userId = $this->getLoggedUser();
 			if($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
-				$albumId = $_GET['albumId'];
+				$albumId = $_GET['albumId'];		
 			}elseif($_SERVER['REQUEST_METHOD'] == 'POST'){
 				$albumId = $_POST['albumId'];
 			}
@@ -1152,13 +1152,35 @@
 				$this->redirect($this->ctx().'/auth/login/');
 				return;
 			}
+			$_sort_columns = array(
+				1 => 'creation_date',
+				2 => 'creation_date',
+				3 => 'play_count',
+				4 => 'comment_count',
+				5 => 'like_count',
+				6 => 'video_title'
+			);
+			$_sort_orders = array(
+				1 => 'DESC',
+				2 => 'ASC',
+				3 => 'DESC',
+				4 => 'DESC',
+				5 => 'DESC',
+				6 => 'ASC'
+			);
+			$_default_sort_mode = 1;
 			$this->loadModel('model_video');
 			$this->loadModel('model_album');
 			if($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$albumId=$_GET['albumId'];
+				$sortMode=$_GET["sortMode"];
+				if($sortMode == null)
+					$sortMode = $_default_sort_mode;
+				$sort_column = $_sort_columns[$sortMode];
+				$sort_order = $_sort_orders[$sortMode];
 				$arrayVideos=array();
-				$videos=$this->model_video->getVideosByUserId(array($userId));
+				$videos=$this->model_video->getVideosByUserId(array($userId),$sort_column,$sort_order);
 				$albumVideoIds=$this->model_album->getVideoIdsByAlbumId(array($albumId));
 				$array = array();
 				for($i=0;$i<sizeof($albumVideoIds);$i++)
@@ -1204,10 +1226,8 @@
 			if($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
 				$checkedVideo=$_POST['videoList'];
-				var_dump($checkedVideo);
-
 				$albumId=$_POST['albumId'];
-				$this->model_album->deleteVideoFromAlbumVideo(array($albumId));
+				$this->model_album->dropAlbumVideoByAlbumId(array($albumId));
 				for($i=0;$i<sizeof($checkedVideo);$i++)
 				{
 					$this->model_video->addVideoToAlBum(array($albumId,$checkedVideo[$i]));

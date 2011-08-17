@@ -1,5 +1,63 @@
 <link href="<:$ctx:>/css/channel_index.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="/script/facebox/facebox.css" />
 <script type="text/javascript" src="<:$ctx:>/script/channel_index.js"></script>
+<script language="javascript" src="/script/jquery.min.js"></script>
+<script language="javascript" src="/script/facebox/facebox.js"></script>
+<script>
+	var currentUrl = document.location.href;
+	function updateVideoToChannel()
+	{
+		$("#updateVideosToChannel").ajaxSubmit(function(data){
+			if(data=="true"){
+				document.location.reload();
+			}else{
+				$.facebox.close()
+				var newUrl = currentUrl;
+				if(currentUrl.indexOf('?') > 0){
+					newUrl=currentUrl + "&updatedVideos=1";
+				}else{
+					newUrl="<:$ctx:>/channel/?channelId=<:$channelId:>&updatedVideos=1";
+				}
+				document.location.href=newUrl;
+			}
+		});
+	}
+	
+	function loadVideos()
+	{
+		$.ajax({
+			url : '<:$ctx:>/channel/loadVideosForChannel/',
+			data: 'channelId=<:$channelId:>&sortMode=<:$sort_mode:>',
+			type: 'GET',
+			success: function(json){
+				var data = eval('(' + json + ')');
+				var owner = data.owner;
+				var items = data.items;
+				var div = $("<div>").attr('id','videoList');
+				var list = $("<form id='updateVideosToChannel' name='updateVideosToChannel' action='<:$ctx:>/channel/updateVideosToChannel/' method='POST'>");
+				for(var i=0;i<items.length;i++)
+				{
+					var input = $("<input name='videoList[]' type='checkbox' value='"+items[i].id+"' >");
+					var title = items[i].title;
+					if(items[i].status){
+						if(owner)
+							input.attr('checked',true);
+						else
+							input.attr('checked',true).attr('disabled',true);
+					}
+					list.append(input).append(title).append('<br>');
+				}
+				var channelId= $("<input name='channelId' type='hidden' value='<:$channelId:>'>");
+				var update= $("<input type='button' value='Update' onclick='updateVideoToChannel()'>");
+				var cancel= $("<input type='button' value='Cancel' onclick='$.facebox.close();'>");
+				list.append(channelId).append(update).append(cancel);
+				div.append(list);
+				$.facebox(div);
+				
+			}
+		});
+	}
+</script>
 <div id="user_info" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/channel_left_menu.tpl":>		
 	<div id="user_video_body" class="page_body">
@@ -19,6 +77,10 @@
 		<input type="text" id="term" name="term" value="<:$search_term:>"></option>
 		<input type="hidden" name="page" value="<:$page:>"></input>
 		<input type="submit" name="search" value="Submit"></input>
+		<:if $smarty.get.updatedVideos eq 1:>
+			<br><center><span class="green" id="message"><:$messages['index.addvideo.successfull']:></span></center>
+		<:/if:>
+        <br><center><a style="display:none" href="###" onclick="loadVideos()"><:$messages['channel.index.addtovideo']:></a></center>
 		</form>
 
 		<:if 2 == $display_mode:>
