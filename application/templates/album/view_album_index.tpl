@@ -13,7 +13,6 @@
 				document.location.reload();
 			}
 		});
-		//$.facebox.close();
 	}
 	
 	function loadVideos()
