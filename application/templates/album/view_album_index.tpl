@@ -74,8 +74,10 @@
             <input type="submit" name="search" value="Submit"></input>
             <:if $smarty.get.updatedVideos eq 1:>
             	<br><center><span class="green" id="message"><:$messages['index.addvideo.successfull']:></span></center>
-            <:/if:>            
-            <br><center><a style="display:none" href="###" onclick="loadVideos()"><:$messages['album.index.addtovideo']:></a></center>
+            <:/if:>    
+            <:if $videoExist gt 0:>   
+           		<br><center><a href="###" onclick="loadVideos()"><:$messages['album.index.addtovideo']:></a></center>
+			<:/if:>
 		</form>
 
 		<:if 2 == $display_mode:>

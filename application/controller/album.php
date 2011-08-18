@@ -34,6 +34,7 @@
 		function index()
 		{
 			$userId = $this->getLoggedUser();
+			$this->loadModel('model_video');
 			if($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$albumId = $_GET['albumId'];		
@@ -46,7 +47,8 @@
 				$this->loadTemplate('view_404');
 				return;
 			}
-		
+			$videoExist=$this->model_video->checkVideoByUserId(array($userId));
+			
 			$this->loadModel('model_album');
 			$model_album = $this->model_album;
 			$album = $model_album->selectAlbumById($albumId);
@@ -310,6 +312,7 @@
 			
 			$this->assign('albumId', $albumId);
 			$this->assign('album_name', $album['album_name']);
+			$this->assign('videoExist',$videoExist['count']);
 			$this->assign('show_user_avatar', 1);
 			
 			$this->indexMessagesSource();

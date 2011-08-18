@@ -909,6 +909,17 @@
 			return null;
 		}
 		/**
+		 * get video by userId
+		 * @param params
+		 */
+		function checkVideoByUserId($params)
+		{
+			$sql = "select count(*) as count from video where user_id=?";
+			$types= array('integer','integer');
+			$res = $this->execute_query($sql,$params,$types);
+			return $res[0];
+		}
+		/**
 		 * 
 		 * Get video by userid
 		 * @param $params
