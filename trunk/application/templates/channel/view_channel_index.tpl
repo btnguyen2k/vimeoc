@@ -78,9 +78,11 @@
 		<input type="hidden" name="page" value="<:$page:>"></input>
 		<input type="submit" name="search" value="Submit"></input>
 		<:if $smarty.get.updatedVideos eq 1:>
-			<br><center><span class="green" id="message"><:$messages['index.addvideo.successfull']:></span></center>
+			<br><center><span style="display:none" class="green" id="message"><:$messages['index.addvideo.successfull']:></span></center>
 		<:/if:>
-        <br><center><a style="display:none" href="###" onclick="loadVideos()"><:$messages['channel.index.addtovideo']:></a></center>
+		<:if $videoExist gt 0:>
+       		<br><center><a href="###" onclick="loadVideos()"><:$messages['channel.index.addtovideo']:></a></center>
+        <:/if:>
 		</form>
 
 		<:if 2 == $display_mode:>
@@ -121,6 +123,6 @@
 				</ul>
 			</div>
 		<:/if:>
-		<:$message:>
+		<:$message:>		
 	</div>
 </div>

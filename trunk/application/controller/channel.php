@@ -297,6 +297,7 @@
 		function index()
 		{
 			$userId = $this->getLoggedUser();
+			$this->loadModel('model_video');
 			if($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$channelId = $_GET['channelId'];
@@ -307,10 +308,13 @@
 				$this->loadTemplate('view_404');
 				return;
 			}
-		
+			$videoExist=$this->model_video->checkVideoByUserId(array($userId));
+			
 			$this->loadModel('model_channel');
 			$model_channel = $this->model_channel;
 			$channel = $model_channel->getChannelbyChannelId(array($channelId));
+			
+			$this->loadModel('model_channel');
 			
 			if(!$channel){
 				$error_flag = true;
@@ -542,9 +546,10 @@
 			$this->assign('page_size', $_page_size);
 			$this->assign('search_term', $_search_term);
 			$this->assign('page', $page);
-			
+		
 			$this->assign('channelId', $channelId);
 			$this->assign('channel_name', $channel['channel_name']);
+			$this->assign('videoExist',$videoExist['count']);
 			$this->assign('show_user_avatar', 1);
 			
 			$this->indexMessagesSource();
@@ -1220,7 +1225,6 @@
 				$channelId=$_GET['channelId'];
 				$sortMode=$_GET['sortMode'];
 				$arrayVideos=array();
-				//var_dump($sortMode);
 				if($sortMode == null)
 					$sortMode = $_default_sort_mode;
 				$sort_column = $_sort_columns[$sortMode];
@@ -1231,7 +1235,7 @@
 				}else{
 					$owner = false;
 				}
-				$videos=$this->model_channel->getVideoNotByChannelId(array($userId,$channelId),$sort_column,$sort_order);
+				$videos=$this->model_channel->getVideoNotByChannelId(array($userId,$channelId,$channelId),$sort_column,$sort_order);
 				$channelVideoIds=$this->model_channel->getVideoIdsByChannelId(array($channelId),$sort_column,$sort_order);
 				$array = array();
 				$videoArray = array();
@@ -1246,23 +1250,18 @@
 				}
 				if($channelVideoIds!=null)
 				{
-					for($i=0;$i<(sizeof($channelVideoIds)+$count);$i++)
-					{	
-						$video=array('id' => $channelVideoIds[$i]['id'], 'title'=>$channelVideoIds[$i]['video_title'], 'status'=>true);
-						array_push($arrayVideos,$video);
-					}
 					for($i=0;$i<sizeof($videos);$i++)
-					{		
-						$video=array('id' => $videos[$i]['id'], 'title'=>$videos[$i]['video_title'], 'status'=>false);
-						array_push($arrayVideos,$video);
-					}
-					
-				}
-				else{
-					for($i=0;$i<sizeof($videos);$i++)
-					{		
-						$video=array('id' => $videos[$i]['id'], 'title'=>$videos[$i]['video_title'], 'status'=>false);
-						array_push($arrayVideos,$video);
+					{
+						if(in_array($videos[$i]['id'],$array))
+						{
+							$video=array('id' => $videos[$i]['id'], 'title'=>$videos[$i]['video_title'], 'status'=>true);
+							array_push($arrayVideos,$video);
+						}
+						else 
+						{
+							$video=array('id' => $videos[$i]['id'], 'title'=>$videos[$i]['video_title'], 'status'=>false);
+							array_push($arrayVideos,$video);
+						}
 					}
 				}
 				$json = array('owner' => $owner, 'items' => $arrayVideos);

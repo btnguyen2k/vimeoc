@@ -276,13 +276,18 @@
 		 */
 		function getVideoNotByChannelId($params, $sort_column = 'creation_date', $sort_order = 'ASC')
 		{
-			$sql= "SELECT * FROM video v WHERE v.user_id=? AND v.id NOT IN(
+			$sql= "SELECT * FROM video v WHERE (v.user_id=? AND v.id NOT IN(
 					SELECT cv.video_id
 					FROM channel_video cv
 					WHERE cv.channel_id =?
-					)
+					))
+					OR (v.id IN (
+					SELECT cv.video_id
+					FROM channel_video cv
+					WHERE cv.channel_id =?
+					))
 					order by v.{$sort_column} {$sort_order}";
-			$types =  array('integer','integer','integer','integer');
+			$types =  array('integer','integer','integer','integer','integer');
 			$res = $this->execute_query($sql,$params,$types);
 			if(sizeof($res) > 0)
 			{
