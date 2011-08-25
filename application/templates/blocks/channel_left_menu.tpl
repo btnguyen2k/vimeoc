@@ -1,7 +1,7 @@
 <div id="channel_menu">
 	<:if $show_user_avatar == 1 && $authorized eq true:>
 	<ul class="portrait">
-		<li>
+		<li>			
 			<a href="<:$ctx:>/">
 			<:if $userAvatar != null:>
 			<img class="userAvatar" src="<:$ctx:>/images/upload/<:$userAvatar:>" width="50" height="50"/>
@@ -9,9 +9,6 @@
 			<img class="userAvatar" src="<:$ctx:>/images/avatar.png" width="50" height="50"/>
 			<:/if:>
 			</a>
-            <p>
-            <:$smarty.session.fullname|escape:'html':>
-            </p>
 		</li>
 	</ul>
 	<:/if:>
@@ -27,7 +24,7 @@
 		</ul>
 	<:/if:>
 	<ul>
-		<:if $create_channel != 1:>
+		<:if $create_channel != 1:>		
 			<li>
 				<a href="<:$ctx:>/channel/createNewChannel/?channelId=<:$channelId:>"><:$menuchannelcreate:></a>
 			</li>
@@ -56,7 +53,7 @@
 			<li>
 				<a href="<:$ctx:>/user/video/"><:$videobacktovideo:></a>
 			</li>
-		<:/if:>
+		<:/if:>		
 	</ul>
 	<:if $proxy eq true:>
 	<ul>

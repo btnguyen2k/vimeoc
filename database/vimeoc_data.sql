@@ -2,7 +2,7 @@ START TRANSACTION;
 
 -- Default password is '12345'
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `password_hint`, `account_locked`, `account_enabled`, `full_name`, `website`, `profile_alias`, `creation_date`, `avatar`) 
-VALUES(1, 'admin@ongsoft.com', '1dsat4b3f9cbae58e6420b6c54913196ae26bafc4b200b', 'admin@ongsoft.com', NULL, b'0', b'1', 'Admin', NULL, 'user1', '2011-07-16 15:05:47', NULL);
+VALUES(1, 'admin@gpv.com.vn', '1dsat4b3f9cbae58e6420b6c54913196ae26bafc4b200b', 'admin@gpv.com.vn', NULL, b'0', b'1', 'Admin', NULL, 'user1', '2011-07-16 15:05:47', NULL);
 
 --
 -- Default roles
@@ -12,7 +12,7 @@ INSERT INTO `role` (`id`, `name`) VALUES
 (1, 'ROLE_USER');
 
 --
--- Set admin role for admin@ongsoft.com
+-- Set admin role for admin@gpv.com.vn
 --
 INSERT INTO `user_role` (`user_id`, `role_id`, `creation_date`) VALUES
 (1, -9, '2011-05-24 11:16:48');

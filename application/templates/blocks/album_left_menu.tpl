@@ -1,7 +1,7 @@
 <div id="menu">
 	<:if $show_user_avatar == 1 && $authorized eq true:>
 	<ul class="portrait">
-		<li>
+		<li>			
 			<a href="<:$ctx:>/">
 			<:if $userAvatar != null:>
 			<img class="userAvatar" src="<:$ctx:>/images/upload/<:$userAvatar:>" width="50" height="50"/>
@@ -9,9 +9,6 @@
 			<img class="userAvatar" src="<:$ctx:>/images/avatar.png" width="50" height="50"/>
 			<:/if:>
 			</a>
-            <p>
-            <:$smarty.session.fullname|escape:'html':>
-            </p>
 		</li>
 	</ul>
 	<:/if:>
@@ -32,7 +29,7 @@
 				<a href="<:$ctx:>/album/createNewAlbum/"><:$createNewAlbum:></a>
 			</li>
 		<:/if:>
-		<:if $authorized == true && $owner == true:>
+		<:if $authorized == true && $owner == true:>	
 			<:if $create_album != 1:>
 				<li>
 					<a href="<:$ctx:>/album/albumsetting/?albumId=<:$albumId:>"><:$menubasicinfoAlbum:></a>

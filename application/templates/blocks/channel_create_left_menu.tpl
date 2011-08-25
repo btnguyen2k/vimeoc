@@ -1,7 +1,7 @@
 <div id="channel_menu">
 	<:if $show_user_avatar == 1:>
 	<ul class="portrait">
-		<li>
+		<li>			
 			<a href="<:$ctx:>/">
 			<:if $userAvatar != null:>
 			<img class="userAvatar" src="<:$ctx:>/images/upload/<:$userAvatar:>" width="50" height="50"/>
@@ -9,9 +9,6 @@
 			<img class="userAvatar" src="<:$ctx:>/images/avatar.png" width="50" height="50"/>
 			<:/if:>
 			</a>
-            <p>
-            <:$smarty.session.fullname|escape:'html':>
-            </p>
 		</li>
 	</ul>
 	<:/if:>
