@@ -59,7 +59,7 @@ function checkUrl(form){
 						<span><:$preview:> </span>
 					</li>
 					<li>
-						<span><a id="link" href="$previewUrl"><:$previewUrl:></a></span>
+						<span><a id="link" href="<:$previewUrl:>"><:$previewUrl:></a></span>
 					</li>
 					<li>
 						<input type="submit" value="Save"/>
