@@ -76,7 +76,9 @@
             	<br><center><span class="green" id="message"><:$messages['index.addvideo.successfull']:></span></center>
             <:/if:>    
             <:if $videoExist gt 0:>   
+            	<!-- 
            		<br><center><a href="###" onclick="loadVideos()"><:$messages['album.index.addtovideo']:></a></center>
+           		 -->
 			<:/if:>
 		</form>
 
