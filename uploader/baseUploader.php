@@ -55,7 +55,7 @@
 					$fileName = $folderName . '.' . $fileType[1];
 				}while(file_exists($folderTarget . $fileName));
 				if($folderThumbnails!=null)
-					mkdir(BASE_DIR.$folderThumbnails.$folderName, 0700);
+					mkdir(BASE_DIR.$folderThumbnails.$folderName, 0777);
 				$targetFile =  str_replace('//','/',$targetPath) . $fileName;
 				$sizeLimit = $maxSize*1024*1024;
 				$fileSize = $_FILES['Filedata']['size'];
