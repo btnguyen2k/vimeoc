@@ -81,7 +81,9 @@
 			<br><center><span style="display:none" class="green" id="message"><:$messages['index.addvideo.successfull']:></span></center>
 		<:/if:>
 		<:if $videoExist gt 0:>
+			<!-- 
        		<br><center><a href="###" onclick="loadVideos()"><:$messages['channel.index.addtovideo']:></a></center>
+       		 -->
         <:/if:>
 		</form>
 
