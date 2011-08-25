@@ -1,0 +1,1 @@
+<center><:$messages['auth.accessdenied1']:><a href="<:$ctx:>"> <:$messages['auth.accessdenied2']:></a> <:$messages['auth.accessdenied3']:></center>

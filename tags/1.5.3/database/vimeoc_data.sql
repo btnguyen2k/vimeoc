@@ -12,7 +12,7 @@ INSERT INTO `role` (`id`, `name`) VALUES
 (1, 'ROLE_USER');
 
 --
--- Set admin role for admin@ongsoft.com
+-- Set admin role for admin@gpv.com.vn
 --
 INSERT INTO `user_role` (`user_id`, `role_id`, `creation_date`) VALUES
 (1, -9, '2011-05-24 11:16:48');
