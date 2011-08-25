@@ -53,8 +53,9 @@
                     if ($("#title").val()=="") {
                         //auto save the video
                         videoInfoAutoSave = true;
-                        $("#top_success").html("Auto saving video, please wait...").show();
+                        $("#top_success").html("Auto saving video, please wait... ").show();
                         $("#title").val(fileName);
+                        $("#videoPath").val(response);
                         createUploadingVideo();
                     }
                     $("#videoPath").val(response);
@@ -106,10 +107,6 @@
                     $("#top_success").html("Auto saving video, please wait...done!").show();
                 }
 				$("#videoid").val(data);
-				//$("#submit-button").attr("disabled","disabled");
-				//$("#title").attr("disabled","disabled");
-				//$("#description").attr("disabled","disabled");
-				//$("#tag").attr("disabled","disabled");
 				$("#success").html("<:$success:>").show();
 				if( !(videoPath=="") && !videoInfoAutoSave){
 					window.location = "<:$ctx:>/user/video";
