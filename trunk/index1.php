@@ -1,8 +1,6 @@
 <?php
 	session_start();
 	
-	date_default_timezone_set('UTC');
-	
 	//Load constants variables
 	require_once("application/constants.php");
 	
