@@ -961,6 +961,8 @@
 			}
 			$this->loadModel('model_video');
 			$this->loadModel('model_user');
+			$this->loadModel('model_album');
+			$this->loadModel('model_channel');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$videoid=$_GET['videoId'];
@@ -998,6 +1000,9 @@
 					}
 				}
 				$video = $this->model_video->getVideoByVideoIdAndUserId(array($userId,$videoid));
+				$videoThumbnail=$video['thumbnails_path'];
+				$this->model_album->updateAlbumThumbnailToDefault(array($videoThumbnail));
+				$this->model_channel->updateChannelThumbnailToDefault(array($videoThumbnail));
 				$this->assignVideoThumbnails($video);
 				$this->assign("videoName",$video['video_title']);
 				$this->assign("videoId",$videoid);

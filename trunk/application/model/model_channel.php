@@ -189,7 +189,16 @@
 			
 			return ($res[0] && $res[0]['count']) ? $res[0]['count'] : 0;
 		}
-		
+		/**
+		 * update albumThumbnail to default
+		 * @param params
+		 */
+		function updateChannelThumbnailToDefault($params)
+		{
+			$sql = 'Update channel Set thumbnails_path=Null where thumbnails_path=? ';
+			$types= array('text');
+			$res = $this->execute_command($sql,$params,$types);
+		}
 		function updateChannelArrangeByChannelId($params)
 		{
 			$sql = 'Update channel Set arrange=? where id=? ';

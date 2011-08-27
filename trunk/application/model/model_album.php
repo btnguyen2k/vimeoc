@@ -190,6 +190,17 @@
 			$res = $this->execute_command($sql,$params,$types);
 		}
 		/**
+		 * update albumThumbnail to default
+		 * @param params
+		 */
+		function updateAlbumThumbnailToDefault($params)
+		{
+			$sql = 'Update album Set thumbnails_path=Null where thumbnails_path=? ';
+			$types= array('text');
+			$res = $this->execute_command($sql,$params,$types);
+		}
+		
+		/**
 		 * update AlbumDescription by AlbumId
 		 * @param params
 		 */

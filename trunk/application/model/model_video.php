@@ -629,7 +629,7 @@
 		 */
 		function getVideoByVideoIdAndUserId($params)
 		{
-			$sql= "select video_title from video where user_id=? and id=?";
+			$sql= "select * from video where user_id=? and id=?";
 			$type= array('text','integer','integer');
 			$res = $this->execute_query($sql,$params,$types);
 			if(sizeof($res) > 0)
