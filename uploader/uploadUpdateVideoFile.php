@@ -17,8 +17,9 @@ if($uploader->getLoggedUser() > 0 && $res){
 	$ret = $uploader->upload($uploader->loadResources('video.upload.path'),$uploader->loadResources('video.upload.thumbnails'), $uploader->loadResources('video.upload.ext.support'), $uploader->loadResources('video.upload.maxsize'));
 	$fileExists = $uploader->isFileExists($uploader->loadResources('video.upload.path'), $ret);
 	if(!is_numeric($ret) && $fileExists){
-		$model_video->updateVideoFile(array($ret, $vid));
+		$model_video->updateVideoFile(array($ret, $vid));		
 		$logger->lwrite('Update video file of video'.$vid);
+		$model_video->updateThumbnailById(array(NULL, $vid));
 		echo $ret;
 	}else{		
 		//echo 'Invalid file';
