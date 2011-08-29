@@ -887,7 +887,7 @@
 				$videoPath=$video['video_path'];
 				$videoHash=utils::getFileType($videoPath);
 				$videoHash=$videoHash[0];
-				$folder=$path.$videoHash;
+				$folder=$path.$videoHash;			
 				$folderPath=BASE_DIR . $folder;
 				if(file_exists($folderPath) && is_dir($folderPath)){
 					$dir = opendir($folderPath);
@@ -1001,6 +1001,22 @@
 				}
 				$video = $this->model_video->getVideoByVideoIdAndUserId(array($userId,$videoid));
 				$videoThumbnail=$video['thumbnails_path'];
+				$videoFile=$video['video_path'];
+				//delete video from folder videos/upload
+				$pathVideo=$this->loadResources('video.upload.path');
+				$folderVideo=$pathVideo.$videoFile;
+				$folderPathVideo=BASE_DIR . $folderVideo;
+				if(file_exists($folderPathVideo) && is_dir($folderPathVideo))
+					unlink($folderPathVideo);  
+				
+				//delete thumbnail from folder images/upload
+				$pathImage=$this->loadResources('image.upload.path');
+				$folderImage=$pathImage.$videoThumbnail;
+				$folderPathImage=BASE_DIR . $folderImage;
+				if(file_exists($folderPathVideo) && is_dir($folderPathVideo))
+					unlink($folderPathImage);  
+				
+				
 				$this->model_album->updateAlbumThumbnailToDefault(array($videoThumbnail));
 				$this->model_channel->updateChannelThumbnailToDefault(array($videoThumbnail));
 				$this->assignVideoThumbnails($video);
