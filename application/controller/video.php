@@ -1005,16 +1005,36 @@
 				//delete video from folder videos/upload
 				$pathVideo=$this->loadResources('video.upload.path');
 				$folderVideo=$pathVideo.$videoFile;
-				$folderPathVideo=BASE_DIR . $folderVideo;
-				if(file_exists($folderPathVideo) && is_dir($folderPathVideo))
+				$folderPathVideo=BASE_DIR . $folderVideo;	
+				$checkVideo=BASE_DIR . $pathVideo;	
+				if($folderPathVideo!=$checkVideo)	
+				{
 					unlink($folderPathVideo);  
+				}
 				
 				//delete thumbnail from folder images/upload
 				$pathImage=$this->loadResources('image.upload.path');
 				$folderImage=$pathImage.$videoThumbnail;
 				$folderPathImage=BASE_DIR . $folderImage;
-				if(file_exists($folderPathVideo) && is_dir($folderPathVideo))
+				$checkImage=BASE_DIR . $pathImage;
+				if($folderPathImage!=$checkImage)	
+				{			
 					unlink($folderPathImage);  
+				}
+				
+				//delete video from folder video/final
+				$pathVideoVersion=$this->loadResources('video.upload.path.final');
+				$folderVideoVersion=BASE_DIR . $pathVideoVersion;
+				$videoHash=utils::getFileType($videoFile);
+				$videoHash=$videoHash[0];
+				$dir = opendir($folderVideoVersion);
+				while ($file = readdir($dir)) {
+					$pos = strrpos($file, $videoHash);					
+					if($pos !== false){
+						unlink($folderVideoVersion.$file);
+					}
+   				 }
+   				closedir($dir);
 				
 				
 				$this->model_album->updateAlbumThumbnailToDefault(array($videoThumbnail));
