@@ -1029,12 +1029,10 @@
 					$pos = strrpos($file, $videoHash);					
 					if($pos !== false){
 						unlink($folderVideoVersion.$file);
-						return;
 					}
    				 }
    				closedir($dir);
-				
-				
+								
 				$this->model_album->updateAlbumThumbnailToDefault(array($videoThumbnail));
 				$this->model_channel->updateChannelThumbnailToDefault(array($videoThumbnail));
 				$this->assignVideoThumbnails($video);
