@@ -1,35 +1,35 @@
-<?php 
+<?php
 	define("VIDEO_TEMPLATE_DIR", "video/");
 	include (BASE_DIR . '/application/uploader.php');
-		
+
 	/**
-	 * 
+	 *
 	 * Video controller
 	 * @author Tri
 	 *
 	 */
 	class Video extends Application
 	{
-	 	/**	
-		 * 
+	 	/**
+		 *
 		 * Constructor
 		 */
 		function __construct(&$tmpl)
-		{				
-			$this->tmpl = &$tmpl;		
+		{
+			$this->tmpl = &$tmpl;
 		}
 		/**
-		 * 
+		 *
 		 * Default action
 		 */
 		function index()
 		{
 			$this->redirect($this->ctx()."/home");
 		}
-		
+
 		/**
 		 * Load messages source for all user features
-		 * 
+		 *
 		 */
 		function defaultVideoMessagesSource()
 		{
@@ -40,7 +40,7 @@
 				$user = $this->model_user->getUserByUserId($userId);
 				$this->assign('userAvatar', $user['avatar']);
 				$this->assign('show_user_avatar', 1);
-				
+
 				$videoId = $_GET["videoId"];
 				if(!empty($videoId)){
 					$model_video = $this->getModel('model_video');
@@ -54,7 +54,7 @@
 					$this->assign("owner", true);
 				}
 			}
-			
+
 			$this->assign("videobasicinfo", $this->loadMessages('user.video.link.basicinfo'));
 			$this->assign("videothumbnail", $this->loadMessages('user.video.link.thumbnail'));
 			$this->assign("videovideofile", $this->loadMessages('user.video.link.videofile'));
@@ -68,7 +68,7 @@
 			$this->assign("videoId", $_GET["videoId"]);
 			$this->assign("requiredFields", $this->loadErrorMessage('error.field.required'));
 		}
-		
+
 		function assignVideoThumbnails($video){
 			if($video){
 				$videoThumbnail = empty($video['thumbnails_path']) ? '' : $this->loadResources('image.upload.path').$video['thumbnails_path'];
@@ -77,13 +77,13 @@
 		}
 		/**
 		 * Load messages source for videosetting page
-		 * 
+		 *
 		 */
-		
+
 		function videoSettingMessagesSource()
 		{
 			$this->defaultVideoMessagesSource();
-			
+
 			$this->assign("name", $this->loadMessages('user.videosetting.name'));
 			$this->assign("title", $this->loadMessages('user.videosetting.title'));
 			$this->assign('description', $this->loadMessages('user.videosetting.description'));
@@ -95,12 +95,12 @@
 			$this->assign('descriptionInvalid', $this->loadErrorMessage('error.video.description'));
 			$this->assign('tagInvalid', $this->loadErrorMessage('error.video.tag'));
 		}
-		
+
 		/**
-		 *view and action for videosetting form 
+		 *view and action for videosetting form
 		 *
 		 */
-		
+
 		function videoSetting()
 		{
 			$userId = $this->getLoggedUser();
@@ -109,14 +109,14 @@
 				$this->redirect($this->ctx().'/auth/login/');
 				return;
 			}
-			
-			$this->loadModel('model_video');	
+
+			$this->loadModel('model_video');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$videoid=$_GET['videoId'];
 				$tcid=$_GET['videoId'];
 				$tagid=$_GET['tagid'];
-				
+
 				$tags=$this->model_video->getTagfromTagandTagcomponent(array($tcid));
 				$video= $this->model_video->getVideofromVideoId(array($videoid));
 				if($video==null)
@@ -126,15 +126,15 @@
 				}else{
 					if($video['user_id'] != $userId){
 						$this->loadTemplate('view_access_denied');
-						return;	
+						return;
 					}
 				}
 				$strTags="";
 				for($i=0;$i<sizeof($tags);$i++)
 				{
-					$strTags .= $tags[$i]['name'] . ',' ; 
+					$strTags .= $tags[$i]['name'] . ',' ;
 				}
-				$strTags = substr($strTags, 0, -1); 
+				$strTags = substr($strTags, 0, -1);
 				$this->assign('title_', $video['video_title']);
 				$this->assign('description_', $video['description']);
 				$this->assign('tag_', $strTags);
@@ -152,34 +152,34 @@
 				$videoid=$_POST['videoid'];
 				$tagid=$_POST['tagid'];
 				$tcid=$_POST['tcid'];
-				
+
 				$ret=$this->model_video->isExistVideoId(array($videoid));
 				if($ret)
 				{
 					$video= $this->model_video->getVideofromVideoId(array($videoid));
 					if($video['user_id'] != $userId){
 						$this->loadTemplate('view_access_denied');
-						return;	
+						return;
 					}
-					
+
 					$this->model_video->deleteAllTagComponentsByVideoId(array(COMPONENT_VIDEO_TYPE,$videoid));
 				}else{
 					$this->loadTemplate('view_404');
 					return;
 				}
-				
+
 				for($j=0;$j<sizeof($slipTag);$j++)
-				{				
+				{
 					if($slipTag[$j]!="")
 					{
 						$checkTag=$this->model_video->isTagExist(array($slipTag[$j]));
 						if($checkTag==0)
 						{
-							$this->model_video->addTagName(array($slipTag[$j]));			
+							$this->model_video->addTagName(array($slipTag[$j]));
 							$tagNewId=$this->model_video->getTagIdByName(array($slipTag[$j]));
 							$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],COMPONENT_VIDEO_TYPE,$videoid));
 						}
-						else 
+						else
 						{
 							$tagNewId=$this->model_video->getTagIdByName(array($slipTag[$j]));
 							$res=$this->model_video->checkIdAndComponentId(array($tagNewId[0]["id"],$videoid));
@@ -188,18 +188,18 @@
 								$this->model_video->addTagIdAndComponentId(array($tagNewId[0]["id"],COMPONENT_VIDEO_TYPE,$videoid));
 							}
 						}
-					}	
-				}	
+					}
+				}
 				$updatetitle= $this->model_video->updateTitlebyId(array($videoTitle,$videoid));
-				$updatedescrition= $this->model_video->updateDescriptionbyId(array($description,$videoid));				
+				$updatedescrition= $this->model_video->updateDescriptionbyId(array($description,$videoid));
 				$tags=$this->model_video->getTagfromTagandTagcomponent(array($tcid));
 				$video= $this->model_video->getVideofromVideoId(array($videoid));
 				$strTags="";
 				for($i=0;$i<sizeof($tags);$i++)
 				{
-					$strTags .= $tags[$i]['name'] . ',' ; 
+					$strTags .= $tags[$i]['name'] . ',' ;
 				}
-				$strTags = substr($strTags, 0, -1); 
+				$strTags = substr($strTags, 0, -1);
 				$this->assign('successMessage', $this->loadMessages('user.videosetting.updatesuccess'));
 				$this->assign('tcid', $tcid);
 				$this->assign('hiddenvideo',$videoid);
@@ -212,19 +212,19 @@
 		}
 		/**
 		 *  Load messages source for video_addtopage
-		 * 
+		 *
 		 */
-		
+
 		function addToPageMessagesSource()
 		{
 			$this->defaultVideoMessagesSource();
-			
+
 			$this->assign("add", $this->loadMessages('video.addtopage.addtialbum'));
 			$this->assign("title", $this->loadMessages('video.addtopage.title'));
 			$this->assign("hint", $this->loadMessages('video.addtopage.hint'));
 			$this->assign('help', $this->loadMessages('video.help'));
 		}
-		
+
 		/**
 		 * view and action for video_addtopage
 		 */
@@ -254,10 +254,10 @@
 				}else{
 					if($video['user_id'] != $userId){
 						$this->loadTemplate('view_access_denied');
-						return;	
+						return;
 					}
 				}
-				
+
 				$albumIds=$this->model_video->getAlbumIdByVideoIdWithoutJoin(array($videoid));
 				$str="";
 				for($i=0;$i<sizeof($albumIds);$i++)
@@ -287,13 +287,13 @@
 					$video=$this->model_video->getVideoByVideoId(array($videoid));
 					if($video['user_id'] != $userId){
 						$this->loadTemplate('view_access_denied');
-						return;	
+						return;
 					}
 				}
 				for($j=0;$j<sizeof($mAlbumUncheck);$j++)
 				{
-					$this->model_video->dropAlbumIdAndVideoId(array($mAlbumUncheck[$j],$videoid));	
-					$this->assign('successMessage', $this->loadMessages('video.addtopage.successful'));			
+					$this->model_video->dropAlbumIdAndVideoId(array($mAlbumUncheck[$j],$videoid));
+					$this->assign('successMessage', $this->loadMessages('video.addtopage.successful'));
 				}
 				for($i=0;$i<sizeof($mAlbumId);$i++)
 				{
@@ -303,7 +303,7 @@
 						{
 							$this->assign("errorMessage", $this->loadMessages('video.addtopage.error'));
 						}
-						else 
+						else
 						{
 							$this->model_video->addVideoToAlBum(array($mAlbumId[$i],$videoid));
 							$this->assign('successMessage', $this->loadMessages('video.addtopage.successful'));
@@ -320,15 +320,15 @@
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_addtopage');
 			}
 		}
-		
+
 		/**
 		 * Load messages sourse for Addtochannel
-		 * 
+		 *
 		 */
 		function addToChannelMessagesSource()
 		{
 			$this->defaultVideoMessagesSource();
-			
+
 			$this->assign("add", $this->loadMessages('video.addtochannel.add'));
 			$this->assign("title", $this->loadMessages('video.addtochannel.title'));
 			$this->assign("hint", $this->loadMessages('video.addtochannel.hint'));
@@ -401,7 +401,7 @@
 				}
 				for($j=0;$j<sizeof($mChannelUncheck);$j++)
 				{
-					$this->model_video->dropChannelIdAndVideoId(array($mChannelUncheck[$j],$videoId));				
+					$this->model_video->dropChannelIdAndVideoId(array($mChannelUncheck[$j],$videoId));
 				}
 				for($i=0;$i<sizeof($mChannelId);$i++)
 				{
@@ -411,7 +411,7 @@
 						{
 							$this->assign("errorMessage", $this->loadMessages('video.addtopage.error'));
 						}
-						else 
+						else
 						{
 							$this->model_video->addVideoToChannel(array($mChannelId[$i],$videoId));
 							$this->assign('successMessage', $this->loadMessages('video.addtopage.successful'));
@@ -429,18 +429,18 @@
 				$this->assignVideoThumbnails($video);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_addtochannel');
 			}
-			
+
 		}
 
 		/**
 		 * Load messages source for preAndPostRoll
-		 * 
+		 *
 		 */
-		
+
 		function preAndPostRollMessagesSource()
 		{
 			$this->defaultVideoMessagesSource();
-			
+
 			$this->assign("title", $this->loadMessages('video.preandpostroll.title'));
 			$this->assign("PreRoll", $this->loadMessages('video.preandpostroll.preroll'));
 			$this->assign("PostRoll", $this->loadMessages('video.preandpostroll.postroll'));
@@ -448,10 +448,10 @@
 			$this->assign('help', $this->loadMessages('video.help'));
 		}
 
-		
+
 		/**
 		 * View and action for preAndPostRoll
-		 * 
+		 *
 		 */
 		function preAndPostRoll()
 		{
@@ -465,7 +465,7 @@
 			$this->loadModel('model_user');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
-				$videoid=$_GET['videoId'];				
+				$videoid=$_GET['videoId'];
 				$res=$this->model_video->isExistVideoId(array($videoid));
 				if($res==0)
 				{
@@ -504,9 +504,9 @@
 					}
 				}
 				$this->model_video->updatePre_roll(array($preRoll,$videoid,$userId));
-				$this->model_video->updatePost_roll(array($postRoll,$videoid,$userId));				
+				$this->model_video->updatePost_roll(array($postRoll,$videoid,$userId));
 				$this->assign("successMessage", $this->loadMessages('video.preandpostroll.successful'));
-				
+
 				$video = $this->model_video->getVideoByVideoIdAndUserId(array($userId,$videoid));
 				$video2 = $this->model_video->getVideoByVideoId(array($videoid));
 				$this->assign("getpreRoll",$video2[pre_roll]);
@@ -519,9 +519,9 @@
 		}
 		/**
 		 * Load messages source for customUrl page
-		 * 
+		 *
 		 */
-		
+
 		function customUrlMessagesSource()
 		{
 			$this->defaultVideoMessagesSource();
@@ -530,13 +530,13 @@
 			$this->assign("message_invalid_url", $this->loadMessages('video.customurl.invalidUrl'));
 			$this->assign("message_url_hint", $this->loadMessages('video.customurl.hint'));
 			$this->assign('help', $this->loadMessages('video.help'));
-			
+
 			$this->assign('invalidShortcut', $this->loadErrorMessage('error.video.alias.shortcut'));
-			
+
 		}
 		/**
 		 * View and action for video custom url
-		 * 
+		 *
 		 */
 		function customUrl()
 		{
@@ -550,12 +550,12 @@
 
 			$this->loadModel('model_user');
 			$model_user = $this->model_user;
-			
+
 			$this->loadModel('model_album');
 			$model_album = $this->model_album;
-			
+
 			$user = $model_user->getUserByUserId(array($userId));
-			
+
 			if ($_SERVER['REQUEST_METHOD'] == 'GET'){
 				$videoId = $_GET['videoId'];
 				if(!$videoId){
@@ -571,17 +571,17 @@
 				}else{
 					if($video['user_id'] != $userId){
 						$this->loadTemplate('view_access_denied');
-						return;	
-					}	
+						return;
+					}
 				}
-				
+
 				$this->assign('user_alias', $user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']);
 				$this->assign('video_alias', $video['video_alias']);
 				$this->assignVideoThumbnails($video);
 				$this->assign('videoId', $video['video_id']);
 				$this->assign('videoTitle', $video['video_title']);
 				$this->assign("domain", BASE_PATH . CONTEXT);
-				
+
 				if(!$video['video_alias']){
 					$userAlias = empty($user['profile_alias']) ? 'user'.$user['id'] : $user['profile_alias'];
 					$previewLink = BASE_PATH . CONTEXT . "/" . $userAlias . '/' . $video['video_id'];
@@ -589,34 +589,34 @@
 					$previewLink = BASE_PATH . CONTEXT . "/" . ($user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']) .  "/" . $video['video_alias'];
 				}
 				$this->assign("previewUrl", $previewLink);
-				
+
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_custom_url');
 			}else if($_SERVER['REQUEST_METHOD'] == 'POST'){
 				$videoId = $_POST['videoId'];
 				$url_alias = $_POST['url_alias'];
 				$errorFlag = false;
-				
+
 				//server side validate here
 				$urlReg = "/^[a-zA-Z0-9]{1,16}\$/";
 				if(!preg_match($urlReg, $url_alias)){
 					$this->assign('errorMessage', $this->loadErrorMessage('error.video.alias.invalidUrl'));
 					$errorFlag = true;
 				}
-				
+
 				//check owner id
 				$video = $model_video->getVideoById($videoId);
 				if($video['user_id'] != $userId){
 					$this->loadTemplate('view_access_denied');
 					return;
 				}
-				
+
 				$reservedKeywords = $this->loadResources('shortcut.url.reserved.video');
 				$reservedKeywords = split(",",$reservedKeywords);
 				if(in_array($url_alias, $reservedKeywords)){
 					$this->assign('errorMessage', $this->loadErrorMessage('error.video.alias.invalidUrl'));
-					$errorFlag = true;					
+					$errorFlag = true;
 				}
-				
+
 				$user = $model_user->getUserByUserId(array($userId));
 				$this->assign('user_alias', $user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']);
 				$this->assign('videoId', $videoId);
@@ -624,13 +624,13 @@
 				$this->assign('video_alias', $video['video_alias']);
 				$this->assignVideoThumbnails($video);
 				$this->assign('videoTitle', $video['video_title']);
-				
+
 				if((!$errorFlag) && ((!$video) || ($video['user_id'] != $userId))){
 					$this->assign('errorMessage', $this->loadErrorMessage('error.video.alias.invalidVideoId'));
 					$this->assign('videoTitle', 'N/A');
 					$errorFlag = true;
 				}
-				
+
 				//check exist alias here
 				if((!$errorFlag) && ($model_video->isAliasExist(array($url_alias, $userId)))){
 					$this->assign('errorMessage', $this->loadErrorMessage('error.video.alias.aliasExists', array($url_alias)));
@@ -640,7 +640,7 @@
 					$this->assign('errorMessage', $this->loadErrorMessage('error.album.alias.aliasExists', array($url_alias)));
 					$errorFlag = true;
 				}
-				
+
 				//save video alias
 				if(!$errorFlag){
 					if(($video['video_alias'] == $url_alias) ||$model_video->updateAliasById(array($url_alias, $videoId))){
@@ -669,16 +669,16 @@
 					}else{
 						$previewLink = BASE_PATH . CONTEXT . "/" . ($user['profile_alias'] ? $user['profile_alias'] : 'user' . $user['id']) .  "/" . $video['video_alias'];
 					}
-					
+
 					$this->assign("previewUrl", $previewLink);
 				}
-				
+
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_custom_url');
 			}
 		}
-		
+
 		/**
-		 * 
+		 *
 		 * Default messagesSource for updateVideoFile page
 		 */
 		function updateVideoFileMessagesSource(){
@@ -690,9 +690,9 @@
 			$this->assign('videoExtSupport', $this->loadResources('video.upload.ext.support'));
 			$this->assign('maxSize', $this->loadResources('video.upload.maxsize')*1024*1024);
 		}
-		
+
 		/**
-		 * 
+		 *
 		 * updateVideoFile action
 		 */
 		function updateVideoFile(){
@@ -710,25 +710,25 @@
 					$this->loadTemplate('view_404');
 					return;
 				}
-				
+
 				$video = $model_video->getVideoById($videoId);
-			
+
 				if((!$video) || ($video['user_id'] != $userId)){
 					$this->loadTemplate('view_access_denied');
 					return;
 				}
-				
+
 				$this->assign('videoTitle', $video['video_title']);
 				$this->assignVideoThumbnails($video);
-				$this->assign('vid', $videoId);		
-				$this->assign('sessionId', session_id());		
+				$this->assign('vid', $videoId);
+				$this->assign('sessionId', session_id());
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_file');
 			}
 		}
-		
+
 		/**
 		 * Default message source for videopage
-		 * 
+		 *
 		 */
 		function videopageMessagesSource()
 		{
@@ -742,24 +742,24 @@
 			$this->assign("tag", $this->loadMessages('user.videopage.tag'));
 			$this->assign("albums", $this->loadMessages('user.videopage.albums'));
 			$this->assign('help', $this->loadMessages('video.help'));
-			
+
 		}
-		
+
 		/**
 		 * Display video pages
-		 * 
+		 *
 		 */
 		function videopage()
 		{
 			$userId = $this->getLoggedUser();
-			
+
 			$this->loadModel('model_user');
 			$this->loadModel('model_video');
 
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$id=$_GET['videoId'];
-				
+
 				$params=array($id);
 				$video=$this->model_video->getVideoByVideoId(array($id));
 				$res=$this->model_video->isExistVideoId(array($id));
@@ -770,8 +770,8 @@
 				}else{
 					if($video['user_id'] != $userId){
 						$this->loadTemplate('view_access_denied');
-						return;	
-					}	
+						return;
+					}
 				}
 				$fullname=$this->model_user->getFullNamebyUserId(array($video['user_id']));
 				$play=$this->model_video->getPlaybyVideoId(array($id));
@@ -779,21 +779,21 @@
 				$like=$this->model_video->getLikebyId($params);
 				$albums=$this->model_video->getAlbumByVideoIdAndUserId(array($id,$video['user_id']));
 				$tags=$this->model_video->getTagfromTagandTagcomponent(array($id));
-				
+
 				$strTags="";
 				for($i=0;$i<sizeof($tags);$i++)
 				{
 					$strTags .= $tags[$i]['name'] . ', ' ;
 				}
-				$strTags = substr(trim($strTags), 0, -1); 
-				
+				$strTags = substr(trim($strTags), 0, -1);
+
 				$strAlbums="";
 				for($i=0;$i<sizeof($albums);$i++)
 				{
-					$strAlbums .= $albums[$i]['album_name'] . ',' ; 
+					$strAlbums .= $albums[$i]['album_name'] . ',' ;
 				}
-				$strAlbums = substr($strAlbums, 0, -1); 
-				
+				$strAlbums = substr($strAlbums, 0, -1);
+
 				$this->assign("tags",$tags);
 				$this->assign("play",$play['play_count']);
 				$this->assign("comment",$comment['comment_count']);
@@ -805,8 +805,8 @@
 				$this->assign("strTags",$strTags);
 				$this->assign("strAlbums",$strAlbums);
 				$this->assign("videoOwner", $userId == $video['user_id']);
-				
-				$start = $video['creation_date'];				
+
+				$start = $video['creation_date'];
 				$now = mktime(date("H"), date("i"),date("s"), date("m"), date("d"), date("Y"));
 				$end = date("Y-m-d H:i:s", time());
 				$diff=$this->get_time_difference($start, $end);
@@ -815,16 +815,16 @@
 					if ($diff['hours']==0){
 						if ($diff['minutes']==0)
 							$strDate.= $diff['seconds'] . ' seconds';
-						else 
+						else
 							$strDate.= $diff['minutes'] . ' minutes';
 					}
-					else{ 
+					else{
 						$strDate.= $diff['hours']. ' hours ' . $diff['minutes'] . ' minutes';
 					}
 				}
 				else{
 					$strDate.= $diff['days']. ' days ' . $diff['hours'] . ' hours';
-				}		
+				}
 				$this->assign('videoThumbnail', !empty($video['thumbnails_path']) ? ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']) : ($this->ctx() . '/images/icon-video.gif'));
 				$this->assign("days",$strDate);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_videopage');
@@ -840,15 +840,15 @@
 				}else{
 					if($video['user_id'] != $userId){
 						$this->loadTemplate('view_access_denied');
-						return;	
-					}	
-				}			
+						return;
+					}
+				}
 				$videos=$this->model_video->getVideofromVideoId(array($id));
 				$this->assign("thumbnails",$videos['thumbnails_path']);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_videopage');
 			}
 		}
-	
+
 		function thumbnailMessagesSource()
 		{
 			$this->defaultVideoMessagesSource();
@@ -861,7 +861,7 @@
 			$this->assign('successMessage', $this->loadMessages('user.information.update.success', array("video thumbnail")));
 			$this->assign('maxSize', $this->loadResources('image.upload.maxsize')*1024*1024);
 		}
-		
+
 		function thumbnail(){
 			$userId = $this->getLoggedUser();
 			if($userId == 0){
@@ -877,7 +877,7 @@
 					$this->loadTemplate('view_404');
 					return;
 				}
-				
+
 				$video = $model_video->getVideoById($videoId);
 				if((!$video) || ($video['user_id'] != $userId)){
 					$this->loadTemplate('view_access_denied');
@@ -887,7 +887,7 @@
 				$videoPath=$video['video_path'];
 				$videoHash=utils::getFileType($videoPath);
 				$videoHash=$videoHash[0];
-				$folder=$path.$videoHash;			
+				$folder=$path.$videoHash;
 				$folderPath=BASE_DIR . $folder;
 				if(file_exists($folderPath) && is_dir($folderPath)){
 					$dir = opendir($folderPath);
@@ -896,15 +896,15 @@
 					$fileType = substr($fileType, 1);
 					$fileTypeArray=split(';\*', $fileType);
 					while (($fileName = readdir($dir)) !== false)
-					{						
+					{
 						if ($fileName != "." && $fileName != ".."){
-							$type = utils::getFileType($fileName);							
+							$type = utils::getFileType($fileName);
 							if($type != null){
 								$type = '.' . $type[1];
 								if(in_array($type, $fileTypeArray)){
 									$arrayImage[]=$fileName;
-								}					
-							}		
+								}
+							}
 						}
 					}
 					closedir($dir);
@@ -919,7 +919,7 @@
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_thumbnail');
 			}
 		}
-		
+
 		/**
 		 *  ajax refresh video's thumbnail after upload thumbnail image successfully
 		 */
@@ -929,7 +929,7 @@
 					$this->redirect($this->ctx().'/auth/login/');
 					return;
 				}
-			$this->loadModel('model_video');	
+			$this->loadModel('model_video');
 			if($_SERVER['REQUEST_METHOD'] == 'POST'){
 				$vid = $_POST['videoId'];
 				$video = $this->model_video->getVideoById($vid);
@@ -942,7 +942,7 @@
 		function videoDeleteMessagesSource()
 		{
 			$this->defaultVideoMessagesSource();
-			
+
 			$this->assign("name", $this->loadMessages('album.delete.name'));
 			$this->assign("question", $this->loadMessages('video.delete.question'));
 			$this->assign('hint', $this->loadMessages('album.delete.hint'));
@@ -1005,29 +1005,29 @@
 				//delete video from folder videos/upload
 				$pathVideo=$this->loadResources('video.upload.path');
 				$folderVideo=$pathVideo.$videoFile;
-				$folderPathVideo=BASE_DIR . $folderVideo;	
-				$checkVideo=BASE_DIR . $pathVideo;	
+				$folderPathVideo=BASE_DIR . $folderVideo;
+				$checkVideo=BASE_DIR . $pathVideo;
 				if(file_exists($folderPathVideo)){
 					unlink($folderPathVideo);
-				}	
+				}
 				//delete thumbnail from folder images/upload
 				$pathImage=$this->loadResources('image.upload.path');
 				$folderImage=$pathImage.$videoThumbnail;
 				$folderPathImage=BASE_DIR . $folderImage;
-				$checkImage=BASE_DIR . $pathImage;				
+				$checkImage=BASE_DIR . $pathImage;
 				if(file_exists($folderPathImage) && $folderPathImage!=$checkImage){
 					unlink($folderPathImage);
 				}
 				//delete folder of image from folder thumbnails
 				$videoThumbnailHash=utils::getFileType($videoFile);
-				$pathThumbnailFolder=$this->loadResources('video.upload.folder.image');
+				$pathThumbnailFolder=$this->loadResources('video.upload.thumbnails');
 				$folderThumbnail=$pathThumbnailFolder.$videoThumbnailHash[0];
 				$folderPathThumbnail=BASE_DIR . $folderThumbnail;
 				$checkFolder=BASE_DIR . $pathThumbnailFolder;
 				if(file_exists($folderPathThumbnail) && $folderPathThumbnail!=$checkFolder){
 					rmdir($folderPathThumbnail);
 				}
-				
+
 				//delete video from folder video/final
 				$pathVideoVersion=$this->loadResources('video.upload.path.final');
 				$folderVideoVersion=BASE_DIR . $pathVideoVersion;
@@ -1035,13 +1035,13 @@
 				$videoHash=$videoHash[0];
 				$dir = opendir($folderVideoVersion);
 				while ($file = readdir($dir)) {
-					$pos = strrpos($file, $videoHash);					
+					$pos = strrpos($file, $videoHash);
 					if($pos !== false){
 						unlink($folderVideoVersion.$file);
 					}
    				 }
    				closedir($dir);
-								
+
 				$this->model_album->updateAlbumThumbnailToDefault(array($videoThumbnail));
 				$this->model_channel->updateChannelThumbnailToDefault(array($videoThumbnail));
 				$this->assignVideoThumbnails($video);
@@ -1054,7 +1054,7 @@
 		}
 	/**
 		 * Default message source for public video
-		 * 
+		 *
 		 */
 		function publicVideoMessagesSource()
 		{
@@ -1067,24 +1067,24 @@
 			$this->assign("tag", $this->loadMessages('user.videopage.tag'));
 			$this->assign("albums", $this->loadMessages('user.videopage.albums'));
 			$this->assign('help', $this->loadMessages('video.help'));
-			
+
 		}
-		
+
 		/**
 		 * Display public video
-		 * 
+		 *
 		 */
 		function publicVideo()
 		{
 			$userId = $this->getLoggedUser();
-			
+
 			$this->loadModel('model_user');
 			$this->loadModel('model_video');
 
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$id=$_GET['videoId'];
-				
+
 				$params=array($id);
 				$video=$this->model_video->getVideoByVideoId(array($id));
 				$res=$this->model_video->isExistVideoId(array($id));
@@ -1092,28 +1092,28 @@
 				{
 					$this->loadTemplate('view_404');
 					return;
-				}	
+				}
 				$fullname=$this->model_user->getFullNamebyUserId(array($video['user_id']));
 				$play=$this->model_video->getPlaybyVideoId(array($id));
 				$comment=$this->model_video->getCommentbyId($params);
 				$like=$this->model_video->getLikebyId($params);
 				$albums=$this->model_video->getAlbumByVideoIdAndUserId(array($id,$video['user_id']));
 				$tags=$this->model_video->getTagfromTagandTagcomponent(array($id));
-				
+
 				$strTags="";
 				for($i=0;$i<sizeof($tags);$i++)
 				{
 					$strTags .= $tags[$i]['name'] . ', ' ;
 				}
-				$strTags = substr(trim($strTags), 0, -1); 
-				
+				$strTags = substr(trim($strTags), 0, -1);
+
 				$strAlbums="";
 				for($i=0;$i<sizeof($albums);$i++)
 				{
-					$strAlbums .= $albums[$i]['album_name'] . ',' ; 
+					$strAlbums .= $albums[$i]['album_name'] . ',' ;
 				}
-				$strAlbums = substr($strAlbums, 0, -1); 
-				
+				$strAlbums = substr($strAlbums, 0, -1);
+
 				$this->assign("tags",$tags);
 				$this->assign("play",$play['play_count']);
 				$this->assign("comment",$comment['comment_count']);
@@ -1126,9 +1126,9 @@
 				$this->assign("strTags",$strTags);
 				$this->assign("strAlbums",$strAlbums);
 				$this->assign("videoOwner", $userId == $video['user_id']);
-				
-				$start = $video['creation_date'];				
-				$strDate = utils::getDiffTimeString($start);		
+
+				$start = $video['creation_date'];
+				$strDate = utils::getDiffTimeString($start);
 				$this->assign('videoThumbnail', !empty($video['thumbnails_path']) ? ($this->ctx() . $this->loadResources('image.upload.path') . $video['thumbnails_path']) : ($this->ctx() . '/images/icon-video.gif'));
 				$this->assign("days",$strDate);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_publicvideo');
@@ -1141,13 +1141,13 @@
 				{
 					$this->loadTemplate('view_404');
 					return;
-				}		
+				}
 				$videos=$this->model_video->getVideofromVideoId(array($id));
 				$this->assign("thumbnails",$videos['thumbnails_path']);
 				$this->loadTemplate(VIDEO_TEMPLATE_DIR.'view_video_publicvideo');
 			}
 		}
-		
+
 		/**
 		 * update thumbnails from screen shot
 		 */
@@ -1158,7 +1158,7 @@
 					$this->redirect($this->ctx().'/auth/login/');
 					return;
 				}
-			$this->loadModel('model_video');	
+			$this->loadModel('model_video');
 			if($_SERVER['REQUEST_METHOD'] == 'POST'){
 				$vid = $_POST['videoId'];
 				$imageName= $_POST['imageName'];
