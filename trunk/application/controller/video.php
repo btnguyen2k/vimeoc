@@ -1007,18 +1007,27 @@
 				$folderVideo=$pathVideo.$videoFile;
 				$folderPathVideo=BASE_DIR . $folderVideo;	
 				$checkVideo=BASE_DIR . $pathVideo;	
-				if(file_exists($folderPathVideo) ){
+				if(file_exists($folderPathVideo)){
 					unlink($folderPathVideo);
 				}	
 				//delete thumbnail from folder images/upload
 				$pathImage=$this->loadResources('image.upload.path');
 				$folderImage=$pathImage.$videoThumbnail;
 				$folderPathImage=BASE_DIR . $folderImage;
-				$checkImage=BASE_DIR . $pathImage;
-				if(file_exists($folderPathImage) ){
+				$checkImage=BASE_DIR . $pathImage;				
+				if(file_exists($folderPathImage) && $folderPathImage!=$checkImage){
 					unlink($folderPathImage);
 				}
-	
+				//delete folder of image from folder thumbnails
+				$videoThumbnailHash=utils::getFileType($videoFile);
+				$pathThumbnailFolder=$this->loadResources('video.upload.folder.image');
+				$folderThumbnail=$pathThumbnailFolder.$videoThumbnailHash[0];
+				$folderPathThumbnail=BASE_DIR . $folderThumbnail;
+				$checkFolder=BASE_DIR . $pathThumbnailFolder;
+				if(file_exists($folderPathThumbnail) && $folderPathThumbnail!=$checkFolder){
+					rmdir($folderPathThumbnail);
+				}
+				
 				//delete video from folder video/final
 				$pathVideoVersion=$this->loadResources('video.upload.path.final');
 				$folderVideoVersion=BASE_DIR . $pathVideoVersion;
