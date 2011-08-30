@@ -19,7 +19,7 @@
 			type: 'POST',
 			success: function(data){
 			},
-			error: function(exp){
+			error: function(data){
 				alert ("can't connected");
 			}
 		});
@@ -36,7 +36,7 @@
 			type: 'POST',
 			success: function(data){
 			},
-			error: function(exp){
+			error: function(data){
 				alert ("can't connected");
 			}
 		});
@@ -100,7 +100,7 @@
 				<:if $channels|@count gt 0:>
                     <:$messages['user.video.channel']:>
                     <:foreach from=$channels key=l item=a:>					
-                        <input type="checkbox" id="<:$a['id']:>" name ="<:$v['id']:>" onclick="addVideoToChannel(this)" <:foreach from=$v['channel'] key=l1 item=va:><:if $va['channel_id'] eq $a['id']:>checked='true'<:/if:><:/foreach:>><a href="<:$ctx:>/channel/<:$a['id']:>"><:$a['channel_name']|escape:'html':></input>
+                        <input type="checkbox" id="<:$a['id']:>" name ="<:$v['id']:>" onclick="addVideoToChannel(this)" <:foreach from=$v['channel'] key=l1 item=va:><:if $va['channel_id'] eq $a['id']:>checked='true'<:/if:><:/foreach:>><a href="<:$ctx:>/channel/<:$a['id']:>"><:$a['channel_name']|escape:'html':></a></input>
                     <:/foreach:><br/>
 				<:/if:>
 				<br/>
