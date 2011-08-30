@@ -5,6 +5,7 @@
 	
 	//Load constants variables
 	require_once("application/constants.php");
+	require_once("application/logging.php");
 	
 	define("BASE_DIR", dirname($_SERVER['SCRIPT_FILENAME']));
 	
