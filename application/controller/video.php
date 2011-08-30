@@ -1007,21 +1007,18 @@
 				$folderVideo=$pathVideo.$videoFile;
 				$folderPathVideo=BASE_DIR . $folderVideo;	
 				$checkVideo=BASE_DIR . $pathVideo;	
-				if($folderPathVideo!=$checkVideo)	
-				{
-					unlink($folderPathVideo);  
-				}
-				
+				if(file_exists($folderPathVideo) ){
+					unlink($folderPathVideo);
+				}	
 				//delete thumbnail from folder images/upload
 				$pathImage=$this->loadResources('image.upload.path');
 				$folderImage=$pathImage.$videoThumbnail;
 				$folderPathImage=BASE_DIR . $folderImage;
 				$checkImage=BASE_DIR . $pathImage;
-				if($folderPathImage!=$checkImage)	
-				{			
-					unlink($folderPathImage);  
+				if(file_exists($folderPathImage) ){
+					unlink($folderPathImage);
 				}
-				
+	
 				//delete video from folder video/final
 				$pathVideoVersion=$this->loadResources('video.upload.path.final');
 				$folderVideoVersion=BASE_DIR . $pathVideoVersion;
@@ -1032,6 +1029,7 @@
 					$pos = strrpos($file, $videoHash);					
 					if($pos !== false){
 						unlink($folderVideoVersion.$file);
+						return;
 					}
    				 }
    				closedir($dir);
