@@ -264,6 +264,7 @@
 			}
 			$userId = $this->getLoggedUser();
 			$this->loadModel('model_content');
+			$this->loadModel('model_category');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$contentId=$_GET['id'];
