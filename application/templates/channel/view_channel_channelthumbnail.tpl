@@ -1,12 +1,12 @@
 <div id="channel_thumbnail" class="page">
-	<:include file="<:$base_dir_templates:>/blocks/channel_left_menu.tpl":>	
+	<:include file="<:$base_dir_templates:>/blocks/channel_left_menu.tpl":>
 	<div id="channel_channelthumbnail_body" class="page_body">
 		<center><h1><:$channelName|escape:'html':><:$name:></h1></center>
 			<:if $succeesMessage eq "":>
   				 &nbsp;
 			<:else:>
    				<span class="green" align="center"><:$succeesMessage:></span>
-			<:/if:>		
+			<:/if:>
 		<form action="<:$ctx:>/channel/channelThumbnail/?channelId=<:$channelId:>" method="post" name="channelThumbnail" >
 			<fieldset>
 				<ul>
@@ -38,7 +38,7 @@
 								<img width="100" height="100" src="<:$ctx:>/images/upload/<:$videoThumbnails[a].thumbnails_path:>" />
 							<:/if:>
 						<:/if:>
-						<:$videoThumbnails[a].video_title:><br/>
+						<:$videoThumbnails[a].video_title|escape:'html':><br/>
 						<:/section:>
 					</li>
 					<li>
