@@ -29,5 +29,5 @@
 <link rel="Shortcut Icon" href="/images/favicon.ico" />
 
 <:if $keywords:>
-	<meta name="keywords" content="<:$keywords:>" />		
+	<meta name="keywords" content="<:$keywords|escape:'html':>" />
 <:/if:>
