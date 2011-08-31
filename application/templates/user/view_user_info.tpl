@@ -31,7 +31,7 @@
 
 <div id="user_info" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/user_left_menu.tpl":>
-	
+
 	<div id="user_info_body" class="page_body">
 		<center><h1><:$title:></h1></center><br/>
 		<span class="red"><:$errorMessage:></span>
@@ -40,17 +40,17 @@
 			<fieldset>
 				<ul>
 					<li>
-						<span><:$fullNameTitle:> *</span><br/>						
-						<input type="text" name="fullName" value="<:$fullName:>" maxlength="150"/>
-					</li>					
+						<span><:$fullNameTitle:> *</span><br/>
+						<input type="text" name="fullName" value="<:$fullName|escape:'html':>" maxlength="150"/>
+					</li>
 					<li>
 						<span><:$emailTitle:></span><br/>
-						<input type="text" name="email" value="<:$email:>" onkeydown="return false;"/>
+						<input type="text" name="email" value="<:$email|escape:'html':>" onkeydown="return false;"/>
 						<span class="red" id="error_valid_email" style="display: none;"><:$emailInvalid:></span>
 					</li>
 					<li>
 						<span><:$yourWebsiteTitle:></span><br/>
-						<input type="text" name="website" value="<:$website:>" maxlength="255"/>
+						<input type="text" name="website" value="<:$website|escape:'html':>" maxlength="255"/>
 						<span class="red" id="error_valid_url" style="display: none;"><:$urlInvalid:></span>
 					</li>
 					<li>
@@ -64,7 +64,7 @@
 			</fieldset>
 		</form>
 	</div>
-	
+
 	<div id="user_info_help" class="page_help">
 		<:$help:><div><:$hint:></div>
 	</div>
