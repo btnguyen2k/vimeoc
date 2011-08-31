@@ -1,21 +1,23 @@
 <script type="text/javascript">
 function checkValidForm()
 {
-	
+
 	if($("#title").val()==""){
 		$("#title").val("Untitled");
 	}
 
+    /*
 	if($("#description").val()==""){
 		$("#error_valid_description").show();
 		return false;
 	}else{
 		$("#error_valid_description").hide();
-	}	
+	}
+    */
 }
 </script>
 <div id="album_albumsetting" class="page">
-	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
+	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>
 	<div id="album_albumsetting_body" class="page_body">
 		<center><h1><:$title_|escape:'html':><:$name:></h1></center>
 		<span class="green" align="center"><:$successMessage:></span>
@@ -26,13 +28,13 @@ function checkValidForm()
 						<span><:$title:></span><br/>
 					</li>
 					<li>
-						<input type="text" name="title" id="title" value="<:$title_:>"/> <br/>
+						<input type="text" name="title" id="title" value="<:$title_|escape:'html':>"/> <br/>
 					</li>
 					<li>
 						<span><:$description:></span><br/>
 					</li>
 					<li>
-						<textarea name="description" id="description" cols="30" rows="5"><:$description_:></textarea>
+						<textarea name="description" id="description" cols="30" rows="5"><:$description_|escape:'html':></textarea>
 						<span class="red" id="error_valid_description" style="display: none;"><:$errorDescription:></span>
 					</li>
 					<li>

@@ -52,7 +52,7 @@ function checkUrl(form){
 						<span ><:$name:></span>
 					</li>
 					<li>
-						<:$domain:>/<input type="text" id="url" name="url" value="<:$albumCustomUrl:>" maxlength="32"/>
+						<:$domain:>/<input type="text" id="url" name="url" value="<:$albumCustomUrl|escape:'html':>" maxlength="32"/>
 						<span class="red" id="error_valid_url" style="display: none;"><:$messages['album.customURL.invalid']:></span>
 					</li>
 					<li>
@@ -66,7 +66,7 @@ function checkUrl(form){
 					</li>
 					<li>
 						<input type="hidden" id="albumId" name="albumId" value="<:$albumId:>" />
-						<input type="hidden" id="albumCustom" name="albumCustom" value="<:$albumCustomUrl:>" />
+						<input type="hidden" id="albumCustom" name="albumCustom" value="<:$albumCustomUrl|escape:'html':>" />
 					</li>
 				</ul>
 			</fieldset>
