@@ -50,7 +50,7 @@
 				<option <:if $k == $page_size:>selected="selected"<:/if:> value="<:$k:>"><:$v:></option>
 			<:/foreach:>
 		</select>
-		<input type="text" id="term" name="term" value="<:$search_term:>"></option>
+		<input type="text" id="term" name="term" value="<:$search_term|escape:'html':>"></option>
 		<input type="hidden" name="page" value="<:$page:>"></input>
 		<input type="submit" value="Submit"></input>
 	</form>
@@ -71,7 +71,7 @@
 			<:foreach from=$contents key=k item=v:>
 				<tr>
 					<td><:$v['id']:></td>
-					<td><:$v['title']:></td>
+					<td><:$v['title']|escape:'html':></td>
 					<td><:$v['create_date']:></td>
 					<td><:if isset($v['creator']):><:$v['creator']['full_name']|escape:'html':><:else:>#<:$v['creator_id']:><:/if:></td>
 					<td><:$v['modify_date']:></td>
@@ -95,7 +95,7 @@
 					<td>
 						<:foreach from=$categories key=i item=c:>
 							<:if $v['category_id'] eq $c['id']:>
-								<:$c['name']:>
+								<:$c['name']|escape:'html':>
 							<:/if:>
 						<:/foreach:>
 					</td>

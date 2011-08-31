@@ -1,16 +1,16 @@
 <script type="text/javascript">
 	function validate()
 	{
-		
+
 		var password=$("#password").val();
 		var fullname=$("#fullname").val();
 		var email=$("#email").val();
 		var term=$("#agree").attr("checked");
 		var pattern=/^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.([a-zA-Z])+([a-zA-Z])+/;
 		var flag=true;
-	
 
-		
+
+
 		if(fullname.length>150){
 			$("#error_length_fullname").show();
 			flag=false;
@@ -19,17 +19,17 @@
 		}
 
 		if(email.length>50){
-			$("#error_length_email").show();		
+			$("#error_length_email").show();
 			flag=false;
 		}else{
 			$("#error_length_email").hide();
-		}	
+		}
 
 		if(password==""&&fullname==""&&email==""){
 			$("#error_existed_email").hide();
 			flag=false;
 		}
-				
+
 		if(password==""){
 			$("#error_valid_password").show();
 			$("#error_less_password").hide();
@@ -42,18 +42,18 @@
 		}else{
 			$("#error_less_password").hide();
 			$("#error_valid_password").hide();
-		}	 
-		
+		}
+
 		if(fullname==""){
 			$("#error_valid_fullname").show();
 			flag=false;
 		}else{
 			$("#error_valid_fullname").hide();
-		}	 
-		
-	 	if(pattern.test(email)){     
+		}
+
+	 	if(pattern.test(email)){
 	    	$("#error_valid_email").hide();
-	    }else{   
+	    }else{
 	    	$("#error_valid_email").show();
 	    	flag=false;
 		}
@@ -71,13 +71,13 @@
 			<fieldset>
 				<ul>
 					<li>
-						<:$fullname:><input type="text" id="fullname" name="fullname" value="<:$fullname_:>" />
+						<:$fullname:><input type="text" id="fullname" name="fullname" value="<:$fullname_|escape:'html':>" />
 						<span class="red" id="error_valid_fullname" style="display: none;"><:$fullnameInvalid:></span>
 						<span class="red" id="error_length_fullname" style="display: none;"><:$fullnamelength:></span>
 					</li>
 					<li>
-						<:$email:><input type="text" id="email" name="email" value="<:$username_:>" />
-						<span class="red" id="error_valid_email" style="display: none;"><:$emailInvalid:></span>	
+						<:$email:><input type="text" id="email" name="email" value="<:$username_|escape:'html':>" />
+						<span class="red" id="error_valid_email" style="display: none;"><:$emailInvalid:></span>
 						<:if $errorMessage eq "":>
 				  			 &nbsp;
 						<:else:>
@@ -98,12 +98,12 @@
 					<:$role:>
 						<select id="role" name="role">
 						<:section name=a loop=$getrole:>
-						  <option value="<:$getrole[a].id:>"><:$getrole[a].name:></option>
+						  <option value="<:$getrole[a].id:>"><:$getrole[a].name|escape:'html':></option>
 						<:/section:>
   						</select>
 					</li>
 					<li>
-						<input type="submit" value="Sign up" /> 
+						<input type="submit" value="Sign up" />
 					</li>
 				</ul>
 			</fieldset>
