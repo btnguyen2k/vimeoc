@@ -73,9 +73,9 @@
 					<td><:$v['id']:></td>
 					<td><:$v['title']:></td>
 					<td><:$v['create_date']:></td>
-					<td><:if isser($v['creator']):><:$v['creator']['full_name']|escape:'html':><:/else:>#<:$v['creator_id']:><:/if:></td>
+					<td><:if isser($v['creator']):><:$v['creator']['full_name']|escape:'html':><:else:>#<:$v['creator_id']:><:/if:></td>
 					<td><:$v['modify_date']:></td>
-                    <td><:if isser($v['modifier']):><:$v['modifier']['full_name']|escape:'html':><:/else:>#<:$v['modifier_id']:><:/if:></td>
+                    <td><:if isser($v['modifier']):><:$v['modifier']['full_name']|escape:'html':><:else:>#<:$v['modifier_id']:><:/if:></td>
 					<td>
 						<:if $v['publish'] eq 0:>
 							<:$UnpublishLable:>
