@@ -7,17 +7,17 @@
 		var email=$("#email").val();
 		var pattern=/^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.([a-zA-Z])+([a-zA-Z])+/;
 		var flag=true;
-		
+
 		if(password!=""){
 			if(password.length<5){
 				$("#error_invalid_password").show();
 				flag=false;
 			}else{
 				$("#error_invalid_password").hide();
-			}			
-		}	 
-		
-		
+			}
+		}
+
+
 
 		if(fullname=="" || email==""){
 			$("#error_required_fields").show();
@@ -26,17 +26,17 @@
 		else{
 			$("#error_required_fields").hide();
 		}
-		
+
 		if(fullname.length>150){
 			$("#error_length_fullname").show();
 			flag=false;
 		}else{
 			$("#error_length_fullname").hide();
-		}	
-		
-	    if(pattern.test(email)){     
+		}
+
+	    if(pattern.test(email)){
 	    	$("#error_valid_email").hide();
-	    }else{   
+	    }else{
 	    	$("#error_valid_email").show();
 	    	flag=false;
 		}
@@ -46,26 +46,26 @@
 <div id="admin_edit_user_profile" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/admin_left_menu.tpl":>
 	<div id="admin_edit_user_profile_body" class="page_body">
-		<center><h1><:$title:></h1></center><br/>
+		<center><h1><:$title|escape:'html':></h1></center><br/>
 		<span class="red"><:$errorMessage:></span>
 		<span class="green"><:$successMessage:></span>
 		<form action="<:$ctx:>/admin/editUserProfile" method="post" onsubmit="return validateForm();">
 			<fieldset>
 				<ul>
 					<li>
-						<center><span><:$messages['admin.edit.user.edit.username']:> <:$username:></span></center>
+						<center><span><:$messages['admin.edit.user.edit.username']:> <:$username|escape:'html':></span></center>
 					</li>
 					<li>
-						<span><:$fullNameTitle:> *</span><br/>						
-						<input type="text" id="fullname" name="fullname" value="<:$fullname:>" maxlength="150"/>
+						<span><:$fullNameTitle:> *</span><br/>
+						<input type="text" id="fullname" name="fullname" value="<:$fullname|escape:'html':>" maxlength="150"/>
 						<input type="hidden" name="id" value="<:$id:>"/>
-						<input type="hidden" name="username" value="<:$username:>"/>
+						<input type="hidden" name="username" value="<:$username|escape:'html':>"/>
 						<span class="red" id="error_valid_fullname" style="display: none;"><:$fullnameInvalid:></span>
 						<span class="red" id="error_length_fullname" style="display: none;"><:$fullnamelength:></span>
-					</li>					
+					</li>
 					<li>
 						<span><:$emailTitle:> *</span><br/>
-						<input type="text" id="email" name="email" value="<:$email:>"/>
+						<input type="text" id="email" name="email" value="<:$email|escape:'html':>"/>
 						<span class="red" id="error_valid_email" style="display: none;"><:$emailInvalid:></span>
 					</li>
 					<li>
@@ -81,9 +81,9 @@
 						<select id="role" name="role">
 						<:section name=a loop=$roles:>
 							<:if $role == $roles[a].id:>
-								<option value="<:$roles[a].id:>" selected="selected"><:$roles[a].name:></option>
+								<option value="<:$roles[a].id:>" selected="selected"><:$roles[a].name|escape:'html':></option>
 							<:else:>
-								<option value="<:$roles[a].id:>"><:$roles[a].name:></option>
+								<option value="<:$roles[a].id:>"><:$roles[a].name|escape:'html':></option>
 							<:/if:>
 						<:/section:>
   						</select>
