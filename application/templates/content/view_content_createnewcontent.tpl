@@ -75,7 +75,7 @@ $(document).ready(function() {
 		<fieldset>
 			<ul>
 				<li>
-					<:$name:><input name="title" type="text" value="<:$title_:>" class="inputs" id="title"  maxlength="255" />
+					<:$name:><input name="title" type="text" value="<:$title_|escape:'html':>" class="inputs" id="title"  maxlength="255" />
 					<span class="red" id="error_valid_title" style="display: none;"><:$titleInvalid:></span>
 				</li>
 				<li>
@@ -83,11 +83,11 @@ $(document).ready(function() {
 					<span class="red" id="error_valid_alias" style="display: none;"><:$aliasInvalid:></span>
 				</li>
 				<li>
-					<:$body:><textarea name="body" id="body" size="40"><:$body_:></textarea>
+					<:$body:><textarea name="body" id="body" size="40"><:$body_|escape:'html':></textarea>
 					<span class="red" id="error_valid_body" style="display: none;"><:$bodyInvalid:></span>
 				</li>
 				<li>
-					<:$keyword:><textarea  id="keywords" name="keywords" ><:$keywords_:></textarea>
+					<:$keyword:><textarea  id="keywords" name="keywords" ><:$keywords_|escape:'html':></textarea>
 					<span class="red" id="error_valid_keyword" style="display: none;"><:$keywordInvalid:></span>
 				</li>
 				<li>
@@ -103,9 +103,9 @@ $(document).ready(function() {
 						<select id="category" name="category">
 							<:section name=a loop=$categories:>
 								<:if $category == $categories[a].id:>
-									<option value="<:$categories[a].id:>" selected="selected"><:$categories[a].name:></option>
+									<option value="<:$categories[a].id:>" selected="selected"><:$categories[a].name|escape:'html':></option>
 								<:else:>
-									<option value="<:$categories[a].id:>"><:$categories[a].name:></option>
+									<option value="<:$categories[a].id:>"><:$categories[a].name|escape:'html':></option>
 								<:/if:>
 							<:/section:>
   						</select>
