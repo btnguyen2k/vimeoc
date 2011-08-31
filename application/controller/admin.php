@@ -1,63 +1,63 @@
-<?php 
+<?php
 	define("ADMIN_TEMPLATE_DIR","admin/");
-	
+
 	/**
-	 * 
+	 *
 	 * Administrator controller
 	 * @author Tri
 	 *
 	 */
 	class Admin extends Application {
-		/**	
-		 * 
+		/**
+		 *
 		 * Constructor
 		 */
 		function __construct(&$tmpl)
-		{				
-			$this->tmpl = &$tmpl;		
+		{
+			$this->tmpl = &$tmpl;
 		}
-		
+
 		function index(){
 			if(!$this->isAdminLogged()){
 				$this->redirect($this->ctx().'/admin/login');
 				return;
 			}
-			$this->redirect($this->ctx().'/admin/userList');			
+			$this->redirect($this->ctx().'/admin/userList');
 		}
 		/**
 		 * load message source for content list
-		 * 
+		 *
 		 */
 		function contentListMessagesSource()
 		{
-			$this->assign("title",$this->loadMessages('admin.contentlist.title'));	
-			$this->assign("id",$this->loadMessages('contentmanagement.id'));	
-			$this->assign("titleLable",$this->loadMessages('contentmanagement.title'));	
-			$this->assign("createDate",$this->loadMessages('contentmanagement.createdate'));	
-			$this->assign("creatorName",$this->loadMessages('contentmanagement.creatorname'));	
-			$this->assign("modifyDate",$this->loadMessages('contentmanagement.modifydate'));	
-			$this->assign("modifierName",$this->loadMessages('contentmanagement.modifiername'));	
-			$this->assign("publish",$this->loadMessages('contentmanagement.publish'));	
-			$this->assign("edit",$this->loadMessages('contentmanagement.edit'));	
-			$this->assign("status",$this->loadMessages('contentmanagement.status'));	
-			$this->assign("delete",$this->loadMessages('contentmanagement.delete'));	
-			$this->assign("category",$this->loadMessages('contentmanagement.category'));	
-			$this->assign("publishLable",$this->loadMessages('contentmanagement.lable.publish'));	
+			$this->assign("title",$this->loadMessages('admin.contentlist.title'));
+			$this->assign("id",$this->loadMessages('contentmanagement.id'));
+			$this->assign("titleLable",$this->loadMessages('contentmanagement.title'));
+			$this->assign("createDate",$this->loadMessages('contentmanagement.createdate'));
+			$this->assign("creatorName",$this->loadMessages('contentmanagement.creatorname'));
+			$this->assign("modifyDate",$this->loadMessages('contentmanagement.modifydate'));
+			$this->assign("modifierName",$this->loadMessages('contentmanagement.modifiername'));
+			$this->assign("publish",$this->loadMessages('contentmanagement.publish'));
+			$this->assign("edit",$this->loadMessages('contentmanagement.edit'));
+			$this->assign("status",$this->loadMessages('contentmanagement.status'));
+			$this->assign("delete",$this->loadMessages('contentmanagement.delete'));
+			$this->assign("category",$this->loadMessages('contentmanagement.category'));
+			$this->assign("publishLable",$this->loadMessages('contentmanagement.lable.publish'));
 			$this->assign("UnpublishLable",$this->loadMessages('contentmanagement.lable.unpublish'));
 		}
-			
+
 		function contentList()
 		{
-			
+
 			$userId = $this->getLoggedUser();
 			if(!$this->isAdminLogged()){
 				$this->redirect($this->ctx().'/admin/login');
 				return;
 			}
 			$this->loadModel('model_user');
-			
+
 			$_search_obj = unserialize($_SESSION['ADMIN_CONTENT_SEARCH']);
-			
+
 			$_sort_modes = array(
 				1 => 'Newest',
 				2 => 'Oldest',
@@ -73,7 +73,7 @@
 				2 => 'ASC',
 				3 => 'ASC'
 			);
-			$_page_sizes = array(				
+			$_page_sizes = array(
 				1 => 10,
 				2 => 25,
 				3 => 50,
@@ -82,12 +82,12 @@
 			$_default_sort_mode = 1;
 			$_default_page_size = 2;
 			$_default_search_term = '';
-			
+
 			$contents = array();
 			$pagination = '';
 			$_reset = $_GET['reset'];// reset all value for display
 			if($_reset){
-				
+
 			}else{
 				if($_GET['sort']){
 					$_sort_mode = $_GET['sort'];
@@ -111,56 +111,56 @@
 					$_search_term = $_search_obj->term ? $_search_obj->term : $_default_search_term;
 				}
 			}
-			$page = $_GET['page'] ? $_GET['page'] : '1';			
+			$page = $_GET['page'] ? $_GET['page'] : '1';
 			if(!ctype_digit($page)){
 				$this->redirect($this->ctx().'/admin/userlist/');
 			}else{
 				$page = intval($page);
 			}
-			
+
 			$limit = is_int($_page_sizes[$_page_size]) ? $_page_sizes[$_page_size] : 0;
 			$offset = ($page - 1) * $limit;
 			$sort_column = $_sort_columns[$_sort_mode];
 			$sort_order = $_sort_orders[$_sort_mode];
-			
+
 			$_search_obj->sort = $_sort_mode;
 			$_search_obj->psize = $_page_size;
 			$_search_obj->term = $_search_term;
 			$_SESSION['ADMIN_CONTENT_SEARCH'] = serialize($_search_obj);
-			
-			
+
+
 			if (!$this->model_user->userSettingExist(array($userId,'ADMIN_CONTENT_LIST_SORT')))
 			{
 				$this->model_user->addUserSetting(array($userId,'ADMIN_CONTENT_LIST_SORT',$_sort_mode));
 			}
-			else 
+			else
 			{
 				$this->model_user->updateUserSetting(array($_sort_mode,$userId,'ADMIN_CONTENT_LIST_SORT'));
 			}
-			
+
 			if (!$this->model_user->userSettingExist(array($userId,'ADMIN_CONTENT_LIST_PSIZE')))
 			{
 				$this->model_user->addUserSetting(array($userId,'ADMIN_CONTENT_LIST_PSIZE',$_page_size));
 			}
-			else 
+			else
 			{
 				$this->model_user->updateUserSetting(array($_page_size,$userId,'ADMIN_CONTENT_LIST_PSIZE'));
 			}
-			
+
 			if (!$this->model_user->userSettingExist(array($userId,'ADMIN_CONTENT_LIST_TERM')))
 			{
 				$this->model_user->addUserSetting(array($userId,'ADMIN_CONTENT_LIST_TERM',$_search_term));
 			}
-			else 
+			else
 			{
 				$this->model_user->updateUserSetting(array($_search_term,$userId,'ADMIN_CONTENT_LIST_TERM'));
 			}
-			
+
 			$_search_obj->sort = $this->model_user->getUserSetting(array($userId,'ADMIN_CONTENT_LIST_SORT'));
 			$_search_obj->psize = $this->model_user->getUserSetting(array($userId,'ADMIN_CONTENT_LIST_PSIZE'));
 			$_search_obj->term = $this->model_user->getUserSetting(array($userId,'ADMIN_CONTENT_LIST_TERM'));
 			$_SESSION['ADMIN_CONTENT_SEARCH'] = serialize($_search_obj);
-			
+
 			$this->loadModel('model_content');
 			$this->loadModel('model_user');
 			$this->loadModel('model_category');
@@ -175,7 +175,7 @@
 						$this->redirect($this->ctx().'/admin/contentlist/');
 					}
 					$contents = $model_user->selectContent($limit, $offset, $_search_term, $sort_column, $sort_order);
-			
+
 					$adjacents = 2;
 					$targetpage = $_SERVER['REDIRECT_URL'];
 					if(!($targetpage[strlen($targetpage) - 1] == '/')){
@@ -188,46 +188,46 @@
 					$next = $page + 1;							//next page is page + 1
 					$lastpage = ceil($content_count / $limit);		//lastpage is = total pages / items per page, rounded up.
 					$lpm1 = $lastpage - 1;						//last page minus 1
-					
-					/* 
-						Now we apply our rules and draw the pagination object. 
+
+					/*
+						Now we apply our rules and draw the pagination object.
 					*/
 					$pagination = "";
 					if($lastpage > 1)
 					{
 						$pagination .= "<div class=\"pagination\">";
 						//previous button
-						if ($page > 1) 
+						if ($page > 1)
 							$pagination.= "<a href=\"$targetpage?page=$prev\">« Previous</a>";
 						else
-							$pagination.= "<span class=\"disabled\">« Previous</span>";	
-						
-						//pages	
+							$pagination.= "<span class=\"disabled\">« Previous</span>";
+
+						//pages
 						if ($lastpage < 7 + ($adjacents * 2))	//not enough pages to bother breaking it up
-						{	
+						{
 							for ($counter = 1; $counter <= $lastpage; $counter++)
 							{
 								if ($counter == $page)
 									$pagination.= "<span class=\"current\">$counter</span>";
 								else
-									$pagination.= "<a href=\"$targetpage?page=$counter\">$counter</a>";					
+									$pagination.= "<a href=\"$targetpage?page=$counter\">$counter</a>";
 							}
 						}
 						elseif($lastpage > 5 + ($adjacents * 2))	//enough pages to hide some
 						{
 							//close to beginning; only hide later pages
-							if($page < 1 + ($adjacents * 2))		
+							if($page < 1 + ($adjacents * 2))
 							{
 								for ($counter = 1; $counter < 4 + ($adjacents * 2); $counter++)
 								{
 									if ($counter == $page)
 										$pagination.= "<span class=\"current\">$counter</span>";
 									else
-										$pagination.= "<a href=\"$targetpage?page=$counter\">$counter</a>";					
+										$pagination.= "<a href=\"$targetpage?page=$counter\">$counter</a>";
 								}
 								$pagination.= "...";
 								$pagination.= "<a href=\"$targetpage?page=$lpm1\">$lpm1</a>";
-								$pagination.= "<a href=\"$targetpage?page=$lastpage\">$lastpage</a>";		
+								$pagination.= "<a href=\"$targetpage?page=$lastpage\">$lastpage</a>";
 							}
 							//in middle; hide some front and some back
 							elseif($lastpage - ($adjacents * 2) > $page && $page > ($adjacents * 2))
@@ -240,11 +240,11 @@
 									if ($counter == $page)
 										$pagination.= "<span class=\"current\">$counter</span>";
 									else
-										$pagination.= "<a href=\"$targetpage?page=$counter\">$counter</a>";					
+										$pagination.= "<a href=\"$targetpage?page=$counter\">$counter</a>";
 								}
 								$pagination.= "...";
 								$pagination.= "<a href=\"$targetpage?page=$lpm1\">$lpm1</a>";
-								$pagination.= "<a href=\"$targetpage?page=$lastpage\">$lastpage</a>";		
+								$pagination.= "<a href=\"$targetpage?page=$lastpage\">$lastpage</a>";
 							}
 							//close to end; only hide early pages
 							else
@@ -257,25 +257,39 @@
 									if ($counter == $page)
 										$pagination.= "<span class=\"current\">$counter</span>";
 									else
-										$pagination.= "<a href=\"$targetpage?page=$counter\">$counter</a>";					
+										$pagination.= "<a href=\"$targetpage?page=$counter\">$counter</a>";
 								}
 							}
 						}
-						
+
 						//next button
 						if ($page < $counter - 1){
 							$pagination.= "<a href=\"$targetpage?page=$next\">Next »</a>";
 						}else{
 							$pagination.= "<span class=\"disabled\">Next »</span>";
 						}
-						$pagination.= "</div>\n";		
+						$pagination.= "</div>\n";
 					}
 				}else{
 					$contents = $model_user->selectContent($limit, $offset, $_search_term, $sort_column, $sort_order);
 				}
 			}
+			$finalContents = Array();
+			foreach ( $contents as $content ) {
+			    $userIdCreator = $content['creator_id'];
+			    $userCreator = $this->model_user->getUserByUserId(Array($userIdCreator));
+
+			    $userIdModifier = $content['modifier_id'];
+			    $userModifier = $this->model_user->getUserByUserId(Array($userIdModifier));
+
+			    $content['creator'] = $userCreator;
+			    $content['modifier'] = $userModifier;
+
+                $finalContents[] = $content;
+			}
 			$categories=$this->model_category->getCategory();
-			$this->assign('contents', $contents);
+			//$this->assign('contents', $contents);
+			$this->assign('contents', $finalContents);
 			$this->assign('pagination', $pagination);
 			$this->assign('sort_modes', $_sort_modes);
 			$this->assign('page_sizes', $_page_sizes);
@@ -284,33 +298,33 @@
 			$this->assign('page_size', $_page_size);
 			$this->assign('search_term', $_search_term);
 			$this->assign('page', $page);
-			
+
 			$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_contentmanagement');
 		}
-		
+
 		/**
 		 * load message source for user list
-		 * 
+		 *
 		 */
 		function userListMessagesSource()
 		{
-			$this->assign("title",$this->loadMessages('admin.userlist.title'));	
+			$this->assign("title",$this->loadMessages('admin.userlist.title'));
 			$this->assign("enable", $this->loadMessages('admin.edit.user.enable'));
 			$this->assign("disable",$this->loadMessages('admin.edit.user.disable'));
 			$this->assign("delete",$this->loadMessages('admin.edit.user.delete'));
 			$this->assign("login",$this->loadMessages('admin.edit.user.login'));
-			$this->assign("edit",$this->loadMessages('admin.edit.user.edit'));	
+			$this->assign("edit",$this->loadMessages('admin.edit.user.edit'));
 			$this->assign("userid", $this->loadMessages('admin.edit.user.userid'));
 			$this->assign("username",$this->loadMessages('admin.edit.user.username'));
 			$this->assign("fullname",$this->loadMessages('admin.edit.user.fullname'));
 			$this->assign("status",$this->loadMessages('admin.edit.user.status'));
-			$this->assign("creationDate",$this->loadMessages('admin.edit.user.creationdate'));	
+			$this->assign("creationDate",$this->loadMessages('admin.edit.user.creationdate'));
 			$this->assign("editProfile", $this->loadMessages('admin.edit.user.editprofile'));
 			$this->assign("changeStatus",$this->loadMessages('admin.edit.user.changestatus'));
 			$this->assign("deleteTitle",$this->loadMessages('admin.edit.user.deleteTitle'));
-			$this->assign("loginasUser",$this->loadMessages('admin.edit.user.loginasuser'));		 
+			$this->assign("loginasUser",$this->loadMessages('admin.edit.user.loginasuser'));
 		}
-			
+
 		function userList()
 		{
 			$userId = $this->getLoggedUser();
@@ -319,9 +333,9 @@
 				return;
 			}
 			$this->loadModel('model_user');
-			
+
 			$_search_obj = unserialize($_SESSION['ADMIN_USER_SEARCH']);
-			
+
 			$_sort_modes = array(
 				1 => 'Newest',
 				2 => 'Oldest',
@@ -346,12 +360,12 @@
 			$_default_sort_mode = 1;
 			$_default_page_size = 2;
 			$_default_search_term = '';
-			
+
 			$users = array();
 			$pagination = '';
 			$_reset = $_GET['reset'];// reset all value for display
 			if($_reset){
-				
+
 			}else{
 				if($_GET['sort']){
 					$_sort_mode = $_GET['sort'];
@@ -375,58 +389,58 @@
 					$_search_term = $_search_obj->term ? $_search_obj->term : $_default_search_term;
 				}
 			}
-			$page = $_GET['page'] ? $_GET['page'] : '1';			
+			$page = $_GET['page'] ? $_GET['page'] : '1';
 			if(!ctype_digit($page)){
 				$this->redirect($this->ctx().'/admin/userlist/');
 			}else{
 				$page = intval($page);
 			}
-			
+
 			$limit = is_int($_page_sizes[$_page_size]) ? $_page_sizes[$_page_size] : 0;
 			$offset = ($page - 1) * $limit;
 			$sort_column = $_sort_columns[$_sort_mode];
 			$sort_order = $_sort_orders[$_sort_mode];
-			
+
 			$_search_obj->sort = $_sort_mode;
 			$_search_obj->psize = $_page_size;
 			$_search_obj->term = $_search_term;
 			$_SESSION['ADMIN_USER_SEARCH'] = serialize($_search_obj);
-			
-			
+
+
 			if (!$this->model_user->userSettingExist(array($userId,'ADMIN_USER_LIST_SORT')))
 			{
 				$this->model_user->addUserSetting(array($userId,'ADMIN_USER_LIST_SORT',$_sort_mode));
 			}
-			else 
+			else
 			{
 				$this->model_user->updateUserSetting(array($_sort_mode,$userId,'ADMIN_USER_LIST_SORT'));
 			}
-			
+
 			if (!$this->model_user->userSettingExist(array($userId,'ADMIN_USER_LIST_PSIZE')))
 			{
 				$this->model_user->addUserSetting(array($userId,'ADMIN_USER_LIST_PSIZE',$_page_size));
 			}
-			else 
+			else
 			{
 				$this->model_user->updateUserSetting(array($_page_size,$userId,'ADMIN_USER_LIST_PSIZE'));
 			}
-			
+
 			if (!$this->model_user->userSettingExist(array($userId,'ADMIN_USER_LIST_TERM')))
 			{
 				$this->model_user->addUserSetting(array($userId,'ADMIN_USER_LIST_TERM',$_search_term));
 			}
-			else 
+			else
 			{
 				$this->model_user->updateUserSetting(array($_search_term,$userId,'ADMIN_USER_LIST_TERM'));
 			}
-			
+
 			$_search_obj->sort = $this->model_user->getUserSetting(array($userId,'ADMIN_USER_LIST_SORT'));
 			$_search_obj->psize = $this->model_user->getUserSetting(array($userId,'ADMIN_USER_LIST_PSIZE'));
 			$_search_obj->term = $this->model_user->getUserSetting(array($userId,'ADMIN_USER_LIST_TERM'));
 			$_SESSION['ADMIN_USER_SEARCH'] = serialize($_search_obj);
-						
+
 			$this->loadModel('model_user');
-			
+
 			$model_user=$this->model_user;
 			$user_count=$model_user->countUsers();
 			if($user_count > 0)
@@ -438,7 +452,7 @@
 						$this->redirect($this->ctx().'/admin/userlist/');
 					}
 					$users = $model_user->selectUser($limit, $offset, $_search_term, $sort_column, $sort_order);
-			
+
 					$adjacents = 2;
 					$targetpage = $_SERVER['REDIRECT_URL'];
 					if(!($targetpage[strlen($targetpage) - 1] == '/')){
@@ -451,46 +465,46 @@
 					$next = $page + 1;							//next page is page + 1
 					$lastpage = ceil($user_count / $limit);		//lastpage is = total pages / items per page, rounded up.
 					$lpm1 = $lastpage - 1;						//last page minus 1
-					
-					/* 
-						Now we apply our rules and draw the pagination object. 
+
+					/*
+						Now we apply our rules and draw the pagination object.
 					*/
 					$pagination = "";
 					if($lastpage > 1)
 					{
 						$pagination .= "<div class=\"pagination\">";
 						//previous button
-						if ($page > 1) 
+						if ($page > 1)
 							$pagination.= "<a href=\"$targetpage?page=$prev\">« Previous</a>";
 						else
-							$pagination.= "<span class=\"disabled\">« Previous</span>";	
-						
-						//pages	
+							$pagination.= "<span class=\"disabled\">« Previous</span>";
+
+						//pages
 						if ($lastpage < 7 + ($adjacents * 2))	//not enough pages to bother breaking it up
-						{	
+						{
 							for ($counter = 1; $counter <= $lastpage; $counter++)
 							{
 								if ($counter == $page)
 									$pagination.= "<span class=\"current\">$counter</span>";
 								else
-									$pagination.= "<a href=\"$targetpage?page=$counter\">$counter</a>";					
+									$pagination.= "<a href=\"$targetpage?page=$counter\">$counter</a>";
 							}
 						}
 						elseif($lastpage > 5 + ($adjacents * 2))	//enough pages to hide some
 						{
 							//close to beginning; only hide later pages
-							if($page < 1 + ($adjacents * 2))		
+							if($page < 1 + ($adjacents * 2))
 							{
 								for ($counter = 1; $counter < 4 + ($adjacents * 2); $counter++)
 								{
 									if ($counter == $page)
 										$pagination.= "<span class=\"current\">$counter</span>";
 									else
-										$pagination.= "<a href=\"$targetpage?page=$counter\">$counter</a>";					
+										$pagination.= "<a href=\"$targetpage?page=$counter\">$counter</a>";
 								}
 								$pagination.= "...";
 								$pagination.= "<a href=\"$targetpage?page=$lpm1\">$lpm1</a>";
-								$pagination.= "<a href=\"$targetpage?page=$lastpage\">$lastpage</a>";		
+								$pagination.= "<a href=\"$targetpage?page=$lastpage\">$lastpage</a>";
 							}
 							//in middle; hide some front and some back
 							elseif($lastpage - ($adjacents * 2) > $page && $page > ($adjacents * 2))
@@ -503,11 +517,11 @@
 									if ($counter == $page)
 										$pagination.= "<span class=\"current\">$counter</span>";
 									else
-										$pagination.= "<a href=\"$targetpage?page=$counter\">$counter</a>";					
+										$pagination.= "<a href=\"$targetpage?page=$counter\">$counter</a>";
 								}
 								$pagination.= "...";
 								$pagination.= "<a href=\"$targetpage?page=$lpm1\">$lpm1</a>";
-								$pagination.= "<a href=\"$targetpage?page=$lastpage\">$lastpage</a>";		
+								$pagination.= "<a href=\"$targetpage?page=$lastpage\">$lastpage</a>";
 							}
 							//close to end; only hide early pages
 							else
@@ -520,54 +534,54 @@
 									if ($counter == $page)
 										$pagination.= "<span class=\"current\">$counter</span>";
 									else
-										$pagination.= "<a href=\"$targetpage?page=$counter\">$counter</a>";					
+										$pagination.= "<a href=\"$targetpage?page=$counter\">$counter</a>";
 								}
 							}
 						}
-						
+
 						//next button
 						if ($page < $counter - 1){
 							$pagination.= "<a href=\"$targetpage?page=$next\">Next »</a>";
 						}else{
 							$pagination.= "<span class=\"disabled\">Next »</span>";
 						}
-						$pagination.= "</div>\n";		
+						$pagination.= "</div>\n";
 					}
 				}else{
 					$users = $model_user->selectUser($limit, $offset, $_search_term, $sort_column, $sort_order);
 				}
 			}
-			
+
 			if(is_array($users) && (count($users) > 0)){
 				foreach($users as &$user){
 					$user['avatar'] = empty($user['avatar']) ? $this->ctx() . '/images/icon-album.gif' : ($this->ctx() . $this->loadResources('image.upload.path') . $user['avatar']);
 				}
 			}
-			
+
 			$this->assign('users', $users);
 			$this->assign('pagination', $pagination);
 			$this->assign('sort_modes', $_sort_modes);
 			$this->assign('page_sizes', $_page_sizes);
-			
+
 			$this->assign('sort_mode', $_sort_mode);
 			$this->assign('page_size', $_page_size);
 			$this->assign('search_term', $_search_term);
 			$this->assign('page', $page);
-			
+
 			$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_user_list');
 		}
-		
+
 		function disableAccount()
 		{
 			if(!$this->isAdminLogged()){
 				$this->redirect($this->ctx().'/admin/login');
 				return;
-			}	
+			}
 			$this->loadModel('model_user');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$userId=$_GET['userId'];
-				$res=$this->model_user->isExistUserId(array($userId));				
+				$res=$this->model_user->isExistUserId(array($userId));
 				if($res==0)
 				{
 					$this->assign("access1",$this->loadMessages('auth.accessdenied1'));
@@ -578,10 +592,10 @@
 				}
 				$this->model_user->updateDisableAccount(array($userId));
 				$this->redirect($this->ctx().'/admin/userlist');
-				
+
 			}
 		}
-		
+
 		function enableAccount()
 		{
 			if(!$this->isAdminLogged()){
@@ -603,10 +617,10 @@
 				}
 				$this->model_user->updateEnableAccount(array($userId));
 				$this->redirect($this->ctx().'/admin/userlist');
-			}	
+			}
 		}
 
-		
+
 		function deleteAccount()
 		{
 			if(!$this->isAdminLogged()){
@@ -634,10 +648,10 @@
 				$this->redirect($this->ctx().'/admin/userlist');
 			}
 		}
-		
-		
+
+
 		/**
-		 * 
+		 *
 		 *function create new account
 		 */
 		function createNewAccountMessagesSource()
@@ -650,7 +664,7 @@
 			$this->assign("understand", $this->loadMessages('auth.signup.understand'));
 			$this->assign("term", $this->loadMessages('auth.signup.term'));
 			$this->assign("role", $this->loadMessages('admin.createnewaccount.role'));
-			
+
 			$this->assign('passwordInvalid', $this->loadErrorMessage('error.password.invalid'));
 			$this->assign('mathpasswordInvalid', $this->loadErrorMessage('error.mathpassword.invalid'));
 			$this->assign('termInvalid', $this->loadErrorMessage('error.term.invalid'));
@@ -663,7 +677,7 @@
 			$this->assign('passwordless', $this->loadErrorMessage('error.password.lesslength'));
 			$this->assign('repasswordless', $this->loadErrorMessage('error.rpassword.lesslength'));
 		}
-		
+
 		function createNewAccount()
 		{
 			if(!$this->isAdminLogged()){
@@ -671,7 +685,7 @@
 				return;
 			}
 			$this->loadModel('model_user');
-			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$roles=$this->model_user->getRole(array());
 				$this->assign("getrole",$roles);
@@ -691,13 +705,13 @@
 					$this->assign('username_',$username);
 					$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_signup');
 				}
-				else 
+				else
 				{
 					$params = array($fullName, $username, $this->encodePassword($password), $username);
 					$userId = $this->model_user->addNewUser($params);
 					$userAlias = 'user'.$userId;
 					$roles=$this->model_user->getRole(array());
-					$this->model_user->updateUserAlias(array($userAlias, $userId));					
+					$this->model_user->updateUserAlias(array($userAlias, $userId));
 					$params = array($userId);
 					$user = $this->model_user->getUserByUserId($params);
 					$user['password']=$password;
@@ -711,7 +725,7 @@
 
 		/**
 		 * function update value message source
-		 * 
+		 *
 		 */
 		function configurationMessagesSource()
 		{
@@ -723,7 +737,7 @@
 		}
 		/**
 		 * function update value
-		 * 
+		 *
 		 */
 		function configuration()
 		{
@@ -733,7 +747,7 @@
 				}
 			}
 			$this->loadModel('model_user');
-			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$login=$this->model_user->getValueConfigurationLogin();
 				$signup=$this->model_user->getValueConfigurationSignup();
@@ -746,8 +760,8 @@
 				$login=$_POST['login'];
 				$signup=$_POST['signup'];
 				$flag=true;
-				$res=$this->model_user->updateConfigurationLoginForm(array($login));  
-				$res=$this->model_user->updateConfigurationSignUpForm(array($signup));		
+				$res=$this->model_user->updateConfigurationLoginForm(array($login));
+				$res=$this->model_user->updateConfigurationSignUpForm(array($signup));
 				$login=$this->model_user->getValueConfigurationLogin();
 				$signup=$this->model_user->getValueConfigurationSignup();
 				$this->assign("login",$login['value']);
@@ -761,20 +775,20 @@
 		}
 		/**
 		 * Admin Login form messagessourse
-		 * 
+		 *
 		 */
 		function loginMessagesSource()
 		{
 			$this->assign("title",$this->loadMessages('admin.login.Title'));
 			$this->assign("Id",$this->loadMessages('admin.login.Id'));
 			$this->assign("Password",$this->loadMessages('admin.login.Password'));
-			
+
 			$this->assign('passwordInvalid', $this->loadErrorMessage('error.password.invalid'));
 			$this->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
 		}
 		/**
 		 * action Admin Login form
-		 * 
+		 *
 		 */
 		function login()
 		{
@@ -782,19 +796,19 @@
 				$this->redirect($this->ctx().'/admin/userList');
 				return;
 			}
-			
+
 			$this->loadModel('model_user');
-			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_login');
 			}
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
-				$this->loadModel('model_user');				
+				$this->loadModel('model_user');
 				$username = $_POST['email'];
 				$password = $_POST['password'];
-				$params = array($username, $this->encodePassword($password));				
-				$valid = $this->model_user->checkUsernameAndPassword($params);				
+				$params = array($username, $this->encodePassword($password));
+				$valid = $this->model_user->checkUsernameAndPassword($params);
 				if($valid)
 				{
 					$user=$this->model_user->getEnabledUserByUsername(array($username));
@@ -811,28 +825,28 @@
 							$this->setSessionValue("admin", true);
 							$this->redirect($this->ctx().'/admin/configuration');
 						}
-						else 
+						else
 						{
 							$this->assign("errorMessageGranted", $this->loadMessages('admin.login.error'));
 							$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_login');
-						}	
+						}
 					}
-					else 
+					else
 					{
 						$this->assign("errorDisable", $this->loadMessages('admin.login.errorenable'));
 						$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_login');
 					}
-				}				
-				else 
-				{	
+				}
+				else
+				{
 					$this->assign("errorMessage", $this->loadMessages('auth.login.error'));
 					$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_login');
 				}
 			}
 		}
-		
+
 		/**
-		 * 
+		 *
 		 * Login as User from Admin
 		 */
 		function loginAsUser(){
@@ -852,17 +866,17 @@
 					$this->setSessionValue("logged", true);
 					$this->setSessionValue("cookie", 0);
 					$this->setSessionValue("remember", false);
-					$this->setSessionValue("proxy", true);					
+					$this->setSessionValue("proxy", true);
 					$this->redirect($this->ctx().'/user/');
 					return;
 				}
 			}
-			
+
 			$this->redirect($this->ctx().'/admin/userList');
 		}
-		
+
 		/**
-		 * 
+		 *
 		 * Switch back to admin account
 		 */
 		function switchBackToAdmin(){
@@ -875,7 +889,7 @@
 						if($user != null){
 							$adminId = $this->getLoggedUser();
 							unset($_SESSION['adminId']);
-							unset($_SESSION['proxy']); 							
+							unset($_SESSION['proxy']);
 							$this->setSessionValue("uid", $user['id']);
 							$this->setSessionValue("username", $user['username']);
 							$this->setSessionValue("logged", true);
@@ -885,9 +899,9 @@
 							return;
 						}
 					}
-				}	
+				}
 			}
-			
+
 			$this->redirect($this->ctx().'/user/');
 		}
 
@@ -898,20 +912,20 @@
 			$this->assign("title", $this->loadMessages('admin.edit.user.profile.title'));
 			$this->assign("fullNameTitle", $this->loadMessages('user.personalInfo.fullName'));
 			$this->assign("emailTitle", $this->loadMessages('user.personalInfo.email'));
-			
+
 			$this->assign("newPasswordTitle", $this->loadMessages('admin.edit.user.profile.new.password.title'));
 			$this->assign("roleTitle", $this->loadMessages('admin.edit.user.profile.role.title'));
 			$this->assign("statusTitle", $this->loadMessages('admin.edit.user.profile.status.title'));
-			
-			
+
+
 			$this->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
 			$this->assign('requiredField', $this->loadErrorMessage('error.field.required'));
 			$this->assign("passwordInvalid", $this->loadMessages('error.password.lesslength'));
 			$this->assign("fullname",$this->loadMessages('admin.createnewaccount.fullname'));
-			
+
 			$this->assign("enable", $this->loadMessages('admin.edit.user.enable'));
 			$this->assign("disable",$this->loadMessages('admin.edit.user.disable'));
-			
+
 			$this->assign('fullnameInvalid', $this->loadErrorMessage('error.fullname.invalid'));
 			$this->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
 
@@ -919,7 +933,7 @@
 			$this->assign('emaillength', $this->loadErrorMessage('error.email.length'));
 			$this->assign('passwordless', $this->loadErrorMessage('error.password.lesslength'));
 		}
-		
+
 		/**
 		 * function edit user's profile
 		 */
@@ -928,7 +942,7 @@
 				$this->redirect($this->ctx().'/admin/login');
 				return;
 			}
-			
+
 			$this->loadModel('model_user');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
@@ -944,7 +958,7 @@
 				$role = $this->model_user->getUserRoleByUserId($params);
 				$status = $this->model_user->getUserStatusByUserId(array($id));
 				$roles=$this->model_user->getRole(array());
-				
+
 				$this->assign('id', $id);
 				$this->assign('username', $user['username']);
 				$this->assign('fullname', $user['full_name']);
@@ -952,10 +966,10 @@
 				$this->assign('role', $role['role_id']);
 				$this->assign('status', $status['status']);
 				$this->assign("roles",$roles);
-				
+
 				$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_edit_user_profile');
-			} 
-			else if ($_SERVER['REQUEST_METHOD'] == 'POST') 
+			}
+			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
 				$this->loadModel('model_user');
 				$id = $_POST['id'];
@@ -965,13 +979,13 @@
 				$password = $_POST['password'];
 				$role = $_POST['role'];
 				$status = $_POST['status'];
-				
+
 				if ($this->model_user->isExists(array($username)) == true){
 					if ($id != ""){
 						if($password != "")
 							$this->model_user->updateUserPassword(array($this->encodePassword($password),$id));
 						if($fullname != "" && $email != ""){
-							$this->model_user->updateUserInformationForAdmin(array($fullname, $email, $status, $id));				
+							$this->model_user->updateUserInformationForAdmin(array($fullname, $email, $status, $id));
 							$this->model_user->updateUserRole(array($role,$id));
 						}
 						if($status == 1){
@@ -979,14 +993,14 @@
 						}
 						else{
 							$this->model_user->updateDisableAccount(array($id));
-						}						
+						}
 					}
-					
+
 					$user = $this->model_user->getUserByUserId(array($id));
 					$role = $this->model_user->getUserRoleByUserId(array($id));
 					$status = $this->model_user->getUserStatusByUserId(array($id));
 					$roles=$this->model_user->getRole(array());
-					
+
 					$this->assign('id', $id);
 					$this->assign('username', $user['username']);
 					$this->assign('fullname', $user['full_name']);
@@ -1000,7 +1014,7 @@
 				else{
 					$this->assign("errorMessage", $this->loadMessages('error.admin.edit.user.profile.non.exist'));
 					$this->loadTemplate(ADMIN_TEMPLATE_DIR.'view_admin_edit_user_profile');
-				}		
+				}
 			}
 		}
 	}
