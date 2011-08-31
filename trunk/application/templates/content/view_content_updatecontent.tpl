@@ -8,36 +8,36 @@ $(document).ready(function() {
 		var alias=$("#alias").val();
 		var body=$("#body").val();
 		var keywords=$("#keywords").val();
-		
+
 		var flag=true;
-		
+
 		if(title==""){
 			$("#error_valid_title").show();
 			flag=false;
 		}else{
 			$("#error_valid_title").hide();
-		}	 
+		}
 
 		if(alias==""){
 			$("#error_valid_alias").show();
 			flag=false;
 		}else{
 			$("#error_valid_alias").hide();
-		}	 
+		}
 
 		if(body==""){
 			$("#error_valid_body").show();
 			flag=false;
 		}else{
 			$("#error_valid_body").hide();
-		}	 
-		
+		}
+
 		if(keywords==""){
 			$("#error_valid_keyword").show();
 			flag=false;
 		}else{
 			$("#error_valid_keyword").hide();
-		}	 		
+		}
 		return flag;
 	}
 
@@ -61,7 +61,7 @@ $(document).ready(function() {
 			<:else:>
 		 		 <span class="red" id="errorMessage"><:$errorMessage:></span>
 			<:/if:>
-			
+
 			<:if $successfullMessage eq "":>
 		  		 &nbsp;
 			<:else:>
@@ -95,15 +95,15 @@ $(document).ready(function() {
 						</li>
 						<li>
 							<span><:$categoryLable:></span>
-							<select id="category" name="category">
-								<:if $category == "1":>
-									<option value="1" selected="selected"><:$system:></option>
-									<option value="2"><:$user:></option>
-								<:else:>
-									<option value="1"><:$system:></option>
-									<option value="2" selected="selected"><:$user:></option>
-								<:/if:>
-							</select>
+                            <select id="category" name="category">
+                                <:section name=a loop=$categories:>
+                                    <:if $category == $categories[a].id:>
+                                        <option value="<:$categories[a].id:>" selected="selected"><:$categories[a].name:></option>
+                                    <:else:>
+                                        <option value="<:$categories[a].id:>"><:$categories[a].name:></option>
+                                    <:/if:>
+                                <:/section:>
+                            </select>
 						</li>
 						<li>
 							<input type="submit" value= "Save"/>

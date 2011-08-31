@@ -1,22 +1,22 @@
-<?php 
+<?php
 	define("CONTENT_TEMPLATE_DIR", "content/");
 	include (BASE_DIR . '/application/uploader.php');
 	/**
-	 * 
+	 *
 	 * Content management controller
 	 * @author Tri
 	 *
 	 */
 	class Content extends Application {
-		/**	
-		 * 
+		/**
+		 *
 		 * Constructor
 		 */
 		function __construct(&$tmpl)
-		{				
-			$this->tmpl = &$tmpl;		
+		{
+			$this->tmpl = &$tmpl;
 		}
-		
+
 		/**
 		 * function load action message source
 		 */
@@ -29,11 +29,11 @@
 			$this->assign('publish', $this->loadMessages('content.load.publish'));
 		}
 		/**
-		 * 
+		 *
 		 * function action load
 		 */
 		function load(){
-			
+
 			// load content via content alias
 			$alias = $_GET['alias'];
 			// load content via content id
@@ -49,7 +49,7 @@
 					$this->loadTemplate('view_404');
 					return;
 				}
-				else 
+				else
 				{
 					$content=$this->model_content->getContentById(array($id));
 					if($content['publish']=='1')
@@ -58,49 +58,49 @@
 						$this->assign('keywords', $content['keywords']);
 						$this->assign('title', $content['title']);
 					}
-					else 
+					else
 					{
 						$this->loadTemplate('view_404');
 						return;
 					}
 				}
 			}
-			else 
+			else
 			{
 				$content=$this->model_content->getContentByAlias(array($alias));
 				if($content['publish']=='1')
 				{
-					$this->assign('content',$content);				
+					$this->assign('content',$content);
 					$this->assign('keywords', $content['keywords']);
 					$this->assign('title', $content['title']);
 				}
-				else 
+				else
 				{
 					$this->loadTemplate('view_404');
 					return;
 				}
 			}
-			
+
 			$model_category = $this->getModel('model_category');
 			if($content['category_id'] == CONTENT_USER_TYPE){
 				$model_content = $this->getModel('model_content');
-				$contents = $model_content->loadPublishedContentByCategory(array(CONTENT_USER_TYPE));				
+				$contents = $model_content->loadPublishedContentByCategory(array(CONTENT_USER_TYPE));
 				$this->assign("contentLinkList", $contents);
-			}	
-			
+			}
+
 			$this->loadTemplate(CONTENT_TEMPLATE_DIR.'view_content');
 		}
 		/**
 		 * publish content
-		 * 
+		 *
 		 */
-		
+
 		function publishContent()
 		{
 			if(!$this->isAdminLogged()){
 				$this->redirect($this->ctx().'/admin/login');
 				return;
-			}	
+			}
 			$this->loadModel('model_content');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
@@ -110,7 +110,7 @@
 			}
 		}
 		/**
-		 * 
+		 *
 		 * Unpublish content
 		 */
 		function unpublishContent()
@@ -118,19 +118,19 @@
 			if(!$this->isAdminLogged()){
 				$this->redirect($this->ctx().'/admin/login');
 				return;
-			}	
+			}
 			$this->loadModel('model_content');
 			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$contentId=$_GET['contentId'];
 				$this->model_content->unpublishContent(array($contentId));
 				$this->redirect($this->ctx().'/admin/contentList');
-				
+
 			}
 		}
 		/**
 		 * delete content
-		 * 
+		 *
 		 */
 		function deleteContent()
 		{
@@ -154,7 +154,7 @@
 		}
 		/**
 		 * function create new content messeage source
-		 * 
+		 *
 		 */
 		function createNewContentMessagesSource()
 		{
@@ -166,7 +166,7 @@
 			$this->assign("unpublish",$this->loadMessages('admin.content.unpublish'));
 			$this->assign("name",$this->loadMessages('admin.content.name'));
 			$this->assign("categoryLable",$this->loadMessages('admin.content.category'));
-			
+
 			$this->assign('titleInvalid', $this->loadErrorMessage('error.title.invalid'));
 			$this->assign('aliasInvalid', $this->loadErrorMessage('error.alias.invalid'));
 			$this->assign('bodyInvalid', $this->loadErrorMessage('error.body.invalid'));
@@ -174,7 +174,7 @@
 		}
 		/**
 		 * function create new content
-		 * 
+		 *
 		 */
 		function createNewContent()
 		{
@@ -185,7 +185,7 @@
 			$userId = $this->getLoggedUser();
 			$this->loadModel('model_content');
 			$this->loadModel('model_category');
-			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$categories=$this->model_category->getCategory();
 				if($categories==null)
@@ -199,7 +199,7 @@
 			else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
 				$title=$_POST['title'];
-				$alias=$_POST['alias'];				
+				$alias=$_POST['alias'];
 				$body=$_POST['body'];
 				$keywords=$_POST['keywords'];
 				$publish=$_POST['publish'];
@@ -207,13 +207,13 @@
 				$categories=$this->model_category->getCategory();
 				if(!empty($alias)){
 					$alias = strtolower($alias);
-					$alias = str_replace(' ', '-', $alias); 
+					$alias = str_replace(' ', '-', $alias);
 				}
 				if($this->model_content->isAliasExist(array($alias)))
 				{
 					$this->assign('errorMessage', $this->loadErrorMessage('error.content.alias.aliasExists'));
 				}
-				else 
+				else
 				{
 					$res=$this->model_content->addNewContent(array($title,$alias,$body,$keywords,$publish,$userId,$userId,$category));
 					if($res==0)
@@ -233,7 +233,7 @@
 		}
 		/**
 		 * function update content messeage source
-		 * 
+		 *
 		 */
 		function updateContentMessagesSource()
 		{
@@ -243,11 +243,11 @@
 			$this->assign("keyword", $this->loadMessages('admin.content.keyword'));
 			$this->assign("publish",$this->loadMessages('admin.content.publish'));
 			$this->assign("unpublish",$this->loadMessages('admin.content.unpublish'));
-			$this->assign("system",$this->loadMessages('admin.content.system'));
-			$this->assign("user",$this->loadMessages('admin.content.user'));
+			//$this->assign("system",$this->loadMessages('admin.content.system'));
+			//$this->assign("user",$this->loadMessages('admin.content.user'));
 			$this->assign("name",$this->loadMessages('admin.content.name'));
 			$this->assign("categoryLable",$this->loadMessages('admin.content.category'));
-			
+
 			$this->assign('titleInvalid', $this->loadErrorMessage('error.title.invalid'));
 			$this->assign('aliasInvalid', $this->loadErrorMessage('error.alias.invalid'));
 			$this->assign('bodyInvalid', $this->loadErrorMessage('error.body.invalid'));
@@ -264,7 +264,7 @@
 			}
 			$userId = $this->getLoggedUser();
 			$this->loadModel('model_content');
-			if ($_SERVER['REQUEST_METHOD'] == 'GET') 
+			if ($_SERVER['REQUEST_METHOD'] == 'GET')
 			{
 				$contentId=$_GET['id'];
 				$content=$this->model_content->getContent(array($contentId));
@@ -279,9 +279,18 @@
 				$publish_=$content['publish'];
 				$this->assign('category',$category['category_id']);
 				$this->assign('publish_',$publish_);
+
+				$categories=$this->model_category->getCategory();
+				if($categories==null)
+				{
+					$this->loadTemplate('view_404');
+					return;
+				}
+				$this->assign('categories', $categories);
+
 				$this->loadTemplate(CONTENT_TEMPLATE_DIR.'view_content_updatecontent');
 			}
-			if ($_SERVER['REQUEST_METHOD'] == 'POST') 
+			if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
 				$contentId=$_POST['contentId'];
 				$title=$_POST['title'];
@@ -304,7 +313,7 @@
 						$this->model_content->updateCategoryId(array($category,$contentId));
 						$this->assign('errorMessage', $this->loadErrorMessage('error.content.alias.aliasExists'));
 					}
-					else 
+					else
 					{
 						$this->model_content->updateTitle(array($title,$contentId));
 						$this->model_content->updateAlias(array($alias,$contentId));
@@ -316,8 +325,8 @@
 						$this->model_content->updateCategoryId(array($category,$contentId));
 						$this->assign("successfullMessage",$this->loadMessages('admin.contentupdate.successful'));
 					}
-				}				
-				else 
+				}
+				else
 				{
 					$this->model_content->updateTitle(array($title,$contentId));
 					$this->model_content->updateAlias(array($alias,$contentId));
