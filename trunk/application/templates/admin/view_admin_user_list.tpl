@@ -12,7 +12,7 @@
 	    	return false;
 	    }
 	  }
-	
+
 	function confirmActionEnable() {
 	    if (confirm("Are you sure you want to enable the following user?"))
 	    {
@@ -23,7 +23,7 @@
 	    	return false;
 	    }
 	  }
-	
+
 	function confirmActionDelete() {
 	    if (confirm("Are you sure you want to delete the following user?"))
 	    {
@@ -52,7 +52,7 @@
 				<option <:if $k == $page_size:>selected="selected"<:/if:> value="<:$k:>"><:$v:></option>
 			<:/foreach:>
 		</select>
-		<input type="text" id="term" name="term" value="<:$search_term:>"></option>
+		<input type="text" id="term" name="term" value="<:$search_term|escape:'html':>"></option>
 		<input type="hidden" name="page" value="<:$page:>"></input>
 		<input type="submit" value="Submit"></input>
 	</form>
@@ -71,8 +71,8 @@
 			<:foreach from=$users key=k item=v:>
 				<tr>
 					<td><:$v['id']:></td>
-					<td><:$v['username']:></td>
-					<td><:$v['full_name']:></td>
+					<td><:$v['username']|escape:'html':></td>
+					<td><:$v['full_name']|escape:'html':></td>
 					<td>
 						<:if $v['enabled'] eq 0:>
 							<:$disable:>
@@ -81,12 +81,12 @@
 						<:/if:>
 					</td>
 					<td><:$v['creation_date']:></td>
-					<td><a href="<:$ctx:>/admin/editUserProfile/?userId=<:$v['id']:>"><:$edit:></a></td>					
+					<td><a href="<:$ctx:>/admin/editUserProfile/?userId=<:$v['id']:>"><:$edit:></a></td>
 					<td>
 						<:if $v['enabled'] eq 0:>
 							<a href="<:$ctx:>/admin/enableAccount/?userId=<:$v['id']:>" onclick="return confirmActionEnable()"> <:$enable:></a>
 						<:else:>
-							<a href="<:$ctx:>/admin/disableAccount/?userId=<:$v['id']:>" onclick="return confirmActionDisable()"> <:$disable:></a></td>			
+							<a href="<:$ctx:>/admin/disableAccount/?userId=<:$v['id']:>" onclick="return confirmActionDisable()"> <:$disable:></a></td>
 						<:/if:>
 					</td>
 					<td><a href="<:$ctx:>/admin/deleteAccount/?userId=<:$v['id']:>" onclick="return confirmActionDelete()"><:$delete:></a></td>
@@ -94,9 +94,9 @@
 						<a href="<:$ctx:>/admin/loginAsUser/?userId=<:$v['id']:>"><:$login:></a>
 					</td>
 				</tr>
-			<:/foreach:>				
+			<:/foreach:>
 		</table>
 		<:$message:>
 		<:$pagination:>
-	</div>	
+	</div>
 </div>

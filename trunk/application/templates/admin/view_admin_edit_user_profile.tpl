@@ -46,7 +46,7 @@
 <div id="admin_edit_user_profile" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/admin_left_menu.tpl":>
 	<div id="admin_edit_user_profile_body" class="page_body">
-		<center><h1><:$title|escape:'html':></h1></center><br/>
+		<center><h1><:$title:></h1></center><br/>
 		<span class="red"><:$errorMessage:></span>
 		<span class="green"><:$successMessage:></span>
 		<form action="<:$ctx:>/admin/editUserProfile" method="post" onsubmit="return validateForm();">

@@ -1,17 +1,17 @@
-<script  type="text/javascript">		
+<script  type="text/javascript">
 function validate()
-{	
+{
 	var x = document.getElementById("password").value;
 	var e = document.getElementById("email_address").value;
-	
+
 	var pattern=/^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.([a-zA-Z])+([a-zA-Z])+/;
 	var flag=true;
 
-	
-	
-    if(pattern.test(e)){     
+
+
+    if(pattern.test(e)){
     	$("#error_valid_email").hide();
-    }else{   
+    }else{
     	$("#error_valid_email").show();
     	flag=false;
 	}
@@ -20,7 +20,7 @@ function validate()
 		flag=false;
 	}else{
 		$("#error_password_invalid").hide();
-	}	 
+	}
 	return flag;
 }
 </script>
@@ -46,7 +46,7 @@ function validate()
 	<div>
 		<ul>
 			<li>
-				<:$Id:><input name="email" type="text" value="<:$username:>" class="inputs" id="email_address" size="35" maxlength="255" >
+				<:$Id:><input name="email" type="text" value="<:$username|escape:'html':>" class="inputs" id="email_address" size="35" maxlength="255" >
 				<span class="red" id="error_valid_email" style="display: none;"><:$emailInvalid:></span>
 			</li>
 			<li>
