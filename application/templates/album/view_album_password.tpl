@@ -2,7 +2,7 @@
 $(document).ready(function() {
 		checkPasswordNull();
 	});
-	
+
 	function checkPasswordNull()
 	{
 		if($("#password").val()!="")
@@ -11,7 +11,7 @@ $(document).ready(function() {
 			$("#password").removeAttr('disabled');
 		}
 	}
-	
+
 	function checkChange()
 	{
 		var check=$("#passwordCheck").attr("checked");
@@ -25,7 +25,7 @@ $(document).ready(function() {
 			$("#password").removeAttr('disabled');
 		}
 	}
-	
+
 	function checkPassword()
 	{
 		var check=$("#passwordCheck").attr("checked");
@@ -49,14 +49,14 @@ $(document).ready(function() {
 
 </script>
 <div id="album_password" class="page">
-	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>	
+	<:include file="<:$base_dir_templates:>/blocks/album_left_menu.tpl":>
 	<div id="album_albumpassword_body" class="page_body">
 		<center><h1><:$albumName|escape:'html':>-<:$name:></h1></center>
 		<:if $successMessage eq "":>
   			&nbsp;
 		<:else:>
    			<span class="green" id="success_message" ><:$successMessage:></span>
-		<:/if:>	
+		<:/if:>
 		<span class="red" id="error_valid_password" style="display: none;"><:$errorMessage:></span>
 		<span class="red" id="invalid_password" style="display: none;"><:$passwordInvalid:></span>
 		<form action="<:$ctx:>/album/albumPassword/?albumId=<:$albumId:>" method="post" name="albumPassword" onSubmit="return checkPassword(this)">
@@ -67,7 +67,7 @@ $(document).ready(function() {
 						<span><:$protected:></span><br/>
 					</li>
 					<li>
-						<input type="text" id="password" name="password" disabled="disabled" value="<:$albumPassword:>" />
+						<input type="text" id="password" name="password" disabled="disabled" value="<:$albumPassword|escape:'html':>" />
 					</li>
 					<li>
 						<input type="submit" value="Save"/>
