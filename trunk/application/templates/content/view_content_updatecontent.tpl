@@ -70,19 +70,19 @@ $(document).ready(function() {
 				<fieldset>
 					<ul>
 						<li>
-							<:$name:><input name="title" type="text" value="<:$content['title']:>" class="inputs" id="title"  maxlength="255" />
+							<:$name:><input name="title" type="text" value="<:$content['title']|escape:'html':>" class="inputs" id="title"  maxlength="255" />
 							<span class="red" id="error_valid_title" style="display: none;"><:$titleInvalid:></span>
 						</li>
 						<li>
-							<:$alias:><input id="alias" name="alias" type="text" value="<:$content['alias']:>"/>
+							<:$alias:><input id="alias" name="alias" type="text" value="<:$content['alias']|escape:'html':>"/>
 							<span class="red" id="error_valid_alias" style="display: none;"><:$aliasInvalid:></span>
 						</li>
 						<li>
-							<:$body:><textarea name="body" id="body" size="40"  ><:$content['body']:></textarea>
+							<:$body:><textarea name="body" id="body" size="40"  ><:$content['body']|escape:'html':></textarea>
 							<span class="red" id="error_valid_body" style="display: none;"><:$bodyInvalid:></span>
 						</li>
 						<li>
-							<:$keyword:><textarea  id="keywords" name="keywords" ><:$content['keywords']:></textarea>
+							<:$keyword:><textarea  id="keywords" name="keywords" ><:$content['keywords']|escape:'html':></textarea>
 							<span class="red" id="error_valid_keyword" style="display: none;"><:$keywordInvalid:></span>
 						</li>
 						<li>
@@ -98,9 +98,9 @@ $(document).ready(function() {
                             <select id="category" name="category">
                                 <:section name=a loop=$categories:>
                                     <:if $category == $categories[a].id:>
-                                        <option value="<:$categories[a].id:>" selected="selected"><:$categories[a].name:></option>
+                                        <option value="<:$categories[a].id:>" selected="selected"><:$categories[a].name|escape:'html':></option>
                                     <:else:>
-                                        <option value="<:$categories[a].id:>"><:$categories[a].name:></option>
+                                        <option value="<:$categories[a].id:>"><:$categories[a].name|escape:'html':></option>
                                     <:/if:>
                                 <:/section:>
                             </select>
@@ -109,7 +109,7 @@ $(document).ready(function() {
 							<input type="submit" value= "Save"/>
 							<input type="hidden" name="contentId" id="contentId" value="<:$contentId:>"/>
 							<input type="hidden" name="publish_" id="publish_" value="<:$publish_:>" />
-							<input type="hidden" name="url_alias" id="url_alias" value="<:$content['alias']:>" />
+							<input type="hidden" name="url_alias" id="url_alias" value="<:$content['alias']|escape:'html':>" />
 						</li>
 					</ul>
 				</fieldset>
