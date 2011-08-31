@@ -20,7 +20,7 @@
 				<option <:if $k == $page_size:>selected="selected"<:/if:> value="<:$k:>"><:$v:></option>
 			<:/foreach:>
 		</select>
-		<input type="text" id="term" name="term" value="<:$search_term:>"></option>
+		<input type="text" id="term" name="term" value="<:$search_term|escape:'html':>"></option>
 		<input type="hidden" name="page" value="<:$page:>"></input>
 		<input type="submit" value="Submit"></input>
 		</form>
@@ -34,8 +34,8 @@
 				<:$messages['video.videoaddtoalbum.playcount']:> <:$v['play_count']:><br/>
 				<:$messages['video.videoaddtoalbum.comment']:> <:$v['comment_count']:><br/>
 				<:$messages['video.videoaddtoalbum.likecount']:> <:$v['like_count']:><br/>
-				<:$messages['video.videoaddtoalbum.album']:> <:foreach from=$v['album'] key=k1 item=v1:><a href="<:$ctx:>/album/<:$v1['album_id']:>"><:$v1['album_name']:></a>, <:/foreach:><br/>
-				<:$messages['video.videoaddtoalbum.tag']:> <:foreach from=$v['tag'] key=k1 item=v1:><a href="<:$ctx:>/tag/<:$v1['tag_id']:>"><:$v1['tag_name']:></a>, <:/foreach:><br/><br/>
+				<:$messages['video.videoaddtoalbum.album']:> <:foreach from=$v['album'] key=k1 item=v1:><a href="<:$ctx:>/album/<:$v1['album_id']:>"><:$v1['album_name']|escape:'html':></a>, <:/foreach:><br/>
+				<:$messages['video.videoaddtoalbum.tag']:> <:foreach from=$v['tag'] key=k1 item=v1:><a href="<:$ctx:>/tag/<:$v1['tag_id']:>"><:$v1['tag_name']|escape:'html':></a>, <:/foreach:><br/><br/>
 			<:/foreach:>
 		<:else:>
 			<:foreach from=$videos key=k item=v:>
