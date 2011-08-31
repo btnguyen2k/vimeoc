@@ -11,7 +11,7 @@
 	    	return false;
 	    }
 	  }
-	
+
 	function confirmActionUnPublish() {
 	    if (confirm("Are you sure you want to unpublish the following user?"))
 	    {
@@ -22,7 +22,7 @@
 	    	return false;
 	    }
 	  }
-	
+
 	function confirmActionDelete() {
 	    if (confirm("Are you sure you want to delete the following content?"))
 	    {
@@ -73,9 +73,9 @@
 					<td><:$v['id']:></td>
 					<td><:$v['title']:></td>
 					<td><:$v['create_date']:></td>
-					<td><:$v['creator_id']:></td>
+					<td><:if isser($v['creator']):><:$v['creator']['full_name']|escape:'html':><:/else:>#<:$v['creator_id']:><:/if:></td>
 					<td><:$v['modify_date']:></td>
-					<td><:$v['modifier_id']:></td>
+                    <td><:if isser($v['modifier']):><:$v['modifier']['full_name']|escape:'html':><:/else:>#<:$v['modifier_id']:><:/if:></td>
 					<td>
 						<:if $v['publish'] eq 0:>
 							<:$UnpublishLable:>
@@ -91,16 +91,16 @@
 							<a href="<:$ctx:>/content/unpublishContent/?contentId=<:$v['id']:>" onclick="return confirmActionUnPublish()"><:$UnpublishLable:></a>
 						<:/if:>
 					</td>
-					<td><a href="<:$ctx:>/content/deleteContent/?contentId=<:$v['id']:>" onclick="return confirmActionDelete()"><:$delete:></a></td>			
+					<td><a href="<:$ctx:>/content/deleteContent/?contentId=<:$v['id']:>" onclick="return confirmActionDelete()"><:$delete:></a></td>
 					<td>
 						<:foreach from=$categories key=i item=c:>
 							<:if $v['category_id'] eq $c['id']:>
 								<:$c['name']:>
 							<:/if:>
 						<:/foreach:>
-					</td>		
+					</td>
 				</tr>
-			<:/foreach:>				
+			<:/foreach:>
 		</table>
 		<:$message:>
 		<:$pagination:>
