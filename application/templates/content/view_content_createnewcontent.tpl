@@ -9,34 +9,34 @@ $(document).ready(function() {
 		var body=$("#body").val();
 		var keywords=$("#keywords").val();
 		var flag=true;
-		
+
 		if(title==""){
 			$("#error_valid_title").show();
 			flag=false;
 		}else{
 			$("#error_valid_title").hide();
-		}	 
+		}
 
 		if(alias==""){
 			$("#error_valid_alias").show();
 			flag=false;
 		}else{
 			$("#error_valid_alias").hide();
-		}	 
+		}
 
 		if(body==""){
 			$("#error_valid_body").show();
 			flag=false;
 		}else{
 			$("#error_valid_body").hide();
-		}	 
-		
+		}
+
 		if(keywords==""){
 			$("#error_valid_keyword").show();
 			flag=false;
 		}else{
 			$("#error_valid_keyword").hide();
-		}	 
+		}
 
 		return flag;
 	}
@@ -60,13 +60,13 @@ $(document).ready(function() {
 	<:else:>
  		 <span class="red"><:$errorMessage:></span>
 	<:/if:>
-	
+
 	<:if $errorInsertMessage eq "":>
   		 &nbsp;
 	<:else:>
  		 <span class="red"><:$errorInsertMessage:></span>
 	<:/if:>
-	
+
 	<:if $messageSuccessful eq "":>
   		 &nbsp;
 	<:else:>
@@ -97,12 +97,11 @@ $(document).ready(function() {
 					<li>
 						<input type="radio" id="unpublish" name="publish" value="0"/><:$unpublish:>
 					</li>
-				</li>	
+				</li>
 				<li>
 					<span><:$categoryLable:> </span>
 						<select id="category" name="category">
 							<:section name=a loop=$categories:>
-							
 								<:if $category == $categories[a].id:>
 									<option value="<:$categories[a].id:>" selected="selected"><:$categories[a].name:></option>
 								<:else:>
@@ -110,7 +109,7 @@ $(document).ready(function() {
 								<:/if:>
 							<:/section:>
   						</select>
-				</li>		
+				</li>
 				<li>
 					<input type="submit" value= "Save"/>
 					<input type="hidden" id="publish_" name="publish_" value="<:$publish_:>"/>
