@@ -8,7 +8,7 @@
 		var url = $(form).find("input[name=url_alias]").val();
 		if(url == '')
 		{
-			$("#error_valid_alias").show();		
+			$("#error_valid_alias").show();
 			return false;
 		}else{
 			$("#error_valid_alias").hide();
@@ -21,9 +21,9 @@
 		var flag = shortcutReg.test(url) && url.length <= 16;
 
 		if(!flag){
-			$("#error_message").hide();					
+			$("#error_message").hide();
 			$("#info_message").hide();
-			$("#error_valid_alias").show();			
+			$("#error_valid_alias").show();
 			return false;
 		}else{
 			$("#error_valid_alias").hide();
@@ -34,7 +34,7 @@
 <div id="video_custom_url" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
 	<div id="video_custom_url_body" class="page_body">
-		<center><h1><:$videoTitle|escape:'html':> - <:$title:></h1></center><br/>		
+		<center><h1><:$videoTitle|escape:'html':> - <:$title:></h1></center><br/>
 		<span id="error_message" class="red"><:$errorMessage:></span>
 		<span id="info_message" class="green"><:$successMessage:></span>
 		<form action="<:$ctx:>/video/customUrl/" method="post" onsubmit="return checkUrl(this);">
@@ -42,22 +42,22 @@
 				<ul>
 					<li>
 						<span><:$chooseYourCustomUrl:></span><br/>
-						<:$domain:>/<:$user_alias|escape:'html':>/<input id="url_alias" name="url_alias" value="<:$video_alias:>" maxlength="32"/>
-						<span class="red" id="error_valid_alias" style="display: none;"><:$invalidShortcut:></span>						
+						<:$domain:>/<:$user_alias|escape:'html':>/<input id="url_alias" name="url_alias" value="<:$video_alias|escape:'html':>" maxlength="32"/>
+						<span class="red" id="error_valid_alias" style="display: none;"><:$invalidShortcut:></span>
 					</li>
 					<li>
 						<:$messages['video.customurl.preview']:> <a href="<:$previewUrl:>"><:$previewUrl:></a>
 					</li>
 					<li>
 						<input type="submit" value="Save" />
-						<input type="hidden" id="videoId" name="videoId" value="<:$videoId:>" />		
-						<input type="hidden" id="videourl" name="videourl" value="<:$video_alias:>" />
+						<input type="hidden" id="videoId" name="videoId" value="<:$videoId:>" />
+						<input type="hidden" id="videourl" name="videourl" value="<:$video_alias|escape:'html':>" />
 					</li>
-				</ul>				
+				</ul>
 			</fieldset>
 		</form>
 	</div>
-	
+
 	<div id="user_info_help" class="page_help">
 		<:$help:><div><:$message_url_hint:></div>
 	</div>

@@ -10,8 +10,8 @@
 			flag=false;
 		}else{
 			$("#error_valid_title").hide();
-		}	
-			
+		}
+
 		return flag;
 	}
 </script>
@@ -25,28 +25,28 @@
 			<:else:>
 		   		<span class="red"><:$errorMessage:></span>
 			<:/if:>
-			
+
 			<:if $successMessage eq "":>
   				 &nbsp;
 			<:else:>
    				<span class="green" align="center"><:$successMessage:></span>
 			<:/if:>
-		
+
 		<form action="<:$ctx:>/video/videosetting/?videoId=<:$hiddenvideo:>" method="post" onSubmit="return checkvalidate()" name="videosettingform">
 			<fieldset>
 				<ul>
 					<li>
-						<span><:$name:> <:$title_|escape:'html':></span><br/>						
-						<input type="text" name="title" id="title" value="<:$title_:>"/>
+						<span><:$name:> <:$title_|escape:'html':></span><br/>
+						<input type="text" name="title" id="title" value="<:$title_|escape:'html':>"/>
 						<span class="red" id="error_valid_title" style="display: none;"><:$titleiInvalid:></span>
-					</li>					
+					</li>
 					<li>
 						<span><:$description:></span><br/>
-						<textarea type="text" name="description" id="description" ><:$description_:></textarea>
+						<textarea type="text" name="description" id="description" ><:$description_|escape:'html':></textarea>
 					</li>
 					<li>
 						<span><:$tag:></span><br/>
-						<input type="text" name="tag" id="tag" size=40 value="<:$tag_:>"/>
+						<input type="text" name="tag" id="tag" size=40 value="<:$tag_|escape:'html':>"/>
 					</li>
 					<li>
 						<input type="submit" value="Save" />

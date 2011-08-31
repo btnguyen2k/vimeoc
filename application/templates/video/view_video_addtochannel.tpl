@@ -4,16 +4,16 @@
 		});
 
 	function checkClick()
-	{	
+	{
 		var str = "";
 	    $(':checkbox:checked').each(function(){
 	      str += $(this).val();
 	      str+=",";
 	    });
 	    str = str.substring(0, str.length-1);
-	    $("#channelId").val(str);	
+	    $("#channelId").val(str);
 
-	    
+
 	    var stru = "";
 	    $(':checkbox:').each(function(){
 	      stru += $(this).val();
@@ -34,10 +34,10 @@
 </script>
 <div id="video_addtochannel" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
-	<div id="video_addtochannel_body" class="page_body">	
+	<div id="video_addtochannel_body" class="page_body">
 		<h1 align="center"><:$video|escape:'html':> - <:$add:></h1><br/>
 		<span class="green" align="center"><:$successMessage:></span>
-		<span class="red" align="center"><:$errorMessage:></span>		
+		<span class="red" align="center"><:$errorMessage:></span>
 		<:if $channel|@count == 0:>
 		<:$messages['video.addtochannel.cannot']:> <a href="<:$ctx:>/channel/createnewchannel/"><:$messages['video.addtochannel.add']:></a> <:$messages['video.addtochannel.some']:>
 		<:else:>
@@ -47,11 +47,11 @@
 					<li>
 						<:section name=a loop=$channel:>
 						<input type="checkbox" name="channel" id="channel_<:$channel[a].id:>" value="<:$channel[a].id:>"/>
-						<:$channel[a].channel_name:><br/>
+						<:$channel[a].channel_name|escape:'html':><br/>
 						<:/section:>
 						<:section name=a loop=$otherChannel:>
 						<input type="checkbox" name="channel" id="channel_<:$otherChannel[a].id:>" value="<:$otherChannel[a].id:>"/>
-						<:$otherChannel[a].channel_name:><br/>
+						<:$otherChannel[a].channel_name|escape:'html':><br/>
 						<:/section:>
 						<input type="hidden" name="videoId" value="<:$videoId:>">
 						<input type="hidden" name="channelId" id="channelId" value=""/>
@@ -63,7 +63,7 @@
 					</li>
 				</ul>
 			</fieldset>
-		</form>		
+		</form>
 		<:/if:>
 	</div>
 		<div id="user_info_help" class="page_help">
