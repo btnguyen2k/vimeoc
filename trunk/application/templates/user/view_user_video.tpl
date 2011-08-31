@@ -23,7 +23,7 @@
 				alert ("can't connected");
 			}
 		});
-	}	
+	}
 
 	function addVideoToChannel(params)
 	{
@@ -40,7 +40,7 @@
 				alert ("can't connected");
 			}
 		});
-	}	
+	}
 </script>
 
 <div id="user_info" class="page">
@@ -64,10 +64,10 @@
 			<:/foreach:>
 		</select>
 		<:if $search_term != "":>
-			<input type="text" id="term" name="term" value="<:$search_term:>"></option>
+			<input type="text" id="term" name="term" value="<:$search_term|escape:'html':>"></option>
 		<:else:>
 			<input type="text" id="preTerm" value="Search Video" onClick="editSearchTerm()">
-			<input type="text" id="term" name="term" value="<:$search_term:>" style="display:none;"></option>
+			<input type="text" id="term" name="term" value="<:$search_term|escape:'html':>" style="display:none;"></option>
 		<:/if:>
 		<input type="hidden" name="page" value="<:$page:>"></input>
 		<input type="submit" value="Submit"></input>
@@ -89,17 +89,17 @@
                     -->
 				<:/if:>
 				<:if $v['tag']|@count gt 0:>
-                    <:$messages['user.video.tag']:><:foreach from=$v['tag'] key=k1 item=v1 name=tags:><:$v1['tag_name']:><:if $smarty.foreach.tags.last:> <:else:>, <:/if:><:/foreach:><br/>
+                    <:$messages['user.video.tag']:><:foreach from=$v['tag'] key=k1 item=v1 name=tags:><:$v1['tag_name']|escape:'html':><:if $smarty.foreach.tags.last:> <:else:>, <:/if:><:/foreach:><br/>
 				<:/if:>
 				<:if $albums|@count gt 0:>
                     <:$messages['user.video.album']:>
-                    <:foreach from=$albums key=l item=a:>					
+                    <:foreach from=$albums key=l item=a:>
                         <input type="checkbox" id="<:$a['id']:>" name ="<:$v['id']:>" onclick="addVideoToAlbum(this)" <:foreach from=$v['album'] key=l1 item=va:><:if $va['album_id'] eq $a['id']:>checked='true'<:/if:><:/foreach:>><a href="<:$ctx:>/album/<:$a['id']:>"><:$a['album_name']|escape:'html':></a></input>
                     <:/foreach:><br/>
 				<:/if:>
 				<:if $channels|@count gt 0:>
                     <:$messages['user.video.channel']:>
-                    <:foreach from=$channels key=l item=a:>					
+                    <:foreach from=$channels key=l item=a:>
                         <input type="checkbox" id="<:$a['id']:>" name ="<:$v['id']:>" onclick="addVideoToChannel(this)" <:foreach from=$v['channel'] key=l1 item=va:><:if $va['channel_id'] eq $a['id']:>checked='true'<:/if:><:/foreach:>><a href="<:$ctx:>/channel/<:$a['id']:>"><:$a['channel_name']|escape:'html':></a></input>
                     <:/foreach:><br/>
 				<:/if:>
@@ -121,7 +121,7 @@
 				</ul>
 			</div>
 		<:/if:>
-		<:$message:>	
+		<:$message:>
 	</div>
 	<div id="user_info_help" class="page_help">
 		<:$help:><div><:$hint:></div>

@@ -25,10 +25,10 @@ function editSearchTerm(){
 				<:/foreach:>
 			</select>
 			<:if $search_term != "":>
-				<input type="text" id="term" name="term" value="<:$search_term:>"></option>
+				<input type="text" id="term" name="term" value="<:$search_term|escape:'html':>"></option>
 			<:else:>
 				<input type="text" id="preTerm" value="Search Album" onClick="editSearchTerm()">
-				<input type="text" id="term" name="term" value="<:$search_term:>" style="display:none;"></option>
+				<input type="text" id="term" name="term" value="<:$search_term|escape:'html':>" style="display:none;"></option>
 			<:/if:>
 			<input type="hidden" name="page" value="<:$page:>"></input>
 			<input type="submit" value="Submit"></input>

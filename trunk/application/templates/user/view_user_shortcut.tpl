@@ -11,7 +11,7 @@
         var defaultAliasRegExp = /^user[0-9]+$/;
         var defaultAlias = '<:$defaultAlias:>';
         var alias = $(form).find("input[name=alias]").val();
-        
+
         //check for reserved alias
         for ( var i = 0; i < reservedAlias.length; i++ ) {
             if ( reservedAlias[i] == alias ) {
@@ -19,27 +19,27 @@
                 return false;
             }
         }
-        
+
         //check for default alias format
         if ( defaultAliasRegExp.test(alias) && alias != defaultAlias ) {
             $("#error_reserved_alias").show();
             return false;
         }
-        
+
         //finally check alias format
         if ( alias != '' && !aliasRegExp.test(alias) ) {
             $("#error_valid_alias").show();
             return false;
         }
-        
+
         return true;
 	}
 </script>
 <div id="user_shortcut" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/user_left_menu.tpl":>
-	
+
 	<div id="user_shortcut_body" class="page_body">
-		<center><h1><:$title:></h1></center><br/>		
+		<center><h1><:$title:></h1></center><br/>
 		<span class="top_error_msg red"><:$errorMessage:></span>
 		<span class="top_success_msg green"><:$successMessage:></span>
 		<form action="<:$ctx:>/user/profileShortcut/" method="post" onsubmit="return checkProfileAlias(this);">
@@ -47,9 +47,9 @@
 				<ul>
 					<li>
 						<span><:$profileShortcut:></span><br/>
-						<:$domain:>/<input name="alias" value="<:$alias:>" maxlength="16"/>	
+						<:$domain:>/<input name="alias" value="<:$alias|escape:'html':>" maxlength="16"/>
 						<span class="red" id="error_valid_alias" style="display: none;"><:$error_invalidShortcut:></span>
-						<span class="red" id="error_reserved_alias" style="display: none;"><:$error_reservedAlias:></span>											
+						<span class="red" id="error_reserved_alias" style="display: none;"><:$error_reservedAlias:></span>
 					</li>
 					<li>
 						<span><:$notice:></span>
@@ -57,11 +57,11 @@
 					<li>
 						<input type="submit" value="Save" />
 					</li>
-				</ul>				
+				</ul>
 			</fieldset>
 		</form>
 	</div>
-	
+
 	<div id="user_info_help" class="page_help">
 		<:$help:><div><:$hint:></div>
 	</div>
