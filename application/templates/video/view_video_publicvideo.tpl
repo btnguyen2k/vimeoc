@@ -12,7 +12,7 @@
 					<p><a href="<:$ctx:>/video/videosetting/?videoId=<:$videoid:>"><:$messages['user.publicvideo.setting']:></a><a href="<:$ctx:>/video/videodelete/?videoId=<:$videoid:>"><:$messages['user.publicvideo.delete']:></a></p>
 					<:/if:>
 					<p><:$days:> <:$messages['user.publicvideo.ago']:><:$by:><span class=blue><:$fullname|escape:'html':></span></p>
-					<p><:$play:> <:$plays:>,<:$comment:> <:$comments:>,<:$like:><:$likes:></p>
+					<p><:$play:> <:$plays:> <:$comment:> <:$comments:> <:$like:><:$likes:></p>
 					<:if $strTags != '':>
 					<p><:$tag:><:$strTags:></p>
 					<:/if:>

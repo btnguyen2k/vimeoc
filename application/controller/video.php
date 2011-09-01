@@ -741,6 +741,8 @@
 			$this->assign("likes", $this->loadMessages('user.videopage.likes'));
 			$this->assign("tag", $this->loadMessages('user.videopage.tag'));
 			$this->assign("albums", $this->loadMessages('user.videopage.albums'));
+			$this->assign("setting", $this->loadMessages('user.videopage.setting'));
+			$this->assign("delete", $this->loadMessages('user.videopage.delete'));
 			$this->assign('help', $this->loadMessages('video.help'));
 
 		}
@@ -1066,6 +1068,8 @@
 			$this->assign("likes", $this->loadMessages('user.videopage.likes'));
 			$this->assign("tag", $this->loadMessages('user.videopage.tag'));
 			$this->assign("albums", $this->loadMessages('user.videopage.albums'));
+			$this->assign("setting", $this->loadMessages('user.videopage.setting'));
+			$this->assign("delete", $this->loadMessages('user.videopage.delete'));
 			$this->assign('help', $this->loadMessages('video.help'));
 
 		}

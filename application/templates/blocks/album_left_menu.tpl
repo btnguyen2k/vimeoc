@@ -66,11 +66,11 @@
 	</ul>
 	<:if $proxy eq true:>
 	<ul>
-		<li><a href="<:$ctx:>/admin/switchBackToAdmin">Switch back to admin</a>
+		<li><a href="<:$ctx:>/admin/switchBackToAdmin"><:$messages['left.menu.switchback']:></a>
 	</ul>
 	<:elseif $smarty.session.admin:>
 	<ul>
-		<li><a href="<:$ctx:>/admin">Administer Page</a>
+		<li><a href="<:$ctx:>/admin"><:$messages['left.menu.admin']:></a>
 	</ul>
 	<:/if:>
 	<ul>
