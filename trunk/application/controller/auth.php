@@ -259,6 +259,16 @@
 			$this->assign('emaillength', $this->loadErrorMessage('error.email.length'));
 			$this->assign('passwordless', $this->loadErrorMessage('error.password.lesslength'));
 			$this->assign('repasswordless', $this->loadErrorMessage('error.rpassword.lesslength'));
+			
+			$this->assign("wellcome", $this->loadMessages('mail.wellcome.wellcome'));
+			$this->assign("dear", $this->loadMessages('mail.wellcome.dear'));
+			$this->assign("yourname", $this->loadMessages('mail.wellcome.yournameis'));
+			$this->assign("passwordis", $this->loadMessages('mail.wellcome.yourpasswordis'));
+			$this->assign("now", $this->loadMessages('mail.wellcome.now'));
+			$this->assign("pleaseclick", $this->loadMessages('mail.wellcome.pleaseclick'));
+			$this->assign("login", $this->loadMessages('mail.wellcome.login'));
+			$this->assign("regard", $this->loadMessages('mail.wellcome.regard'));
+			
 		}
 		
 		/**
@@ -343,6 +353,12 @@
 			$this->assign("email",$this->loadMessages('auth.forgotpassword.email'));
 			$this->assign("sent",$this->loadMessages('auth.submitsucceed.sent'));
 			$this->assign("success",$this->loadMessages('auth.submitsucceed.success'));
+			$this->assign("forgotpassword",$this->loadMessages('mail.forgotpassword.forgotpassword'));
+			$this->assign("dear",$this->loadMessages('mail.forgotpassword.dear'));
+			$this->assign("yourname",$this->loadMessages('mail.forgotpassword.yourname'));
+			$this->assign("pleaseclick",$this->loadMessages('mail.forgotpassword.pleaseclick'));
+			$this->assign("here",$this->loadMessages('mail.forgotpassword.here'));
+			$this->assign("regard",$this->loadMessages('mail.forgotpassword.regard'));
 			
 			$this->assign('emailInvalid', $this->loadErrorMessage('error.email.invalid'));
 		}
