@@ -7,7 +7,7 @@
     var videoUploaded = false;
     var videoInfoSaved = false;
     var videoInfoAutoSave = false;
-    
+
 	var waitingForSubmit = false;
 	$(document).ready(function(){
 		var videoExtArray = '<:$videoExtSupport:>'.split(",");
@@ -16,7 +16,7 @@
             'script'    : '<:$ctx:>/uploader/uploadUserVideo.php',
             'cancelImg' : '<:$ctx:>/script/uploadify/cancel.png',
             'scriptData': {'PHPSESSID':'<:$sessionId:>'},
-            'fileExt'   : '<:$videoExtSupport:>',          
+            'fileExt'   : '<:$videoExtSupport:>',
             'fileDesc'  : 'Video Files',
             'sizeLimit' : <:$maxSize:>,
             'auto'      : false,
@@ -24,7 +24,7 @@
             'onError' : function (event,ID,fileObj,errorObj) {
                 $("#top_error").html(errorObj.type + ' Error: ' + errorObj.info);
             },
-            'onSelect' : function(event,ID,fileObj) {			  
+            'onSelect' : function(event,ID,fileObj) {
                 var exts = '<:$videoExtSupport:>';
                 var type = getFileType(fileObj.name);
                 if(!type || exts.indexOf(type) < 0){
@@ -32,8 +32,8 @@
                     $("#top_error").html('You selected wrong file type.').show();
                     $('#file_upload').uploadifyCancel($('.uploadifyQueueItem').first().attr('id').replace('file_upload',''));
                 }else{
-                    $("#top_error").hide();     
-                    setTimeout('upload();', 200);   		  
+                    $("#top_error").hide();
+                    setTimeout('upload();', 200);
                 }
             },
             'onOpen' : function(event,ID,fileObj) {
@@ -62,7 +62,7 @@
                     var videoId = $("#videoid").val();
                     if ( !(videoId=="") && videoInfoSaved ) {
                         createUploadingVideo();
-                    }   
+                    }
                 }
             }
         });
@@ -90,10 +90,10 @@
 	}
 
 	function createUploadingVideo() {
-		var title = $("#title").val();
-		var tag = $("#tag").val();
-		var desc = $("#description").val();
-		var tcid = $("#tcid").val();
+		var title = encodeURIComponent($("#title").val());
+		var tag = encodeURIComponent($("#tag").val());
+		var desc = encodeURIComponent($("#description").val());
+		var tcid = encodeURIComponent($("#tcid").val());
 		var videoPath = $("#videoPath").val();
 		var videoid = $("#videoid").val();
         $("#success").html("Please wait...").show();
@@ -118,7 +118,7 @@
 </script>
 <div id="user_addvideoupload" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/user_left_menu.tpl":>
-	
+
 	<div id="user_addvideoupload_body" class="page_body">
 		<center><h1><:$title:></h1></center><br/>
 		<span class="red" id="top_error" style="display: none;"><:$errorMessage:></span>
@@ -126,13 +126,13 @@
 		<fieldset>
 			<ul>
 				<li>
-					<span><:$choose:> </span><br/>	
+					<span><:$choose:> </span><br/>
 					<span style="display: none" class="red" id="error_file"><:$requiredFields:></span>
 					<span style="display: none" class="red" id="notSupportExt"><:$videoExtSupport:></span>
 				</li>
 				<li>
-					<input id="file_upload" name="file_upload" type="file" />					
-				</li>				
+					<input id="file_upload" name="file_upload" type="file" />
+				</li>
 				<li style="width: 200px;">
 					<div id="upload-processing" style="width: 0%; background: green;">&nbsp;</div>
 				</li>
@@ -140,12 +140,12 @@
 			<div id="log"></div>
 			<h3><:$messages['user.uploadvideo.infor']:></h3>
 			<span class="green" id="success" style="display: none;"><:$success:></span>
-			<ul id="video_information">				
+			<ul id="video_information">
 				<li>
-					<span><:$name:> </span><br/>						
+					<span><:$name:> </span><br/>
 					<input type="text" name="title" id="title"/>
 					<span class="red" id="error_valid_title" style="display: none;"><:$titleiInvalid:></span>
-				</li>					
+				</li>
 				<li>
 					<span><:$description:></span><br/>
 					<textarea type="text" name="description" id="description" ></textarea>
@@ -166,4 +166,4 @@
 	<div id="user_info_help" class="page_help">
 			<:$help:><div><:$hint:></div>
 	</div>
-</div> 
+</div>
