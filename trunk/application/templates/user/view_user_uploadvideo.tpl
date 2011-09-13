@@ -17,10 +17,11 @@
             'cancelImg' : '<:$ctx:>/script/uploadify/cancel.png',
             'scriptData': {'PHPSESSID':'<:$sessionId:>'},
             'fileExt'   : '<:$videoExtSupport:>',
-            'fileDesc'  : 'Video Files',
+            'fileDesc'  : '<:$messages['upload.fileDesc.video']:>',
             'sizeLimit' : <:$maxSize:>,
             'auto'      : false,
             'multi'     : false,
+            'buttonText': '<:$messages['upload.selectFiles']:>',
             'onError' : function (event,ID,fileObj,errorObj) {
                 $("#top_error").html(errorObj.type + ' Error: ' + errorObj.info);
             },
