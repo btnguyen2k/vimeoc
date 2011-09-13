@@ -17,7 +17,7 @@
 			}
 		});
 	}
-	
+
 	$(document).ready(function(){
 		var imageExtArray = '<:$imageExtSupport:>'.split(",");
 		var imageContext = '<:$ctx:>/images/upload/';
@@ -27,10 +27,12 @@
           'script'    : '<:$ctx:>/uploader/uploadVideoThumbnail.php',
           'cancelImg' : '<:$ctx:>/script/uploadify/cancel.png',
           'scriptData': {'PHPSESSID':'<:$sessionId:>','vid':'<:$videoId:>'},
-          'fileExt'   : '<:$imageExtSupport:>',          
-          'fileDesc'  : 'Image Files',
+          'fileExt'   : '<:$imageExtSupport:>',
+          'fileDesc'  : '<:$messages['upload.fileDesc.image']:>',
           'sizeLimit' : <:$maxSize:>,
           'auto'      : false,
+          'multi'     : false,
+          'buttonText': '<:$messages['upload.selectFiles']:>',
           'onAllComplete' : function(event,data) {
 			$("#top_success").html(data.filesUploaded + ' files uploaded successfully!').show();
 			$.ajax({
@@ -44,7 +46,7 @@
           },
           'onError' : function (event,ID,fileObj,errorObj) {
         	$("#top_error").html(errorObj.type + ' Error: ' + errorObj.info);
-          },'onSelect'    : function(event,ID,fileObj) {			  
+          },'onSelect'    : function(event,ID,fileObj) {
         	  var exts = '<:$imageExtSupport:>';
         	  var type = getFileType(fileObj.name);
         	  if(!type || exts.indexOf(type) < 0){
@@ -74,7 +76,7 @@ div.scroll
 <div id="video_custom_url" class="page">
 	<:include file="<:$base_dir_templates:>/blocks/video_left_menu.tpl":>
 	<div id="video_thumbnail_body" class="page_body">
-		<center><h1><:if $videoTitle!='':><:$videoTitle|escape:'html':> - <:/if:><:$title:></h1></center><br/>		
+		<center><h1><:if $videoTitle!='':><:$videoTitle|escape:'html':> - <:/if:><:$title:></h1></center><br/>
 		<span id="top_error" class="red" style="display: none"><:$errorMessage:></span>
 		<span id="top_success" class="green" style="display: none"><:$successMessage:></span>
 			<fieldset>
@@ -90,7 +92,7 @@ div.scroll
 						<div id="upload-processing" style="width: 0%; background: green;">&nbsp;</div>
 					</li>
 						<:if $arrayImage:>
-						<div class="scroll">					
+						<div class="scroll">
 							<:section name=a loop=$arrayImage:>
 								<input type="radio" name="videoScreenShot" value="<:$arrayImage[a]:>"/>
 								<img width="100" height="100" id="arrayThumbnail" src="<:$ctx:><:$folder:>/<:$arrayImage[a]:>" />
@@ -100,10 +102,10 @@ div.scroll
 							<input type="button" value="Save" onclick="selectImageFromScreenShot()"/>
 						</li>
 						<:/if:>
-				</ul>				
+				</ul>
 			</fieldset>
 	</div>
-	
+
 	<div id="user_info_help" class="page_help">
 		<:$help:><div><:$hint:></div>
 	</div>
