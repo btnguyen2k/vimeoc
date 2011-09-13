@@ -10,13 +10,15 @@
           'script'    : '<:$ctx:>/uploader/uploadUpdateVideoFile.php',
           'cancelImg' : '<:$ctx:>/script/uploadify/cancel.png',
           'scriptData': {'PHPSESSID':'<:$sessionId:>','vid':'<:$vid:>'},
-          'fileExt'      : '<:$videoExtSupport:>',          
-          'fileDesc'    : 'Video Files',
+          'fileExt'   : '<:$videoExtSupport:>',
+          'fileDesc'  : '<:$messages['upload.fileDesc.video']:>',
           'sizeLimit' : <:$maxSize:>,
-          'auto'      : false,     
+          'auto'      : false,
+          'multi'     : false,
+          'buttonText': '<:$messages['upload.selectFiles']:>',
           'onError' : function (event,ID,fileObj,errorObj) {
         	  $("#top_error").html(errorObj.type + ' Error: ' + errorObj.info);
-          },'onSelect'    : function(event,ID,fileObj) {			  
+          },'onSelect'    : function(event,ID,fileObj) {
         	  var exts = '<:$videoExtSupport:>';
         	  var type = getFileType(fileObj.name);
         	  if(!type || exts.indexOf(type) < 0){
@@ -25,7 +27,7 @@
         		  $('#file_upload').uploadifyCancel($('.uploadifyQueueItem').first().attr('id').replace('file_upload',''));
         	  }else{
         		  $("#top_error").hide();
-        		  setTimeout('upload();', 200);   
+        		  setTimeout('upload();', 200);
         	  }
           },'onComplete' : function(event, ID, fileObj, response, data){
         	  var fileName = fileObj.name;
@@ -48,10 +50,10 @@
 		<fieldset>
 			<ul>
 				<li>
-					<span><:$choose:> </span><br/>	
+					<span><:$choose:> </span><br/>
 					<span style="display: none" class="red" id="error_file"><:$requiredFields:></span>
 					<span style="display: none" class="red" id="notSupportExt"><:$videoExtSupport:></span>
-				</li>				
+				</li>
 				<li>
 					<input id="file_upload" name="file_upload" type="file" />
 				</li>
@@ -61,7 +63,7 @@
 			</ul>
 		</fieldset>
 	</div>
-	
+
 	<div id="user_info_help" class="page_help">
 		<:$help:><div><:$message_url_hint:></div>
 	</div>
