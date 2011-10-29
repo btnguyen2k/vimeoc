@@ -51,14 +51,17 @@
                     var fileName = fileObj.name;
                     fileName = fileName.replace(fileObj.type, "");
                     $("#top_success").html("Video '" + fileName + "' has been uploaded successfully.").show();
-                    if ($("#title").val()=="") {
+                    //if ($("#title").val()=="") {
                         //auto save the video
                         videoInfoAutoSave = true;
                         $("#top_success").html("Auto saving video, please wait... ").show();
-                        $("#title").val(fileName);
+			if ($("#title").val()=="") {
+				//if no title: fill in the default value
+                        	$("#title").val(fileName);
+			}
                         $("#videoPath").val(response);
                         createUploadingVideo();
-                    }
+                    //}
                     $("#videoPath").val(response);
                     var videoId = $("#videoid").val();
                     if ( !(videoId=="") && videoInfoSaved ) {
@@ -97,22 +100,22 @@
 		var tcid = encodeURIComponent($("#tcid").val());
 		var videoPath = $("#videoPath").val();
 		var videoid = $("#videoid").val();
-        $("#success").html("Please wait...").show();
+        	$("#success").html("Please wait...").show();
 		$.ajax({
 			url : '<:$ctx:>/user/createUploadingVideo/',
 			data: 'title='+title+'&tag='+tag+'&description='+desc+'&tcid='+tcid+'&videoPath='+videoPath+'&videoid='+videoid,
 			type: 'POST',
 			success: function(data){
-                videoInfoSaved = true; //mark video info has been saved
-                if ( videoInfoAutoSave ) {
-                    $("#top_success").html("Auto saving video, please wait...done!").show();
-                }
+                		videoInfoSaved = true; //mark video info has been saved
+                		if ( videoInfoAutoSave ) {
+                    			$("#top_success").html("Auto saving video, please wait...done!").show();
+                		}
 				$("#videoid").val(data);
 				$("#success").html("<:$success:>").show();
 				if( !(videoPath=="") && !videoInfoAutoSave){
 					window.location = "<:$ctx:>/user/video";
 				}
-                videoInfoAutoSave = false;
+                		videoInfoAutoSave = false;
 			}
 		});
 	}
